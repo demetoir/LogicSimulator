@@ -9,10 +9,25 @@
 // Copyright (C) Microsoft Corporation
 // All rights reserved.
 
-// stdafx.cpp : 표준 포함 파일만 들어 있는 소스 파일입니다.
-// MFCLogicSimulator.pch는 미리 컴파일된 헤더가 됩니다.
-// stdafx.obj에는 미리 컴파일된 형식 정보가 포함됩니다.
+#pragma once
 
-#include "stdafx.h"
+/////////////////////////////////////////////////////////////////////////////
+// CViewTree 창입니다.
 
+class CViewTree : public CTreeCtrl
+{
+// 생성입니다.
+public:
+	CViewTree();
 
+// 재정의입니다.
+protected:
+	virtual BOOL OnNotify(WPARAM wParam, LPARAM lParam, LRESULT* pResult);
+
+// 구현입니다.
+public:
+	virtual ~CViewTree();
+
+protected:
+	DECLARE_MESSAGE_MAP()
+};
