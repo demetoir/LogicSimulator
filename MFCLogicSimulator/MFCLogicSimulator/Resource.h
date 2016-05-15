@@ -90,14 +90,6 @@
 #define IDS_EXPLORER                    305
 #define IDS_EDIT_MENU                   306
 #define IDR_RIBBON                      307
-#define IDB_BITMAP1                     311
-#define IDB_BITMAP2                     312
-#define IDB_BITMAP3                     313
-#define IDB_BITMAP4                     314
-#define IDB_BITMAP5                     315
-#define IDB_BITMAP6                     316
-#define IDB_BITMAP7                     317
-#define IDB_BITMAP8                     318
 #define ID_WRITE_PASTEASHYPERLINK       32770
 
 // Next default values for new objects
