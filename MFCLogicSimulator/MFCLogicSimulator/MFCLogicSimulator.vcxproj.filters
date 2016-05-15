@@ -198,5 +198,32 @@
     <Image Include="res\Toolbar256.bmp">
       <Filter>리소스 파일</Filter>
     </Image>
+    <Image Include="res\bitmap1.bmp">
+      <Filter>리소스 파일</Filter>
+    </Image>
+    <Image Include="res\AND.bmp">
+      <Filter>리소스 파일</Filter>
+    </Image>
+    <Image Include="res\AND_INVERTOR.bmp">
+      <Filter>리소스 파일</Filter>
+    </Image>
+    <Image Include="res\BUFFER.bmp">
+      <Filter>리소스 파일</Filter>
+    </Image>
+    <Image Include="res\INVERTOR.bmp">
+      <Filter>리소스 파일</Filter>
+    </Image>
+    <Image Include="res\OR.bmp">
+      <Filter>리소스 파일</Filter>
+    </Image>
+    <Image Include="res\OR_INVERTOR.bmp">
+      <Filter>리소스 파일</Filter>
+    </Image>
+    <Image Include="res\XOR.bmp">
+      <Filter>리소스 파일</Filter>
+    </Image>
+    <Image Include="res\XOR_INVERTOR.bmp">
+      <Filter>리소스 파일</Filter>
+    </Image>
   </ItemGroup>
 </Project>

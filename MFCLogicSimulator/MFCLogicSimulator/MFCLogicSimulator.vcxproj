@@ -226,6 +226,10 @@
     <ResourceCompile Include="MFCLogicSimulator.rc" />
   </ItemGroup>
   <ItemGroup>
+    <Image Include="res\AND.bmp" />
+    <Image Include="res\AND_INVERTOR.bmp" />
+    <Image Include="res\bitmap1.bmp" />
+    <Image Include="res\BUFFER.bmp" />
     <Image Include="res\buttons.bmp" />
     <Image Include="res\classview.bmp" />
     <Image Include="res\classview_hc.bmp" />
@@ -239,11 +243,14 @@
     <Image Include="res\fileview_hc.bmp" />
     <Image Include="res\file_view.ico" />
     <Image Include="res\file_view_hc.ico" />
+    <Image Include="res\INVERTOR.bmp" />
     <Image Include="res\main.bmp" />
     <Image Include="res\menuimages.bmp" />
     <Image Include="res\menuimages_hc.bmp" />
     <Image Include="res\MFCLogicSimulator.ico" />
     <Image Include="res\MFCLogicSimulatorDoc.ico" />
+    <Image Include="res\OR.bmp" />
+    <Image Include="res\OR_INVERTOR.bmp" />
     <Image Include="res\output_wnd.ico" />
     <Image Include="res\output_wnd_hc.ico" />
     <Image Include="res\properties.bmp" />
@@ -256,6 +263,8 @@
     <Image Include="res\Toolbar256.bmp" />
     <Image Include="res\writelarge.bmp" />
     <Image Include="res\writesmall.bmp" />
+    <Image Include="res\XOR.bmp" />
+    <Image Include="res\XOR_INVERTOR.bmp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
