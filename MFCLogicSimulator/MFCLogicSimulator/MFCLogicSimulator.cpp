@@ -95,7 +95,7 @@ BOOL CMFCLogicSimulatorApp::InitInstance()
 	// 적절한 내용으로 수정해야 합니다.
 	SetRegistryKey(_T("로컬 응용 프로그램 마법사에서 생성된 응용 프로그램"));
 	LoadStdProfileSettings(4);  // MRU를 포함하여 표준 INI 파일 옵션을 로드합니다.
-
+	// 최근 문서 목록 지원 코드
 
 	InitContextMenuManager();
 

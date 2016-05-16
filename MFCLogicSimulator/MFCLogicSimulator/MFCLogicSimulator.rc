@@ -138,23 +138,6 @@ IDR_PROPERTIES          BITMAP                  "res\\properties.bmp"
 
 IDB_PROPERTIES_HC       BITMAP                  "res\\properties_hc.bmp"
 
-IDB_BITMAP1             BITMAP                  "res\\AND.bmp"
-
-IDB_BITMAP2             BITMAP                  "res\\AND_INVERTOR.bmp"
-
-IDB_BITMAP3             BITMAP                  "res\\BUFFER.bmp"
-
-IDB_BITMAP4             BITMAP                  "res\\INVERTOR.bmp"
-
-IDB_BITMAP5             BITMAP                  "res\\OR.bmp"
-
-IDB_BITMAP6             BITMAP                  "res\\OR_INVERTOR.bmp"
-
-IDB_BITMAP7             BITMAP                  "res\\XOR.bmp"
-
-IDB_BITMAP8             BITMAP                  "res\\XOR_INVERTOR.bmp"
-
-
 /////////////////////////////////////////////////////////////////////////////
 //
 // Toolbar

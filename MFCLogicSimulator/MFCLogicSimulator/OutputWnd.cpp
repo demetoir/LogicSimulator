@@ -119,6 +119,8 @@ void COutputWnd::FillBuildWindow()
 	m_wndOutputBuild.AddString(_T("여기에 빌드 출력이 표시됩니다."));
 	m_wndOutputBuild.AddString(_T("출력이 목록 뷰 행에 표시되지만"));
 	m_wndOutputBuild.AddString(_T("표시 방법을 원하는 대로 변경할 수 있습니다."));
+	//m_wndOutputBuild.AddString(_T("TEST PRINT!!"));
+
 }
 
 void COutputWnd::FillDebugWindow()
