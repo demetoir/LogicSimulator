@@ -1,3 +1,13 @@
+// 이 MFC 샘플 소스 코드는 MFC Microsoft Office Fluent 사용자 인터페이스("Fluent UI")를 
+// 사용하는 방법을 보여 주며, MFC C++ 라이브러리 소프트웨어에 포함된 
+// Microsoft Foundation Classes Reference 및 관련 전자 문서에 대해 
+// 추가적으로 제공되는 내용입니다.  
+// Fluent UI를 복사, 사용 또는 배포하는 데 대한 사용 약관은 별도로 제공됩니다.  
+// Fluent UI 라이선싱 프로그램에 대한 자세한 내용은 
+// http://go.microsoft.com/fwlink/?LinkId=238214.
+//
+// Copyright (C) Microsoft Corporation
+// All rights reserved.
 
 // MFCLogicSimulator.cpp : 응용 프로그램에 대한 클래스 동작을 정의합니다.
 //
@@ -19,11 +29,13 @@
 
 // CMFCLogicSimulatorApp
 
-BEGIN_MESSAGE_MAP(CMFCLogicSimulatorApp, CWinApp)
+BEGIN_MESSAGE_MAP(CMFCLogicSimulatorApp, CWinAppEx)
 	ON_COMMAND(ID_APP_ABOUT, &CMFCLogicSimulatorApp::OnAppAbout)
 	// 표준 파일을 기초로 하는 문서 명령입니다.
-	ON_COMMAND(ID_FILE_NEW, &CWinApp::OnFileNew)
-	ON_COMMAND(ID_FILE_OPEN, &CWinApp::OnFileOpen)
+	ON_COMMAND(ID_FILE_NEW, &CWinAppEx::OnFileNew)
+	ON_COMMAND(ID_FILE_OPEN, &CWinAppEx::OnFileOpen)
+	// 표준 인쇄 설정 명령입니다.
+	ON_COMMAND(ID_FILE_PRINT_SETUP, &CWinAppEx::OnFilePrintSetup)
 END_MESSAGE_MAP()
 
 
@@ -31,6 +43,17 @@ END_MESSAGE_MAP()
 
 CMFCLogicSimulatorApp::CMFCLogicSimulatorApp()
 {
+	m_bHiColorIcons = TRUE;
+
+	// 다시 시작 관리자 지원
+	m_dwRestartManagerSupportFlags = AFX_RESTART_MANAGER_SUPPORT_ALL_ASPECTS;
+#ifdef _MANAGED
+	// 응용 프로그램을 공용 언어 런타임 지원을 사용하여 빌드한 경우(/clr):
+	//     1) 이 추가 설정은 다시 시작 관리자 지원이 제대로 작동하는 데 필요합니다.
+	//     2) 프로젝트에서 빌드하려면 System.Windows.Forms에 대한 참조를 추가해야 합니다.
+	System::Windows::Forms::Application::SetUnhandledExceptionMode(System::Windows::Forms::UnhandledExceptionMode::ThrowException);
+#endif
+
 	// TODO: 아래 응용 프로그램 ID 문자열을 고유 ID 문자열로 바꾸십시오(권장).
 	// 문자열에 대한 서식: CompanyName.ProductName.SubProduct.VersionInformation
 	SetAppID(_T("MFCLogicSimulator.AppID.NoVersion"));
@@ -48,10 +71,17 @@ CMFCLogicSimulatorApp theApp;
 
 BOOL CMFCLogicSimulatorApp::InitInstance()
 {
-	CWinApp::InitInstance();
+	CWinAppEx::InitInstance();
 
 
-	EnableTaskbarInteraction(FALSE);
+	// OLE 라이브러리를 초기화합니다.
+	if (!AfxOleInit())
+	{
+		AfxMessageBox(IDP_OLE_INIT_FAILED);
+		return FALSE;
+	}
+
+	EnableTaskbarInteraction();
 
 	// RichEdit 컨트롤을 사용하려면  AfxInitRichEdit2()가 있어야 합니다.	
 	// AfxInitRichEdit2();
@@ -65,7 +95,17 @@ BOOL CMFCLogicSimulatorApp::InitInstance()
 	// 적절한 내용으로 수정해야 합니다.
 	SetRegistryKey(_T("로컬 응용 프로그램 마법사에서 생성된 응용 프로그램"));
 	LoadStdProfileSettings(4);  // MRU를 포함하여 표준 INI 파일 옵션을 로드합니다.
+	// 최근 문서 목록 지원 코드
 
+	InitContextMenuManager();
+
+	InitKeyboardManager();
+
+	InitTooltipManager();
+	CMFCToolTipInfo ttParams;
+	ttParams.m_bVislManagerTheme = TRUE;
+	theApp.GetTooltipManager()->SetTooltipParams(AFX_TOOLTIP_TYPE_ALL,
+		RUNTIME_CLASS(CMFCToolTipCtrl), &ttParams);
 
 	// 응용 프로그램의 문서 템플릿을 등록합니다.  문서 템플릿은
 	//  문서, 프레임 창 및 뷰 사이의 연결 역할을 합니다.
@@ -87,11 +127,18 @@ BOOL CMFCLogicSimulatorApp::InitInstance()
 	}
 	m_pMainWnd = pMainFrame;
 
+	// 접미사가 있을 경우에만 DragAcceptFiles를 호출합니다.
+	//  MDI 응용 프로그램에서는 m_pMainWnd를 설정한 후 바로 이러한 호출이 발생해야 합니다.
+	// 끌어서 놓기에 대한 열기를 활성화합니다.
+	m_pMainWnd->DragAcceptFiles();
 
 	// 표준 셸 명령, DDE, 파일 열기에 대한 명령줄을 구문 분석합니다.
 	CCommandLineInfo cmdInfo;
 	ParseCommandLine(cmdInfo);
 
+	// DDE Execute 열기를 활성화합니다.
+	EnableShellOpen();
+	RegisterShellFileTypes(TRUE);
 
 
 	// 명령줄에 지정된 명령을 디스패치합니다.
@@ -108,7 +155,9 @@ BOOL CMFCLogicSimulatorApp::InitInstance()
 int CMFCLogicSimulatorApp::ExitInstance()
 {
 	//TODO: 추가한 추가 리소스를 처리합니다.
-	return CWinApp::ExitInstance();
+	AfxOleTerm(FALSE);
+
+	return CWinAppEx::ExitInstance();
 }
 
 // CMFCLogicSimulatorApp 메시지 처리기
@@ -151,6 +200,28 @@ void CMFCLogicSimulatorApp::OnAppAbout()
 {
 	CAboutDlg aboutDlg;
 	aboutDlg.DoModal();
+}
+
+// CMFCLogicSimulatorApp 사용자 지정 로드/저장 메서드
+
+void CMFCLogicSimulatorApp::PreLoadState()
+{
+	BOOL bNameValid;
+	CString strName;
+	bNameValid = strName.LoadString(IDS_EDIT_MENU);
+	ASSERT(bNameValid);
+	GetContextMenuManager()->AddMenu(strName, IDR_POPUP_EDIT);
+	bNameValid = strName.LoadString(IDS_EXPLORER);
+	ASSERT(bNameValid);
+	GetContextMenuManager()->AddMenu(strName, IDR_POPUP_EXPLORER);
+}
+
+void CMFCLogicSimulatorApp::LoadCustomState()
+{
+}
+
+void CMFCLogicSimulatorApp::SaveCustomState()
+{
 }
 
 // CMFCLogicSimulatorApp 메시지 처리기

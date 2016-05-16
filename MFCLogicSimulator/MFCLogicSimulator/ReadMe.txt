@@ -29,6 +29,11 @@ res\MFCLogicSimulator.ico
 res\MFCLogicSimulator.rc2
     이 파일에는 Microsoft Visual C++ 이외의 다른 도구에서 편집한 리소스가 포함되어 있습니다. 리소스 편집기로 편집할 수 없는 모든 리소스는 이 파일에 넣어야 합니다.
 
+MFCLogicSimulator.reg
+    프레임워크에서 설정될 등록 설정의 유형을 보여 주는 예제 .reg 파일입니다. 이 파일을 .reg 파일로 사용하여
+    응용 프로그램과 함께 사용하거나 또는 이를 삭제하고 기본값인 RegisterShellFileTypes 등록을 사용할 수 있습니다.
+
+
 /////////////////////////////////////////////////////////////////////////////
 
 주 프레임 창:
@@ -54,6 +59,14 @@ ChildFrm.h, ChildFrm.cpp
 
 MFCLogicSimulatorDoc.h, MFCLogicSimulatorDoc.cpp - 문서
     이 파일에는 CMFCLogicSimulatorDoc 클래스가 포함됩니다. 이 파일을 편집하여 특수 문서 데이터를 추가하고 CMFCLogicSimulatorDoc::Serialize를 통해 파일 저장 및 로드를 구현합니다.
+    문서에는 다음과 같은 문자열이 있습니다.
+        파일 확장명:      ls
+        파일 형식 ID:        MFCLogicSimulator.Document
+        주 프레임 캡션:  MFCLogicSimulator
+        Doc 형식 이름:       MFCLogicSimulat
+        필터 이름:         MFCLogicSimulator Files (*.ls)
+        파일의 새 약식 이름: MFCLogicSimulat
+        파일 형식의 긴 이름: MFCLogicSimulator.Document
 
 MFCLogicSimulatorView.h, MFCLogicSimulatorView.cpp - 문서 뷰
     이 파일에는 CMFCLogicSimulatorView 클래스가 포함됩니다.
@@ -63,6 +76,13 @@ res\MFCLogicSimulatorDoc.ico
     아이콘 파일이며, CMFCLogicSimulatorDoc 클래스 MDII 자식 창의 아이콘으로 사용됩니다. 이 아이콘은 기본 리소스 파일인 MFCLogicSimulator.rc에 의해 포함됩니다.
 
 
+
+/////////////////////////////////////////////////////////////////////////////
+
+기타 기능:
+
+인쇄 및 인쇄 미리 보기 지원
+    MFC 라이브러리의 CView 클래스에서 멤버 함수를 호출하여 응용 프로그램 마법사에서 인쇄, 인쇄 설정 및 인쇄 미리 보기 명령 코드를 생성할 수 있습니다.
 
 /////////////////////////////////////////////////////////////////////////////
 
