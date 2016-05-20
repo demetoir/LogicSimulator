@@ -9,6 +9,7 @@ CLogicSimulatorComponent::CLogicSimulatorComponent()
 	inputValue1 = false;
 	inputValue2 = false;
 	outputValue = false;
+	
 }
 
 CLogicSimulatorComponent::~CLogicSimulatorComponent()

@@ -1,6 +1,9 @@
 #include <stdio.h>
 #include <iostream>
 #include "logicGateComponent.h"
+#include "WireComponet.h"
+
+using namespace std;
 
 void GateTest(CLogicGateComponent andGate) {
 	printf("logic gate type : %d\n", andGate.getLogicGatetype());
@@ -51,6 +54,10 @@ void LogicGateTest() {
 	CLogicGateComponent xorGate(LOGIC_GATE_XOR);
 	CLogicGateComponent norGate(LOGIC_GATE_NOR);
 	CLogicGateComponent notGate(LOGIC_GATE_NOT);
+	std::cout << "##################" << std::endl;
+	std::cout << "logicGateTest" << std::endl;
+	std::cout << "##################" << std::endl;
+
 
 	std::cout <<"andgate" <<std::endl;
 	GateTest(andGate);
@@ -72,11 +79,29 @@ void LogicGateTest() {
 	GateTest(notGate);
 	std::cout << std::endl;
 
-
+	std::cout << std::endl;
+	std::cout << std::endl;
+	std::cout << std::endl;
 }
 
+void wireTest() {
+	std::cout << "##################" << std::endl;
+	std::cout << "wireTest" << std::endl;
+	std::cout << "##################" << std::endl;
+	std::cout << std::endl;
+	
+	CWireComponent wireWithoutJunction;
+
+	cout<< wireWithoutJunction.
+
+
+
+
+
+}
 
 int main() {
 	LogicGateTest();
 
+	wireTest();
 }
