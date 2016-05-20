@@ -83,14 +83,14 @@
     <ClCompile Include="ClassView.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="ViewTree.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
     <ClCompile Include="OutputWnd.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
     <ClCompile Include="PropertiesWnd.cpp">
       <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="ViewTree.cpp">
+      <Filter>헤더 파일</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
