@@ -4,7 +4,7 @@
 
 enum LOGIC_GATE_TYPE {LOGIC_GATE_AND,LOGIC_GATE_OR,LOGIC_GATE_XOR,LOGIC_GATE_NOR,LOGIC_GATE_NOT};
 
-class CLogicGateComponent : public CComponentOBject {
+class CLogicGateComponent : public CComponentObject {
 
 private:
 	LOGIC_GATE_TYPE logicGateType;
@@ -24,6 +24,7 @@ public:
 	bool getInputValue1();
 	void setInputValue2(bool input2);
 	bool getInputValue2();
+	bool getOutputValue();
 	LOGIC_GATE_TYPE getLogicGateType();
 
 };

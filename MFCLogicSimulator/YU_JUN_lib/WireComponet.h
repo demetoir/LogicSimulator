@@ -4,7 +4,7 @@
 
 using namespace std;
 
-class CWireComponent:public CComponentOBject {
+class CWireComponent:public CComponentObject {
 
 private:
 	int startX, startY;
@@ -32,4 +32,5 @@ public:
 	~CWireComponent();
 	void setValue(bool _value);
 	int getValue();
+
 };

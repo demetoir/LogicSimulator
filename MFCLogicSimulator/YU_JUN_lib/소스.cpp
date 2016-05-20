@@ -22,28 +22,28 @@ void GateTest(CLogicGateComponent* andGate) {
 	andGate->setInputValue2(false);
 	andGate->updateOutputValue();
 	printf("inputvalue1:%d inputvalue2 :%d => outputvalue: %d\n",
-		andGate->getInputvalue1(),andGate->getInputValue2(), andGate->getOutputValue());
+		andGate->getInputValue1(),andGate->getInputValue2(), andGate->getOutputValue());
 
 
 	andGate->setInputValue1(true);
 	andGate->setInputValue2(false);
 	andGate->updateOutputValue();
 	printf("inputvalue1:%d inputvalue2 :%d => outputvalue: %d\n",
-		andGate->getInputvalue1(), andGate->getInputValue2(), andGate->getOutputValue());
+		andGate->getInputValue1(), andGate->getInputValue2(), andGate->getOutputValue());
 
 
 	andGate->setInputValue1(false);
 	andGate->setInputValue2(true);
 	andGate->updateOutputValue();
 	printf("inputvalue1:%d inputvalue2 :%d => outputvalue: %d\n",
-		andGate->getInputvalue1(), andGate->getInputValue2(), andGate->getOutputValue());
+		andGate->getInputValue1(), andGate->getInputValue2(), andGate->getOutputValue());
 
 
 	andGate->setInputValue1(true);
 	andGate->setInputValue2(true);
 	andGate->updateOutputValue();
 	printf("inputvalue1:%d inputvalue2 :%d => outputvalue: %d\n",
-		andGate->getInputvalue1(), andGate->getInputValue2(), andGate->getOutputValue());
+		andGate->getInputValue1(), andGate->getInputValue2(), andGate->getOutputValue());
 
 
 }
@@ -102,7 +102,7 @@ void wireTest() {
 	
 	CWireComponent wire;
 
-	cout << "component name: "<<wire.componetName << endl;
+	cout << "component name: "<<wire.getComponentName() << endl;
 	cout << "make value 0 ";
 	wire.setValue(false);
 	cout << wire.getValue() << endl;
@@ -114,8 +114,9 @@ void wireTest() {
 	printf("end x : %d  end y: %d \n", wire.getEndX(), wire.getEndY());
 
 	printf("make junction\n");
-	wire.makeJunction();
-	cout << endl;
+	cout<<wire.getjuntion()<<endl;
+	wire.setJuntion(true);
+	cout << wire.getjuntion() << endl;
 	cout << endl;
 	cout << endl;
 	cout << endl;

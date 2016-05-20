@@ -2,31 +2,31 @@
 
 CLogicGateComponent::CLogicGateComponent(LOGIC_GATE_TYPE _gateType)
 {
-	CLogicSimulatorComponent();
+	CComponentObject();
 	logicGateType = _gateType;
 	switch (_gateType)
 	{	
 	case LOGIC_GATE_AND:
-		componetName = std::string("AND GATE");
+		setComponentName(std::string("AND GATE"));
 		break;
 	case LOGIC_GATE_OR:
-		componetName = std::string("OR GATE");
+		setComponentName(std::string("OR GATE"));
 		break;
 	case LOGIC_GATE_XOR:
-		componetName = std::string("XOR GATE");
+		setComponentName(std::string("XOR GATE"));
 		break;
 	case LOGIC_GATE_NOR:
-		componetName = std::string("NOR GATE");
+		setComponentName(std::string("NOR GATE"));
 		break;
 	case LOGIC_GATE_NOT:
-		componetName = std::string("NOT GATE");
+		setComponentName(std::string("NOT GATE"));
 		break;
 	}
 
 }
 
-CLogicGateComponent::CLogicGateComponent(CLogicGateComponent & obj):
-	CLogicSimulatorComponent(obj)
+CLogicGateComponent::CLogicGateComponent(CLogicGateComponent & obj)
+	:CComponentObject(obj)
 {
 	logicGateType = obj.getLogicGatetype();
 }
@@ -82,6 +82,11 @@ void CLogicGateComponent::setInputValue2(bool _input2)
 bool CLogicGateComponent::getInputValue2()
 {
 	return input2;
+}
+
+bool CLogicGateComponent::getOutputValue()
+{
+	return output;
 }
 
 LOGIC_GATE_TYPE CLogicGateComponent::getLogicGateType()

@@ -2,7 +2,7 @@
 
 CWireComponent::CWireComponent()
 {
-	CComponentOBject();
+	CComponentObject();
 	startX = 0;
 	startY = 0;
 	endX = 0;
@@ -11,9 +11,9 @@ CWireComponent::CWireComponent()
 	value = false;
 }
 
-CWireComponent::CWireComponent(CWireComponent&  object)
+CWireComponent::CWireComponent(CWireComponent&  object):CComponentObject(object)
 {
-	CComponentOBject(object);
+
 	startX = object.getStartX();
 	startY = object.getStartY();
 	endX = object.getEndX();
@@ -24,7 +24,7 @@ CWireComponent::CWireComponent(CWireComponent&  object)
 
 CWireComponent::CWireComponent(int _startX, int _startY, int _endX, int _endY)
 {
-	CComponentOBject();
+	CComponentObject();
 	startX = _startX;
 	startY = _startY;
 	endX = _endX;
