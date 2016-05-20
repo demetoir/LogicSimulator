@@ -2,24 +2,44 @@
 
 CWireComponent::CWireComponent()
 {
-	CLogicSimulatorComponent();
+	CComponentOBject();
 	startX = 0;
 	startY = 0;
 	endX = 0;
 	endY = 0;
-	isStartFromJunction = false;
+	junction = false;
 	value = false;
-	componetName = std::string("wire");
+}
+
+CWireComponent::CWireComponent(CWireComponent&  object)
+{
+	CComponentOBject(object);
+	startX = object.getStartX();
+	startY = object.getStartY();
+	endX = object.getEndX();
+	endY = object.getEndY();
+	junction = object.getjuntion();
+	value = false;	
 }
 
 CWireComponent::CWireComponent(int _startX, int _startY, int _endX, int _endY)
+{
+	CComponentOBject();
+	startX = _startX;
+	startY = _startY;
+	endX = _endX;
+	endY = _endY;
+	junction = false;
+	value = false;
+}
+
+CWireComponent::CWireComponent(int _startX, int _startY, int _endX, int _endY, bool _junction)
 {
 	startX = _startX;
 	startY = _startY;
 	endX = _endX;
 	endY = _endY;
-	isStartFromJunction = false;
-	componetName = std::string("wire");
+	junction = _junction;
 }
 
 CWireComponent::~CWireComponent()
@@ -57,6 +77,16 @@ int CWireComponent::getStartY()
 	return startY;
 }
 
+void CWireComponent::setJuntion(bool _junction)
+{
+	junction = _junction;
+}
+
+bool CWireComponent::getjuntion()
+{
+	return junction;
+}
+
 void CWireComponent::setEndX(int _EndX)
 {
 	endX = _EndX;
@@ -77,22 +107,3 @@ int CWireComponent::getEndY()
 	return endY;
 }
 
-void CWireComponent::makeJunction() 
-{
-	isStartFromJunction = true;
-}
-
-void CWireComponent::deleteJunction()
-{
-	isStartFromJunction = false;
-}
-
-int CWireComponent::getJunctionX()
-{
-	return junctionX;
-}
-
-int CWireComponent::getJuncTionY()
-{
-	return junctionY;
-}

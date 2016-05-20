@@ -1,26 +1,63 @@
 #include "ComponentObject.h"
 
-void CComponentObject::setComponentName(std::string _componentName)
+CComponentOBject::CComponentOBject()
 {
-	componentName = std::string(_componentName);
+	CSimulatorObject();
+	x = 0;
+	y = 0;
+	label = std::string("");
+	direction = DIRECTION_EAST;
 }
 
-std::string CComponentObject::getComponentName()
+CComponentOBject::CComponentOBject(CComponentOBject & object)
 {
-	return componentName;
+	CSimulatorObject(object);
+	x = object.getX;
+	y = object.getY;
+	label = object.getLabel();
+	direction = object.getDirection();
 }
 
-CComponentObject::CComponentObject()
-{
-	componentName = std::string("");
-}
-
-CComponentObject::CComponentObject(CComponentObject & obj)
-{
-	componentName = obj.getComponentName();
-}
-
-CComponentObject::~CComponentObject()
+CComponentOBject::~CComponentOBject()
 {
 }
 
+void CComponentOBject::setX(int _x)
+{
+	x = _x;
+}
+
+int CComponentOBject::getX()
+{
+	return x;
+}
+
+void CComponentOBject::setY(int _y)
+{
+	y = _y;
+}
+
+int CComponentOBject::getY()
+{
+	return y;
+}
+
+void CComponentOBject::setLabel(std::string _label)
+{
+	label = std::string(_label);
+}
+
+std::string CComponentOBject::getLabel()
+{
+	return label;
+}
+
+void CComponentOBject::setDirection(DIRECTION _direction)
+{
+	direction = _direction;
+}
+
+DIRECTION CComponentOBject::getDirection()
+{
+	return direction;
+}

@@ -45,21 +45,46 @@ void CLogicGateComponent::updateOutputValue()
 	switch (logicGateType)
 	{
 	case LOGIC_GATE_AND:
-		setOutputValue((getInputvalue1()&getInputValue2()));
+		output = (input1&input2);
 		break;
 	case LOGIC_GATE_OR:
-		setOutputValue( (getInputvalue1() | getInputValue2()));
+		output = (input1|input2);
 		break;
 	case LOGIC_GATE_XOR:
-		setOutputValue((getInputvalue1() ^ getInputValue2()));
+		output = (input1^input2 );
 		break;
 	case LOGIC_GATE_NOR:
-		setOutputValue(!(getInputvalue1() | getInputValue2()));
+		output = !(input1|input2);
 		break;
 	case LOGIC_GATE_NOT:
-		setOutputValue((!getInputvalue1()));
+		output = !input1;
 		break;
 	default:
 		break;
 	}
+}
+
+void CLogicGateComponent::setInputValue1(bool _input1)
+{
+	input1 = _input1;
+}
+
+bool CLogicGateComponent::getInputValue1()
+{
+	return input1;
+}
+
+void CLogicGateComponent::setInputValue2(bool _input2)
+{
+	input2 = _input2;
+}
+
+bool CLogicGateComponent::getInputValue2()
+{
+	return input2;
+}
+
+LOGIC_GATE_TYPE CLogicGateComponent::getLogicGateType()
+{
+	return LOGIC_GATE_TYPE();
 }
