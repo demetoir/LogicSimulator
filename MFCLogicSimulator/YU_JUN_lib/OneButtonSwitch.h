@@ -11,6 +11,4 @@ public:
 	virtual ~COnebuttonSwitch();
 	bool getValue();
 	void setValue(bool _val);
-	
-
 };

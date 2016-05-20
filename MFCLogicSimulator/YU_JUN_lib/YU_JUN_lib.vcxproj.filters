@@ -60,6 +60,9 @@
     <ClCompile Include="OutputComponent.cpp">
       <Filter>소스 파일\Output component</Filter>
     </ClCompile>
+    <ClCompile Include="ClockComponent.cpp">
+      <Filter>소스 파일\Input Component</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="SimulatorObject.h">
@@ -79,6 +82,9 @@
     </ClInclude>
     <ClInclude Include="OutputComponent.h">
       <Filter>헤더 파일\Output component</Filter>
+    </ClInclude>
+    <ClInclude Include="ClockComponent.h">
+      <Filter>헤더 파일\Input Component</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
