@@ -26,7 +26,6 @@
 #define new DEBUG_NEW
 #endif
 
-
 // CMFCLogicSimulatorView
 
 IMPLEMENT_DYNCREATE(CMFCLogicSimulatorView, CView)

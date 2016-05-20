@@ -100,37 +100,41 @@ void CFileView::OnSize(UINT nType, int cx, int cy)
 
 void CFileView::FillFileView()
 {
-	HTREEITEM hRoot = m_wndFileView.InsertItem(_T("FakeApp 파일"), 0, 0);
+	HTREEITEM hRoot = m_wndFileView.InsertItem(_T("Logic Simulator"), 0, 0);
 	m_wndFileView.SetItemState(hRoot, TVIS_BOLD, TVIS_BOLD);
 
-	HTREEITEM hSrc = m_wndFileView.InsertItem(_T("FakeApp 소스 파일"), 0, 0, hRoot);
+	HTREEITEM hLog = m_wndFileView.InsertItem(_T("Logic Gate"), 0, 0, hRoot);
 
-	m_wndFileView.InsertItem(_T("FakeApp.cpp"), 1, 1, hSrc);
-	m_wndFileView.InsertItem(_T("FakeApp.rc"), 1, 1, hSrc);
-	m_wndFileView.InsertItem(_T("FakeAppDoc.cpp"), 1, 1, hSrc);
-	m_wndFileView.InsertItem(_T("FakeAppView.cpp"), 1, 1, hSrc);
-	m_wndFileView.InsertItem(_T("MainFrm.cpp"), 1, 1, hSrc);
-	m_wndFileView.InsertItem(_T("StdAfx.cpp"), 1, 1, hSrc);
+	m_wndFileView.InsertItem(_T("Wire"), 1, 2, hLog);
+	m_wndFileView.InsertItem(_T("AND"), 1, 2, hLog);
+	m_wndFileView.InsertItem(_T("NAND"), 1, 2, hLog);
+	m_wndFileView.InsertItem(_T("OR"), 1, 2, hLog);
+	m_wndFileView.InsertItem(_T("NOR"), 1, 2, hLog);
+	m_wndFileView.InsertItem(_T("XOR"), 1, 2, hLog);
+	m_wndFileView.InsertItem(_T("NOT"), 1, 2, hLog);
 
-	HTREEITEM hInc = m_wndFileView.InsertItem(_T("FakeApp 헤더 파일"), 0, 0, hRoot);
+	HTREEITEM hFli = m_wndFileView.InsertItem(_T("Flip-flop"), 0, 0, hRoot);
 
-	m_wndFileView.InsertItem(_T("FakeApp.h"), 2, 2, hInc);
-	m_wndFileView.InsertItem(_T("FakeAppDoc.h"), 2, 2, hInc);
-	m_wndFileView.InsertItem(_T("FakeAppView.h"), 2, 2, hInc);
-	m_wndFileView.InsertItem(_T("Resource.h"), 2, 2, hInc);
-	m_wndFileView.InsertItem(_T("MainFrm.h"), 2, 2, hInc);
-	m_wndFileView.InsertItem(_T("StdAfx.h"), 2, 2, hInc);
+	m_wndFileView.InsertItem(_T("D-FF"), 1, 2, hFli);
+	m_wndFileView.InsertItem(_T("JK-FF"), 1, 2, hFli);
+	m_wndFileView.InsertItem(_T("T-FF"), 1, 2, hFli);
 
-	HTREEITEM hRes = m_wndFileView.InsertItem(_T("FakeApp 리소스 파일"), 0, 0, hRoot);
+	HTREEITEM hInp = m_wndFileView.InsertItem(_T("Input"), 0, 0, hRoot);
 
-	m_wndFileView.InsertItem(_T("FakeApp.ico"), 2, 2, hRes);
-	m_wndFileView.InsertItem(_T("FakeApp.rc2"), 2, 2, hRes);
-	m_wndFileView.InsertItem(_T("FakeAppDoc.ico"), 2, 2, hRes);
-	m_wndFileView.InsertItem(_T("FakeToolbar.bmp"), 2, 2, hRes);
+	m_wndFileView.InsertItem(_T("1 Bit input switch"), 1, 2, hInp);
+	m_wndFileView.InsertItem(_T("Clock"), 1, 2, hInp);
+
+	HTREEITEM hOut = m_wndFileView.InsertItem(_T("Output"), 0, 0, hRoot);
+
+	m_wndFileView.InsertItem(_T("1 Bit out put lamp"), 1, 2, hOut);
+	m_wndFileView.InsertItem(_T("7-segment"), 1, 2, hOut);
 
 	m_wndFileView.Expand(hRoot, TVE_EXPAND);
-	m_wndFileView.Expand(hSrc, TVE_EXPAND);
-	m_wndFileView.Expand(hInc, TVE_EXPAND);
+	m_wndFileView.Expand(hLog, TVE_EXPAND);
+	m_wndFileView.Expand(hFli, TVE_EXPAND);
+	m_wndFileView.Expand(hInp, TVE_EXPAND);
+	m_wndFileView.Expand(hOut, TVE_EXPAND);
+
 }
 
 void CFileView::OnContextMenu(CWnd* pWnd, CPoint point)

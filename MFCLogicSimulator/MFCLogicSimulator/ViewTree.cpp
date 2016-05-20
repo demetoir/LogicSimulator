@@ -23,6 +23,7 @@ static char THIS_FILE[] = __FILE__;
 
 CViewTree::CViewTree()
 {
+
 }
 
 CViewTree::~CViewTree()
@@ -30,6 +31,8 @@ CViewTree::~CViewTree()
 }
 
 BEGIN_MESSAGE_MAP(CViewTree, CTreeCtrl)
+	ON_WM_LBUTTONDOWN()
+	ON_WM_CREATE()
 END_MESSAGE_MAP()
 
 /////////////////////////////////////////////////////////////////////////////
@@ -37,6 +40,7 @@ END_MESSAGE_MAP()
 
 BOOL CViewTree::OnNotify(WPARAM wParam, LPARAM lParam, LRESULT* pResult)
 {
+	/* 마우스 올렸을 때 */
 	BOOL bRes = CTreeCtrl::OnNotify(wParam, lParam, pResult);
 
 	NMHDR* pNMHDR = (NMHDR*)lParam;
@@ -46,6 +50,29 @@ BOOL CViewTree::OnNotify(WPARAM wParam, LPARAM lParam, LRESULT* pResult)
 	{
 		GetToolTips()->SetWindowPos(&wndTop, -1, -1, -1, -1, SWP_NOMOVE | SWP_NOACTIVATE | SWP_NOSIZE);
 	}
-
 	return bRes;
+}
+
+void CViewTree::OnLButtonDown(UINT nFlags, CPoint point)
+{
+	// TODO: 여기에 메시지 처리기 코드를 추가 및/또는 기본값을 호출합니다.
+	CTreeCtrl* m_ctlTreeview;
+	
+	//MessageBox(_T("test"), _T("test dig"), 0);
+
+	CTreeCtrl::OnLButtonDown(nFlags, point);
+}
+
+
+int CViewTree::OnCreate(LPCREATESTRUCT lpCreateStruct)
+{
+	if (CTreeCtrl::OnCreate(lpCreateStruct) == -1)
+		return -1;
+
+	// TODO:  여기에 특수화된 작성 코드를 추가합니다.
+	CTreeCtrl m_treeCtr;
+
+
+
+	return 0;
 }
