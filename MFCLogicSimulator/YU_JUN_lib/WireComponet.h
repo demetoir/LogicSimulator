@@ -1,17 +1,17 @@
 #pragma once
-
 #include "LogicSimulatorComponent.h"
 #include <vector>
 
 using namespace std;
-class CWireComponent : public CLogicSimulatorComponent {
+class CWireComponent {
 
-private:
+
 	int startX, startY;
 	int endX, endY;
 	bool isStartFromJunction;
 	int junctionX;
 	int junctionY;
+	bool value;
 public:
 	
 	void setStartX(int _StartX);
@@ -23,7 +23,8 @@ public:
 	int getEndX();
 	void setEndY(int _EndY);
 	int getEndY();
-	void makeJunction(int _X,int _Y);
+	void makeJunction();
+
 	void deleteJunction();
 	int getJunctionX();
 	int getJuncTionY();
@@ -32,9 +33,8 @@ public:
 	CWireComponent(int _startX, int _startY, int _endX, int _endY);
 	
 	~CWireComponent();
+	void setValue(bool _value);
+	int getValue();
 
-
-	
-	virtual void updateOutputValue();
 
 };

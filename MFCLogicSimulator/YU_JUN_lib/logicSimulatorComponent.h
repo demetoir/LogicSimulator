@@ -4,17 +4,22 @@
 
 enum DIRECTION {DIRECTION_NORTH,DIRECTION_SOUTH,DIRECTION_EAST,DIRECTION_WEST};
 class CLogicSimulatorComponent {
-
-public:
+private:
 	int x, y;
 	std::string label;
-	std::string componetName;
 	bool inputValue1, inputValue2;
 	bool outputValue;
 	DIRECTION direction;
 
+public:
+	
+	
+	std::string componetName;
+	
+	
 
 	CLogicSimulatorComponent();
+	CLogicSimulatorComponent(CLogicSimulatorComponent& obj);
 	~CLogicSimulatorComponent();
 
 	void setX(int newX);

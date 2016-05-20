@@ -8,6 +8,7 @@ CWireComponent::CWireComponent()
 	endX = 0;
 	endY = 0;
 	isStartFromJunction = false;
+	value = false;
 }
 
 CWireComponent::CWireComponent(int _startX, int _startY, int _endX, int _endY)
@@ -24,10 +25,17 @@ CWireComponent::~CWireComponent()
 	
 }
 
-void CWireComponent::updateOutputValue()
+void CWireComponent::setValue(bool _value)
 {
-	outputValue = inputValue1;
+	value = _value;
 }
+
+int CWireComponent::getValue()
+{
+	return value;
+}
+
+
 
 void CWireComponent::setStartX(int _StartX)
 {
@@ -69,10 +77,8 @@ int CWireComponent::getEndY()
 	return endY;
 }
 
-void CWireComponent::makeJunction(int _X, int _Y)
+void CWireComponent::makeJunction() 
 {
-	junctionX = _X;
-	junctionY = _Y;
 	isStartFromJunction = true;
 }
 

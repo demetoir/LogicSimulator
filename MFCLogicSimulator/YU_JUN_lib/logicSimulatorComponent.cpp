@@ -12,6 +12,17 @@ CLogicSimulatorComponent::CLogicSimulatorComponent()
 	
 }
 
+CLogicSimulatorComponent::CLogicSimulatorComponent(CLogicSimulatorComponent & obj)
+{
+	x = obj.getX();
+	y = obj.getY();
+	label = std::string(obj.getLabel());
+	direction = obj.getDirection();
+	inputValue1 = obj.getInputvalue1();
+	inputValue2 = obj.getInputValue2();
+	outputValue = obj.getOutputValue();
+}
+
 CLogicSimulatorComponent::~CLogicSimulatorComponent()
 {
 }

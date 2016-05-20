@@ -11,7 +11,7 @@ public:
 	
 
 	CLogicGateComponent(LOGIC_GATE_TYPE newGateType);
-
+	CLogicGateComponent(CLogicGateComponent& obj);
 	~CLogicGateComponent();
 
 	LOGIC_GATE_TYPE getLogicGatetype();

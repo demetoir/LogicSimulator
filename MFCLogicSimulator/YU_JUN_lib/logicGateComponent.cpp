@@ -25,6 +25,12 @@ CLogicGateComponent::CLogicGateComponent(LOGIC_GATE_TYPE _gateType)
 
 }
 
+CLogicGateComponent::CLogicGateComponent(CLogicGateComponent & obj):
+	CLogicSimulatorComponent(obj)
+{
+	logicGateType = obj.getLogicGatetype();
+}
+
 CLogicGateComponent::~CLogicGateComponent()
 {
 }
@@ -39,19 +45,19 @@ void CLogicGateComponent::updateOutputValue()
 	switch (logicGateType)
 	{
 	case LOGIC_GATE_AND:
-		outputValue = (inputValue1&inputValue2);
+		setOutputValue((getInputvalue1()&getInputValue2()));
 		break;
 	case LOGIC_GATE_OR:
-		outputValue = (inputValue1 | inputValue2);
+		setOutputValue( (getInputvalue1() | getInputValue2()));
 		break;
 	case LOGIC_GATE_XOR:
-		outputValue = (inputValue1 ^ inputValue2);
+		setOutputValue((getInputvalue1() ^ getInputValue2()));
 		break;
 	case LOGIC_GATE_NOR:
-		outputValue = !(inputValue1 | inputValue2);
+		setOutputValue(!(getInputvalue1() | getInputValue2()));
 		break;
 	case LOGIC_GATE_NOT:
-		outputValue = !inputValue1;
+		setOutputValue((!getInputvalue1()));
 		break;
 	default:
 		break;
