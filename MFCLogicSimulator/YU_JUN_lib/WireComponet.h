@@ -3,7 +3,7 @@
 #include <vector>
 
 using namespace std;
-class CWireComponent {
+class CWireComponent:public CLogicSimulatorComponent {
 
 
 	int startX, startY;
@@ -31,7 +31,6 @@ public:
 
 	CWireComponent();
 	CWireComponent(int _startX, int _startY, int _endX, int _endY);
-	
 	~CWireComponent();
 	void setValue(bool _value);
 	int getValue();

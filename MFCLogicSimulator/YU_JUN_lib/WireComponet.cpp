@@ -9,6 +9,7 @@ CWireComponent::CWireComponent()
 	endY = 0;
 	isStartFromJunction = false;
 	value = false;
+	componetName = std::string("wire");
 }
 
 CWireComponent::CWireComponent(int _startX, int _startY, int _endX, int _endY)
@@ -18,6 +19,7 @@ CWireComponent::CWireComponent(int _startX, int _startY, int _endX, int _endY)
 	endX = _endX;
 	endY = _endY;
 	isStartFromJunction = false;
+	componetName = std::string("wire");
 }
 
 CWireComponent::~CWireComponent()
@@ -34,8 +36,6 @@ int CWireComponent::getValue()
 {
 	return value;
 }
-
-
 
 void CWireComponent::setStartX(int _StartX)
 {

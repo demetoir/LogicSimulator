@@ -102,12 +102,12 @@ void wireTest() {
 	
 	CWireComponent wire;
 
-	cout << "wire witt out junction" << endl;
-	cout << "value 0 ";
+	cout << "component name: "<<wire.componetName << endl;
+	cout << "make value 0 ";
 	wire.setValue(false);
 	cout << wire.getValue() << endl;
 
-	cout << "value 1 " ;
+	cout << "make value 1 " ;
 	wire.setValue(true);
 	cout << wire.getValue() << endl;
 	printf("start x : %d  start y : %d \n", wire.getStartX(), wire.getStartY());
@@ -115,8 +115,11 @@ void wireTest() {
 
 	printf("make junction\n");
 	wire.makeJunction();
-	printf("");
-
+	cout << endl;
+	cout << endl;
+	cout << endl;
+	cout << endl;
+	
 
 
 
@@ -126,6 +129,6 @@ void wireTest() {
 
 int main() {
 	LogicGateTest();
-
 	wireTest();
+
 }

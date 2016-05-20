@@ -143,13 +143,14 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="logicGateComponent.cpp" />
-    <ClCompile Include="logicSimulatorComponent.cpp" />
+    <ClCompile Include="ComponentObject.cpp" />
     <ClCompile Include="WireComponet.cpp" />
     <ClCompile Include="소스.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="inputComponent.h" />
     <ClInclude Include="logicGateComponent.h" />
-    <ClInclude Include="logicSimulatorComponent.h" />
+    <ClInclude Include="ComponentObject.h" />
     <ClInclude Include="WireComponet.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
