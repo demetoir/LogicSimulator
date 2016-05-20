@@ -8,5 +8,5 @@ public:
 	std::string getComponentName();
 	CSimulatorObject();
 	CSimulatorObject(CSimulatorObject& obj);
-	~CSimulatorObject();
+	virtual ~CSimulatorObject();
 };

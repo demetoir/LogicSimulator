@@ -26,7 +26,7 @@ CLogicGateComponent::CLogicGateComponent(LOGIC_GATE_TYPE _gateType)
 }
 
 CLogicGateComponent::CLogicGateComponent(CLogicGateComponent & obj)
-	:CComponentObject(obj)
+	:  CComponentObject(obj)
 {
 	logicGateType = obj.getLogicGatetype();
 }

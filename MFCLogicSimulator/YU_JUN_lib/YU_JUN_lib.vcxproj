@@ -143,15 +143,18 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="ComponentObject.cpp" />
+    <ClCompile Include="OneButtonSwitch.cpp" />
     <ClCompile Include="logicGateComponent.cpp" />
+    <ClCompile Include="OutputComponent.cpp" />
     <ClCompile Include="SimulatorObject.cpp" />
     <ClCompile Include="WireComponet.cpp" />
     <ClCompile Include="소스.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ComponentObject.h" />
-    <ClInclude Include="inputComponent.h" />
+    <ClInclude Include="OneButtonSwitch.h" />
     <ClInclude Include="logicGateComponent.h" />
+    <ClInclude Include="OutputComponent.h" />
     <ClInclude Include="SimulatorObject.h" />
     <ClInclude Include="WireComponet.h" />
   </ItemGroup>

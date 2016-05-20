@@ -29,7 +29,7 @@ public:
 	CWireComponent(CWireComponent& object);
 	CWireComponent(int _startX, int _startY, int _endX, int _endY);
 	CWireComponent(int _startX, int _startY, int _endX, int _endY, bool _isStartWithJunction);
-	~CWireComponent();
+	virtual ~CWireComponent();
 	void setValue(bool _value);
 	int getValue();
 

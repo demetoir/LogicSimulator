@@ -11,7 +11,7 @@ private:
 public:
 	CComponentObject();
 	CComponentObject(CComponentObject& object);
-	~CComponentObject();
+	virtual ~CComponentObject();
 	void setX(int _x);
 	int getX();
 	void setY(int _y);

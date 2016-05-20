@@ -16,7 +16,7 @@ public:
 	
 	CLogicGateComponent(LOGIC_GATE_TYPE GateType);
 	CLogicGateComponent(CLogicGateComponent& obj);
-	~CLogicGateComponent();
+	virtual ~CLogicGateComponent();
 
 	LOGIC_GATE_TYPE getLogicGatetype();
 	void updateOutputValue();

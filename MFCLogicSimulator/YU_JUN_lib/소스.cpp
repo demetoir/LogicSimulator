@@ -2,6 +2,10 @@
 #include <iostream>
 #include "logicGateComponent.h"
 #include "WireComponet.h"
+#include "OneButtonSwitch.h"
+
+
+
 
 using namespace std;
 
@@ -131,5 +135,6 @@ void wireTest() {
 int main() {
 	LogicGateTest();
 	wireTest();
+	COnebuttonSwitch a;
 
 }
