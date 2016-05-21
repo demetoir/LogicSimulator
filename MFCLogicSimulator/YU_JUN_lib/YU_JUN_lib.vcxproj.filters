@@ -88,6 +88,9 @@
       <Filter>소스 파일\Output component</Filter>
     </ClCompile>
     <ClCompile Include="InputPinComponent.cpp">
+      <Filter>소스 파일\Input Component</Filter>
+    </ClCompile>
+    <ClCompile Include="OutputPin.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
   </ItemGroup>
@@ -142,6 +145,9 @@
     </ClInclude>
     <ClInclude Include="InputPinComponent.h">
       <Filter>헤더 파일\Input Component</Filter>
+    </ClInclude>
+    <ClInclude Include="OutputPin.h">
+      <Filter>헤더 파일\Output component</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

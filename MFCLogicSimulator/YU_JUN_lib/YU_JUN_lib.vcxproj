@@ -155,6 +155,7 @@
     <ClCompile Include="logicGateComponent.cpp" />
     <ClCompile Include="ORGateComponent.cpp" />
     <ClCompile Include="OutputComponent.cpp" />
+    <ClCompile Include="OutputPin.cpp" />
     <ClCompile Include="SimulatorObject.cpp" />
     <ClCompile Include="WireComponet.cpp" />
     <ClCompile Include="XORGateComponent.cpp" />
@@ -175,6 +176,7 @@
     <ClInclude Include="logicGateComponent.h" />
     <ClInclude Include="ORGateComponent.h" />
     <ClInclude Include="OutputComponent.h" />
+    <ClInclude Include="OutputPin.h" />
     <ClInclude Include="SimulatorObject.h" />
     <ClInclude Include="WireComponet.h" />
     <ClInclude Include="XORGateComponent.h" />
