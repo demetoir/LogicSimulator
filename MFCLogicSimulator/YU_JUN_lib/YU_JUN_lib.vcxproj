@@ -146,6 +146,7 @@
     <ClCompile Include="ANDGateComponet.cpp" />
     <ClCompile Include="ClockComponent.cpp" />
     <ClCompile Include="ComponentObject.cpp" />
+    <ClCompile Include="InputPinComponent.cpp" />
     <ClCompile Include="NANDGateComponent.cpp" />
     <ClCompile Include="NORGateComponent.cpp" />
     <ClCompile Include="NOTGateComponent.cpp" />
@@ -164,6 +165,8 @@
     <ClInclude Include="ANDGateComponet.h" />
     <ClInclude Include="ClockComponent.h" />
     <ClInclude Include="ComponentObject.h" />
+    <ClInclude Include="InputPinComponent.h" />
+    <ClInclude Include="LibraryBoxComponent.h" />
     <ClInclude Include="NANDGateComponent.h" />
     <ClInclude Include="NORGateComponent.h" />
     <ClInclude Include="NOTGateComponent.h" />

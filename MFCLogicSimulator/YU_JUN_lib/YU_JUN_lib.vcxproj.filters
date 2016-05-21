@@ -85,6 +85,9 @@
       <Filter>소스 파일\Output component</Filter>
     </ClCompile>
     <ClCompile Include="OneBitLampComponent.cpp">
+      <Filter>소스 파일\Output component</Filter>
+    </ClCompile>
+    <ClCompile Include="InputPinComponent.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
   </ItemGroup>
@@ -133,6 +136,12 @@
     </ClInclude>
     <ClInclude Include="OneBitLampComponent.h">
       <Filter>헤더 파일\Output component</Filter>
+    </ClInclude>
+    <ClInclude Include="LibraryBoxComponent.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="InputPinComponent.h">
+      <Filter>헤더 파일\Input Component</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

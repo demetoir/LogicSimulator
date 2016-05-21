@@ -12,7 +12,8 @@ public:
 	COneBitLampComponent(COneBitLampComponent& object);
 	~COneBitLampComponent();
 
-	void setLampState(bool _lampState);
+	void setLampState(ONE_BIT_LAMP_STATE _lampState);
+	void setLampState(bool _lampstate);
 	void setLampON();
 	void setLampOFF();
 	ONE_BIT_LAMP_STATE getLampState();

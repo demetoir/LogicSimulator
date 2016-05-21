@@ -17,9 +17,14 @@ COneBitLampComponent::~COneBitLampComponent()
 {
 }
 
-void COneBitLampComponent::setLampState(bool _lampState)
+void COneBitLampComponent::setLampState(ONE_BIT_LAMP_STATE _lampState)
 {
 	lampState = _lampState;
+}
+
+void COneBitLampComponent::setLampState(bool _lampstate)
+{
+	lampState = (ONE_BIT_LAMP_STATE)_lampstate;
 }
 
 void COneBitLampComponent::setLampON()
