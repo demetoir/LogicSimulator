@@ -48,9 +48,6 @@
     <ClCompile Include="ComponentObject.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="OneButtonSwitch.cpp">
-      <Filter>소스 파일\Input Component</Filter>
-    </ClCompile>
     <ClCompile Include="logicGateComponent.cpp">
       <Filter>소스 파일\Logic Gate Component</Filter>
     </ClCompile>
@@ -96,6 +93,9 @@
     <ClCompile Include="LibraryBoxComponent.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
+    <ClCompile Include="OneBitSwitch.cpp">
+      <Filter>소스 파일\Input Component</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="SimulatorObject.h">
@@ -103,9 +103,6 @@
     </ClInclude>
     <ClInclude Include="ComponentObject.h">
       <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="OneButtonSwitch.h">
-      <Filter>헤더 파일\Input Component</Filter>
     </ClInclude>
     <ClInclude Include="logicGateComponent.h">
       <Filter>헤더 파일\Logic gate Component</Filter>
@@ -151,6 +148,9 @@
     </ClInclude>
     <ClInclude Include="OutputPin.h">
       <Filter>헤더 파일\Output component</Filter>
+    </ClInclude>
+    <ClInclude Include="OneBitSwitch.h">
+      <Filter>헤더 파일\Input Component</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

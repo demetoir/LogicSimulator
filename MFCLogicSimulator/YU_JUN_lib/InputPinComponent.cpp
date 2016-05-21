@@ -4,6 +4,9 @@ InputPinComponent::InputPinComponent()
 {
 	setComponentName(std::string("input pin"));
 	value = false;
+	setNumberOfInputTerminal(INPUT_PIN_INPUT_TEMINAL_NUMBER);
+	setNumberOfOutputTerminal(INPUT_PIN_OUTPUT_TEMINAL_NUMBER);
+
 }
 
 InputPinComponent::InputPinComponent(InputPinComponent & object)
@@ -11,6 +14,8 @@ InputPinComponent::InputPinComponent(InputPinComponent & object)
 {
 	setComponentName(std::string("input pin"));
 	value = false;
+	setNumberOfInputTerminal(INPUT_PIN_INPUT_TEMINAL_NUMBER);
+	setNumberOfOutputTerminal(INPUT_PIN_OUTPUT_TEMINAL_NUMBER);
 }
 
 InputPinComponent::~InputPinComponent()

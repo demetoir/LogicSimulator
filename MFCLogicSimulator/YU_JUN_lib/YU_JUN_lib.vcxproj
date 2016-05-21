@@ -152,7 +152,7 @@
     <ClCompile Include="NORGateComponent.cpp" />
     <ClCompile Include="NOTGateComponent.cpp" />
     <ClCompile Include="OneBitLampComponent.cpp" />
-    <ClCompile Include="OneButtonSwitch.cpp" />
+    <ClCompile Include="OneBitSwitch.cpp" />
     <ClCompile Include="logicGateComponent.cpp" />
     <ClCompile Include="ORGateComponent.cpp" />
     <ClCompile Include="OutputComponent.cpp" />
@@ -173,7 +173,7 @@
     <ClInclude Include="NORGateComponent.h" />
     <ClInclude Include="NOTGateComponent.h" />
     <ClInclude Include="OneBitLampComponent.h" />
-    <ClInclude Include="OneButtonSwitch.h" />
+    <ClInclude Include="OneBitSwitch.h" />
     <ClInclude Include="logicGateComponent.h" />
     <ClInclude Include="ORGateComponent.h" />
     <ClInclude Include="OutputComponent.h" />
