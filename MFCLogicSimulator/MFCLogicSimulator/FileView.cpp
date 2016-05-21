@@ -36,7 +36,7 @@ BEGIN_MESSAGE_MAP(CFileView, CDockablePane)
 	ON_WM_CREATE()
 	ON_WM_SIZE()
 	ON_WM_CONTEXTMENU()
-	ON_COMMAND(ID_PROPERTIES, OnProperties)
+	//ON_COMMAND(ID_PROPERTIES, OnProperties)
 	ON_COMMAND(ID_OPEN, OnFileOpen)
 	ON_COMMAND(ID_OPEN_WITH, OnFileOpenWith)
 	ON_COMMAND(ID_DUMMY_COMPILE, OnDummyCompile)
@@ -182,11 +182,11 @@ void CFileView::AdjustLayout()
 	m_wndFileView.SetWindowPos(NULL, rectClient.left + 1, rectClient.top + cyTlb + 1, rectClient.Width() - 2, rectClient.Height() - cyTlb - 2, SWP_NOACTIVATE | SWP_NOZORDER);
 }
 
-void CFileView::OnProperties()
-{
-	AfxMessageBox(_T("加己...."));
-
-}
+//void CFileView::OnProperties()
+//{
+//	AfxMessageBox(_T("加己...."));
+//
+//}
 
 void CFileView::OnFileOpen()
 {

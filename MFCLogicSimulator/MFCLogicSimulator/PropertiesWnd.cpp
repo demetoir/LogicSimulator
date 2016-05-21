@@ -78,22 +78,22 @@ int CPropertiesWnd::OnCreate(LPCREATESTRUCT lpCreateStruct)
 	rectDummy.SetRectEmpty();
 
 	// 콤보 상자를 만듭니다.
-	//const DWORD dwViewStyle = WS_CHILD | WS_VISIBLE | CBS_DROPDOWNLIST | WS_BORDER | CBS_SORT | WS_CLIPSIBLINGS | WS_CLIPCHILDREN;
+	/*const DWORD dwViewStyle = WS_CHILD | WS_VISIBLE | CBS_DROPDOWNLIST | WS_BORDER | CBS_SORT | WS_CLIPSIBLINGS | WS_CLIPCHILDREN;
 
-	//if (!m_wndObjectCombo.Create(dwViewStyle, rectDummy, this, 1))
-	//{
-	//	TRACE0("속성 콤보 상자를 만들지 못했습니다. \n");
-	//	return -1;      // 만들지 못했습니다.
-	//}
+	if (!m_wndObjectCombo.Create(dwViewStyle, rectDummy, this, 1))
+	{
+		TRACE0("속성 콤보 상자를 만들지 못했습니다. \n");
+		return -1;      // 만들지 못했습니다.
+	}
 
-	////m_wndObjectCombo.AddString(_T("응용 프로그램"));
-	////m_wndObjectCombo.AddString(_T("속성 창"));
-	//m_wndObjectCombo.SetCurSel(0);
+	//m_wndObjectCombo.AddString(_T("응용 프로그램"));
+	//m_wndObjectCombo.AddString(_T("속성 창"));
+	m_wndObjectCombo.SetCurSel(0);
 
-	//CRect rectCombo;
-	//m_wndObjectCombo.GetClientRect (&rectCombo);
+	CRect rectCombo;
+	m_wndObjectCombo.GetClientRect (&rectCombo);
 
-	//m_nComboHeight = rectCombo.Height();
+	m_nComboHeight = rectCombo.Height();*/
 
 	if (!m_wndPropList.Create(WS_VISIBLE | WS_CHILD, rectDummy, this, 2))
 	{
@@ -167,11 +167,12 @@ void CPropertiesWnd::OnUpdateProperties2(CCmdUI* /*pCmdUI*/)
 void CPropertiesWnd::InitPropList()
 {
 	SetPropListFont();
-
+	/* 속성창 설정 옵션 */
 	m_wndPropList.EnableHeaderCtrl(FALSE);
 	m_wndPropList.EnableDescriptionArea();
 	m_wndPropList.SetVSDotNetLook();
 	m_wndPropList.MarkModifiedProperties();
+
 	/* if 게이트를 선택했다면 */
 	/******************** 분류: 게이트 설정 시작 ************************/
 	CMFCPropertyGridProperty* pGroup1 = new CMFCPropertyGridProperty(_T("게이트 설정"));
