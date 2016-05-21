@@ -1,6 +1,7 @@
 #pragma once
 #include "ComponentObject.h"
-
+#define XOR_GATE_INPUT_TERMINAL_NUMBER 2
+#define XOR_GATE_OUTPUT_TERMINAL_NUMBER 1
 class XORGateComponent :public CComponentObject {
 private:
 	bool inputValue1;

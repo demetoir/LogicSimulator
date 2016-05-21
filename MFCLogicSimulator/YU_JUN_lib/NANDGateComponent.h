@@ -1,6 +1,7 @@
 #pragma once
 #include "ComponentObject.h"
-
+#define NAND_GATE_INPUT_TERMINAL_NUMBER 2
+#define NAND_GATE_OUTPUT_TERMINAL_NUMBER 0
 class CNANDGateComponent :public CComponentObject {
 private:
 	bool inputValue1;

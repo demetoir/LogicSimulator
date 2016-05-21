@@ -6,6 +6,8 @@ CNANDGateComponent::CNANDGateComponent()
 	inputValue1 = false;
 	inputValue2 = false;
 	outputValue = false;
+	setNumberOfInputTerminal(NAND_GATE_INPUT_TERMINAL_NUMBER);
+	setNumberOfOutputTerminal(NAND_GATE_OUTPUT_TERMINAL_NUMBER);
 }
 
 CNANDGateComponent::CNANDGateComponent(CNANDGateComponent & object)
@@ -15,6 +17,8 @@ CNANDGateComponent::CNANDGateComponent(CNANDGateComponent & object)
 	inputValue1 = false;
 	inputValue2 = false;
 	outputValue = false;
+	setNumberOfInputTerminal(NAND_GATE_INPUT_TERMINAL_NUMBER);
+	setNumberOfOutputTerminal(NAND_GATE_OUTPUT_TERMINAL_NUMBER);
 }
 
 CNANDGateComponent::~CNANDGateComponent()

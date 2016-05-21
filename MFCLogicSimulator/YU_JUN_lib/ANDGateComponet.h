@@ -1,6 +1,7 @@
 #pragma once
 #include "ComponentObject.h"
-
+#define AND_GATE_INPUT_TERMINAL_NUMBER 2
+#define AND_GATE_OUTPUT_TERMINAL_NUMBER 0
 class CANDGateComponent :public CComponentObject{
 private:
 	bool inputValue1;
@@ -18,7 +19,4 @@ public:
 	bool getInputValue2();
 	bool getOutputValue();
 	void updateOutputValue();
-
-	
-
 };

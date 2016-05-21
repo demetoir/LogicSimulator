@@ -48,9 +48,6 @@
     <ClCompile Include="ComponentObject.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="logicGateComponent.cpp">
-      <Filter>소스 파일\Logic Gate Component</Filter>
-    </ClCompile>
     <ClCompile Include="WireComponet.cpp">
       <Filter>소스 파일\Wire Component</Filter>
     </ClCompile>
@@ -103,9 +100,6 @@
     </ClInclude>
     <ClInclude Include="ComponentObject.h">
       <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="logicGateComponent.h">
-      <Filter>헤더 파일\Logic gate Component</Filter>
     </ClInclude>
     <ClInclude Include="WireComponet.h">
       <Filter>헤더 파일\Wire Component</Filter>

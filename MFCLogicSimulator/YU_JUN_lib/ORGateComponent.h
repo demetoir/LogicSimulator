@@ -1,7 +1,8 @@
 #pragma once
 
 #include "ComponentObject.h"
-
+#define OR_GATE_INPUT_TERMINAL_NUMBER 2
+#define OR_GATE_OUTPUT_TERMINAL_NUMBER 1
 class CORGateComponent :public CComponentObject {
 private:
 	bool inputValue1;

@@ -6,6 +6,8 @@ CORGateComponent::CORGateComponent()
 	inputValue1 = false;
 	inputValue2 = false;
 	outputValue = false;
+	setNumberOfInputTerminal(OR_GATE_INPUT_TERMINAL_NUMBER);
+	setNumberOfOutputTerminal(OR_GATE_OUTPUT_TERMINAL_NUMBER);
 }
 
 CORGateComponent::CORGateComponent(CORGateComponent & object)
@@ -15,6 +17,8 @@ CORGateComponent::CORGateComponent(CORGateComponent & object)
 	inputValue1 = false;
 	inputValue2 = false;
 	outputValue = false;
+	setNumberOfInputTerminal(OR_GATE_INPUT_TERMINAL_NUMBER);
+	setNumberOfOutputTerminal(OR_GATE_OUTPUT_TERMINAL_NUMBER);
 }
 
 CORGateComponent::~CORGateComponent()

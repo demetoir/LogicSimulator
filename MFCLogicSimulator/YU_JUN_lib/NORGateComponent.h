@@ -1,7 +1,7 @@
 #pragma once
 #include "ComponentObject.h"
-
-
+#define NOR_GATE_INPUT_TERMINAL_NUMBER 2
+#define NOR_GATE_OUTPUT_TERMINAL_NUMBER 0
 
 class CNORGateComponent :public CComponentObject {
 private:
@@ -20,6 +20,4 @@ public:
 	bool getInputValue2();
 	bool getOutputValue();
 	void updateOutputValue();
-
-
 };

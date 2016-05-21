@@ -6,7 +6,8 @@ CANDGateComponent::CANDGateComponent()
 	inputValue1 = false;
 	inputValue2 = false;
 	outputValue = false;
-
+	setNumberOfInputTerminal(AND_GATE_INPUT_TERMINAL_NUMBER);
+	setNumberOfOutputTerminal(AND_GATE_OUTPUT_TERMINAL_NUMBER);
 }
 
 CANDGateComponent::CANDGateComponent(CANDGateComponent & object)
@@ -16,7 +17,8 @@ CANDGateComponent::CANDGateComponent(CANDGateComponent & object)
 	inputValue1 = false;
 	inputValue2 = false;
 	outputValue = false;
-
+	setNumberOfInputTerminal(AND_GATE_INPUT_TERMINAL_NUMBER);
+	setNumberOfOutputTerminal(AND_GATE_OUTPUT_TERMINAL_NUMBER);
 }
 
 CANDGateComponent::~CANDGateComponent()
