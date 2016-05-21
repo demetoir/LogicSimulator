@@ -14,7 +14,7 @@
 
 #pragma once
 #include "FileView.h"
-#include "ClassView.h"
+//#include "ClassView.h"
 #include "OutputWnd.h"
 #include "PropertiesWnd.h"
 
@@ -48,7 +48,7 @@ protected:  // 컨트롤 모음이 포함된 멤버입니다.
 	CMFCToolBarImages m_PanelImages;
 	CMFCRibbonStatusBar  m_wndStatusBar;
 	CFileView         m_wndFileView;
-	CClassView        m_wndClassView;
+	//CClassView        m_wndClassView;
 	COutputWnd        m_wndOutput;
 	CPropertiesWnd    m_wndProperties;
 
