@@ -3,7 +3,7 @@
 #include <vector>
 
 #define ID_COMPONENT int 
-
+enum TERMINAL_TYPE{INPUT_TERMINAL_TYPE,OUTPUT_TERMINAL_TYPE};
 class CSimulatorObject {
 private:
 	std::string componentName;

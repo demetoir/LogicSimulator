@@ -23,16 +23,15 @@
 
 
 class CLibraryBox :public CComponentObject {
-
 private:
 	//부품들을 담을 벡터 객체들
-	vector<CComponentObject> logicGateList;
-	vector<InputPinComponent> inputList;	
-	vector<COutputPin> outputList;
-	vector<CWireComponent> wireList;
+	std::vector<CComponentObject> logicGateList;
+	std::vector<InputPinComponent> inputList;
+	std::vector<COutputPin> outputList;
+	std::vector<CWireComponent> wireList;
 
 	//부품간의 그래프를표현할 2중 vector
-	vector< vector<int> > componetGrape;
+	std::vector< std::vector<int> > componetGrape;
 	
 	//모든 부품의 수
 	int totalComponentNumber;
@@ -68,8 +67,13 @@ public:
 	void deleteOutputPin(ID_COMPONENT outputPinID);
 	void deleteComponent(ID_COMPONENT componentID);
 	
-	//부품을 연결함
-	void connentComponentAToB(ID_COMPONENT A)
+	//연결되지않은 부품을 연결함
+	bool connectComponentAToB(ID_COMPONENT AComponentID, TERMINAL_TYPE AComponentType, int AComponentTerminalNumber,
+		ID_COMPONENT BComponentID, TERMINAL_TYPE BComponentType, int BComponentTerminalNumber);
+	
+	//연결된 부품을 분리함
+	bool disConnectComponentAToB(ID_COMPONENT AComponentID, TERMINAL_TYPE AComponentType, int AComponentTerminalNumber,
+		ID_COMPONENT BComponentID, TERMINAL_TYPE BComponentType, int BComponentTerminalNumber);
 
 
 
