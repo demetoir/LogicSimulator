@@ -142,23 +142,35 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="ANDGateComponet.cpp" />
     <ClCompile Include="ClockComponent.cpp" />
     <ClCompile Include="ComponentObject.cpp" />
+    <ClCompile Include="NANDGateComponent.cpp" />
+    <ClCompile Include="NORGateComponent.cpp" />
+    <ClCompile Include="NOTGateComponent.cpp" />
     <ClCompile Include="OneButtonSwitch.cpp" />
     <ClCompile Include="logicGateComponent.cpp" />
+    <ClCompile Include="ORGateComponent.cpp" />
     <ClCompile Include="OutputComponent.cpp" />
     <ClCompile Include="SimulatorObject.cpp" />
     <ClCompile Include="WireComponet.cpp" />
+    <ClCompile Include="XORGateComponent.cpp" />
     <ClCompile Include="소스.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="ANDGateComponet.h" />
     <ClInclude Include="ClockComponent.h" />
     <ClInclude Include="ComponentObject.h" />
+    <ClInclude Include="NANDGateComponent.h" />
+    <ClInclude Include="NORGateComponent.h" />
+    <ClInclude Include="NOTGateComponent.h" />
     <ClInclude Include="OneButtonSwitch.h" />
     <ClInclude Include="logicGateComponent.h" />
+    <ClInclude Include="ORGateComponent.h" />
     <ClInclude Include="OutputComponent.h" />
     <ClInclude Include="SimulatorObject.h" />
     <ClInclude Include="WireComponet.h" />
+    <ClInclude Include="XORGateComponent.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

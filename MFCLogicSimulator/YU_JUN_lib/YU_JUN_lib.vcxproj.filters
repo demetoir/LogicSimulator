@@ -63,6 +63,24 @@
     <ClCompile Include="ClockComponent.cpp">
       <Filter>소스 파일\Input Component</Filter>
     </ClCompile>
+    <ClCompile Include="ANDGateComponet.cpp">
+      <Filter>소스 파일\Logic Gate Component</Filter>
+    </ClCompile>
+    <ClCompile Include="NANDGateComponent.cpp">
+      <Filter>소스 파일\Logic Gate Component</Filter>
+    </ClCompile>
+    <ClCompile Include="NORGateComponent.cpp">
+      <Filter>소스 파일\Logic Gate Component</Filter>
+    </ClCompile>
+    <ClCompile Include="NOTGateComponent.cpp">
+      <Filter>소스 파일\Logic Gate Component</Filter>
+    </ClCompile>
+    <ClCompile Include="ORGateComponent.cpp">
+      <Filter>소스 파일\Logic Gate Component</Filter>
+    </ClCompile>
+    <ClCompile Include="XORGateComponent.cpp">
+      <Filter>소스 파일\Logic Gate Component</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="SimulatorObject.h">
@@ -85,6 +103,24 @@
     </ClInclude>
     <ClInclude Include="ClockComponent.h">
       <Filter>헤더 파일\Input Component</Filter>
+    </ClInclude>
+    <ClInclude Include="ANDGateComponet.h">
+      <Filter>헤더 파일\Logic gate Component</Filter>
+    </ClInclude>
+    <ClInclude Include="ORGateComponent.h">
+      <Filter>헤더 파일\Logic gate Component</Filter>
+    </ClInclude>
+    <ClInclude Include="XORGateComponent.h">
+      <Filter>헤더 파일\Logic gate Component</Filter>
+    </ClInclude>
+    <ClInclude Include="NOTGateComponent.h">
+      <Filter>헤더 파일\Logic gate Component</Filter>
+    </ClInclude>
+    <ClInclude Include="NORGateComponent.h">
+      <Filter>헤더 파일\Logic gate Component</Filter>
+    </ClInclude>
+    <ClInclude Include="NANDGateComponent.h">
+      <Filter>헤더 파일\Logic gate Component</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
