@@ -20,6 +20,4 @@ public:
 	std::string getLabel();
 	void setDirection(DIRECTION _direction);
 	DIRECTION getDirection();
-
-
 };

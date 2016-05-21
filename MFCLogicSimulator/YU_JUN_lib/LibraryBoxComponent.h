@@ -21,17 +21,25 @@
 
 #include <vector>
 
- 
+
 class CLibraryBox : CComponentObject {
 
 private:
+	//부품들을 담을 벡터 객체들
 	vector<CComponentObject> logicGateList;
-	vector<InputPinComponent> inputList;
-	vector< vector<int> > componetGrape;
+	vector<InputPinComponent> inputList;	
 	vector<COutputPin> outputList;
 	vector<CWireComponent> wireList;
-	int totalComponentNumber;
+
+	//부품간의 그래프를표현할 2중 vector
+	vector< vector<int> > componetGrape;
 	
+	//모든 부품의 수
+	int totalComponentNumber;
+
+	// 부품들의 id를 만들어주는 변수
+	// 지금까지 생성한 부품의 수로 받음
+
 
 public:
 	CLibraryBox();
@@ -41,19 +49,25 @@ public:
 	void setinputValue(bool _inputValue, int componentnumber);
 	void getOutputValue(int ComponentNumber);
 	
-	void addInputPin();
-	void addOuputPin();	
-	void addWire();
-	void addANDGate();
-	void addORGate();
-	void addNORGate();
-	void addNANDGate();
-	void addNOTGate();
-	void addXORGate();
+	//새로운 component Id 생성 해줌
+	ID_COMPONENT getNewComponentID();
+	ID_COMPONENT getNumberOfComponentID();
 
-	void deleteInputPin();
-	void deleteOutputPin();
-	void deleteOutputPin()
+	//부품 추가	
+	ID_COMPONENT addInputPin();
+	ID_COMPONENT addOutputPin();
+	ID_COMPONENT addWire();
+	ID_COMPONENT addANDGate();
+	ID_COMPONENT addORGate();
+	ID_COMPONENT addNORGate();
+	ID_COMPONENT addNANDGate();
+	ID_COMPONENT addNOTGate();
+	ID_COMPONENT addXORGate();
+	
+	//부품삭제
+	void deleteInputPin(ID_COMPONENT inputPinID);
+	void deleteOutputPin(ID_COMPONENT outputPinID);
+	void deleteComponent(ID_COMPONENT componentID);
 
 
 

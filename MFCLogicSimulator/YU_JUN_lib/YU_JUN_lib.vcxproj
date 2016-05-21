@@ -147,6 +147,7 @@
     <ClCompile Include="ClockComponent.cpp" />
     <ClCompile Include="ComponentObject.cpp" />
     <ClCompile Include="InputPinComponent.cpp" />
+    <ClCompile Include="LibraryBoxComponent.cpp" />
     <ClCompile Include="NANDGateComponent.cpp" />
     <ClCompile Include="NORGateComponent.cpp" />
     <ClCompile Include="NOTGateComponent.cpp" />

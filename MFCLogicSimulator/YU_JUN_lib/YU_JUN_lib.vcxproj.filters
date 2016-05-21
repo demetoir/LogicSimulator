@@ -93,6 +93,9 @@
     <ClCompile Include="OutputPin.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
+    <ClCompile Include="LibraryBoxComponent.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="SimulatorObject.h">

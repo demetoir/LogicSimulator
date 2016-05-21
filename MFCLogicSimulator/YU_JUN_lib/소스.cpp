@@ -3,7 +3,7 @@
 #include "logicGateComponent.h"
 #include "WireComponet.h"
 #include "OneButtonSwitch.h"
-
+#include "ANDGateComponet.h"
 
 
 
@@ -133,9 +133,14 @@ void wireTest() {
 }
 
 int main() {
-	LogicGateTest();
-	wireTest();
-
-	CWireComponent a;
+	//LogicGateTest();
+	//wireTest();
+	CSimulatorObject a;
+	CComponentObject b;
+	CANDGateComponent c;
+	cout << endl;
+	cout << "a:" << a.getNumberOfComponent() << endl;
+	cout << "b:" << b.getNumberOfComponent() << endl;
+	cout << "c:" << c.getNumberOfComponent() << endl;
 	
 }

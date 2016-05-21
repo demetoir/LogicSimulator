@@ -7,6 +7,7 @@ CComponentObject::CComponentObject()
 	y = 0;
 	label = std::string("");
 	direction = DIRECTION_EAST;
+	
 }
 
 CComponentObject::CComponentObject(CComponentObject & object):
