@@ -81,6 +81,12 @@
     <ClCompile Include="XORGateComponent.cpp">
       <Filter>소스 파일\Logic Gate Component</Filter>
     </ClCompile>
+    <ClCompile Include="7SegmentComponent.cpp">
+      <Filter>소스 파일\Output component</Filter>
+    </ClCompile>
+    <ClCompile Include="OneBitLampComponent.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="SimulatorObject.h">
@@ -121,6 +127,12 @@
     </ClInclude>
     <ClInclude Include="NANDGateComponent.h">
       <Filter>헤더 파일\Logic gate Component</Filter>
+    </ClInclude>
+    <ClInclude Include="7SegmentComponent.h">
+      <Filter>헤더 파일\Output component</Filter>
+    </ClInclude>
+    <ClInclude Include="OneBitLampComponent.h">
+      <Filter>헤더 파일\Output component</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

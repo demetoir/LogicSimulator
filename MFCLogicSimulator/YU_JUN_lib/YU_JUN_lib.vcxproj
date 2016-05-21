@@ -142,12 +142,14 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="7SegmentComponent.cpp" />
     <ClCompile Include="ANDGateComponet.cpp" />
     <ClCompile Include="ClockComponent.cpp" />
     <ClCompile Include="ComponentObject.cpp" />
     <ClCompile Include="NANDGateComponent.cpp" />
     <ClCompile Include="NORGateComponent.cpp" />
     <ClCompile Include="NOTGateComponent.cpp" />
+    <ClCompile Include="OneBitLampComponent.cpp" />
     <ClCompile Include="OneButtonSwitch.cpp" />
     <ClCompile Include="logicGateComponent.cpp" />
     <ClCompile Include="ORGateComponent.cpp" />
@@ -158,12 +160,14 @@
     <ClCompile Include="소스.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="7SegmentComponent.h" />
     <ClInclude Include="ANDGateComponet.h" />
     <ClInclude Include="ClockComponent.h" />
     <ClInclude Include="ComponentObject.h" />
     <ClInclude Include="NANDGateComponent.h" />
     <ClInclude Include="NORGateComponent.h" />
     <ClInclude Include="NOTGateComponent.h" />
+    <ClInclude Include="OneBitLampComponent.h" />
     <ClInclude Include="OneButtonSwitch.h" />
     <ClInclude Include="logicGateComponent.h" />
     <ClInclude Include="ORGateComponent.h" />

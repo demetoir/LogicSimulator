@@ -4,7 +4,7 @@
 
 using namespace std;
 
-class CWireComponent:public CComponentObject {
+class CWireComponent:public CSimulatorObject {
 
 private:
 	int startX, startY;

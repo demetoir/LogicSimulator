@@ -2,7 +2,7 @@
 
 CWireComponent::CWireComponent()
 {
-	CComponentObject();
+	CSimulatorObject();
 	startX = 0;
 	startY = 0;
 	endX = 0;
@@ -11,7 +11,8 @@ CWireComponent::CWireComponent()
 	value = false;
 }
 
-CWireComponent::CWireComponent(CWireComponent&  object):CComponentObject(object)
+CWireComponent::CWireComponent(CWireComponent&  object)
+	:CSimulatorObject(object)
 {
 
 	startX = object.getStartX();

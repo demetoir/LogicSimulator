@@ -135,6 +135,7 @@ void wireTest() {
 int main() {
 	LogicGateTest();
 	wireTest();
-	COnebuttonSwitch a;
 
+	CWireComponent a;
+	
 }
