@@ -2,7 +2,7 @@
 
 #include"ComponentObject.h"
 
-class InputPinComponent : CComponentObject{
+class InputPinComponent :public CComponentObject{
 private:
 	bool value;
 public:

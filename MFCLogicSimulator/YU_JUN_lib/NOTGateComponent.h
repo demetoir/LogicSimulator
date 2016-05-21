@@ -1,7 +1,7 @@
 #pragma once
 #include "ComponentObject.h"
 
-class NOTGateComponent : CComponentObject {
+class NOTGateComponent :public CComponentObject {
 private:
 	bool inputValue;
 	bool outputValue;

@@ -3,7 +3,7 @@
 
 
 
-class CNORGateComponent : CComponentObject {
+class CNORGateComponent :public CComponentObject {
 private:
 	bool inputValue1;
 	bool inputValue2;

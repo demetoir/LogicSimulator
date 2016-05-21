@@ -2,7 +2,7 @@
 
 #include "ComponentObject.h"
 
-class CORGateComponent : CComponentObject {
+class CORGateComponent :public CComponentObject {
 private:
 	bool inputValue1;
 	bool inputValue2;

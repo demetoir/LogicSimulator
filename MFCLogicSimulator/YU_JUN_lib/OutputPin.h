@@ -3,7 +3,7 @@
 
 #include "ComponentObject.h"
 
-class COutputPin : CComponentObject {
+class COutputPin :pubic CComponentObject {
 private:
 	bool value;
 public:

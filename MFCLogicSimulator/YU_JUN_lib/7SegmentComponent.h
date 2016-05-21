@@ -12,7 +12,7 @@
 
 #define SEVEN_SEGMENT_OUTPUT_INIT_VALUE 0;
 
-class C7SegmentComponent : CComponentObject {
+class C7SegmentComponent :public CComponentObject {
 	
 private:
 	SEVEN_SEGMENT_STATE state;

@@ -1,7 +1,7 @@
 #pragma once
 #include "ComponentObject.h"
 
-class CNANDGateComponent : CComponentObject {
+class CNANDGateComponent :public CComponentObject {
 private:
 	bool inputValue1;
 	bool inputValue2;

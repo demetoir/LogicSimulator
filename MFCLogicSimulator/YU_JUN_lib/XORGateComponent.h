@@ -1,7 +1,7 @@
 #pragma once
 #include "ComponentObject.h"
 
-class XORGateComponent :CComponentObject {
+class XORGateComponent :public CComponentObject {
 private:
 	bool inputValue1;
 	bool inputValue2;

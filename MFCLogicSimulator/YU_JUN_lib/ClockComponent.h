@@ -1,7 +1,7 @@
 #pragma once
 #include "ComponentObject.h"
 #include <time.h>
-class CClockComponent : CComponentObject {
+class CClockComponent :public CComponentObject {
 private:
 	bool value;
 	double clockHZ;

@@ -22,7 +22,7 @@
 #include <vector>
 
 
-class CLibraryBox : CComponentObject {
+class CLibraryBox :public CComponentObject {
 
 private:
 	//부품들을 담을 벡터 객체들

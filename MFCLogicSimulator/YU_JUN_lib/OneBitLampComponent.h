@@ -4,7 +4,7 @@
 #define ONE_BIT_LAMP_ON true
 #define ONE_BIT_LAMP_OFF false
 enum ONE_BIT_LAMP_STATE{LAMP_ON,LAMP_OFF};
-class COneBitLampComponent :CComponentObject {
+class COneBitLampComponent :public CComponentObject {
 private:
 	ONE_BIT_LAMP_STATE lampState;
 public:
