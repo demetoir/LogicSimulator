@@ -50,8 +50,7 @@ public:
 	void getOutputValue(int ComponentNumber);
 	
 	//새로운 component Id 생성 해줌
-	ID_COMPONENT getNewComponentID();
-	ID_COMPONENT getNumberOfComponentID();
+
 
 	//부품 추가	
 	ID_COMPONENT addInputPin();
@@ -68,7 +67,9 @@ public:
 	void deleteInputPin(ID_COMPONENT inputPinID);
 	void deleteOutputPin(ID_COMPONENT outputPinID);
 	void deleteComponent(ID_COMPONENT componentID);
-
+	
+	//부품을 연결함
+	void connentComponentAToB(ID_COMPONENT A)
 
 
 

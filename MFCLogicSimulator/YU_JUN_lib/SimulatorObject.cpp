@@ -3,7 +3,7 @@
 void CSimulatorObject::setComponentName(std::string _componentName)
 {
 	componentName = std::string(_componentName);
-
+	
 }
 
 std::string CSimulatorObject::getComponentName()
@@ -15,6 +15,8 @@ CSimulatorObject::CSimulatorObject()
 {
 	componentName = std::string("");
 	numberOfComponent = 0;
+	numberOfInputTerminal = 0;
+	numberOfOutputTerminal = 0;
 }
 
 CSimulatorObject::CSimulatorObject(CSimulatorObject & obj)
@@ -36,5 +38,25 @@ ID_COMPONENT CSimulatorObject::getNewComponetID()
 ID_COMPONENT CSimulatorObject::getNumberOfComponent()
 {
 	return numberOfComponent;
+}
+
+void CSimulatorObject::setNumberOfInputTerminal(int numberOfTerminal)
+{
+	numberOfInputTerminal = numberOfTerminal;
+}
+
+int CSimulatorObject::getNumberOfInputTerminal()
+{
+	return numberOfInputTerminal;
+}
+
+void CSimulatorObject::setNumberOfOutputTerminal(int numberOfTerminal)
+{
+	numberOfOutputTerminal = numberOfTerminal;
+}
+
+int CSimulatorObject::getNumberOfOutputTerminal()
+{
+	return numberOfOutputTerminal;
 }
 
