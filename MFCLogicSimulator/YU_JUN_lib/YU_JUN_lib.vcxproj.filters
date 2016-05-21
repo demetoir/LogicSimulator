@@ -51,9 +51,6 @@
     <ClCompile Include="WireComponet.cpp">
       <Filter>소스 파일\Wire Component</Filter>
     </ClCompile>
-    <ClCompile Include="OutputComponent.cpp">
-      <Filter>소스 파일\Output component</Filter>
-    </ClCompile>
     <ClCompile Include="ClockComponent.cpp">
       <Filter>소스 파일\Input Component</Filter>
     </ClCompile>
@@ -84,14 +81,14 @@
     <ClCompile Include="InputPinComponent.cpp">
       <Filter>소스 파일\Input Component</Filter>
     </ClCompile>
-    <ClCompile Include="OutputPin.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
     <ClCompile Include="LibraryBoxComponent.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
     <ClCompile Include="OneBitSwitch.cpp">
       <Filter>소스 파일\Input Component</Filter>
+    </ClCompile>
+    <ClCompile Include="OutputPin.cpp">
+      <Filter>소스 파일\Output component</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -103,9 +100,6 @@
     </ClInclude>
     <ClInclude Include="WireComponet.h">
       <Filter>헤더 파일\Wire Component</Filter>
-    </ClInclude>
-    <ClInclude Include="OutputComponent.h">
-      <Filter>헤더 파일\Output component</Filter>
     </ClInclude>
     <ClInclude Include="ClockComponent.h">
       <Filter>헤더 파일\Input Component</Filter>

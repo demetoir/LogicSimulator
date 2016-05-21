@@ -4,6 +4,8 @@ COneBitLampComponent::COneBitLampComponent()
 {
 	setComponentName(std::string("one bit lamp component"));
 	lampState = LAMP_OFF;
+	setNumberOfInputTerminal(ONE_BIT_INPUT_TERMINAL_NUMBER);
+	setNumberOfOutputTerminal(ONE_BIT_OUTPUT_TERMINAL_NUMBER);
 }
 
 COneBitLampComponent::COneBitLampComponent(COneBitLampComponent & object)
@@ -11,6 +13,8 @@ COneBitLampComponent::COneBitLampComponent(COneBitLampComponent & object)
 {
 	setComponentName(std::string("one bit lamp component"));
 	lampState = LAMP_OFF;
+	setNumberOfInputTerminal(ONE_BIT_INPUT_TERMINAL_NUMBER);
+	setNumberOfOutputTerminal(ONE_BIT_OUTPUT_TERMINAL_NUMBER);
 }
 
 COneBitLampComponent::~COneBitLampComponent()

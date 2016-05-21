@@ -4,7 +4,8 @@ C7SegmentComponent::C7SegmentComponent()
 {
 	setComponentName(std::string("7 segment component"));
 	state = SEVEN_SEGMENT_OUTPUT_INIT_VALUE;
-
+	setNumberOfInputTerminal(SEVEN_SEGMENT_INPUT_TERMINAL_NUMBER);
+	setNumberOfOutputTerminal(SEVEN_SEGMENT_OUTPUT_TERMINAL_NUMBER);
 }
 
 C7SegmentComponent::C7SegmentComponent(C7SegmentComponent & object)
@@ -12,6 +13,8 @@ C7SegmentComponent::C7SegmentComponent(C7SegmentComponent & object)
 {
 	setComponentName(std::string("7 segment component"));
 	state = SEVEN_SEGMENT_OUTPUT_INIT_VALUE;
+	setNumberOfInputTerminal(SEVEN_SEGMENT_INPUT_TERMINAL_NUMBER);
+	setNumberOfOutputTerminal(SEVEN_SEGMENT_OUTPUT_TERMINAL_NUMBER);
 }
 
 C7SegmentComponent::~C7SegmentComponent()

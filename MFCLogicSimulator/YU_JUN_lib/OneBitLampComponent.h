@@ -3,6 +3,9 @@
 
 #define ONE_BIT_LAMP_ON true
 #define ONE_BIT_LAMP_OFF false
+#define ONE_BIT_INPUT_TERMINAL_NUMBER 1
+#define ONE_BIT_OUTPUT_TERMINAL_NUMBER 0
+
 enum ONE_BIT_LAMP_STATE{LAMP_ON,LAMP_OFF};
 class COneBitLampComponent :public CComponentObject {
 private:
@@ -17,7 +20,4 @@ public:
 	void setLampON();
 	void setLampOFF();
 	ONE_BIT_LAMP_STATE getLampState();
-
-
-
 };

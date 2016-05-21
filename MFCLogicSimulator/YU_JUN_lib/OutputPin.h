@@ -1,9 +1,10 @@
 #pragma once
 
-
 #include "ComponentObject.h"
 
-class COutputPin :pubic CComponentObject {
+#define OUTPUT_PIN_INPUT_TERMINAL_NUMBER 1
+#define OUTPUT_PIN_OUTPUT_TERMINAL_NUMBER 1
+class COutputPin :public CComponentObject {
 private:
 	bool value;
 public:

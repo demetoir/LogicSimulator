@@ -2,7 +2,7 @@
 
 #include"ComponentObject.h"
 #define INPUT_PIN_INPUT_TEMINAL_NUMBER 1
-#define INPUT_PIN_OUTPUT_TEMINAL_NUMBER 0
+#define INPUT_PIN_OUTPUT_TEMINAL_NUMBER 1
 class InputPinComponent :public CComponentObject{
 private:
 	bool value;

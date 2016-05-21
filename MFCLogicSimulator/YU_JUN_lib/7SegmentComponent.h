@@ -12,18 +12,19 @@
 
 #define SEVEN_SEGMENT_OUTPUT_INIT_VALUE 0;
 
+#define SEVEN_SEGMENT_INPUT_TERMINAL_NUMBER 7
+#define SEVEN_SEGMENT_OUTPUT_TERMINAL_NUMBER 7
+
 class C7SegmentComponent :public CComponentObject {
 	
 private:
 	SEVEN_SEGMENT_STATE state;
 
-public:
-	
+public:	
 	C7SegmentComponent();
 	C7SegmentComponent(C7SegmentComponent& object);
 	~C7SegmentComponent();
 
 	SEVEN_SEGMENT_STATE get7SegmentState();	 
-	void set7SegmentState(SEVEN_SEGMENT_STATE _state);
-	
+	void set7SegmentState(SEVEN_SEGMENT_STATE _state);	
 };
