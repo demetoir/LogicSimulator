@@ -1,13 +1,15 @@
 #pragma once
 #include "SimulatorObject.h"
 #include <string>
-enum DIRECTION {DIRECTION_SOUTH,DIRECTION_NORTH,DIRECTION_EAST,DIRECTION_WEST};
+
+enum DIRECTION {DIRECTION_SOUTH,DIRECTION_NORTH,DIRECTION_EAST,DIRECTION_WEST,DIRECTION_NONE};
+
 class CComponentObject : public CSimulatorObject {
 private:
 	int  x, y;
 	std::string label;
 	DIRECTION direction;
-	
+
 public:
 	CComponentObject();
 	CComponentObject(CComponentObject& object);
