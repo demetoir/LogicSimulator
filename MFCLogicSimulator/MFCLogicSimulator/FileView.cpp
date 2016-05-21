@@ -54,13 +54,13 @@ int CFileView::OnCreate(LPCREATESTRUCT lpCreateStruct)
 {
 	if (CDockablePane::OnCreate(lpCreateStruct) == -1)
 		return -1;
-
+	
 	CRect rectDummy;
 	rectDummy.SetRectEmpty();
 
 	// 뷰를 만듭니다.
 	const DWORD dwViewStyle = WS_CHILD | WS_VISIBLE | TVS_HASLINES | TVS_LINESATROOT | TVS_HASBUTTONS;
-
+	
 	if (!m_wndFileView.Create(dwViewStyle, rectDummy, this, 4))
 	{
 		TRACE0("파일 뷰를 만들지 못했습니다.\n");
@@ -85,7 +85,7 @@ int CFileView::OnCreate(LPCREATESTRUCT lpCreateStruct)
 	// 모든 명령은 부모 프레임이 아닌 이 컨트롤을 통해 라우팅됩니다.
 	m_wndToolBar.SetRouteCommandsViaFrame(FALSE);
 
-	// 정적 트리 뷰 데이터를 더미 코드로 채웁니다.
+	// 정적 트리 뷰 데이터를 채웁니다.
 	FillFileView();
 	AdjustLayout();
 
@@ -99,7 +99,7 @@ void CFileView::OnSize(UINT nType, int cx, int cy)
 }
 
 void CFileView::FillFileView()
-{
+{	// tool box data
 	HTREEITEM hRoot = m_wndFileView.InsertItem(_T("Logic Simulator"), 0, 0);
 	m_wndFileView.SetItemState(hRoot, TVIS_BOLD, TVIS_BOLD);
 

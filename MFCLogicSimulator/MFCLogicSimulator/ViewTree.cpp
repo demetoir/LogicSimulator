@@ -56,7 +56,7 @@ BOOL CViewTree::OnNotify(WPARAM wParam, LPARAM lParam, LRESULT* pResult)
 void CViewTree::OnLButtonDown(UINT nFlags, CPoint point)
 {
 	// TODO: 여기에 메시지 처리기 코드를 추가 및/또는 기본값을 호출합니다.
-	CTreeCtrl* m_ctlTreeview;
+	//CTreeCtrl* m_ctlTreeview;
 	
 	//MessageBox(_T("test"), _T("test dig"), 0);
 

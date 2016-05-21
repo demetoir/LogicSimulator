@@ -639,9 +639,9 @@ END
 
 STRINGTABLE
 BEGIN
-    IDS_BUILD_TAB           "빌드"
+    IDS_BUILD_TAB           "Simulator result"
     IDS_DEBUG_TAB           "디버그"
-    IDS_FIND_TAB            "찾기"
+    IDS_FIND_TAB            "Graph"
 END
 
 #endif    // 한국어(대한민국) resources
