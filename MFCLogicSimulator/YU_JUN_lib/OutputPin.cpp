@@ -1,6 +1,6 @@
 #include "OutputPin.h"
 
-COutputPin::COutputPin()
+COutputPinComponent::COutputPinComponent()
 {
 	setComponentName(std::string("output pin"));
 	value = false;
@@ -8,7 +8,7 @@ COutputPin::COutputPin()
 	setNumberOfOutputTerminal(OUTPUT_PIN_OUTPUT_TERMINAL_NUMBER);
 }
 
-COutputPin::COutputPin(COutputPin & object)
+COutputPinComponent::COutputPinComponent(COutputPinComponent & object)
 	:CComponentObject(object)
 {
 	setComponentName(std::string("output pin"));
@@ -17,16 +17,16 @@ COutputPin::COutputPin(COutputPin & object)
 	setNumberOfOutputTerminal(OUTPUT_PIN_OUTPUT_TERMINAL_NUMBER);
 }
 
-COutputPin::~COutputPin()
+COutputPinComponent::~COutputPinComponent()
 {
 }
 
-void COutputPin::setValue(bool _value)
+void COutputPinComponent::setValue(bool _value)
 {
 	value = _value;
 }
 
-bool COutputPin::getValue()
+bool COutputPinComponent::getValue()
 {
 	return value;
 }

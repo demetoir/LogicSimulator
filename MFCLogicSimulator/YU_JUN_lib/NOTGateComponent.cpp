@@ -1,6 +1,6 @@
 #include "NOTGateComponent.h"
 
-NOTGateComponent::NOTGateComponent()
+CNOTGateComponent::CNOTGateComponent()
 {
 	setComponentName(std::string("NOT Gate"));
 	inputValue = false;
@@ -9,7 +9,7 @@ NOTGateComponent::NOTGateComponent()
 	setNumberOfOutputTerminal(NOT_GATE_OUTPUT_TERMINLA_NUMBER);
 }
 
-NOTGateComponent::NOTGateComponent(NOTGateComponent & object)
+CNOTGateComponent::CNOTGateComponent(CNOTGateComponent & object)
 	:CComponentObject(object)
 {
 	setComponentName(std::string("NOT Gate"));
@@ -19,26 +19,26 @@ NOTGateComponent::NOTGateComponent(NOTGateComponent & object)
 	setNumberOfOutputTerminal(NOT_GATE_OUTPUT_TERMINLA_NUMBER);
 }
 
-NOTGateComponent::~NOTGateComponent()
+CNOTGateComponent::~CNOTGateComponent()
 {
 }
 
-void NOTGateComponent::setInputValue(bool _inputValue)
+void CNOTGateComponent::setInputValue(bool _inputValue)
 {
 	inputValue = _inputValue;
 }
 
-bool NOTGateComponent::getInputValue()
+bool CNOTGateComponent::getInputValue()
 {
 	return inputValue;
 }
 
-bool NOTGateComponent::getOutputValue()
+bool CNOTGateComponent::getOutputValue()
 {
 	return outputValue;
 }
 
-void NOTGateComponent::updateOutputValue()
+void CNOTGateComponent::updateOutputValue()
 {
 	outputValue = !inputValue;
 }

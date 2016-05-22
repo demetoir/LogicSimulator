@@ -1,6 +1,6 @@
 #include "InputPinComponent.h"
 
-InputPinComponent::InputPinComponent()
+CInputPinComponent::CInputPinComponent()
 {
 	setComponentName(std::string("input pin"));
 	value = false;
@@ -9,7 +9,7 @@ InputPinComponent::InputPinComponent()
 
 }
 
-InputPinComponent::InputPinComponent(InputPinComponent & object)
+CInputPinComponent::CInputPinComponent(CInputPinComponent & object)
 	:CComponentObject(object)
 {
 	setComponentName(std::string("input pin"));
@@ -18,16 +18,16 @@ InputPinComponent::InputPinComponent(InputPinComponent & object)
 	setNumberOfOutputTerminal(INPUT_PIN_OUTPUT_TEMINAL_NUMBER);
 }
 
-InputPinComponent::~InputPinComponent()
+CInputPinComponent::~CInputPinComponent()
 {
 }
 
-void InputPinComponent::setValue(bool _value)
+void CInputPinComponent::setValue(bool _value)
 {
 	value = _value;
 }
 
-bool InputPinComponent::getValue()
+bool CInputPinComponent::getValue()
 {
 	return value;
 }

@@ -1,6 +1,6 @@
 #include "XORGateComponent.h"
 
-XORGateComponent::XORGateComponent()
+CXORGateComponent::CXORGateComponent()
 {
 	setComponentName(std::string("XOR Gate"));
 	inputValue1 = false;
@@ -10,7 +10,7 @@ XORGateComponent::XORGateComponent()
 	setNumberOfOutputTerminal(XOR_GATE_OUTPUT_TERMINAL_NUMBER);
 }
 
-XORGateComponent::XORGateComponent(XORGateComponent & object)
+CXORGateComponent::CXORGateComponent(CXORGateComponent & object)
 	:CComponentObject(object)
 {
 	setComponentName(std::string("XOR Gate"));
@@ -21,36 +21,36 @@ XORGateComponent::XORGateComponent(XORGateComponent & object)
 	setNumberOfOutputTerminal(XOR_GATE_OUTPUT_TERMINAL_NUMBER);
 }
 
-XORGateComponent::~XORGateComponent()
+CXORGateComponent::~CXORGateComponent()
 {
 }
 
-void XORGateComponent::setInputValue1(bool _inputValue1)
+void CXORGateComponent::setInputValue1(bool _inputValue1)
 {
 	inputValue1 = _inputValue1;
 }
 
-bool XORGateComponent::getInputValue1()
+bool CXORGateComponent::getInputValue1()
 {
 	return inputValue1;
 }
 
-void XORGateComponent::setInputValue2(bool _inputValue2)
+void CXORGateComponent::setInputValue2(bool _inputValue2)
 {
 	inputValue2 = _inputValue2;
 }
 
-bool XORGateComponent::getInputValue2()
+bool CXORGateComponent::getInputValue2()
 {
 	return inputValue2;
 }
 
-bool XORGateComponent::getOutputValue()
+bool CXORGateComponent::getOutputValue()
 {
 	return outputValue;
 }
 
-void XORGateComponent::updateOutputValue()
+void CXORGateComponent::updateOutputValue()
 {
 	outputValue = (inputValue1^ inputValue2);
 }

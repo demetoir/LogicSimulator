@@ -1,6 +1,6 @@
 #include "OneBitSwitch.h"
 
-COneBitSwitch::COneBitSwitch()
+COneBitSwitchComponent::COneBitSwitchComponent()
 {
 	CComponentObject();
 	setComponentName(std::string("one button switch"));
@@ -9,7 +9,7 @@ COneBitSwitch::COneBitSwitch()
 	setNumberOfOutputTerminal(ONE_BIT_SWITCH_OUTPUT_TERMINAL_NUMBER);
 }
 
-COneBitSwitch::COneBitSwitch(COneBitSwitch & obj)
+COneBitSwitchComponent::COneBitSwitchComponent(COneBitSwitchComponent & obj)
 	:CComponentObject(obj)
 {
 	setComponentName(std::string("one button switch"));
@@ -18,17 +18,17 @@ COneBitSwitch::COneBitSwitch(COneBitSwitch & obj)
 	setNumberOfOutputTerminal(ONE_BIT_SWITCH_OUTPUT_TERMINAL_NUMBER);
 }
 
-COneBitSwitch::~COneBitSwitch()
+COneBitSwitchComponent::~COneBitSwitchComponent()
 {
 	
 }
 
-bool COneBitSwitch::getValue()
+bool COneBitSwitchComponent::getValue()
 {
 	return value;
 }
 
-void COneBitSwitch::setValue(bool _value)
+void COneBitSwitchComponent::setValue(bool _value)
 {
 	value = _value;
 }

@@ -2,16 +2,16 @@
 #include "ComponentObject.h"
 #define XOR_GATE_INPUT_TERMINAL_NUMBER 2
 #define XOR_GATE_OUTPUT_TERMINAL_NUMBER 1
-class XORGateComponent :public CComponentObject {
+class CXORGateComponent :public CComponentObject {
 private:
 	bool inputValue1;
 	bool inputValue2;
 	bool outputValue;
 
 public:
-	XORGateComponent();
-	XORGateComponent(XORGateComponent& object);
-	virtual ~XORGateComponent();
+	CXORGateComponent();
+	CXORGateComponent(CXORGateComponent& object);
+	virtual ~CXORGateComponent();
 
 	void setInputValue1(bool _inputValue1);
 	bool getInputValue1();
