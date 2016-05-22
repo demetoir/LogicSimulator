@@ -102,10 +102,33 @@ void CFileView::FillFileView()
 {	// tool box data
 	HTREEITEM hRoot = m_wndFileView.InsertItem(_T("Logic Simulator"), 0, 0);
 	m_wndFileView.SetItemState(hRoot, TVIS_BOLD, TVIS_BOLD);
+	HTREEITEM hWire = m_wndFileView.InsertItem(_T("Wire"), 0, 0, hRoot);
+	m_wndFileView.InsertItem(_T("Wire"), 1, 2, hWire);
+	m_wndFileView.InsertItem(_T("Pin"), 1, 2, hWire);
+	m_wndFileView.InsertItem(_T("Probe"), 1, 2, hWire);
+	/* http://www.devpia.com/MAEUL/Contents/Detail.aspx?BoardID=50&MAEULNo=20&no=224857&ref=224684
+	m_ImageList1.Create(IDB_BITMAP2,16,2,RGB(255,255,255));      
+    m_pTreeCtrl->SetImageList(&m_ImageList1,TVSIL_NORMAL); 
 
+	enum {INDEX_MYCOM,INDEX_DRIVE,INDEX_CLOSEFOLDER,INDEX_OPENFOLDER,INDEX_SELECT};
+
+	m_imagelist.Create(16,16,ILC_MASK|ILC_COLOR8,0,0);
+	m_imagelist.Add(AfxGetApp()->LoadIcon(IDI_MYCOM));
+	m_imagelist.Add(AfxGetApp()->LoadIcon(IDI_DRIVE));
+	m_imagelist.Add(AfxGetApp()->LoadIcon(IDI_CLOSEFOLDER));
+	m_imagelist.Add(AfxGetApp()->LoadIcon(IDI_OPENFOLDER));
+	m_imagelist.Add(AfxGetApp()->LoadIcon(IDI_SELECT));
+	m_foldertree.SetImageList(&m_imagelist,TVSIL_NORMAL);
+
+	m_foldertree.InsertItem(String,INDEX_CLOSEFOLDER,INDEX_OPENFOLDER,hParent,0);
+	
+	DWORD maskcolor = RGB(255,255,255);
+	m.bitmap1.LoadBitmap(IDB_BITMAP1);
+	m_imagelist.Add(&m_bitmap1,maskcolor);
+
+	*/
 	HTREEITEM hLog = m_wndFileView.InsertItem(_T("Logic Gate"), 0, 0, hRoot);
 
-	m_wndFileView.InsertItem(_T("Wire"), 1, 2, hLog);
 	m_wndFileView.InsertItem(_T("AND"), 1, 2, hLog);
 	m_wndFileView.InsertItem(_T("NAND"), 1, 2, hLog);
 	m_wndFileView.InsertItem(_T("OR"), 1, 2, hLog);
