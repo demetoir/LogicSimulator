@@ -6,7 +6,7 @@ CLibraryBox::CLibraryBox()
 	componentList.resize(10);
 	inputPinIDList.resize(10);
 	outputPinIDList.resize(10);
-	componentIDList.resize(10, COMPONENT_TYPE_NONE);
+	componentTypeList.resize(10, COMPONENT_TYPE_NONE);
 	connnectionGraph.resize(10);
 	connectedTerminalInfo.resize(10);
 }
@@ -15,30 +15,36 @@ CLibraryBox::CLibraryBox(CLibraryBox & object)
 	:CComponentObject(object)
 {
 	setComponentName(std::string("library box"));
-	
+
 }
 
 CLibraryBox::~CLibraryBox()
 {
+	//동적 할당되는 부분을 모두 해제함
+	for (int i = 0; i < componentList.size(); i++) {
+		if (componentTypeList[i] == COMPONENT_TYPE_NONE) {
+			delete componentList[i];
+		}
+	}
 }
 
 COMPONENT_ID CLibraryBox::getNewComponetID(COMPONENT_TYPE componentType)
 {
 	int availableID = -1;
-	for (int i = 1; i < componentIDList.size(); i++){
-		if (componentIDList[i] == COMPONENT_TYPE_NONE) {
-			componentIDList[i] = componentType;
+	for (int i = 1; i < componentTypeList.size(); i++) {
+		if (componentTypeList[i] == COMPONENT_TYPE_NONE) {
+			componentTypeList[i] = componentType;
 			return i;
 		}
 	}
-	availableID = componentIDList.size();
-	componentIDList.push_back(componentType);
+	availableID = componentTypeList.size();
+	componentTypeList.push_back(componentType);
 	return availableID;
 }
 
 void CLibraryBox::deleteComponentID(COMPONENT_ID deleteId)
 {
-	componentIDList[deleteId] = COMPONENT_TYPE_NONE;
+	componentTypeList[deleteId] = COMPONENT_TYPE_NONE;
 }
 
 void CLibraryBox::loadLibrarybox(std::vector<LIBRARY_BOX_DATA>& LibraryBoxData)
@@ -64,7 +70,7 @@ bool CLibraryBox::getSingleInputPinValue(int _inputPinNumber)
 	CComponentObject* componentObject = ((CComponentObject*)componentList[inputPinID]);
 	CInputPinComponent* inputPinObject = ((CInputPinComponent*)componentObject);
 	return inputPinObject->getValue();
-	
+
 }
 
 bool CLibraryBox::getSingleOutputPinValue(int _outPutPinNumber)
@@ -78,14 +84,14 @@ bool CLibraryBox::getSingleOutputPinValue(int _outPutPinNumber)
 
 bool CLibraryBox::addComponent(COMPONENT_INFO & componentInfo)
 {
-	COMPONENT_TYPE newComponentType ;
+	COMPONENT_TYPE newComponentType;
 	int newX, newY;
 	enum DIRECTION newDirection;
 	COMPONENT_ID newComponentID;
 
 	newComponentType = componentInfo.componentType;
 	newX = componentInfo.x;
-	newY = componentInfo.y; 
+	newY = componentInfo.y;
 	newDirection = componentInfo.direction;
 	newComponentID = getNewComponetID(newComponentType);
 	componentInfo.componentID = newComponentID;
@@ -97,7 +103,7 @@ bool CLibraryBox::addComponent(COMPONENT_INFO & componentInfo)
 
 	switch (newComponentType)
 	{
-	// input component
+		// input component
 	case COMPONENT_TYPE_INPUT_PIN:
 		inputPinIDList.push_back(newComponentID);
 		componentList[newComponentID] = new CInputPinComponent();
@@ -105,7 +111,7 @@ bool CLibraryBox::addComponent(COMPONENT_INFO & componentInfo)
 		((CComponentObject*)componentList[newComponentID])->setX(newX);
 		((CComponentObject*)componentList[newComponentID])->setY(newY);
 
-		break;			
+		break;
 	case COMPONENT_TYPE_CLOCK:
 		componentList[newComponentID] = new CClockComponent();
 		((CComponentObject*)componentList[newComponentID])->setDirection(newDirection);
@@ -119,13 +125,13 @@ bool CLibraryBox::addComponent(COMPONENT_INFO & componentInfo)
 		((CComponentObject*)componentList[newComponentID])->setY(newY);
 		break;
 
-	//logic gate component
+		//logic gate component
 	case COMPONENT_TYPE_AND_GATE:
-componentList[newComponentID] = new CANDGateComponent();
-((CComponentObject*)componentList[newComponentID])->setDirection(newDirection);
-((CComponentObject*)componentList[newComponentID])->setX(newX);
-((CComponentObject*)componentList[newComponentID])->setY(newY);
-break;
+		componentList[newComponentID] = new CANDGateComponent();
+		((CComponentObject*)componentList[newComponentID])->setDirection(newDirection);
+		((CComponentObject*)componentList[newComponentID])->setX(newX);
+		((CComponentObject*)componentList[newComponentID])->setY(newY);
+		break;
 	case COMPONENT_TYPE_OR_GATE:
 		componentList[newComponentID] = new CORGateComponent();
 		((CComponentObject*)componentList[newComponentID])->setDirection(newDirection);
@@ -197,7 +203,7 @@ break;
 bool CLibraryBox::deleteComponent(COMPONENT_ID _componentID)
 {
 	//존재하지 않은 부품을 삭제하려고 하면 false 반환
-	if (componentIDList[_componentID] == COMPONENT_TYPE_NONE) {
+	if (componentTypeList[_componentID] == COMPONENT_TYPE_NONE) {
 		return false;
 	}
 
@@ -216,19 +222,19 @@ bool CLibraryBox::deleteComponent(COMPONENT_ID _componentID)
 		//연결된 반대편의 부품에서 터미널정보를 갱신함
 		for (int j = 0; j < connectedTerminalInfo[nextID].size(); j++) {
 			deleteConnetionInfo = &connectedTerminalInfo[nextID][j];
-  			if (deleteConnetionInfo->componentID == nextConnectionInfo->componentID) {
+			if (deleteConnetionInfo->componentID == nextConnectionInfo->componentID) {
 				connectedTerminalInfo[nextID].erase(connectedTerminalInfo[nextID].begin() + j);
 				break;
 			}
 		}
 		//연결된 반대편의 부품에서 그래프연결을 끊음
-		for (int j = 0; j < connnectionGraph[nextID].size(); j++){
+		for (int j = 0; j < connnectionGraph[nextID].size(); j++) {
 			deleteConnetionInfo = &connnectionGraph[nextID][j];
 			if (deleteConnetionInfo->componentID == _componentID) {
 				connnectionGraph[nextID].erase(connnectionGraph[nextID].begin() + j);
 				break;
 			}
-		}		
+		}
 	}
 
 	//지워지는 부품의 그래프와 터미널 정보를 갱신함
@@ -238,15 +244,15 @@ bool CLibraryBox::deleteComponent(COMPONENT_ID _componentID)
 	//컴포넌트 아이디 삭제
 	deleteComponentID(_componentID);
 	delete componentList[_componentID];
-	
+
 	return true;
 }
 
 bool CLibraryBox::connectComponentAndWire(COMPONENT_CONENTION_INFO & ComponentInfo, COMPONENT_CONENTION_INFO & wireInfo)
 {
 	// 존재하지 않는 부품이랑 연결하려할떄 연결못하게함
-	if (componentIDList[ComponentInfo.componentID] == COMPONENT_TYPE_NONE ||
-		componentIDList[wireInfo.componentID] == COMPONENT_TYPE_NONE) {
+	if (componentTypeList[ComponentInfo.componentID] == COMPONENT_TYPE_NONE ||
+		componentTypeList[wireInfo.componentID] == COMPONENT_TYPE_NONE) {
 		return false;
 	}
 
@@ -258,7 +264,7 @@ bool CLibraryBox::connectComponentAndWire(COMPONENT_CONENTION_INFO & ComponentIn
 			connectionInfo->terminalNumber == ComponentInfo.terminalNumber&&
 			connectionInfo->terminalType == ComponentInfo.terminalType) {
 			return false;
-		}			
+		}
 	}
 	// 연결하려는 줄의 단자가 이미 사용중인자 검사
 	for (int i = 0; i < connectedTerminalInfo[wireInfo.componentID].size(); i++) {
@@ -281,8 +287,8 @@ bool CLibraryBox::connectComponentAndWire(COMPONENT_CONENTION_INFO & ComponentIn
 bool CLibraryBox::disconnectComponentAndWire(COMPONENT_CONENTION_INFO & ComponentInfo, COMPONENT_CONENTION_INFO & wireInfo)
 {
 	// 존재하지 않는 부품이랑 분리하려할떄 연결못하게함
-	if (componentIDList[ComponentInfo.componentID] == COMPONENT_TYPE_NONE ||
-		componentIDList[wireInfo.componentID] == COMPONENT_TYPE_NONE) {
+	if (componentTypeList[ComponentInfo.componentID] == COMPONENT_TYPE_NONE ||
+		componentTypeList[wireInfo.componentID] == COMPONENT_TYPE_NONE) {
 		return false;
 	}
 
@@ -309,7 +315,7 @@ bool CLibraryBox::disconnectComponentAndWire(COMPONENT_CONENTION_INFO & Componen
 			break;
 		}
 	}
-	
+
 	COMPONENT_CONENTION_INFO* connectionInfo;
 	//사용했던 부품의 단자의 목록을 갱신함
 	for (int i = 0; i < connectedTerminalInfo[ComponentInfo.componentID].size(); i++) {
@@ -321,7 +327,7 @@ bool CLibraryBox::disconnectComponentAndWire(COMPONENT_CONENTION_INFO & Componen
 			break;
 		}
 	}
-	
+
 	//사용했던 와이어의 단자를 갱신함
 	for (int i = 0; i < connectedTerminalInfo[wireInfo.componentID].size(); i++) {
 		connectionInfo = &connectedTerminalInfo[wireInfo.componentID][i];
@@ -339,8 +345,8 @@ bool CLibraryBox::disconnectComponentAndWire(COMPONENT_CONENTION_INFO & Componen
 bool CLibraryBox::connectWireAndWire(COMPONENT_CONENTION_INFO & wireA, COMPONENT_CONENTION_INFO & wireB)
 {
 	//둘중 하나라도 존재하지않는 부품일떄
-	if (componentIDList[wireA.componentID] == COMPONENT_TYPE_NONE ||
-		componentIDList[wireB.componentID] == COMPONENT_TYPE_NONE) {
+	if (componentTypeList[wireA.componentID] == COMPONENT_TYPE_NONE ||
+		componentTypeList[wireB.componentID] == COMPONENT_TYPE_NONE) {
 		return false;
 	}
 	COMPONENT_CONENTION_INFO* wire;
@@ -374,13 +380,13 @@ bool CLibraryBox::connectWireAndWire(COMPONENT_CONENTION_INFO & wireA, COMPONENT
 bool CLibraryBox::disconnectWireAndWire(COMPONENT_CONENTION_INFO & wireA, COMPONENT_CONENTION_INFO & wireB)
 {
 	//존재하지 와이어를 분리하려는지 검사함
-	if (componentIDList[wireA.componentID] == COMPONENT_TYPE_NONE ||
-		componentIDList[wireB.componentID] == COMPONENT_TYPE_NONE) {
+	if (componentTypeList[wireA.componentID] == COMPONENT_TYPE_NONE ||
+		componentTypeList[wireB.componentID] == COMPONENT_TYPE_NONE) {
 		return false;
 	}
 
 	//연결 그래프에서 서로 와이어를 분리함
-	COMPONENT_CONENTION_INFO* currentWire;	
+	COMPONENT_CONENTION_INFO* currentWire;
 	for (int i = 0; i < connnectionGraph[wireA.componentID].size(); i++) {
 		currentWire = &connnectionGraph[wireA.componentID][i];
 		if (currentWire->componentID == wireB.componentID &&
@@ -409,7 +415,7 @@ bool CLibraryBox::disconnectWireAndWire(COMPONENT_CONENTION_INFO & wireA, COMPON
 			terminalInfo->terminalType == wireA.terminalType) {
 			connnectionGraph[wireA.componentID].erase(connnectionGraph[wireA.componentID].begin() + i);
 			break;
-		}	
+		}
 	}
 	for (int i = 0; i < connnectionGraph[wireB.componentID].size(); i++) {
 		terminalInfo = &connnectionGraph[wireB.componentID][i];
