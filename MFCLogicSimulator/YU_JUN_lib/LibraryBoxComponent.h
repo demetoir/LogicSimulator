@@ -67,7 +67,7 @@ struct COMPONENT_CONENTION_INFO {
 	int terminalNumber;
 };
 
-
+//세이브 로드 할 구조체
 struct LIBRARY_BOX_DATA {
 	LIBRARY_BOX_DATA() {
 
@@ -97,10 +97,13 @@ private:
 	std::vector<COMPONENT_ID> inputPinIDList;
 	std::vector<COMPONENT_ID> outputPinIDList;
 
-	std::vector<std::vector<COMPONENT_CONENTION_INFO>> connnectionInfo;
+	//부품간을 연결나타내는 방향 그래프의 인접리스트  
+	std::vector<std::vector<COMPONENT_CONENTION_INFO>> connnectionGraph;
 
-	//부품간의 그래프를표현할 2중 vector
-	std::vector< std::vector<int> > componetGraph;
+	//부품에 어떤 단자가 사용중인지 알려주는 이차원 벡터
+	std::vector<std::vector<COMPONENT_CONENTION_INFO>> connectedTerminalInfo;
+
+
 
 	//부품들의 ID를 저장하는 벡터
 	std::vector< COMPONENT_TYPE >  componentIDList;
@@ -135,11 +138,17 @@ public:
 	void deleteOutputPin(COMPONENT_ID outputPinID);
 	bool deleteComponent(COMPONENT_ID componentID);
 	
-	//연결되지않은 부품을 연결함
+	//연결되지않은 부품과 와이어를 연결함
 	bool connectComponentAndWire(COMPONENT_CONENTION_INFO& ComponentInfo, COMPONENT_CONENTION_INFO& wireInfo);
 	
-	//연결된 부품을 분리함
+	//와이어와 연결된 부품을 분리함
 	bool disconnectComponentAndWire(COMPONENT_CONENTION_INFO& ComponentInfo, COMPONENT_CONENTION_INFO& wireInfo);
+
+	//wireA 에 juntion을 만들고 거기 에다가 wireB를 연결함
+	bool connectWireAndWire(COMPONENT_CONENTION_INFO& wireA, COMPONENT_CONENTION_INFO& wireB);
+
+	//wireA 에 juntion을 제거하고 wireB를 분리함
+	bool disconnectWireAndWire(COMPONENT_CONENTION_INFO& wireA, COMPONENT_CONENTION_INFO& wireB);
 
 	//라이브러리 박스 내부회로 갱신 
 	bool updateCircuit();
