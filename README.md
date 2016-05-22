@@ -1,7 +1,7 @@
 # LogicSimulator
 
 # MFCLogicSimulator
-# ±¸Çö ÆÄÆ®
+# êµ¬í˜„ íŒŒíŠ¸
 
 # YU_JUN_lib
-# ·ÎÁ÷ ÆÄÆ®
+# ë¡œì§ íŒŒíŠ¸
