@@ -146,7 +146,7 @@ BOOL CMainFrame::CreateDockingWindows()
 	ASSERT(bNameValid);
 	if (!m_wndFileView.Create(strFileView, this, CRect(0, 0, 200, 200), TRUE, ID_VIEW_FILEVIEW, WS_CHILD | WS_VISIBLE | WS_CLIPSIBLINGS | WS_CLIPCHILDREN | CBRS_LEFT| CBRS_FLOAT_MULTI))
 	{
-		TRACE0("파일 뷰 창을 만들지 못했습니다.\n");
+		TRACE0("도구 상자 창을 만들지 못했습니다.\n");
 		return FALSE; // 만들지 못했습니다.
 	}
 

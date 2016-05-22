@@ -225,6 +225,3 @@ void CMFCLogicSimulatorApp::SaveCustomState()
 }
 
 // CMFCLogicSimulatorApp 메시지 처리기
-
-
-

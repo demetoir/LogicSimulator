@@ -30,6 +30,12 @@ BEGIN_MESSAGE_MAP(CChildFrame, CMDIChildWndEx)
 	ON_COMMAND(ID_FILE_PRINT_DIRECT, &CChildFrame::OnFilePrint)
 	ON_COMMAND(ID_FILE_PRINT_PREVIEW, &CChildFrame::OnFilePrintPreview)
 	ON_UPDATE_COMMAND_UI(ID_FILE_PRINT_PREVIEW, &CChildFrame::OnUpdateFilePrintPreview)
+	ON_UPDATE_COMMAND_UI(ID_CHECKOUTPUT, &CChildFrame::OnUpdateCheckoutput)
+	ON_COMMAND(ID_CHECKOUTPUT, &CChildFrame::OnCheckoutput)
+	ON_COMMAND(ID_CHECKPROPERTIES, &CChildFrame::OnCheckproperties)
+	ON_UPDATE_COMMAND_UI(ID_CHECKPROPERTIES, &CChildFrame::OnUpdateCheckproperties)
+	ON_COMMAND(ID_CHECKTOOLBOX, &CChildFrame::OnChecktoolbox)
+	ON_UPDATE_COMMAND_UI(ID_CHECKTOOLBOX, &CChildFrame::OnUpdateChecktoolbox)
 END_MESSAGE_MAP()
 
 // CChildFrame 생성/소멸
@@ -88,4 +94,42 @@ void CChildFrame::OnFilePrintPreview()
 void CChildFrame::OnUpdateFilePrintPreview(CCmdUI* pCmdUI)
 {
 	pCmdUI->SetCheck(m_dockManager.IsPrintPreviewValid());
+}
+
+
+/*************** Ribbon check box 처리기 *****************/
+void CChildFrame::OnCheckoutput()
+{
+	// TODO: 여기에 명령 처리기 코드를 추가합니다.
+}
+
+void CChildFrame::OnUpdateCheckoutput(CCmdUI *pCmdUI)
+{
+	// TODO: 여기에 명령 업데이트 UI 처리기 코드를 추가합니다.
+	pCmdUI->SetCheck(BST_CHECKED);
+}
+
+void CChildFrame::OnCheckproperties()
+{
+	// TODO: 여기에 명령 처리기 코드를 추가합니다.
+}
+
+
+void CChildFrame::OnUpdateCheckproperties(CCmdUI *pCmdUI)
+{
+	// TODO: 여기에 명령 업데이트 UI 처리기 코드를 추가합니다.
+	pCmdUI->SetCheck(BST_CHECKED);
+}
+
+
+void CChildFrame::OnChecktoolbox()
+{
+	// TODO: 여기에 명령 처리기 코드를 추가합니다.
+}
+
+
+void CChildFrame::OnUpdateChecktoolbox(CCmdUI *pCmdUI)
+{
+	// TODO: 여기에 명령 업데이트 UI 처리기 코드를 추가합니다.
+	pCmdUI->SetCheck(BST_CHECKED);
 }

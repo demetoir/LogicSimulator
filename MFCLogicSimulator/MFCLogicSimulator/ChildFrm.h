@@ -43,4 +43,11 @@ protected:
 	afx_msg void OnFilePrintPreview();
 	afx_msg void OnUpdateFilePrintPreview(CCmdUI* pCmdUI);
 	DECLARE_MESSAGE_MAP()
+public:
+	afx_msg void OnUpdateCheckoutput(CCmdUI *pCmdUI);
+	afx_msg void OnCheckoutput();
+	afx_msg void OnCheckproperties();
+	afx_msg void OnUpdateCheckproperties(CCmdUI *pCmdUI);
+	afx_msg void OnChecktoolbox();
+	afx_msg void OnUpdateChecktoolbox(CCmdUI *pCmdUI);
 };

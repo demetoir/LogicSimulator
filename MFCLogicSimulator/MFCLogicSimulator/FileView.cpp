@@ -63,7 +63,7 @@ int CFileView::OnCreate(LPCREATESTRUCT lpCreateStruct)
 	
 	if (!m_wndFileView.Create(dwViewStyle, rectDummy, this, 4))
 	{
-		TRACE0("파일 뷰를 만들지 못했습니다.\n");
+		TRACE0("도구 상자를 만들지 못했습니다.\n");
 		return -1;      // 만들지 못했습니다.
 	}
 

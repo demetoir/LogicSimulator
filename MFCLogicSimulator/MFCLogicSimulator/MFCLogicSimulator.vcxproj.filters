@@ -183,5 +183,17 @@
     <Image Include="res\AND.bmp">
       <Filter>리소스 파일</Filter>
     </Image>
+    <Image Include="res\class_view.ico">
+      <Filter>리소스 파일</Filter>
+    </Image>
+    <Image Include="res\class_view_hc.ico">
+      <Filter>리소스 파일</Filter>
+    </Image>
+    <Image Include="res\classview.bmp">
+      <Filter>리소스 파일</Filter>
+    </Image>
+    <Image Include="res\classview_hc.bmp">
+      <Filter>리소스 파일</Filter>
+    </Image>
   </ItemGroup>
 </Project>
