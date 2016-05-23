@@ -2,12 +2,16 @@
 
 CLibraryBox::CLibraryBox()
 {
-	componentList.resize(10);
-	inputPinIDList.resize(10);
-	outputPinIDList.resize(10);
-	componentTypeList.resize(10, COMPONENT_TYPE_NONE);
-	connnectionGraph.resize(10);
-	connectedTerminalInfo.resize(10);
+	componentVector.resize(VECTOR_INIT_SIZE);
+
+	inputPinIDVector.resize(VECTOR_INIT_SIZE);
+	outputPinIDVector.resize(VECTOR_INIT_SIZE);
+
+	componentTypeVector.resize(VECTOR_INIT_SIZE, COMPONENT_TYPE_NONE);
+	componentIDVector.resize(VECTOR_INIT_SIZE);
+	connnectionGraph.resize(VECTOR_INIT_SIZE);
+	connectedTerminalInfo.resize(VECTOR_INIT_SIZE);
+
 }
 
 CLibraryBox::CLibraryBox(CLibraryBox & object)
@@ -19,42 +23,40 @@ CLibraryBox::CLibraryBox(CLibraryBox & object)
 CLibraryBox::~CLibraryBox()
 {
 	//동적 할당되는 부분을 모두 해제함
-	for (int i = 0; i < componentList.size(); i++) {
-		if (componentTypeList[i] == COMPONENT_TYPE_NONE) {
-			delete componentList[i];
+	for (int i = 0; i < componentVector.size(); i++) {
+		if (componentTypeVector[i] == COMPONENT_TYPE_NONE) {
+			delete componentVector[i];
 		}
 	}
 }
 
-COMPONENT_ID CLibraryBox::getNewComponetID(COMPONENT_TYPE componentType)
+//새로운 컴포넌트 아이디를 생성해줌
+COMPONENT_ID CLibraryBox::makeNewComponetID(COMPONENT_TYPE componentType)
 {
-	for (int i = 1; i < componentTypeList.size(); i++) {
-		if (componentTypeList[i] == COMPONENT_TYPE_NONE) {
-			componentTypeList[i] = componentType;
+	for (int i = 1; i < componentTypeVector.size(); i++) {
+		if (componentIDVector[i] == false) {
+			componentIDVector[i] = false;
+			componentTypeVector[i] = componentType;
 			return i;
 		}
 	}
-	componentTypeList.push_back(componentType);
-	return componentTypeList.size()-1;
+	componentIDVector.push_back(true);
+	componentTypeVector.push_back(componentType);
+	return componentTypeVector.size()-1;
 }
 
+//컴포넌트 아이디를 삭제함
 void CLibraryBox::deleteComponentID(COMPONENT_ID deleteId)
 {
-	componentTypeList[deleteId] = COMPONENT_TYPE_NONE;
-}
-
-void CLibraryBox::loadLibrarybox(std::vector<LIBRARY_BOX_DATA>& LibraryBoxData)
-{
-	for (int i = 0; i < LibraryBoxData.size(); i++) {
-		LibraryBoxData[i];
-	}
+	componentTypeVector[deleteId] = COMPONENT_TYPE_NONE;
+	componentIDVector[deleteId] = false;
 }
 
 void CLibraryBox::setSingleInputPinValue(bool _inputValue, int _inputPinNumber)
 {
 	COMPONENT_ID inputPinID;
-	inputPinID = inputPinIDList[_inputPinNumber];
-	CComponentObject* componentObject = ((CComponentObject*)componentList[inputPinID]);
+	inputPinID = inputPinIDVector[_inputPinNumber];
+	CComponentObject* componentObject = ((CComponentObject*)componentVector[inputPinID]);
 	CInputPinComponent* inputPinObject = ((CInputPinComponent*)componentObject);
 	inputPinObject->setValue(_inputValue);
 }
@@ -62,8 +64,8 @@ void CLibraryBox::setSingleInputPinValue(bool _inputValue, int _inputPinNumber)
 bool CLibraryBox::getSingleInputPinValue(int _inputPinNumber)
 {
 	COMPONENT_ID inputPinID;
-	inputPinID = inputPinIDList[_inputPinNumber];
-	CComponentObject* componentObject = ((CComponentObject*)componentList[inputPinID]);
+	inputPinID = inputPinIDVector[_inputPinNumber];
+	CComponentObject* componentObject = ((CComponentObject*)componentVector[inputPinID]);
 	CInputPinComponent* inputPinObject = ((CInputPinComponent*)componentObject);
 	return inputPinObject->getValue();
 
@@ -72,8 +74,8 @@ bool CLibraryBox::getSingleInputPinValue(int _inputPinNumber)
 bool CLibraryBox::getSingleOutputPinValue(int _outPutPinNumber)
 {
 	COMPONENT_ID outputPinID;
-	outputPinID = inputPinIDList[_outPutPinNumber];
-	CComponentObject* componentObject = ((CComponentObject*)componentList[outputPinID]);
+	outputPinID = inputPinIDVector[_outPutPinNumber];
+	CComponentObject* componentObject = ((CComponentObject*)componentVector[outputPinID]);
 	CInputPinComponent* outputPinObject = ((CInputPinComponent*)componentObject);
 	return outputPinObject->getValue();
 }
@@ -82,14 +84,15 @@ bool CLibraryBox::addComponent(COMPONENT_INFO & componentInfo)
 {
 	COMPONENT_TYPE newComponentType;
 	COMPONENT_ID newComponentID;
-
+	
+	//아이디를 할당해줌
 	newComponentType = componentInfo.componentType;
-
-	newComponentID = getNewComponetID(newComponentType);
+	newComponentID = makeNewComponetID(newComponentType);
 	componentInfo.componentID = newComponentID;
-	// 더 추가 해야 할경우 확장함
-	if (componentList.size() <= newComponentID) {
-		componentList.resize(componentList.size() + 10);
+
+	//부품들의 저장할공간과 그래프의 용량을 더 추가 해야 할경우 확장함
+	if (componentVector.size() <= newComponentID) {
+		componentVector.resize(componentVector.size() + 10);
 		connnectionGraph.resize(connnectionGraph.size() + 10);
 	}
 
@@ -97,61 +100,61 @@ bool CLibraryBox::addComponent(COMPONENT_INFO & componentInfo)
 	{
 		// input component
 	case COMPONENT_TYPE_INPUT_PIN:
-		inputPinIDList.push_back(newComponentID);
-		componentList[newComponentID] = new CInputPinComponent();
+		inputPinIDVector.push_back(newComponentID);
+		componentVector[newComponentID] = new CInputPinComponent();
 
 
 		break;
 	case COMPONENT_TYPE_CLOCK:
-		componentList[newComponentID] = new CClockComponent();
+		componentVector[newComponentID] = new CClockComponent();
 		break;
 	case COMPONENT_TYPE_ONE_BIT_SWITCH:
-		componentList[newComponentID] = new COneBitSwitchComponent();
+		componentVector[newComponentID] = new COneBitSwitchComponent();
 
 		break;
 
 		//logic gate component
 	case COMPONENT_TYPE_AND_GATE:
-		componentList[newComponentID] = new CANDGateComponent();
+		componentVector[newComponentID] = new CANDGateComponent();
 
 		break;
 	case COMPONENT_TYPE_OR_GATE:
-		componentList[newComponentID] = new CORGateComponent();
+		componentVector[newComponentID] = new CORGateComponent();
 
 		break;
 	case COMPONENT_TYPE_NOT_GATE:
-		componentList[newComponentID] = new CNOTGateComponent();
+		componentVector[newComponentID] = new CNOTGateComponent();
 
 		break;
 	case COMPONENT_TYPE_NAND_GATE:
-		componentList[newComponentID] = new CNANDGateComponent();
+		componentVector[newComponentID] = new CNANDGateComponent();
 
 		break;
 	case COMPONENT_TYPE_NOR_GATE:
-		componentList[newComponentID] = new CNORGateComponent();
+		componentVector[newComponentID] = new CNORGateComponent();
 
 		break;
 	case COMPONENT_TYPE_XOR_GATE:
-		componentList[newComponentID] = new CXORGateComponent();
+		componentVector[newComponentID] = new CXORGateComponent();
 
 		break;
 
 		//wire component
 	case COMPONENT_TYPE_WIRE:
-		componentList[newComponentID] = new CWireComponent();
+		componentVector[newComponentID] = new CWireComponent();
 		break;
 
 		//output component
 	case COMPONENT_TYPE_7SEGMENT:
-		componentList[newComponentID] = new C7SegmentComponent();
+		componentVector[newComponentID] = new C7SegmentComponent();
 
 		break;
 	case COMPONENT_TYPE_OUTPUT_PIN:
-		componentList[newComponentID] = new COutputPinComponent();
+		componentVector[newComponentID] = new COutputPinComponent();
 
 		break;
 	case COMPONENT_TYPE_ONE_BIT_LAMP:
-		componentList[newComponentID] = new COneBitLampComponent();
+		componentVector[newComponentID] = new COneBitLampComponent();
 
 		break;
 
@@ -169,7 +172,7 @@ bool CLibraryBox::addComponent(COMPONENT_INFO & componentInfo)
 bool CLibraryBox::deleteComponent(COMPONENT_ID _componentID)
 {
 	//존재하지 않은 부품을 삭제하려고 하면 false 반환
-	if (componentTypeList[_componentID] == COMPONENT_TYPE_NONE) {
+	if (componentTypeVector[_componentID] == COMPONENT_TYPE_NONE) {
 		return false;
 	}
 
@@ -208,7 +211,7 @@ bool CLibraryBox::deleteComponent(COMPONENT_ID _componentID)
 
 	//컴포넌트 아이디 삭제
 	deleteComponentID(_componentID);
-	delete componentList[_componentID];
+	delete componentVector[_componentID];
 
 	return true;
 }
@@ -216,8 +219,8 @@ bool CLibraryBox::deleteComponent(COMPONENT_ID _componentID)
 bool CLibraryBox::connectComponentAndWire(COMPONENT_CONENTION_INFO & ComponentInfo, COMPONENT_CONENTION_INFO & wireInfo)
 {
 	// 존재하지 않는 부품이랑 연결하려할떄 연결못하게함
-	if (componentTypeList[ComponentInfo.componentID] == COMPONENT_TYPE_NONE ||
-		componentTypeList[wireInfo.componentID] == COMPONENT_TYPE_NONE) {
+	if (componentTypeVector[ComponentInfo.componentID] == COMPONENT_TYPE_NONE ||
+		componentTypeVector[wireInfo.componentID] == COMPONENT_TYPE_NONE) {
 		return false;
 	}
 
@@ -252,8 +255,8 @@ bool CLibraryBox::connectComponentAndWire(COMPONENT_CONENTION_INFO & ComponentIn
 bool CLibraryBox::disconnectComponentAndWire(COMPONENT_CONENTION_INFO & ComponentInfo, COMPONENT_CONENTION_INFO & wireInfo)
 {
 	// 존재하지 않는 부품이랑 분리하려할떄 연결못하게함
-	if (componentTypeList[ComponentInfo.componentID] == COMPONENT_TYPE_NONE ||
-		componentTypeList[wireInfo.componentID] == COMPONENT_TYPE_NONE) {
+	if (componentTypeVector[ComponentInfo.componentID] == COMPONENT_TYPE_NONE ||
+		componentTypeVector[wireInfo.componentID] == COMPONENT_TYPE_NONE) {
 		return false;
 	}
 
@@ -310,8 +313,8 @@ bool CLibraryBox::disconnectComponentAndWire(COMPONENT_CONENTION_INFO & Componen
 bool CLibraryBox::connectWireAndWire(COMPONENT_CONENTION_INFO & wireA, COMPONENT_CONENTION_INFO & wireB)
 {
 	//둘중 하나라도 존재하지않는 부품일떄
-	if (componentTypeList[wireA.componentID] == COMPONENT_TYPE_NONE ||
-		componentTypeList[wireB.componentID] == COMPONENT_TYPE_NONE) {
+	if (componentTypeVector[wireA.componentID] == COMPONENT_TYPE_NONE ||
+		componentTypeVector[wireB.componentID] == COMPONENT_TYPE_NONE) {
 		return false;
 	}
 	COMPONENT_CONENTION_INFO* wire;
@@ -345,8 +348,8 @@ bool CLibraryBox::connectWireAndWire(COMPONENT_CONENTION_INFO & wireA, COMPONENT
 bool CLibraryBox::disconnectWireAndWire(COMPONENT_CONENTION_INFO & wireA, COMPONENT_CONENTION_INFO & wireB)
 {
 	//존재하지 와이어를 분리하려는지 검사함
-	if (componentTypeList[wireA.componentID] == COMPONENT_TYPE_NONE ||
-		componentTypeList[wireB.componentID] == COMPONENT_TYPE_NONE) {
+	if (componentTypeVector[wireA.componentID] == COMPONENT_TYPE_NONE ||
+		componentTypeVector[wireB.componentID] == COMPONENT_TYPE_NONE) {
 		return false;
 	}
 
@@ -406,6 +409,12 @@ vector 로 하지만 일일이 찾아서 삭제 하지말고 그냥 다만들어놓고 하기
 */
 bool CLibraryBox::updateCircuit()
 {
+
+	//와이어간에는 양뱡향이다
+	//부품과 와이어간의 단방향으로감
+	//와이어의 output 타입이단자에서 부품의 input 타입 단자로 연결하면 방향은 와이어에서 부품으로 
+	//부품의 output 타입의 단자에서 와이어의 input 타입의 단자로 연결하면 방향은 부품에서 와이로 
+
 	//만약 진동 회로 이면 멈추그만한다...
 
 	//bfs 방식으로 한다
@@ -414,10 +423,10 @@ bool CLibraryBox::updateCircuit()
 
 	//값을 저장해놓음
 	//필요한 사이즈 많큼 할당해놓음
-	componentValueVector.resize(componentTypeList.size());
+	componentValueVector.resize(componentTypeVector.size());
 
 
-	for (int i = 0; i < componentTypeList.size(); i++) {
+	for (int i = 0; i < componentTypeVector.size(); i++) {
 
 
 
@@ -425,8 +434,8 @@ bool CLibraryBox::updateCircuit()
 	}
 
 	//시작점인 인풋핀의 component id 를 큐에다가 넣는다
-	for (int i = 0; i < inputPinIDList.size(); i++) {
-		queue.push(inputPinIDList[i]);
+	for (int i = 0; i < inputPinIDVector.size(); i++) {
+		queue.push(inputPinIDVector[i]);
 	}
 
 
@@ -457,12 +466,12 @@ void CLibraryBox::printstatus()
 
 	//현재 들어있는 컴포넌트들을 과 상태값을 출력한다;
 
-	for (int i = 0; i < componentTypeList.size(); i++) {
+	for (int i = 0; i < componentTypeVector.size(); i++) {
 		//없는거는 생략함
-		if (componentTypeList[i] == COMPONENT_TYPE_NONE){
+		if (componentTypeVector[i] == COMPONENT_TYPE_NONE){
 			continue;
 		}
-		printf("componentID : %d component type: %d\n", i, componentTypeList[i]);
+		printf("componentID : %d component type: %d\n", i, componentTypeVector[i]);
 		printf("component information:\n");
 		//줄일때
 		COMPONENT_CONENTION_INFO* info;

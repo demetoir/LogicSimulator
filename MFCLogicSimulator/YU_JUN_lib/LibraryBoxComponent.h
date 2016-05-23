@@ -37,17 +37,19 @@ enum TERMINAL_TYPE { TERMINAL_TYPE_NONE, TERMINAL_TYPE_INPUT, TERMINAL_TYPE_OUTP
 
 
 //component type 열거형
-enum COMPONENT_TYPE { COMPONENT_TYPE_INPUT_PIN,COMPONENT_TYPE_CLOCK, COMPONENT_TYPE_ONE_BIT_SWITCH,
+enum COMPONENT_TYPE {
+	COMPONENT_TYPE_NONE,	
+	COMPONENT_TYPE_INPUT_PIN,COMPONENT_TYPE_CLOCK, COMPONENT_TYPE_ONE_BIT_SWITCH,
 	COMPONENT_TYPE_AND_GATE, COMPONENT_TYPE_OR_GATE, COMPONENT_TYPE_NOT_GATE,
 	COMPONENT_TYPE_NAND_GATE, COMPONENT_TYPE_NOR_GATE, COMPONENT_TYPE_XOR_GATE,
 	COMPONENT_TYPE_WIRE,
 	COMPONENT_TYPE_7SEGMENT, COMPONENT_TYPE_OUTPUT_PIN, COMPONENT_TYPE_ONE_BIT_LAMP,
-	COMPONENT_TYPE_LIBRARY_BOX,
-	COMPONENT_TYPE_NONE
+	COMPONENT_TYPE_LIBRARY_BOX
 };
 
 #define COMPONENT_ID int 
 
+#define VECTOR_INIT_SIZE 10
 
 //추가할 component의 구조체 
 struct COMPONENT_INFO {
@@ -66,7 +68,12 @@ struct COMPONENT_INFO {
 //연결할 component의 구조체
 struct COMPONENT_CONENTION_INFO {
 	COMPONENT_CONENTION_INFO() {
-		componentID = COMPONENT_TYPE_NONE;
+		componentID = 0;
+		terminalType = TERMINAL_TYPE_NONE;
+		terminalNumber = -1;
+	}
+	COMPONENT_CONENTION_INFO(COMPONENT_ID _componentId, TERMINAL_TYPE _terminalType, int _terminalNumber) {
+		componentID = 0;
 		terminalType = TERMINAL_TYPE_NONE;
 		terminalNumber = -1;
 	}
@@ -102,20 +109,23 @@ struct LIBRARY_BOX_DATA {
 class CLibraryBox :public CComponentObject {
 private:
 	//부품들을 담을 벡터 객체들
-	std::vector<CSimulatorObject*> componentList;
+	std::vector<CSimulatorObject*> componentVector;
 
 	//라이브러리 박스의 인풋핀과 아웃풋 핀을 저장하는 벡터 리스트
-	std::vector<COMPONENT_ID> inputPinIDList;
-	std::vector<COMPONENT_ID> outputPinIDList;
+	std::vector<COMPONENT_ID> inputPinIDVector;
+	std::vector<COMPONENT_ID> outputPinIDVector;
 
-	//부품간을 연결나타내는 방향 그래프의 인접리스트  
+	//부품간을 연결나타내는 무방향 그래프의 인접리스트 
 	std::vector<std::vector<COMPONENT_CONENTION_INFO>> connnectionGraph;
 
 	//부품에 어떤 단자가 사용중인지 알려주는 이차원 벡터
 	std::vector<std::vector<COMPONENT_CONENTION_INFO>> connectedTerminalInfo;
 	
 	//부품들이 가지는 타입을 저장하는 벡터
-	std::vector< COMPONENT_TYPE >  componentTypeList;
+	std::vector< COMPONENT_TYPE >  componentTypeVector;
+
+	//부품들의 아이디를 저장하는 벡터
+	std::vector < bool > componentIDVector;
 
 
 public:
@@ -123,7 +133,10 @@ public:
 	CLibraryBox(CLibraryBox& object);
 	~CLibraryBox();
 	
-	COMPONENT_ID getNewComponetID(COMPONENT_TYPE componentType);
+
+	//부품의 아이디를 만들어줌
+	COMPONENT_ID makeNewComponetID(COMPONENT_TYPE componentType);
+	//부품의 아이디를 삭제함
 	void deleteComponentID(COMPONENT_ID deleteId);
 	
 	//라이브러리 박스를 로드함
@@ -134,25 +147,20 @@ public:
 	//인풋 핀 하나에대한 getter,setter
 	void setSingleInputPinValue(bool _inputValue, int _inputPinNumber);
 	bool getSingleInputPinValue(int _inputPinNumber);
-
 	//아웃풋 핀 하나에대한 getter
 	bool getSingleOutputPinValue(int _outputPinNumber);
 	
 	//부품 추가 실패시 false 반환
-	bool addComponent(COMPONENT_INFO& componentInfo);
-	
+	bool addComponent(COMPONENT_INFO& componentInfo);	
 	//부품삭제
 	bool deleteComponent(COMPONENT_ID componentID);
 	
 	//연결되지않은 부품과 와이어를 연결함
 	bool connectComponentAndWire(COMPONENT_CONENTION_INFO& ComponentInfo, COMPONENT_CONENTION_INFO& wireInfo);
-	
 	//와이어와 연결된 부품을 분리함
 	bool disconnectComponentAndWire(COMPONENT_CONENTION_INFO& ComponentInfo, COMPONENT_CONENTION_INFO& wireInfo);
-
 	//wireA 에 juntion을 만들고 거기 에다가 wireB를 연결함
 	bool connectWireAndWire(COMPONENT_CONENTION_INFO& wireA, COMPONENT_CONENTION_INFO& wireB);
-
 	//wireA 에 juntion을 제거하고 wireB를 분리함
 	bool disconnectWireAndWire(COMPONENT_CONENTION_INFO& wireA, COMPONENT_CONENTION_INFO& wireB);
 
