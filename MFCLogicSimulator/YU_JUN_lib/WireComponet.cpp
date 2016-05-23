@@ -3,9 +3,6 @@
 CWireComponent::CWireComponent()
 {
 	CSimulatorObject();
-	setComponentName(std::string("wire component"));
-	setNumberOfInputTerminal(WIRE_INPUT_TERMINAL_NUMBER);
-	setNumberOfOutputTerminal(WIRE_OUTPUT_TERMINAL_NUMBER);
 	startX = 0;
 	startY = 0;
 	endX = 0;
@@ -17,9 +14,6 @@ CWireComponent::CWireComponent()
 CWireComponent::CWireComponent(CWireComponent&  object)
 	:CSimulatorObject(object)
 {
-	setComponentName(std::string("wire component"));
-	setNumberOfInputTerminal(WIRE_INPUT_TERMINAL_NUMBER);
-	setNumberOfOutputTerminal(WIRE_OUTPUT_TERMINAL_NUMBER);
 	startX = object.getStartX();
 	startY = object.getStartY();
 	endX = object.getEndX();

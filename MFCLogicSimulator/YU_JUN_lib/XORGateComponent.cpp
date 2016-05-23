@@ -2,23 +2,19 @@
 
 CXORGateComponent::CXORGateComponent()
 {
-	setComponentName(std::string("XOR Gate"));
 	inputValue1 = false;
 	inputValue2 = false;
 	outputValue = false;
-	setNumberOfInputTerminal(XOR_GATE_INPUT_TERMINAL_NUMBER);
-	setNumberOfOutputTerminal(XOR_GATE_OUTPUT_TERMINAL_NUMBER);
+
 }
 
 CXORGateComponent::CXORGateComponent(CXORGateComponent & object)
 	:CComponentObject(object)
 {
-	setComponentName(std::string("XOR Gate"));
 	inputValue1 = false;
 	inputValue2 = false;
 	outputValue = false;
-	setNumberOfInputTerminal(XOR_GATE_INPUT_TERMINAL_NUMBER);
-	setNumberOfOutputTerminal(XOR_GATE_OUTPUT_TERMINAL_NUMBER);
+
 }
 
 CXORGateComponent::~CXORGateComponent()

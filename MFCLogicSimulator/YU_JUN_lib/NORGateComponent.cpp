@@ -2,23 +2,17 @@
 
 CNORGateComponent::CNORGateComponent()
 {
-	setComponentName(std::string("NOR Gate"));
 	inputValue1 = false;
 	inputValue2 = false;
 	outputValue = false;
-	setNumberOfInputTerminal(NOR_GATE_INPUT_TERMINAL_NUMBER);
-	setNumberOfOutputTerminal(NOR_GATE_OUTPUT_TERMINAL_NUMBER);
 }
 
 CNORGateComponent::CNORGateComponent(CNORGateComponent & object)
 	:CComponentObject(object)
 {
-	setComponentName(std::string("NOR Gate"));
 	inputValue1 = false;
 	inputValue2 = false;
 	outputValue = false;
-	setNumberOfInputTerminal(NOR_GATE_INPUT_TERMINAL_NUMBER);
-	setNumberOfOutputTerminal(NOR_GATE_OUTPUT_TERMINAL_NUMBER);
 }
 
 CNORGateComponent::~CNORGateComponent()

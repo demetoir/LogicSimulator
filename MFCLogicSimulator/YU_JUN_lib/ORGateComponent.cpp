@@ -2,23 +2,17 @@
 
 CORGateComponent::CORGateComponent()
 {
-	setComponentName(std::string("OR Gate"));
 	inputValue1 = false;
 	inputValue2 = false;
 	outputValue = false;
-	setNumberOfInputTerminal(OR_GATE_INPUT_TERMINAL_NUMBER);
-	setNumberOfOutputTerminal(OR_GATE_OUTPUT_TERMINAL_NUMBER);
 }
 
 CORGateComponent::CORGateComponent(CORGateComponent & object)
 	:CComponentObject(object)
 {
-	setComponentName(std::string("OR Gate"));
 	inputValue1 = false;
 	inputValue2 = false;
 	outputValue = false;
-	setNumberOfInputTerminal(OR_GATE_INPUT_TERMINAL_NUMBER);
-	setNumberOfOutputTerminal(OR_GATE_OUTPUT_TERMINAL_NUMBER);
 }
 
 CORGateComponent::~CORGateComponent()

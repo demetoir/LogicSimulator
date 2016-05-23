@@ -2,23 +2,17 @@
 
 CNANDGateComponent::CNANDGateComponent()
 {
-	setComponentName(std::string("NAND Gate"));
 	inputValue1 = false;
 	inputValue2 = false;
 	outputValue = false;
-	setNumberOfInputTerminal(NAND_GATE_INPUT_TERMINAL_NUMBER);
-	setNumberOfOutputTerminal(NAND_GATE_OUTPUT_TERMINAL_NUMBER);
 }
 
 CNANDGateComponent::CNANDGateComponent(CNANDGateComponent & object)
 	:CComponentObject(object)
 {
-	setComponentName(std::string("NAND Gate"));
 	inputValue1 = false;
 	inputValue2 = false;
 	outputValue = false;
-	setNumberOfInputTerminal(NAND_GATE_INPUT_TERMINAL_NUMBER);
-	setNumberOfOutputTerminal(NAND_GATE_OUTPUT_TERMINAL_NUMBER);
 }
 
 CNANDGateComponent::~CNANDGateComponent()

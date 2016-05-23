@@ -2,7 +2,6 @@
 
 CLibraryBox::CLibraryBox()
 {
-	setComponentName(std::string("library box"));
 	componentList.resize(10);
 	inputPinIDList.resize(10);
 	outputPinIDList.resize(10);
@@ -14,7 +13,6 @@ CLibraryBox::CLibraryBox()
 CLibraryBox::CLibraryBox(CLibraryBox & object)
 	:CComponentObject(object)
 {
-	setComponentName(std::string("library box"));
 
 }
 
@@ -30,16 +28,14 @@ CLibraryBox::~CLibraryBox()
 
 COMPONENT_ID CLibraryBox::getNewComponetID(COMPONENT_TYPE componentType)
 {
-	int availableID = -1;
 	for (int i = 1; i < componentTypeList.size(); i++) {
 		if (componentTypeList[i] == COMPONENT_TYPE_NONE) {
 			componentTypeList[i] = componentType;
 			return i;
 		}
 	}
-	availableID = componentTypeList.size();
 	componentTypeList.push_back(componentType);
-	return availableID;
+	return componentTypeList.size()-1;
 }
 
 void CLibraryBox::deleteComponentID(COMPONENT_ID deleteId)
@@ -179,7 +175,6 @@ bool CLibraryBox::deleteComponent(COMPONENT_ID _componentID)
 
 	//연결된 부품을 찾아서 연결된부품에서 지우려는 부품의 연결을 끊고 사용하는 단자를 갱신함
 	COMPONENT_ID nextID;
-	COMPONENT_CONENTION_INFO* currentConnectionInfo;
 	COMPONENT_CONENTION_INFO* nextConnectionInfo;
 	COMPONENT_CONENTION_INFO* deleteConnetionInfo;
 
