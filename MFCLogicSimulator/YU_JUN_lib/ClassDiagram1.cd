@@ -1,0 +1,165 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="CComponentObject" Collapsed="true">
+    <Position X="14" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAgAAAAAIBCAAAAWAAAAAAAAEIAAAQBgAGAAAAA=</HashCode>
+      <FileName>ComponentObject.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CLibraryBox" Collapsed="true">
+    <Position X="5" Y="3.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AACICASAEAEABAIKCEAAAAAAABAAgAAAABAIAQEIAiQ=</HashCode>
+      <FileName>LibraryBoxComponent.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CSimulatorObject" Collapsed="true">
+    <Position X="15.25" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AEAAAAAAgAAABAAAgIBAAAAAAAIAIEAACAAAAAACAAA=</HashCode>
+      <FileName>SimulatorObject.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CANDGateComponent" Collapsed="true">
+    <Position X="23" Y="3.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>BGAAAAAAAiAAAAAAAAAABAAAAACAQABABAAABAAAAAA=</HashCode>
+      <FileName>ANDGateComponet.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CNANDGateComponent" Collapsed="true">
+    <Position X="0.5" Y="3.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>BEAAAAAAAiAAAAAAAAAABAAAQAGAQABABAAAAAAAAAA=</HashCode>
+      <FileName>NANDGateComponent.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CNORGateComponent" Collapsed="true">
+    <Position X="7.25" Y="3.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>BEAAAAACAiAQAAAAAAAABAAAAACAQABABAAAAAAAAAA=</HashCode>
+      <FileName>NORGateComponent.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CNOTGateComponent" Collapsed="true">
+    <Position X="14" Y="3.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAEAEAAAAAAACAAAAAAABAAAAAAAQABABAAAAAAAABA=</HashCode>
+      <FileName>NOTGateComponent.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CORGateComponent" Collapsed="true">
+    <Position X="20.75" Y="3.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>BEAAAABAAiAAAAAQAAAABAAAAACAQABABAAAAAAAAAA=</HashCode>
+      <FileName>ORGateComponent.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CXORGateComponent" Collapsed="true">
+    <Position X="25.25" Y="3.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>BEAAAAAGAiAAAAAAAAAABAAAAACAQABABAAAAAAAAAA=</HashCode>
+      <FileName>XORGateComponent.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CClockComponent" Collapsed="true">
+    <Position X="2.75" Y="3.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAACAAAQAAAACAAAAIAAACAAAAAACAEAACAAAAAAAA=</HashCode>
+      <FileName>ClockComponent.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CInputPinComponent" Collapsed="true">
+    <Position X="9.5" Y="3.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAACAEAAIAAAAAAAAAASAAAAAAAAAAAAA=</HashCode>
+      <FileName>InputPinComponent.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="COneBitSwitchComponent" Collapsed="true">
+    <Position X="16.25" Y="3.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAgAAAAAAAAAACAAAAIAAAAAAAAEACAAAAAAAAAAAAA=</HashCode>
+      <FileName>OneBitSwitch.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CWireComponent" Collapsed="true">
+    <Position X="29.75" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AEAAAAAAAAAAACMgBAIAAAAAAAAAAiAgAAAAGECAAQQ=</HashCode>
+      <FileName>WireComponet.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="C7SegmentComponent" Collapsed="true">
+    <Position X="27.5" Y="3.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAEAAEAAAAAAAAAIAAAAEAAAAAAAAAQA=</HashCode>
+      <FileName>7SegmentComponent.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="COneBitLampComponent" Collapsed="true">
+    <Position X="11.75" Y="3.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AEAAAAgAAAAAAAAACAABAIAAAgAAAIAAAAAAAAAAAAA=</HashCode>
+      <FileName>OneBitLampComponent.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="COutputPinComponent" Collapsed="true">
+    <Position X="18.5" Y="3.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AACAAAAAIAAAACAAAAIAAAAAAAAAACAAAAAAAAAAAAA=</HashCode>
+      <FileName>OutputPin.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Struct Name="COMPONENT_INFO" Collapsed="true">
+    <Position X="34" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAIAAAAAAAAAAAAAAAAAAQAAAAAAAAACAAAAA=</HashCode>
+      <FileName>LibraryBoxComponent.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="COMPONENT_CONENTION_INFO" Collapsed="true">
+    <Position X="32.25" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAIAAAgAACAAAAAAAAAAAAAAAAACAAAAA=</HashCode>
+      <FileName>LibraryBoxComponent.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="LIBRARY_BOX_DATA" Collapsed="true">
+    <Position X="32.25" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAIBAAgIBAAAAAAAAQAAAAAABgACAAAIA=</HashCode>
+      <FileName>LibraryBoxComponent.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Enum Name="DIRECTION" Collapsed="true">
+    <Position X="34" Y="2.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQAAAAgAAAAAAAAAAAAAAAAAAAEAEAAAAABAAAAAAA=</HashCode>
+      <FileName>ComponentObject.h</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="COMPONENT_TYPE" Collapsed="true">
+    <Position X="32.25" Y="2.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAIQAAQACAIAAAAAAAAABAAEAAQAAAAhEAIAAEAAAA=</HashCode>
+      <FileName>LibraryBoxComponent.h</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="TERMINAL_TYPE" Collapsed="true">
+    <Position X="34" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAEAAAACAAAAAAAAAAAAAgAAAAAAA=</HashCode>
+      <FileName>SimulatorObject.h</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="ONE_BIT_LAMP_STATE" Collapsed="true">
+    <Position X="32.25" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAABQAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>OneBitLampComponent.h</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Font Name="맑은 고딕" Size="8.86" />
+</ClassDiagram>

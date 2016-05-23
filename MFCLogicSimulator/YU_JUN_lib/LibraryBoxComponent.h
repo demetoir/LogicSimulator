@@ -22,7 +22,17 @@
 #include "OutputPin.h"
 #include "7SegmentComponent.h"
 #include "OneBitLampComponent.h"
+
+
 #include <vector>
+#include <queue>
+
+
+//디버깅용 출력하는거
+#include <stdio.h>
+
+
+
 
 //component type 열거형
 enum COMPONENT_TYPE { COMPONENT_TYPE_INPUT_PIN,COMPONENT_TYPE_CLOCK, COMPONENT_TYPE_ONE_BIT_SWITCH,
@@ -36,23 +46,19 @@ enum COMPONENT_TYPE { COMPONENT_TYPE_INPUT_PIN,COMPONENT_TYPE_CLOCK, COMPONENT_T
 
 #define COMPONENT_ID int 
 
-//보류
+
 //추가할 component의 구조체 
 struct COMPONENT_INFO {
 	COMPONENT_INFO() {
 		componentID = 0;
 		componentType = COMPONENT_TYPE_NONE;
-		x = 0;
-		y = 0;
-		direction = DIRECTION_EAST;
-		label = std::string("");
+	}
+	COMPONENT_INFO(COMPONENT_TYPE type) {
+		componentID = 0;
+		componentType = type;
 	}
 	COMPONENT_ID componentID;
 	COMPONENT_TYPE componentType;
-	int x, y;
-	enum DIRECTION direction;
-	std::string label;
-
 };
 
 //연결할 component의 구조체
@@ -67,6 +73,7 @@ struct COMPONENT_CONENTION_INFO {
 	int terminalNumber;
 };
 
+//보류
 //세이브 로드 할 구조체
 struct LIBRARY_BOX_DATA {
 	LIBRARY_BOX_DATA() {
@@ -149,5 +156,8 @@ public:
 
 	//라이브러리 박스 내부회로 갱신 
 	bool updateCircuit();
+	
+	//보여주기여용 상태 정보 출력해주는 프로그램
+	void printstatus();
 
 };

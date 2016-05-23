@@ -85,14 +85,10 @@ bool CLibraryBox::getSingleOutputPinValue(int _outPutPinNumber)
 bool CLibraryBox::addComponent(COMPONENT_INFO & componentInfo)
 {
 	COMPONENT_TYPE newComponentType;
-	int newX, newY;
-	enum DIRECTION newDirection;
 	COMPONENT_ID newComponentID;
 
 	newComponentType = componentInfo.componentType;
-	newX = componentInfo.x;
-	newY = componentInfo.y;
-	newDirection = componentInfo.direction;
+
 	newComponentID = getNewComponetID(newComponentType);
 	componentInfo.componentID = newComponentID;
 	// 더 추가 해야 할경우 확장함
@@ -107,60 +103,41 @@ bool CLibraryBox::addComponent(COMPONENT_INFO & componentInfo)
 	case COMPONENT_TYPE_INPUT_PIN:
 		inputPinIDList.push_back(newComponentID);
 		componentList[newComponentID] = new CInputPinComponent();
-		((CComponentObject*)componentList[newComponentID])->setDirection(newDirection);
-		((CComponentObject*)componentList[newComponentID])->setX(newX);
-		((CComponentObject*)componentList[newComponentID])->setY(newY);
+
 
 		break;
 	case COMPONENT_TYPE_CLOCK:
 		componentList[newComponentID] = new CClockComponent();
-		((CComponentObject*)componentList[newComponentID])->setDirection(newDirection);
-		((CComponentObject*)componentList[newComponentID])->setX(newX);
-		((CComponentObject*)componentList[newComponentID])->setY(newY);
 		break;
 	case COMPONENT_TYPE_ONE_BIT_SWITCH:
 		componentList[newComponentID] = new COneBitSwitchComponent();
-		((CComponentObject*)componentList[newComponentID])->setDirection(newDirection);
-		((CComponentObject*)componentList[newComponentID])->setX(newX);
-		((CComponentObject*)componentList[newComponentID])->setY(newY);
+
 		break;
 
 		//logic gate component
 	case COMPONENT_TYPE_AND_GATE:
 		componentList[newComponentID] = new CANDGateComponent();
-		((CComponentObject*)componentList[newComponentID])->setDirection(newDirection);
-		((CComponentObject*)componentList[newComponentID])->setX(newX);
-		((CComponentObject*)componentList[newComponentID])->setY(newY);
+
 		break;
 	case COMPONENT_TYPE_OR_GATE:
 		componentList[newComponentID] = new CORGateComponent();
-		((CComponentObject*)componentList[newComponentID])->setDirection(newDirection);
-		((CComponentObject*)componentList[newComponentID])->setX(newX);
-		((CComponentObject*)componentList[newComponentID])->setY(newY);
+
 		break;
 	case COMPONENT_TYPE_NOT_GATE:
 		componentList[newComponentID] = new CNOTGateComponent();
-		((CComponentObject*)componentList[newComponentID])->setDirection(newDirection);
-		((CComponentObject*)componentList[newComponentID])->setX(newX);
-		((CComponentObject*)componentList[newComponentID])->setY(newY);
+
 		break;
 	case COMPONENT_TYPE_NAND_GATE:
 		componentList[newComponentID] = new CNANDGateComponent();
-		((CComponentObject*)componentList[newComponentID])->setDirection(newDirection);
-		((CComponentObject*)componentList[newComponentID])->setX(newX);
-		((CComponentObject*)componentList[newComponentID])->setY(newY);
+
 		break;
 	case COMPONENT_TYPE_NOR_GATE:
 		componentList[newComponentID] = new CNORGateComponent();
-		((CComponentObject*)componentList[newComponentID])->setDirection(newDirection);
-		((CComponentObject*)componentList[newComponentID])->setX(newX);
-		((CComponentObject*)componentList[newComponentID])->setY(newY);
+
 		break;
 	case COMPONENT_TYPE_XOR_GATE:
 		componentList[newComponentID] = new CXORGateComponent();
-		((CComponentObject*)componentList[newComponentID])->setDirection(newDirection);
-		((CComponentObject*)componentList[newComponentID])->setX(newX);
-		((CComponentObject*)componentList[newComponentID])->setY(newY);
+
 		break;
 
 		//wire component
@@ -171,21 +148,15 @@ bool CLibraryBox::addComponent(COMPONENT_INFO & componentInfo)
 		//output component
 	case COMPONENT_TYPE_7SEGMENT:
 		componentList[newComponentID] = new C7SegmentComponent();
-		((CComponentObject*)componentList[newComponentID])->setDirection(newDirection);
-		((CComponentObject*)componentList[newComponentID])->setX(newX);
-		((CComponentObject*)componentList[newComponentID])->setY(newY);
+
 		break;
 	case COMPONENT_TYPE_OUTPUT_PIN:
 		componentList[newComponentID] = new COutputPinComponent();
-		((CComponentObject*)componentList[newComponentID])->setDirection(newDirection);
-		((CComponentObject*)componentList[newComponentID])->setX(newX);
-		((CComponentObject*)componentList[newComponentID])->setY(newY);
+
 		break;
 	case COMPONENT_TYPE_ONE_BIT_LAMP:
 		componentList[newComponentID] = new COneBitLampComponent();
-		((CComponentObject*)componentList[newComponentID])->setDirection(newDirection);
-		((CComponentObject*)componentList[newComponentID])->setX(newX);
-		((CComponentObject*)componentList[newComponentID])->setY(newY);
+
 		break;
 
 		//생성할수없음
@@ -194,7 +165,6 @@ bool CLibraryBox::addComponent(COMPONENT_INFO & componentInfo)
 		return false;
 		break;
 	}
-
 
 	//생성 성공
 	return true;
@@ -393,7 +363,7 @@ bool CLibraryBox::disconnectWireAndWire(COMPONENT_CONENTION_INFO & wireA, COMPON
 			currentWire->terminalNumber == wireB.terminalNumber &&
 			currentWire->terminalType == wireB.terminalType) {
 			connnectionGraph[wireA.componentID].erase(connnectionGraph[wireA.componentID].begin() + i);
-			break;
+break;
 		}
 	}
 	for (int i = 0; i < connnectionGraph[wireB.componentID].size(); i++) {
@@ -428,6 +398,101 @@ bool CLibraryBox::disconnectWireAndWire(COMPONENT_CONENTION_INFO & wireA, COMPON
 	}
 
 	return true;
+}
+
+
+
+/*
+메모
+그래프 객체를 필요한 받아와서 정해주기함
+vector 로 하지만 일일이 찾아서 삭제 하지말고 그냥 다만들어놓고 하기
+
+
+*/
+bool CLibraryBox::updateCircuit()
+{
+	//만약 진동 회로 이면 멈추그만한다...
+
+	//bfs 방식으로 한다
+	std::queue<COMPONENT_ID> queue;
+	std::vector< std::vector<bool> > componentValueVector;
+
+	//값을 저장해놓음
+	//필요한 사이즈 많큼 할당해놓음
+	componentValueVector.resize(componentTypeList.size());
+
+
+	for (int i = 0; i < componentTypeList.size(); i++) {
+
+
+
+
+	}
+
+	//시작점인 인풋핀의 component id 를 큐에다가 넣는다
+	for (int i = 0; i < inputPinIDList.size(); i++) {
+		queue.push(inputPinIDList[i]);
+	}
+
+
+	//큐를 돌면서 부품들의 내부정보를 갱신한다
+	while (queue.empty()) {
+
+
+
+
+	}
+	//탐색을 할떄 아웃풋 방향으로 들어가면 더 멈춤
+	//또는 인풋으로 들어갔는데 나오는 아웃풋이 달라지면  달라지는 아웃풋에대해
+	//큐에 추가한다
+	//와이어는 인풋 아웃풋이 상관이없음
+
+	//오큘레이션 디텍션 어떻게 해야함?
+
+
+	return false;
+}
+
+void CLibraryBox::printstatus()
+{
+	printf("\n");
+	printf("################################\n");
+	printf("simultor status \n");
+	printf("################################\n");
+
+	//현재 들어있는 컴포넌트들을 과 상태값을 출력한다;
+
+	for (int i = 0; i < componentTypeList.size(); i++) {
+		//없는거는 생략함
+		if (componentTypeList[i] == COMPONENT_TYPE_NONE){
+			continue;
+		}
+		printf("componentID : %d component type: %d\n", i, componentTypeList[i]);
+		printf("component information:\n");
+		//줄일때
+		COMPONENT_CONENTION_INFO* info;
+		printf("using terminal infoation:\n");
+		for (int j = 0; j<connectedTerminalInfo[i].size(); j++) {
+			info = &connectedTerminalInfo[i][j];
+			printf("terminal type : %d  terminal number : %d\n", 
+				info->terminalType, info->terminalNumber);
+		}
+		printf("connnected info\n");
+		for (int j = 0; j<connnectionGraph[i].size(); j++) {
+			info = &connnectionGraph[i][j];
+			printf("connnected to component ID : %d, terminal type : %d	terminal number : %d\n",
+				info->componentID, info->terminalType, info->terminalNumber);
+		}
+		printf("\n");
+	}
+
+
+
+
+	printf("################################\n");
+	printf("end\n");
+	printf("################################\n");
+	printf("\n\n");
 }
 
 
