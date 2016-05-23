@@ -81,7 +81,7 @@ int CFileView::OnCreate(LPCREATESTRUCT lpCreateStruct)
 	m_wndToolBar.SetPaneStyle(m_wndToolBar.GetPaneStyle() & ~(CBRS_GRIPPER | CBRS_SIZE_DYNAMIC | CBRS_BORDER_TOP | CBRS_BORDER_BOTTOM | CBRS_BORDER_LEFT | CBRS_BORDER_RIGHT));
 
 	m_wndToolBar.SetOwner(this);
-
+	
 	// 모든 명령은 부모 프레임이 아닌 이 컨트롤을 통해 라우팅됩니다.
 	m_wndToolBar.SetRouteCommandsViaFrame(FALSE);
 
@@ -101,8 +101,11 @@ void CFileView::OnSize(UINT nType, int cx, int cy)
 void CFileView::FillFileView()
 {	// tool box data
 	HTREEITEM hRoot = m_wndFileView.InsertItem(_T("Logic Simulator"), 0, 0);
+
 	m_wndFileView.SetItemState(hRoot, TVIS_BOLD, TVIS_BOLD);
+
 	HTREEITEM hWire = m_wndFileView.InsertItem(_T("Wire"), 0, 0, hRoot);
+
 	m_wndFileView.InsertItem(_T("Wire"), 1, 2, hWire);
 	m_wndFileView.InsertItem(_T("Pin"), 1, 2, hWire);
 	m_wndFileView.InsertItem(_T("Probe"), 1, 2, hWire);
@@ -136,11 +139,11 @@ void CFileView::FillFileView()
 	m_wndFileView.InsertItem(_T("XOR"), 1, 2, hLog);
 	m_wndFileView.InsertItem(_T("NOT"), 1, 2, hLog);
 
-	HTREEITEM hFli = m_wndFileView.InsertItem(_T("Flip-flop"), 0, 0, hRoot);
+	HTREEITEM hFlip = m_wndFileView.InsertItem(_T("Flip-flop"), 0, 0, hRoot);
 
-	m_wndFileView.InsertItem(_T("D-FF"), 1, 2, hFli);
-	m_wndFileView.InsertItem(_T("JK-FF"), 1, 2, hFli);
-	m_wndFileView.InsertItem(_T("T-FF"), 1, 2, hFli);
+	m_wndFileView.InsertItem(_T("D-FF"), 1, 2, hFlip);
+	m_wndFileView.InsertItem(_T("JK-FF"), 1, 2, hFlip);
+	m_wndFileView.InsertItem(_T("T-FF"), 1, 2, hFlip);
 
 	HTREEITEM hInp = m_wndFileView.InsertItem(_T("Input"), 0, 0, hRoot);
 
@@ -153,8 +156,9 @@ void CFileView::FillFileView()
 	m_wndFileView.InsertItem(_T("7-segment"), 1, 2, hOut);
 
 	m_wndFileView.Expand(hRoot, TVE_EXPAND);
+	m_wndFileView.Expand(hWire, TVE_EXPAND);
 	m_wndFileView.Expand(hLog, TVE_EXPAND);
-	m_wndFileView.Expand(hFli, TVE_EXPAND);
+	m_wndFileView.Expand(hFlip, TVE_EXPAND);
 	m_wndFileView.Expand(hInp, TVE_EXPAND);
 	m_wndFileView.Expand(hOut, TVE_EXPAND);
 

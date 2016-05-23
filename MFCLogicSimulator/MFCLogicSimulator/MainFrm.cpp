@@ -218,8 +218,8 @@ void CMainFrame::OnApplicationLook(UINT id)
 	CWaitCursor wait;
 
 	theApp.m_nAppLook = id;
-
-	switch (theApp.m_nAppLook)
+	/* 윈7 오피스 스타일로 고정해뒀음 */
+	switch (theApp.m_nAppLook) /* 사실상 필요없는 코드 */
 	{
 	case ID_VIEW_APPLOOK_WIN_2000:
 		CMFCVisualManager::SetDefaultManager(RUNTIME_CLASS(CMFCVisualManager));
@@ -284,7 +284,7 @@ void CMainFrame::OnApplicationLook(UINT id)
 		CMFCVisualManager::SetDefaultManager(RUNTIME_CLASS(CMFCVisualManagerOffice2007));
 		CDockingManager::SetDockingMode(DT_SMART);
 		m_wndRibbonBar.SetWindows7Look(FALSE);
-	}
+	} /* 사실상 필요없는 코드 */
 
 	m_wndOutput.UpdateFonts();
 	RedrawWindow(NULL, NULL, RDW_ALLCHILDREN | RDW_INVALIDATE | RDW_UPDATENOW | RDW_FRAME | RDW_ERASE);

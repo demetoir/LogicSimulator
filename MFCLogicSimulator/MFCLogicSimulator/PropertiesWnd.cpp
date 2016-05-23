@@ -189,6 +189,11 @@ void CPropertiesWnd::InitPropList()
 	pProp->AddOption(_T("NOR"));
 	pProp->AddOption(_T("XOR"));
 	pProp->AddOption(_T("NOT"));
+	/* 게이트, FF, in/out put 별로 속성 보여주는거 달리 할 것 */
+	pProp->AddOption(_T("D-FF"));
+	pProp->AddOption(_T("JK-FF"));
+	pProp->AddOption(_T("T-FF"));
+
 	pProp->AllowEdit(FALSE);
 
 	pGroup1->AddSubItem(pProp);
