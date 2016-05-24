@@ -649,6 +649,13 @@ BEGIN
     ID_CHECKPROPERTIES      "속성 창을 열거나 닫습니다.\n속성 창 설정/해제"
 END
 
+STRINGTABLE
+BEGIN
+    ID_BUTTON6              "편집/동작 모드 활성화 버튼입니다."
+    ID_BUTTON7              "편집 모드를 활성화합니다."
+    ID_BUTTONACT            "동작 모드를 활성화합니다."
+END
+
 #endif    // 한국어(대한민국) resources
 /////////////////////////////////////////////////////////////////////////////
 

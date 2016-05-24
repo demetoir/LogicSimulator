@@ -226,6 +226,7 @@
   </ItemGroup>
   <ItemGroup>
     <Image Include="res\AND.bmp" />
+    <Image Include="res\bitmap1.bmp" />
     <Image Include="res\buttons.bmp" />
     <Image Include="res\classview.bmp" />
     <Image Include="res\classview_hc.bmp" />

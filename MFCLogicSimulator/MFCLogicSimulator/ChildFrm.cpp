@@ -36,6 +36,26 @@ BEGIN_MESSAGE_MAP(CChildFrame, CMDIChildWndEx)
 	ON_UPDATE_COMMAND_UI(ID_CHECKPROPERTIES, &CChildFrame::OnUpdateCheckproperties)
 	ON_COMMAND(ID_CHECKTOOLBOX, &CChildFrame::OnChecktoolbox)
 	ON_UPDATE_COMMAND_UI(ID_CHECKTOOLBOX, &CChildFrame::OnUpdateChecktoolbox)
+	ON_COMMAND(ID_BUTTONSTOP, &CChildFrame::OnButtonstop)
+	ON_UPDATE_COMMAND_UI(ID_BUTTONSTOP, &CChildFrame::OnUpdateButtonstop)
+	ON_COMMAND(ID_BUTTONCONTINUE, &CChildFrame::OnButtoncontinue)
+	ON_UPDATE_COMMAND_UI(ID_BUTTONCONTINUE, &CChildFrame::OnUpdateButtoncontinue)
+	ON_COMMAND(ID_BUTTONACT, &CChildFrame::OnButtonact)
+	ON_UPDATE_COMMAND_UI(ID_BUTTONACT, &CChildFrame::OnUpdateButtonact)
+	ON_COMMAND(ID_BUTTONEDIT, &CChildFrame::OnButtonedit)
+	ON_UPDATE_COMMAND_UI(ID_BUTTONEDIT, &CChildFrame::OnUpdateButtonedit)
+	ON_COMMAND(ID_EDIT_COPY, &CChildFrame::OnEditCopy)
+	ON_UPDATE_COMMAND_UI(ID_EDIT_COPY, &CChildFrame::OnUpdateEditCopy)
+	ON_COMMAND(ID_EDIT_PASTE, &CChildFrame::OnEditPaste)
+	ON_UPDATE_COMMAND_UI(ID_EDIT_PASTE, &CChildFrame::OnUpdateEditPaste)
+	ON_COMMAND(ID_EDIT_UNDO, &CChildFrame::OnEditUndo)
+	ON_UPDATE_COMMAND_UI(ID_EDIT_UNDO, &CChildFrame::OnUpdateEditUndo)
+	ON_COMMAND(ID_EDIT_CUT, &CChildFrame::OnEditCut)
+	ON_UPDATE_COMMAND_UI(ID_EDIT_CUT, &CChildFrame::OnUpdateEditCut)
+	ON_COMMAND(ID_EDIT_SELECT_ALL, &CChildFrame::OnEditSelectAll)
+	ON_UPDATE_COMMAND_UI(ID_EDIT_SELECT_ALL, &CChildFrame::OnUpdateEditSelectAll)
+	ON_COMMAND(ID_EDIT_REDO, &CChildFrame::OnEditRedo)
+	ON_UPDATE_COMMAND_UI(ID_EDIT_REDO, &CChildFrame::OnUpdateEditRedo)
 END_MESSAGE_MAP()
 
 // CChildFrame 생성/소멸
@@ -97,7 +117,7 @@ void CChildFrame::OnUpdateFilePrintPreview(CCmdUI* pCmdUI)
 }
 
 
-/*************** Ribbon check box 처리기 *****************/
+/*************** Ribbon check box 처리기 ***************/
 void CChildFrame::OnCheckoutput()
 {
 	// TODO: 여기에 명령 처리기 코드를 추가합니다.
@@ -106,7 +126,8 @@ void CChildFrame::OnCheckoutput()
 void CChildFrame::OnUpdateCheckoutput(CCmdUI *pCmdUI)
 {
 	// TODO: 여기에 명령 업데이트 UI 처리기 코드를 추가합니다.
-	pCmdUI->SetCheck(BST_CHECKED);
+	pCmdUI->Enable(TRUE);
+	//pCmdUI->SetCheck(BST_CHECKED);
 }
 
 void CChildFrame::OnCheckproperties()
@@ -118,7 +139,8 @@ void CChildFrame::OnCheckproperties()
 void CChildFrame::OnUpdateCheckproperties(CCmdUI *pCmdUI)
 {
 	// TODO: 여기에 명령 업데이트 UI 처리기 코드를 추가합니다.
-	pCmdUI->SetCheck(BST_CHECKED);
+	pCmdUI->Enable(TRUE);
+	//pCmdUI->SetCheck(BST_CHECKED);
 }
 
 
@@ -131,5 +153,144 @@ void CChildFrame::OnChecktoolbox()
 void CChildFrame::OnUpdateChecktoolbox(CCmdUI *pCmdUI)
 {
 	// TODO: 여기에 명령 업데이트 UI 처리기 코드를 추가합니다.
-	pCmdUI->SetCheck(BST_CHECKED);
+	pCmdUI->Enable(TRUE);
+	//pCmdUI->SetCheck(BST_CHECKED);
 }
+/*************** Ribbon check box 처리기 *****************/
+
+
+
+
+
+/*************** Ribbon button 처리기 *****************/
+void CChildFrame::OnButtonstop()
+{
+	// TODO: 여기에 명령 처리기 코드를 추가합니다.
+}
+
+
+void CChildFrame::OnUpdateButtonstop(CCmdUI *pCmdUI)
+{
+	// TODO: 여기에 명령 업데이트 UI 처리기 코드를 추가합니다.
+	pCmdUI->Enable(TRUE);
+
+}
+
+
+void CChildFrame::OnButtoncontinue()
+{
+	// TODO: 여기에 명령 처리기 코드를 추가합니다.
+}
+
+
+void CChildFrame::OnUpdateButtoncontinue(CCmdUI *pCmdUI)
+{
+	// TODO: 여기에 명령 업데이트 UI 처리기 코드를 추가합니다.
+	pCmdUI->Enable(TRUE);
+}
+
+void CChildFrame::OnButtonact()
+{
+	// TODO: 여기에 명령 처리기 코드를 추가합니다.
+}
+
+
+void CChildFrame::OnUpdateButtonact(CCmdUI *pCmdUI)
+{
+	// TODO: 여기에 명령 업데이트 UI 처리기 코드를 추가합니다.
+	pCmdUI->Enable(TRUE);
+}
+
+
+void CChildFrame::OnButtonedit()
+{
+	// TODO: 여기에 명령 처리기 코드를 추가합니다.
+}
+
+
+void CChildFrame::OnUpdateButtonedit(CCmdUI *pCmdUI)
+{
+	// TODO: 여기에 명령 업데이트 UI 처리기 코드를 추가합니다.
+	pCmdUI->Enable(TRUE);
+}
+/*************** Ribbon button 처리기 *****************/
+
+
+
+
+/*************** Ribbon 클립보드 처리기 *****************/
+void CChildFrame::OnEditCopy()
+{
+	// TODO: 여기에 명령 처리기 코드를 추가합니다.
+}
+
+
+void CChildFrame::OnUpdateEditCopy(CCmdUI *pCmdUI)
+{
+	// TODO: 여기에 명령 업데이트 UI 처리기 코드를 추가합니다.
+}
+
+
+void CChildFrame::OnEditPaste()
+{
+	// TODO: 여기에 명령 처리기 코드를 추가합니다.
+}
+
+
+void CChildFrame::OnUpdateEditPaste(CCmdUI *pCmdUI)
+{
+	// TODO: 여기에 명령 업데이트 UI 처리기 코드를 추가합니다.
+}
+
+void CChildFrame::OnEditCut()
+{
+	// TODO: 여기에 명령 처리기 코드를 추가합니다.
+}
+
+
+void CChildFrame::OnUpdateEditCut(CCmdUI *pCmdUI)
+{
+	// TODO: 여기에 명령 업데이트 UI 처리기 코드를 추가합니다.
+}
+
+
+void CChildFrame::OnEditSelectAll()
+{
+	// TODO: 여기에 명령 처리기 코드를 추가합니다.
+}
+
+
+void CChildFrame::OnUpdateEditSelectAll(CCmdUI *pCmdUI)
+{
+	// TODO: 여기에 명령 업데이트 UI 처리기 코드를 추가합니다.
+}
+
+/*************** Ribbon 클립보드 처리기 *****************/
+
+
+
+
+
+/*************** Ribbon redo, undo 처리기 *****************/
+void CChildFrame::OnEditUndo()
+{
+	// TODO: 여기에 명령 처리기 코드를 추가합니다.
+}
+
+
+void CChildFrame::OnUpdateEditUndo(CCmdUI *pCmdUI)
+{
+	// TODO: 여기에 명령 업데이트 UI 처리기 코드를 추가합니다.
+}
+
+void CChildFrame::OnEditRedo()
+{
+	// TODO: 여기에 명령 처리기 코드를 추가합니다.
+}
+
+
+void CChildFrame::OnUpdateEditRedo(CCmdUI *pCmdUI)
+{
+	// TODO: 여기에 명령 업데이트 UI 처리기 코드를 추가합니다.
+}
+/*************** Ribbon redo, undo 처리기 *****************/

@@ -111,51 +111,31 @@ void CFileView::FillFileView()
 
 	m_wndFileView.SetItemState(hRoot, TVIS_BOLD, TVIS_BOLD);
 
-	HTREEITEM hWire = m_wndFileView.InsertItem(_T("Wire"), 0, 0, hRoot);
 	/*
-	folder = 0
-	and = 1 선택(2)
-	..
-	이런 식으로 사용하면 됨.
+		0 폴더 | 1,2 기타 | 3,4 and | 5,6 nand | 7,8 or |
+		9,10 nor | 11,12 xor | 13,14 not | 15,16 FF
 	*/
+
+	HTREEITEM hWire = m_wndFileView.InsertItem(_T("Wire"), 0, 0, hRoot);
+
 	m_wndFileView.InsertItem(_T("Wire"), 1, 2, hWire);
 	m_wndFileView.InsertItem(_T("Pin"), 1, 2, hWire);
 	m_wndFileView.InsertItem(_T("Probe"), 1, 2, hWire);
-	/* http://www.devpia.com/MAEUL/Contents/Detail.aspx?BoardID=50&MAEULNo=20&no=224857&ref=224684
-	m_ImageList1.Create(IDB_BITMAP2,16,2,RGB(255,255,255));      
-    m_pTreeCtrl->SetImageList(&m_ImageList1,TVSIL_NORMAL); 
 
-	enum {INDEX_MYCOM,INDEX_DRIVE,INDEX_CLOSEFOLDER,INDEX_OPENFOLDER,INDEX_SELECT};
-
-	m_imagelist.Create(16,16,ILC_MASK|ILC_COLOR8,0,0);
-	m_imagelist.Add(AfxGetApp()->LoadIcon(IDI_MYCOM));
-	m_imagelist.Add(AfxGetApp()->LoadIcon(IDI_DRIVE));
-	m_imagelist.Add(AfxGetApp()->LoadIcon(IDI_CLOSEFOLDER));
-	m_imagelist.Add(AfxGetApp()->LoadIcon(IDI_OPENFOLDER));
-	m_imagelist.Add(AfxGetApp()->LoadIcon(IDI_SELECT));
-	m_foldertree.SetImageList(&m_imagelist,TVSIL_NORMAL);
-
-	m_foldertree.InsertItem(String,INDEX_CLOSEFOLDER,INDEX_OPENFOLDER,hParent,0);
-	
-	DWORD maskcolor = RGB(255,255,255);
-	m.bitmap1.LoadBitmap(IDB_BITMAP1);
-	m_imagelist.Add(&m_bitmap1,maskcolor);
-
-	*/
 	HTREEITEM hLog = m_wndFileView.InsertItem(_T("Logic Gate"), 0, 0, hRoot);
 
-	m_wndFileView.InsertItem(_T("AND"), 1, 2, hLog);
-	m_wndFileView.InsertItem(_T("NAND"), 1, 2, hLog);
-	m_wndFileView.InsertItem(_T("OR"), 1, 2, hLog);
-	m_wndFileView.InsertItem(_T("NOR"), 1, 2, hLog);
-	m_wndFileView.InsertItem(_T("XOR"), 1, 2, hLog);
-	m_wndFileView.InsertItem(_T("NOT"), 1, 2, hLog);
+	m_wndFileView.InsertItem(_T("AND"), 3, 4, hLog);
+	m_wndFileView.InsertItem(_T("NAND"), 5, 6, hLog);
+	m_wndFileView.InsertItem(_T("OR"), 7, 8, hLog);
+	m_wndFileView.InsertItem(_T("NOR"), 9, 10, hLog);
+	m_wndFileView.InsertItem(_T("XOR"), 11, 12, hLog);
+	m_wndFileView.InsertItem(_T("NOT"), 13, 14, hLog);
 
 	HTREEITEM hFlip = m_wndFileView.InsertItem(_T("Flip-flop"), 0, 0, hRoot);
 
-	m_wndFileView.InsertItem(_T("D-FF"), 1, 2, hFlip);
-	m_wndFileView.InsertItem(_T("JK-FF"), 1, 2, hFlip);
-	m_wndFileView.InsertItem(_T("T-FF"), 1, 2, hFlip);
+	m_wndFileView.InsertItem(_T("D-FF"), 15, 16, hFlip);
+	m_wndFileView.InsertItem(_T("JK-FF"), 15, 16, hFlip);
+	m_wndFileView.InsertItem(_T("T-FF"), 15, 16, hFlip);
 
 	HTREEITEM hInp = m_wndFileView.InsertItem(_T("Input"), 0, 0, hRoot);
 
