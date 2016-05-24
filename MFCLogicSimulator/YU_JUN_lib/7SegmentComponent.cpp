@@ -2,13 +2,13 @@
 
 C7SegmentComponent::C7SegmentComponent()
 {
-	value.resize(SEVEN_SEGMENT_VALUE_NUMBER + 1, SEVEN_SEGMENT_DEFUALT_VALUE);
+	value.resize(SEVEN_SEGMENT_INPUT_VALUE_SIZE + 1, SEVEN_SEGMENT_DEFUALT_VALUE);
 }
 
 C7SegmentComponent::C7SegmentComponent(C7SegmentComponent & object)
 	:CComponentObject(object)
 {
-	value.resize(SEVEN_SEGMENT_VALUE_NUMBER + 1, SEVEN_SEGMENT_DEFUALT_VALUE);
+	value.resize(SEVEN_SEGMENT_INPUT_VALUE_SIZE + 1, SEVEN_SEGMENT_DEFUALT_VALUE);
 }
 
 C7SegmentComponent::~C7SegmentComponent()

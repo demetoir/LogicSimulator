@@ -2,15 +2,15 @@
 
 CNOTGateComponent::CNOTGateComponent()
 {
-	inputValue.resize(NOT_GATE_INPUT_VALUE_NUMBER + 1, NOT_GATE_INPUT_DEFAULT_VALUE);
-	outputValue.resize(NOT_GATE_OUTPUT_VALUE_NUMBER + 1, NOT_GATE_OUTPUT_DEFAULT_VALUE);
+	inputValue.resize(NOT_GATE_INPUT_VALUE_SIZE + 1, NOT_GATE_INPUT_DEFAULT_VALUE);
+	outputValue.resize(NOT_GATE_OUTPUT_VALUE_SIZE + 1, NOT_GATE_OUTPUT_DEFAULT_VALUE);
 }
 
 CNOTGateComponent::CNOTGateComponent(CNOTGateComponent & object)
 	:CComponentObject(object)
 {
-	inputValue.resize(NOT_GATE_INPUT_VALUE_NUMBER + 1, NOT_GATE_INPUT_DEFAULT_VALUE);
-	outputValue.resize(NOT_GATE_OUTPUT_VALUE_NUMBER + 1, NOT_GATE_OUTPUT_DEFAULT_VALUE);
+	inputValue.resize(NOT_GATE_INPUT_VALUE_SIZE + 1, NOT_GATE_INPUT_DEFAULT_VALUE);
+	outputValue.resize(NOT_GATE_OUTPUT_VALUE_SIZE + 1, NOT_GATE_OUTPUT_DEFAULT_VALUE);
 }
 
 CNOTGateComponent::~CNOTGateComponent()

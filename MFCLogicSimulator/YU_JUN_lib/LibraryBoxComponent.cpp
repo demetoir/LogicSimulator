@@ -2,16 +2,20 @@
 
 CLibraryBox::CLibraryBox()
 {
+	//컴포넌트를 담을벡터
 	componentVector.resize(VECTOR_INIT_SIZE);
 
 	inputPinIDVector.resize(VECTOR_INIT_SIZE);
 	outputPinIDVector.resize(VECTOR_INIT_SIZE);
 
+	//컴포넌트 타입을 저장하는 벡터
 	componentTypeVector.resize(VECTOR_INIT_SIZE, COMPONENT_TYPE_NONE);
-	componentIDVector.resize(VECTOR_INIT_SIZE);
-	connnectionGraph.resize(VECTOR_INIT_SIZE);
-	connectedTerminalInfo.resize(VECTOR_INIT_SIZE);
+	//컴포넌트 아이디을 저장하는 
+	componentIDVector.resize(VECTOR_INIT_SIZE,false);
 
+	//연결하는 무방향 그래프
+	inputGraph.resize(VECTOR_INIT_SIZE);
+	outputGraph.resize(VECTOR_INIT_SIZE);
 }
 
 CLibraryBox::CLibraryBox(CLibraryBox & object)
@@ -24,7 +28,7 @@ CLibraryBox::~CLibraryBox()
 {
 	//동적 할당되는 부분을 모두 해제함
 	for (int i = 0; i < componentVector.size(); i++) {
-		if (componentTypeVector[i] == COMPONENT_TYPE_NONE) {
+		if (componentIDVector[i] == true ) {
 			delete componentVector[i];
 		}
 	}
@@ -52,13 +56,14 @@ void CLibraryBox::deleteComponentID(COMPONENT_ID deleteId)
 	componentIDVector[deleteId] = false;
 }
 
+
+//라이브러리 박스의 input output pin에대한 getter setter
 void CLibraryBox::setSingleInputPinValue(bool _inputValue, int _inputPinNumber)
 {
 	COMPONENT_ID inputPinID;
 	inputPinID = inputPinIDVector[_inputPinNumber];
 	CComponentObject* componentObject = ((CComponentObject*)componentVector[inputPinID]);
 	CInputPinComponent* inputPinObject = ((CInputPinComponent*)componentObject);
-	inputPinObject->setValue(_inputValue);
 }
 
 bool CLibraryBox::getSingleInputPinValue(int _inputPinNumber)
@@ -67,8 +72,6 @@ bool CLibraryBox::getSingleInputPinValue(int _inputPinNumber)
 	inputPinID = inputPinIDVector[_inputPinNumber];
 	CComponentObject* componentObject = ((CComponentObject*)componentVector[inputPinID]);
 	CInputPinComponent* inputPinObject = ((CInputPinComponent*)componentObject);
-	return inputPinObject->getValue();
-
 }
 
 bool CLibraryBox::getSingleOutputPinValue(int _outPutPinNumber)
@@ -77,7 +80,6 @@ bool CLibraryBox::getSingleOutputPinValue(int _outPutPinNumber)
 	outputPinID = inputPinIDVector[_outPutPinNumber];
 	CComponentObject* componentObject = ((CComponentObject*)componentVector[outputPinID]);
 	CInputPinComponent* outputPinObject = ((CInputPinComponent*)componentObject);
-	return outputPinObject->getValue();
 }
 
 bool CLibraryBox::addComponent(COMPONENT_INFO & componentInfo)
@@ -93,7 +95,8 @@ bool CLibraryBox::addComponent(COMPONENT_INFO & componentInfo)
 	//부품들의 저장할공간과 그래프의 용량을 더 추가 해야 할경우 확장함
 	if (componentVector.size() <= newComponentID) {
 		componentVector.resize(componentVector.size() + 10);
-		connnectionGraph.resize(connnectionGraph.size() + 10);
+		inputGraph.resize(inputGraph.size() + 10);
+		outputGraph.resize(outputGraph.size() + 10);
 	}
 
 	switch (newComponentType)
@@ -102,63 +105,87 @@ bool CLibraryBox::addComponent(COMPONENT_INFO & componentInfo)
 	case COMPONENT_TYPE_INPUT_PIN:
 		inputPinIDVector.push_back(newComponentID);
 		componentVector[newComponentID] = new CInputPinComponent();
+		inputGraph[newComponentID].resize(0);
+		outputGraph[newComponentID].resize(INPUT_PIN_OUTPUT_VALUE_SIZE);
 		break;
 	case COMPONENT_TYPE_CLOCK:
 		componentVector[newComponentID] = new CClockComponent();
+		inputGraph[newComponentID].resize(CLOCK_COMPONENT_OUTPUT_VALUE_SIZE+1);
+		outputGraph[newComponentID].resize(0);
 		break;
 	case COMPONENT_TYPE_ONE_BIT_SWITCH:
-		componentVector[newComponentID] = new COneBitSwitchComponent();
+		componentVector[newComponentID] = new COneBitSwitchComponent();		
+		inputGraph[newComponentID].resize(ONE_BIT_LAMP_INPUT_VALUE_SIZE+1);
+		outputGraph[newComponentID].resize(0);
+
 		break;
 		//logic gate component
 	case COMPONENT_TYPE_AND_GATE:
 		componentVector[newComponentID] = new CANDGateComponent();
+		inputGraph[newComponentID].resize(AND_GATE_INPUT_VALUE_SIZE);
+		outputGraph[newComponentID].resize(AND_GATE_OUTPUT_VALUE_SIZE);
 		break;
 	case COMPONENT_TYPE_OR_GATE:
 		componentVector[newComponentID] = new CORGateComponent();
+		inputGraph[newComponentID].resize(OR_GATE_INPUT_VALUE_SIZE);
+		outputGraph[newComponentID].resize(OR_GATE_OUTPUT_VALUE_SIZE);
 		break;
 	case COMPONENT_TYPE_NOT_GATE:
 		componentVector[newComponentID] = new CNOTGateComponent();
-		break;
-	case COMPONENT_TYPE_NAND_GATE:
-		componentVector[newComponentID] = new CNANDGateComponent();
-		break;
-	case COMPONENT_TYPE_NOR_GATE:
-		componentVector[newComponentID] = new CNORGateComponent();
+		inputGraph[newComponentID].resize(NOT_GATE_INPUT_VALUE_SIZE);
+		outputGraph[newComponentID].resize(NOT_GATE_OUTPUT_VALUE_SIZE);
 		break;
 	case COMPONENT_TYPE_XOR_GATE:
 		componentVector[newComponentID] = new CXORGateComponent();
+		inputGraph[newComponentID].resize(XOR_GATE_INPUT_VALUE_SIZE);
+		outputGraph[newComponentID].resize(XOR_GATE_OUTPUT_VALUE_SIZE);
 		break;
 
 		//wire component
 	case COMPONENT_TYPE_WIRE:
 		componentVector[newComponentID] = new CWireComponent();
+		///대충...
+		inputGraph[newComponentID].resize(5);
+		outputGraph[newComponentID].resize(5);
 		break;
 
 		//output component
 	case COMPONENT_TYPE_7SEGMENT:
 		componentVector[newComponentID] = new C7SegmentComponent();
+		inputGraph[newComponentID].resize(SEVEN_SEGMENT_INPUT_VALUE_SIZE);
+		outputGraph[newComponentID].resize(0);
 		break;
 	case COMPONENT_TYPE_OUTPUT_PIN:
+		outputPinIDVector.push_back(newComponentID);
 		componentVector[newComponentID] = new COutputPinComponent();
+		inputGraph[newComponentID].resize(OUTPUT_PIN_INPUT_VALUE_SIZE);
+		outputGraph[newComponentID].resize(CLOCK_COMPONENT_OUTPUT_TERMINAL_NUMBER);
 		break;
 	case COMPONENT_TYPE_ONE_BIT_LAMP:
 		componentVector[newComponentID] = new COneBitLampComponent();
+		inputGraph[newComponentID].resize(CLOCK_COMPONENT_INPUT_TERMINAL_NUMBER);
+		outputGraph[newComponentID].resize(CLOCK_COMPONENT_OUTPUT_TERMINAL_NUMBER);
+		break;
 
+
+	//라이브러리 박스 나중에함
+	case COMPONENT_TYPE_LIBRARY_BOX:	 
 		break;
-	case COMPONENT_TYPE_LIBRARY_BOX:
-		 
-		break;
-		//생성할수없음
+	//생성할수없음
 	default:
 		deleteComponentID(newComponentID);
 		return false;
 		break;
 	}
 
+
+
 	//생성 성공
 	return true;
 }
 
+
+//재구현 
 bool CLibraryBox::deleteComponent(COMPONENT_ID _componentID)
 {
 	//존재하지 않은 부품을 삭제하려고 하면 false 반환
@@ -167,41 +194,14 @@ bool CLibraryBox::deleteComponent(COMPONENT_ID _componentID)
 	}
 
 	//연결된 부품을 찾아서 연결된부품에서 지우려는 부품의 연결을 끊고 사용하는 단자를 갱신함
-	COMPONENT_ID nextID;
-	COMPONENT_CONENTION_INFO* nextConnectionInfo;
-	COMPONENT_CONENTION_INFO* deleteConnetionInfo;
-
+	
 	//연결된 반편 부품의 그래프와 터미널 정보를 갱신함
-	for (int i = 0; i < connnectionGraph[_componentID].size(); i++) {
-		nextConnectionInfo = &connnectionGraph[_componentID][i];
-		//if (componentID[nextConnectionInfo->componentID] == COMPONENT_TYPE_WIRE &&);
-		nextID = nextConnectionInfo->componentID;
-
-		//연결된 반대편의 부품에서 터미널정보를 갱신함
-		for (int j = 0; j < connectedTerminalInfo[nextID].size(); j++) {
-			deleteConnetionInfo = &connectedTerminalInfo[nextID][j];
-			if (deleteConnetionInfo->componentID == nextConnectionInfo->componentID) {
-				connectedTerminalInfo[nextID].erase(connectedTerminalInfo[nextID].begin() + j);
-				break;
-			}
-		}
-		//연결된 반대편의 부품에서 그래프연결을 끊음
-		for (int j = 0; j < connnectionGraph[nextID].size(); j++) {
-			deleteConnetionInfo = &connnectionGraph[nextID][j];
-			if (deleteConnetionInfo->componentID == _componentID) {
-				connnectionGraph[nextID].erase(connnectionGraph[nextID].begin() + j);
-				break;
-			}
-		}
-	}
+	
 
 	//지워지는 부품의 그래프와 터미널 정보를 갱신함
-	connnectionGraph[_componentID].clear();
-	connectedTerminalInfo[_componentID].clear();
+
 
 	//컴포넌트 아이디 삭제
-	deleteComponentID(_componentID);
-	delete componentVector[_componentID];
 
 	return true;
 }

@@ -2,15 +2,15 @@
 
 CXORGateComponent::CXORGateComponent()
 {
-	inputValue.resize(XOR_GATE_INPUT_NUMBER + 1, XOR_GATE_INPUT_DEFAULT_VALUE);
-	outputValue.resize(XOR_GATE_OUTPUT_NUMBER + 1, XOR_GATE_OUTPUT_DEFAULT_VALUE);
+	inputValue.resize(XOR_GATE_INPUT_VALUE_SIZE + 1, XOR_GATE_INPUT_DEFAULT_VALUE);
+	outputValue.resize(XOR_GATE_OUTPUT_VALUE_SIZE + 1, XOR_GATE_OUTPUT_DEFAULT_VALUE);
 }
 
 CXORGateComponent::CXORGateComponent(CXORGateComponent & object)
 	:CComponentObject(object)
 {
-	inputValue.resize(XOR_GATE_INPUT_NUMBER + 1, XOR_GATE_INPUT_DEFAULT_VALUE);
-	outputValue.resize(XOR_GATE_OUTPUT_NUMBER + 1, XOR_GATE_OUTPUT_DEFAULT_VALUE);
+	inputValue.resize(XOR_GATE_INPUT_VALUE_SIZE + 1, XOR_GATE_INPUT_DEFAULT_VALUE);
+	outputValue.resize(XOR_GATE_OUTPUT_VALUE_SIZE + 1, XOR_GATE_OUTPUT_DEFAULT_VALUE);
 }
 
 CXORGateComponent::~CXORGateComponent()

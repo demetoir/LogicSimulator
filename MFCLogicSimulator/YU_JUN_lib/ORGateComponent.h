@@ -3,9 +3,9 @@
 #include "ComponentObject.h"
 #include <vector>
 
-#define OR_GATE_INPUT_NUMBER 2 
+#define OR_GATE_INPUT_VALUE_SIZE 2 
 #define OR_GATE_INPUT_DEFAULT_VALUE false 
-#define OR_GATE_OUTPUT_NUMBER 2 
+#define OR_GATE_OUTPUT_VALUE_SIZE 2 
 #define OR_GATE_OUTPUT_DEFAULT_VALUE false
 
 class CORGateComponent :public CComponentObject {

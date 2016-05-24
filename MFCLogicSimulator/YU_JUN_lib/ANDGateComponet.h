@@ -3,10 +3,10 @@
 #include <vector>
 
 #define AND_GATE_OUTPUT_DEFUALT_VALUE false
-#define AND_GATE_OUTPUT_VALUE_NUMBER 1
+#define AND_GATE_OUTPUT_VALUE_SIZE 1
 
 #define AND_GATE_INPUT_DEFUALT_VALUE false
-#define AND_GATE_INPUT_VALUE_NUMBER 2
+#define AND_GATE_INPUT_VALUE_SIZE 2
 
 class CANDGateComponent :public CComponentObject{
 private:

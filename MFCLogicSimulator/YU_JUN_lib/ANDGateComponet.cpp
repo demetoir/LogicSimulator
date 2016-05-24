@@ -2,15 +2,15 @@
 
 CANDGateComponent::CANDGateComponent()
 {
-	outputValue.resize(AND_GATE_OUTPUT_VALUE_NUMBER + 1, AND_GATE_OUTPUT_DEFUALT_VALUE);
-	inputValue.resize(AND_GATE_INPUT_VALUE_NUMBER + 1, AND_GATE_INPUT_DEFUALT_VALUE);
+	outputValue.resize(AND_GATE_OUTPUT_VALUE_SIZE + 1, AND_GATE_OUTPUT_DEFUALT_VALUE);
+	inputValue.resize(AND_GATE_INPUT_VALUE_SIZE + 1, AND_GATE_INPUT_DEFUALT_VALUE);
 }
 
 CANDGateComponent::CANDGateComponent(CANDGateComponent & object)
 	:CComponentObject(object)
 {
-	outputValue.resize(AND_GATE_OUTPUT_VALUE_NUMBER + 1, AND_GATE_OUTPUT_DEFUALT_VALUE);
-	inputValue.resize(AND_GATE_INPUT_VALUE_NUMBER + 1, AND_GATE_INPUT_DEFUALT_VALUE);
+	outputValue.resize(AND_GATE_OUTPUT_VALUE_SIZE + 1, AND_GATE_OUTPUT_DEFUALT_VALUE);
+	inputValue.resize(AND_GATE_INPUT_VALUE_SIZE + 1, AND_GATE_INPUT_DEFUALT_VALUE);
 }
 
 CANDGateComponent::~CANDGateComponent()

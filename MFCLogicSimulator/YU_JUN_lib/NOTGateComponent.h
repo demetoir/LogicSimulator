@@ -3,10 +3,10 @@
 #include "vector"
 
 
-#define NOT_GATE_INPUT_VALUE_NUMBER 1
+#define NOT_GATE_INPUT_VALUE_SIZE 1
 #define NOT_GATE_INPUT_DEFAULT_VALUE false
 
-#define NOT_GATE_OUTPUT_VALUE_NUMBER 1
+#define NOT_GATE_OUTPUT_VALUE_SIZE 1
 #define NOT_GATE_OUTPUT_DEFAULT_VALUE false
 
 class CNOTGateComponent :public CComponentObject {

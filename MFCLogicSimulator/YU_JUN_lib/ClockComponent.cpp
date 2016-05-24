@@ -2,10 +2,10 @@
 
 CClockComponent::CClockComponent()
 {
-	value.resize(CLOCK_COMPONENT_VALUE_NUMBER+1);
+	value.resize(CLOCK_COMPONENT_OUTPUT_VALUE_SIZE +1);
 	value[1] = CLOCK_COMPONENT_DEFAULT_VALUE;
 	clockHZ = CLOCK_COMPONENT_DEFAULT_CLOCK_HZ;
-	outputTerminalInfo.resize(CLOCK_COMPONENT_INPUT_TERMINAL_NUMBER + 1);
+	outputTerminalInfo.resize(CLOCK_COMPONENT_OUTPUT_VALUE_SIZE + 1);
 }
 
 CClockComponent::CClockComponent(CClockComponent & object)
@@ -13,7 +13,7 @@ CClockComponent::CClockComponent(CClockComponent & object)
 {
 	value[1] = object.getValue(1);
 	clockHZ = object.getClockHZ();
-	outputTerminalInfo.resize(CLOCK_COMPONENT_INPUT_TERMINAL_NUMBER + 1);
+	outputTerminalInfo.resize(CLOCK_COMPONENT_OUTPUT_VALUE_SIZE + 1);
 }
 
 CClockComponent::~CClockComponent()

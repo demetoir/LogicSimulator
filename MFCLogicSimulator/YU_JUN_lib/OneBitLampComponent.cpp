@@ -2,13 +2,13 @@
 
 COneBitLampComponent::COneBitLampComponent()
 {
-	value.resize(ONE_BIT_LAMP_VALUE_NUMBER + 1, ONE_BIT_LAMP_DEFUALT_VALUE);
+	value.resize(ONE_BIT_LAMP_INPUT_VALUE_SIZE + 1, ONE_BIT_LAMP_DEFUALT_VALUE);
 }
 
 COneBitLampComponent::COneBitLampComponent(COneBitLampComponent & object)
 	:CComponentObject(object)
 {
-	value.resize(ONE_BIT_LAMP_VALUE_NUMBER + 1, ONE_BIT_LAMP_DEFUALT_VALUE);
+	value.resize(ONE_BIT_LAMP_INPUT_VALUE_SIZE + 1, ONE_BIT_LAMP_DEFUALT_VALUE);
 }
 
 COneBitLampComponent::~COneBitLampComponent()

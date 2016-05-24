@@ -2,15 +2,15 @@
 
 CORGateComponent::CORGateComponent()
 {
-	inputValue.resize(OR_GATE_INPUT_NUMBER + 1, OR_GATE_INPUT_DEFAULT_VALUE);
-	outputValue.resize(OR_GATE_OUTPUT_NUMBER + 1, OR_GATE_OUTPUT_DEFAULT_VALUE);
+	inputValue.resize(OR_GATE_INPUT_VALUE_SIZE + 1, OR_GATE_INPUT_DEFAULT_VALUE);
+	outputValue.resize(OR_GATE_OUTPUT_VALUE_SIZE + 1, OR_GATE_OUTPUT_DEFAULT_VALUE);
 }
 
 CORGateComponent::CORGateComponent(CORGateComponent & object)
 	:CComponentObject(object)
 {
-	inputValue.resize(OR_GATE_INPUT_NUMBER + 1, OR_GATE_INPUT_DEFAULT_VALUE);
-	outputValue.resize(OR_GATE_OUTPUT_NUMBER + 1, OR_GATE_OUTPUT_DEFAULT_VALUE);
+	inputValue.resize(OR_GATE_INPUT_VALUE_SIZE + 1, OR_GATE_INPUT_DEFAULT_VALUE);
+	outputValue.resize(OR_GATE_OUTPUT_VALUE_SIZE + 1, OR_GATE_OUTPUT_DEFAULT_VALUE);
 }
 
 CORGateComponent::~CORGateComponent()

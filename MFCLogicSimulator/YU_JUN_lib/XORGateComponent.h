@@ -2,10 +2,10 @@
 #include "ComponentObject.h"
 #include <vector>
 
-#define XOR_GATE_INPUT_NUMBER 2
+#define XOR_GATE_INPUT_VALUE_SIZE 2
 #define XOR_GATE_INPUT_DEFAULT_VALUE false
 
-#define XOR_GATE_OUTPUT_NUMBER 2
+#define XOR_GATE_OUTPUT_VALUE_SIZE 2
 #define XOR_GATE_OUTPUT_DEFAULT_VALUE false
 
 

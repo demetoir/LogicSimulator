@@ -4,9 +4,9 @@ CInputPinComponent::CInputPinComponent()
 {
 	inputTerminalInfo.resize(INPUT_PIN_INPUT_TEMINAL_NUMBER+1);
 	outputTerminalInfo.resize(INPUT_PIN_OUTPUT_TEMINAL_NUMBER+1);
-	value.resize(CLOCK_COMPONENT_VALUE_NUMBER+1);
+	value.resize(INPUT_PIN_OUTPUT_VALUE_SIZE+1);
 
-	value[1] = CLOCK_COMPONENT_DEFAULT_VALUE;	
+	value[1] = INPUT_PIN_DEFAULT_INPUT_VALUE;	
 }
 
 CInputPinComponent::CInputPinComponent(CInputPinComponent & object)
@@ -14,7 +14,7 @@ CInputPinComponent::CInputPinComponent(CInputPinComponent & object)
 {
 	inputTerminalInfo.resize(INPUT_PIN_INPUT_TEMINAL_NUMBER + 1);
 	outputTerminalInfo.resize(INPUT_PIN_OUTPUT_TEMINAL_NUMBER + 1);
-	value.resize(CLOCK_COMPONENT_VALUE_NUMBER + 1);
+	value.resize(INPUT_PIN_OUTPUT_VALUE_SIZE + 1);
 
 	value[1] = object.getValue(1);
 }

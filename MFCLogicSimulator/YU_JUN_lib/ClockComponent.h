@@ -3,14 +3,14 @@
 #include <time.h>
 #include <vector>
 
-#define CLOCK_COMPONENT_INPUT_TERMINAL_NUMBER 0
-#define CLOCK_COMPONENT_OUTPUT_TERMINAL_NUMBER 1
 
-#define CLOCK_COMPONENT_VALUE_NUMBER 1
+
+#define CLOCK_COMPONENT_OUTPUT_VALUE_SIZE 1
 #define CLOCK_COMPONENT_DEFAULT_CLOCK_HZ 10
-#define CLOCK_COMPONENT_DEFAULT_VALUE false
+
 
 class CClockComponent :public CComponentObject {
+#define CLOCK_COMPONENT_DEFAULT_VALUE false
 private:
 	bool value;
 	double clockHZ;

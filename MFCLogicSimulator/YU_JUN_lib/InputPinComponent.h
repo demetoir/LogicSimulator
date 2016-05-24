@@ -3,17 +3,13 @@
 #include"ComponentObject.h"
 #include "vector"
 
-#define INPUT_PIN_INPUT_TEMINAL_NUMBER 0
-#define INPUT_PIN_OUTPUT_TEMINAL_NUMBER 1
 
-#define CLOCK_COMPONENT_VALUE_NUMBER 1
+#define INPUT_PIN_OUTPUT_VALUE_SIZE 1
 
-#define CLOCK_COMPONENT_DEFAULT_VALUE false
+#define INPUT_PIN_DEFAULT_INPUT_VALUE false
 
 class CInputPinComponent :public CComponentObject{
 private:
-	std::vector<int>inputTerminalInfo;
-	std::vector<int>outputTerminalInfo;
 	std::vector<bool>value;
 public:
 	CInputPinComponent();

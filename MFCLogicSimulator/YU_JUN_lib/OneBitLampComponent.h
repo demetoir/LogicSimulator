@@ -3,10 +3,8 @@
 
 #include <vector>
 
-#define ONE_BIT_LAMP_ON true
-#define ONE_BIT_LAMP_OFF false
 
-#define ONE_BIT_LAMP_VALUE_NUMBER 1
+#define ONE_BIT_LAMP_INPUT_VALUE_SIZE 1
 
 #define ONE_BIT_LAMP_DEFUALT_VALUE 1
 
