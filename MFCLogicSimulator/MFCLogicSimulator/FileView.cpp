@@ -68,6 +68,13 @@ int CFileView::OnCreate(LPCREATESTRUCT lpCreateStruct)
 	}
 
 	// 뷰 이미지를 로드합니다.
+	/* IDB_FILE_VIEW 리소스의 16픽셀 단위로 끊어서 사용한다고 말한거 */
+	/*
+	folder = 0
+	and = 1 선택(2)
+	..
+	이런 식으로 사용하면 됨.
+	*/
 	m_FileViewImages.Create(IDB_FILE_VIEW, 16, 0, RGB(255, 0, 255));
 	m_wndFileView.SetImageList(&m_FileViewImages, TVSIL_NORMAL);
 
@@ -105,7 +112,12 @@ void CFileView::FillFileView()
 	m_wndFileView.SetItemState(hRoot, TVIS_BOLD, TVIS_BOLD);
 
 	HTREEITEM hWire = m_wndFileView.InsertItem(_T("Wire"), 0, 0, hRoot);
-
+	/*
+	folder = 0
+	and = 1 선택(2)
+	..
+	이런 식으로 사용하면 됨.
+	*/
 	m_wndFileView.InsertItem(_T("Wire"), 1, 2, hWire);
 	m_wndFileView.InsertItem(_T("Pin"), 1, 2, hWire);
 	m_wndFileView.InsertItem(_T("Probe"), 1, 2, hWire);

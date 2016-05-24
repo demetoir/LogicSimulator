@@ -216,6 +216,7 @@
     <ClCompile Include="ViewTree.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="ClassDiagram.cd" />
     <None Include="MFCLogicSimulator.reg" />
     <None Include="res\MFCLogicSimulator.rc2" />
     <None Include="res\ribbon.mfcribbon-ms" />
