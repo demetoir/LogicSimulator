@@ -1,22 +1,27 @@
 #pragma once
 #include "ComponentObject.h"
-#define XOR_GATE_INPUT_TERMINAL_NUMBER 2
-#define XOR_GATE_OUTPUT_TERMINAL_NUMBER 1
+#include <vector>
+
+#define XOR_GATE_INPUT_NUMBER 2
+#define XOR_GATE_INPUT_DEFAULT_VALUE false
+
+#define XOR_GATE_OUTPUT_NUMBER 2
+#define XOR_GATE_OUTPUT_DEFAULT_VALUE false
+
+
 class CXORGateComponent :public CComponentObject {
 private:
-	bool inputValue1;
-	bool inputValue2;
-	bool outputValue;
+	std::vector< bool > inputValue;
+	std::vector< bool > outputValue;
 
 public:
 	CXORGateComponent();
 	CXORGateComponent(CXORGateComponent& object);
 	virtual ~CXORGateComponent();
 
-	void setInputValue1(bool _inputValue1);
-	bool getInputValue1();
-	void setInputValue2(bool _inputValue2);
-	bool getInputValue2();
-	bool getOutputValue();
+	bool setInputValue(int index, bool _value);
+	bool getInputValue(int index);
+	bool getOutputValue(int index);
+
 	void updateOutputValue();
 };

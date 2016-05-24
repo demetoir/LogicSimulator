@@ -2,40 +2,25 @@
 
 COneBitLampComponent::COneBitLampComponent()
 {
-	lampState = LAMP_OFF;
+	value.resize(ONE_BIT_LAMP_VALUE_NUMBER + 1, ONE_BIT_LAMP_DEFUALT_VALUE);
 }
 
 COneBitLampComponent::COneBitLampComponent(COneBitLampComponent & object)
 	:CComponentObject(object)
 {
-	lampState = LAMP_OFF;
+	value.resize(ONE_BIT_LAMP_VALUE_NUMBER + 1, ONE_BIT_LAMP_DEFUALT_VALUE);
 }
 
 COneBitLampComponent::~COneBitLampComponent()
 {
 }
 
-void COneBitLampComponent::setLampState(ONE_BIT_LAMP_STATE _lampState)
+void COneBitLampComponent::setValue(bool _value)
 {
-	lampState = _lampState;
+	value[1] = _value;
 }
 
-void COneBitLampComponent::setLampState(bool _lampstate)
+bool COneBitLampComponent::getValue()
 {
-	lampState = (ONE_BIT_LAMP_STATE)_lampstate;
-}
-
-void COneBitLampComponent::setLampON()
-{
-	lampState = LAMP_ON;
-}
-
-void COneBitLampComponent::setLampOFF()
-{
-	lampState = LAMP_OFF;
-}
-
-ONE_BIT_LAMP_STATE COneBitLampComponent::getLampState()
-{
-	return lampState;
+	return value[1];
 }

@@ -1,15 +1,24 @@
 #pragma once
 
 #include"ComponentObject.h"
-#define INPUT_PIN_INPUT_TEMINAL_NUMBER 1
+#include "vector"
+
+#define INPUT_PIN_INPUT_TEMINAL_NUMBER 0
 #define INPUT_PIN_OUTPUT_TEMINAL_NUMBER 1
+
+#define CLOCK_COMPONENT_VALUE_NUMBER 1
+
+#define CLOCK_COMPONENT_DEFAULT_VALUE false
+
 class CInputPinComponent :public CComponentObject{
 private:
-	bool value;
+	std::vector<int>inputTerminalInfo;
+	std::vector<int>outputTerminalInfo;
+	std::vector<bool>value;
 public:
 	CInputPinComponent();
 	CInputPinComponent(CInputPinComponent& object);
 	~CInputPinComponent();
-	void setValue(bool _value);
-	bool getValue();
+	void setValue(int index, bool new_value);
+	bool getValue(int index);
 };

@@ -2,25 +2,34 @@
 
 CInputPinComponent::CInputPinComponent()
 {
-	value = false;
+	inputTerminalInfo.resize(INPUT_PIN_INPUT_TEMINAL_NUMBER+1);
+	outputTerminalInfo.resize(INPUT_PIN_OUTPUT_TEMINAL_NUMBER+1);
+	value.resize(CLOCK_COMPONENT_VALUE_NUMBER+1);
+
+	value[1] = CLOCK_COMPONENT_DEFAULT_VALUE;	
 }
 
 CInputPinComponent::CInputPinComponent(CInputPinComponent & object)
 	:CComponentObject(object)
 {
-	value = false;
+	inputTerminalInfo.resize(INPUT_PIN_INPUT_TEMINAL_NUMBER + 1);
+	outputTerminalInfo.resize(INPUT_PIN_OUTPUT_TEMINAL_NUMBER + 1);
+	value.resize(CLOCK_COMPONENT_VALUE_NUMBER + 1);
+
+	value[1] = object.getValue(1);
 }
 
 CInputPinComponent::~CInputPinComponent()
 {
 }
 
-void CInputPinComponent::setValue(bool _value)
+void CInputPinComponent::setValue(int index, bool newvalue)
 {
-	value = _value;
+	value[index] = newvalue;
 }
 
-bool CInputPinComponent::getValue()
+bool CInputPinComponent::getValue(int index)
 {
-	return value;
+	return value[index];
 }
+

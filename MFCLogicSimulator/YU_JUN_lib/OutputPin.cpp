@@ -2,13 +2,13 @@
 
 COutputPinComponent::COutputPinComponent()
 {
-	value = false;
+	value.resize(OUTPUT_PIN_VALUE_NUMBER + 1, OUTPUT_PIN_DEFAULT_VALUE);
 }
 
 COutputPinComponent::COutputPinComponent(COutputPinComponent & object)
 	:CComponentObject(object)
 {
-	value = false;
+	value.resize(OUTPUT_PIN_VALUE_NUMBER + 1, OUTPUT_PIN_DEFAULT_VALUE);
 }
 
 COutputPinComponent::~COutputPinComponent()
@@ -17,10 +17,10 @@ COutputPinComponent::~COutputPinComponent()
 
 void COutputPinComponent::setValue(bool _value)
 {
-	value = _value;
+	value[1] = _value;
 }
 
 bool COutputPinComponent::getValue()
 {
-	return value;
+	return value[1];
 }

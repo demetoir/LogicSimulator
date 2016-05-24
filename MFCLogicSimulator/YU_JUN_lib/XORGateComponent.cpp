@@ -2,51 +2,44 @@
 
 CXORGateComponent::CXORGateComponent()
 {
-	inputValue1 = false;
-	inputValue2 = false;
-	outputValue = false;
-
+	inputValue.resize(XOR_GATE_INPUT_NUMBER + 1, XOR_GATE_INPUT_DEFAULT_VALUE);
+	outputValue.resize(XOR_GATE_OUTPUT_NUMBER + 1, XOR_GATE_OUTPUT_DEFAULT_VALUE);
 }
 
 CXORGateComponent::CXORGateComponent(CXORGateComponent & object)
 	:CComponentObject(object)
 {
-	inputValue1 = false;
-	inputValue2 = false;
-	outputValue = false;
-
+	inputValue.resize(XOR_GATE_INPUT_NUMBER + 1, XOR_GATE_INPUT_DEFAULT_VALUE);
+	outputValue.resize(XOR_GATE_OUTPUT_NUMBER + 1, XOR_GATE_OUTPUT_DEFAULT_VALUE);
 }
 
 CXORGateComponent::~CXORGateComponent()
 {
 }
 
-void CXORGateComponent::setInputValue1(bool _inputValue1)
+bool CXORGateComponent::setInputValue(int index, bool _value)
 {
-	inputValue1 = _inputValue1;
+	bool oldOutputValue;
+	oldOutputValue = outputValue[index];
+	inputValue[index] = _value;
+	updateOutputValue();
+	if (oldOutputValue == outputValue[index]) {
+		return false;
+	}
+	return true;
 }
 
-bool CXORGateComponent::getInputValue1()
+bool CXORGateComponent::getInputValue(int index)
 {
-	return inputValue1;
+	return inputValue[index];
 }
 
-void CXORGateComponent::setInputValue2(bool _inputValue2)
+bool CXORGateComponent::getOutputValue(int index)
 {
-	inputValue2 = _inputValue2;
-}
-
-bool CXORGateComponent::getInputValue2()
-{
-	return inputValue2;
-}
-
-bool CXORGateComponent::getOutputValue()
-{
-	return outputValue;
+	return outputValue[index];
 }
 
 void CXORGateComponent::updateOutputValue()
 {
-	outputValue = (inputValue1^ inputValue2);
+	outputValue[1] = (inputValue[1] ^ inputValue[2]);
 }

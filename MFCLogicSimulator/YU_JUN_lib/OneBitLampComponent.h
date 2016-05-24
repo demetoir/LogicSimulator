@@ -1,23 +1,26 @@
 #pragma once
 #include "ComponentObject.h"
 
+#include <vector>
+
 #define ONE_BIT_LAMP_ON true
 #define ONE_BIT_LAMP_OFF false
-#define ONE_BIT_INPUT_TERMINAL_NUMBER 1
-#define ONE_BIT_OUTPUT_TERMINAL_NUMBER 0
+
+#define ONE_BIT_LAMP_VALUE_NUMBER 1
+
+#define ONE_BIT_LAMP_DEFUALT_VALUE 1
+
 
 enum ONE_BIT_LAMP_STATE{LAMP_ON,LAMP_OFF};
 class COneBitLampComponent :public CComponentObject {
 private:
-	ONE_BIT_LAMP_STATE lampState;
+	std::vector<bool> value;
 public:
 	COneBitLampComponent();
 	COneBitLampComponent(COneBitLampComponent& object);
 	~COneBitLampComponent();
 
-	void setLampState(ONE_BIT_LAMP_STATE _lampState);
-	void setLampState(bool _lampstate);
-	void setLampON();
-	void setLampOFF();
-	ONE_BIT_LAMP_STATE getLampState();
+	void setValue(bool _value);
+	bool getValue();
+
 };

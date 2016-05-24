@@ -2,49 +2,45 @@
 
 CANDGateComponent::CANDGateComponent()
 {
-	inputValue1 = false;
-	inputValue2 = false;
-	outputValue = false;
+	outputValue.resize(AND_GATE_OUTPUT_VALUE_NUMBER + 1, AND_GATE_OUTPUT_DEFUALT_VALUE);
+	inputValue.resize(AND_GATE_INPUT_VALUE_NUMBER + 1, AND_GATE_INPUT_DEFUALT_VALUE);
 }
 
 CANDGateComponent::CANDGateComponent(CANDGateComponent & object)
 	:CComponentObject(object)
 {
-	inputValue1 = false;
-	inputValue2 = false;
-	outputValue = false;
+	outputValue.resize(AND_GATE_OUTPUT_VALUE_NUMBER + 1, AND_GATE_OUTPUT_DEFUALT_VALUE);
+	inputValue.resize(AND_GATE_INPUT_VALUE_NUMBER + 1, AND_GATE_INPUT_DEFUALT_VALUE);
 }
 
 CANDGateComponent::~CANDGateComponent()
 {
 }
 
-void CANDGateComponent::setInputValue1(bool _inputValue1)
+//input이 바뀌면 output 값이 바뀌었는지 를 반환해줌
+bool CANDGateComponent::setInputValue(int index, bool _value)
 {
-	inputValue1 = _inputValue1;
+	bool oldOuputValue;
+	oldOuputValue = outputValue[1];
+	inputValue[index] = _value;
+	updateOutputValue();
+	if (oldOuputValue = outputValue[1]) {
+		return false;
+	}
+	return true;
 }
 
-bool CANDGateComponent::getInputValue1()
+bool CANDGateComponent::getInputValue(int index)
 {
-	return inputValue1;
+	return inputValue[index];
 }
 
-void CANDGateComponent::setInputValue2(bool _inputValue2)
+bool CANDGateComponent::getOutputValue(int index)
 {
-	inputValue2 = _inputValue2;
-}
-
-bool CANDGateComponent::getInputValue2()
-{
-	return inputValue2;
-}
-
-bool CANDGateComponent::getOutputValue()
-{
-	return outputValue;
+	return	outputValue[index];
 }
 
 void CANDGateComponent::updateOutputValue()
 {
-	outputValue = (inputValue1 & inputValue2);
+	outputValue[1] = (inputValue[1] & inputValue[2]);
 }

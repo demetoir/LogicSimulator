@@ -1,20 +1,27 @@
 #pragma once
 #include "ComponentObject.h"
-#define NOT_GATE_INPUT_TERMINLA_NUMBER 1
-#define NOT_GATE_OUTPUT_TERMINLA_NUMBER 1
+#include "vector"
+
+
+#define NOT_GATE_INPUT_VALUE_NUMBER 1
+#define NOT_GATE_INPUT_DEFAULT_VALUE false
+
+#define NOT_GATE_OUTPUT_VALUE_NUMBER 1
+#define NOT_GATE_OUTPUT_DEFAULT_VALUE false
+
 class CNOTGateComponent :public CComponentObject {
 private:
-	bool inputValue;
-	bool outputValue;
-
+	std::vector < bool > inputValue;
+	std::vector < bool > outputValue;
 public:
 	CNOTGateComponent();
 	CNOTGateComponent(CNOTGateComponent& object);
 	virtual ~CNOTGateComponent();
 
-	void setInputValue(bool _inputValue);
-	bool getInputValue();
+	//input value 를 변경하면 output value 가 변경되었는지 알려준다
+	bool setInputValue(int index, bool _value);
+	bool getInputValue(int index);
+	bool getOutputValue(int index);
 
-	bool getOutputValue();
 	void updateOutputValue();
 };

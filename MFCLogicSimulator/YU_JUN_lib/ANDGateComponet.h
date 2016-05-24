@@ -1,22 +1,26 @@
 #pragma once
 #include "ComponentObject.h"
-#define AND_GATE_INPUT_TERMINAL_NUMBER 2
-#define AND_GATE_OUTPUT_TERMINAL_NUMBER 0
+#include <vector>
+
+#define AND_GATE_OUTPUT_DEFUALT_VALUE false
+#define AND_GATE_OUTPUT_VALUE_NUMBER 1
+
+#define AND_GATE_INPUT_DEFUALT_VALUE false
+#define AND_GATE_INPUT_VALUE_NUMBER 2
+
 class CANDGateComponent :public CComponentObject{
 private:
-	bool inputValue1;
-	bool inputValue2;
-	bool outputValue;
-		
+	std::vector<bool>outputValue;
+	std::vector<bool>inputValue;
+
 public:
 	CANDGateComponent();
 	CANDGateComponent(CANDGateComponent& object);
 	virtual ~CANDGateComponent();
 
-	void setInputValue1(bool _inputValue1);
-	bool getInputValue1();
-	void setInputValue2(bool _inputValue2);
-	bool getInputValue2();
-	bool getOutputValue();
+	//input이 바뀌면 output 값이 바뀌었는지 를 반환해줌
+	bool setInputValue(int index, bool _value);
+	bool getInputValue(int index);
+	bool getOutputValue(int index);
 	void updateOutputValue();
 };

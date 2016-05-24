@@ -102,41 +102,31 @@ bool CLibraryBox::addComponent(COMPONENT_INFO & componentInfo)
 	case COMPONENT_TYPE_INPUT_PIN:
 		inputPinIDVector.push_back(newComponentID);
 		componentVector[newComponentID] = new CInputPinComponent();
-
-
 		break;
 	case COMPONENT_TYPE_CLOCK:
 		componentVector[newComponentID] = new CClockComponent();
 		break;
 	case COMPONENT_TYPE_ONE_BIT_SWITCH:
 		componentVector[newComponentID] = new COneBitSwitchComponent();
-
 		break;
-
 		//logic gate component
 	case COMPONENT_TYPE_AND_GATE:
 		componentVector[newComponentID] = new CANDGateComponent();
-
 		break;
 	case COMPONENT_TYPE_OR_GATE:
 		componentVector[newComponentID] = new CORGateComponent();
-
 		break;
 	case COMPONENT_TYPE_NOT_GATE:
 		componentVector[newComponentID] = new CNOTGateComponent();
-
 		break;
 	case COMPONENT_TYPE_NAND_GATE:
 		componentVector[newComponentID] = new CNANDGateComponent();
-
 		break;
 	case COMPONENT_TYPE_NOR_GATE:
 		componentVector[newComponentID] = new CNORGateComponent();
-
 		break;
 	case COMPONENT_TYPE_XOR_GATE:
 		componentVector[newComponentID] = new CXORGateComponent();
-
 		break;
 
 		//wire component
@@ -147,17 +137,17 @@ bool CLibraryBox::addComponent(COMPONENT_INFO & componentInfo)
 		//output component
 	case COMPONENT_TYPE_7SEGMENT:
 		componentVector[newComponentID] = new C7SegmentComponent();
-
 		break;
 	case COMPONENT_TYPE_OUTPUT_PIN:
 		componentVector[newComponentID] = new COutputPinComponent();
-
 		break;
 	case COMPONENT_TYPE_ONE_BIT_LAMP:
 		componentVector[newComponentID] = new COneBitLampComponent();
 
 		break;
-
+	case COMPONENT_TYPE_LIBRARY_BOX:
+		 
+		break;
 		//생성할수없음
 	default:
 		deleteComponentID(newComponentID);
@@ -404,6 +394,40 @@ break;
 메모
 그래프 객체를 필요한 받아와서 정해주기함
 vector 로 하지만 일일이 찾아서 삭제 하지말고 그냥 다만들어놓고 하기
+
+
+*/
+/*윈프 과제 메모
+갱신하는방법 bfs 돌려서 한다
+
+//따로 검사함... 에러 처리해줌:
+와이어 충돌은 와이어 내에서 처리.. wire 에서
+->와이어에 인풋단자에 연결된 아웃풋 부품이 2개 인지 검사함
+시작 인풋을 큐에 넣을떄 충돌되는 와이어는 체크해서
+연결되지 않게 함
+충돌하는 와이어에대한 정보를 저장하는 벡터를 만들어놓음
+와이어 자체에 상태에 충돌상태를 추가한다
+
+진동에러 잡는방법:
+여러번 돌림?...
+돌면서 사이클을 검사해버린다
+.......
+따로 경로 트리를 만들어서 사이클이 발생하면 중지 해버림?
+..
+->dfs를 돌린다?
+경로를 dequeue에 저장 하고 돌린다
+..
+
+여러개의 정션된 와이어를 하나로 취급한다
+와이어를 잘구성해야한다
+
+갱신하는 함수안에서 순서
+초기화
+1 충돌되는 와이어를 검사한다
+2 진동검사를 한다 진동하면 예외 발생
+3 직접 갱신하는 함수돌린다
+
+
 
 
 */
