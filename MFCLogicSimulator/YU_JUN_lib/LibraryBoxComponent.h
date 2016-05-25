@@ -5,8 +5,6 @@
 //논리 게이트 헤더 헤더추가
 #include "ANDGateComponet.h"
 #include "ORGateComponent.h"
-#include "NANDGateComponent.h"
-#include "NORGateComponent.h"
 #include "NOTGateComponent.h"
 #include "XORGateComponent.h"
 
@@ -30,7 +28,7 @@
 
 //디버깅용 출력하는거
 #include <stdio.h>
-
+using std::vector;
 
 enum TERMINAL_TYPE {
 	TERMINAL_TYPE_NONE, TERMINAL_TYPE_INPUT,
@@ -57,14 +55,14 @@ enum COMPONENT_TYPE {
 //연결할 component의 구조체
 struct COMPONENT_CONENTION_INFO {
 	COMPONENT_CONENTION_INFO() {
-		componentID = 0;
+		componentID = -1;
 		terminalType = TERMINAL_TYPE_NONE;
 		terminalNumber = -1;
 	}
 	COMPONENT_CONENTION_INFO(COMPONENT_ID _componentId, TERMINAL_TYPE _terminalType, int _terminalNumber) {
-		componentID = 0;
-		terminalType = TERMINAL_TYPE_NONE;
-		terminalNumber = -1;
+		componentID = _componentId;
+		terminalType = _terminalType;
+		terminalNumber = _terminalNumber;
 	}
 	COMPONENT_ID componentID;
 	TERMINAL_TYPE terminalType;
@@ -129,21 +127,21 @@ class CLibraryBox :public CComponentObject {
 
 private:
 	//부품들을 담을 벡터 객체들
-	std::vector<CSimulatorObject*> componentVector;
+	vector< CSimulatorObject* > componentVector;
 
 	//라이브러리 박스의 인풋핀과 아웃풋 핀을 저장하는 벡터 리스트
-	std::vector<COMPONENT_ID> inputPinIDVector;
-	std::vector<COMPONENT_ID> outputPinIDVector;
+	vector< COMPONENT_ID > inputPinIDVector;
+	vector< COMPONENT_ID > outputPinIDVector;
 
 	//부품간을 연결나타내는 무방향 그래프의 인접리스트 
-	std::vector<std::vector<COMPONENT_CONENTION_INFO>> inputGraph;
-	std::vector<std::vector<COMPONENT_CONENTION_INFO>> outputGraph;
+	vector< vector < COMPONENT_CONENTION_INFO > > inputGraph;
+	vector< vector < COMPONENT_CONENTION_INFO > > outputGraph;
 	
 	//부품들이 가지는 타입을 저장하는 벡터
-	std::vector< COMPONENT_TYPE >  componentTypeVector;
+	vector< COMPONENT_TYPE >  componentTypeVector;
 
 	//부품들의 아이디를 저장하는 벡터
-	std::vector < bool > componentIDVector;
+	vector < bool > componentIDVector;
 
 
 public:
@@ -158,9 +156,9 @@ public:
 	void deleteComponentID(COMPONENT_ID deleteId);
 	
 	//라이브러리 박스를 로드함
-	void loadLibrarybox(std::vector<LIBRARY_BOX_DATA>& LibraryBoxData);
+	void loadLibrarybox(vector<LIBRARY_BOX_DATA>& LibraryBoxData);
 	//라이브러리 박스를 세이브함
-	void saveLibrarybox(std::vector<LIBRARY_BOX_DATA>& _componentList);
+	void saveLibrarybox(vector<LIBRARY_BOX_DATA>& _componentList);
 
 	//인풋 핀 하나에대한 getter,setter
 	void setSingleInputPinValue(bool _inputValue, int _inputPinNumber);
@@ -173,16 +171,9 @@ public:
 	//부품삭제
 	bool deleteComponent(COMPONENT_ID componentID);
 	
-	bool connnectComponent(COMPONENT_CONENTION_INFO& ComponentA, COMPONENT_CONENTION_INFO& ComponentB);
+	bool connnectComponent(COMPONENT_CONENTION_INFO* componentA, COMPONENT_CONENTION_INFO* componentB);
 
-	//연결되지않은 부품과 와이어를 연결함
-	bool connectComponentAndWire(COMPONENT_CONENTION_INFO& ComponentInfo, COMPONENT_CONENTION_INFO& wireInfo);
-	//와이어와 연결된 부품을 분리함
-	bool disconnectComponentAndWire(COMPONENT_CONENTION_INFO& ComponentInfo, COMPONENT_CONENTION_INFO& wireInfo);
-	//wireA 에 juntion을 만들고 거기 에다가 wireB를 연결함
-	bool connectWireAndWire(COMPONENT_CONENTION_INFO& wireA, COMPONENT_CONENTION_INFO& wireB);
-	//wireA 에 juntion을 제거하고 wireB를 분리함
-	bool disconnectWireAndWire(COMPONENT_CONENTION_INFO& wireA, COMPONENT_CONENTION_INFO& wireB);
+	bool disconnectComponent(COMPONENT_CONENTION_INFO* componentA, COMPONENT_CONENTION_INFO* componentB);
 
 	//라이브러리 박스 내부회로 갱신 
 	bool updateCircuit();

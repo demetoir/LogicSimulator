@@ -3,7 +3,7 @@
 CLibraryBox::CLibraryBox()
 {
 	//컴포넌트를 담을벡터
-	componentVector.resize(VECTOR_INIT_SIZE);
+	componentVector.resize(VECTOR_INIT_SIZE,NULL);
 
 	inputPinIDVector.resize(VECTOR_INIT_SIZE);
 	outputPinIDVector.resize(VECTOR_INIT_SIZE);
@@ -13,9 +13,11 @@ CLibraryBox::CLibraryBox()
 	//컴포넌트 아이디을 저장하는 
 	componentIDVector.resize(VECTOR_INIT_SIZE,false);
 
-	//연결하는 무방향 그래프
+	//연결하는 방향 그래프	
 	inputGraph.resize(VECTOR_INIT_SIZE);
 	outputGraph.resize(VECTOR_INIT_SIZE);
+
+	
 }
 
 CLibraryBox::CLibraryBox(CLibraryBox & object)
@@ -82,11 +84,16 @@ bool CLibraryBox::getSingleOutputPinValue(int _outPutPinNumber)
 	CInputPinComponent* outputPinObject = ((CInputPinComponent*)componentObject);
 }
 
+
+
+// 부품 추가
 bool CLibraryBox::addComponent(COMPONENT_INFO & componentInfo)
 {
 	COMPONENT_TYPE newComponentType;
 	COMPONENT_ID newComponentID;
 	
+	COMPONENT_CONENTION_INFO empty;
+
 	//아이디를 할당해줌
 	newComponentType = componentInfo.componentType;
 	newComponentID = makeNewComponetID(newComponentType);
@@ -105,38 +112,38 @@ bool CLibraryBox::addComponent(COMPONENT_INFO & componentInfo)
 	case COMPONENT_TYPE_INPUT_PIN:
 		inputPinIDVector.push_back(newComponentID);
 		componentVector[newComponentID] = new CInputPinComponent();
-		inputGraph[newComponentID].resize(INPUT_PIN_INPUT_SIZE);
-		outputGraph[newComponentID].resize(INPUT_PIN_OUTPUT_SIZE);
+		inputGraph[newComponentID].resize(INPUT_PIN_INPUT_SIZE, empty);
+		outputGraph[newComponentID].resize(INPUT_PIN_OUTPUT_SIZE, empty);
 		break;
 
 		//logic gate component
 	case COMPONENT_TYPE_AND_GATE:
 		componentVector[newComponentID] = new CANDGateComponent();
-		inputGraph[newComponentID].resize(ANDGATE_INPUT_SIZE);
-		outputGraph[newComponentID].resize(ANDGATE_OUTPUT_SIZE);
+		inputGraph[newComponentID].resize(ANDGATE_INPUT_SIZE, empty);
+		outputGraph[newComponentID].resize(ANDGATE_OUTPUT_SIZE, empty);
 		break;
 	case COMPONENT_TYPE_OR_GATE:
 		componentVector[newComponentID] = new CORGateComponent();
-		inputGraph[newComponentID].resize(ORGATE_INPUT_SIZE);
-		outputGraph[newComponentID].resize(ORGATE_OUTPUT_SIZE);
+		inputGraph[newComponentID].resize(ORGATE_INPUT_SIZE, empty);
+		outputGraph[newComponentID].resize(ORGATE_OUTPUT_SIZE, empty);
 		break;
 	case COMPONENT_TYPE_NOT_GATE:
 		componentVector[newComponentID] = new CNOTGateComponent();
-		inputGraph[newComponentID].resize(NOTGATE_INPUT_SIZE);
-		outputGraph[newComponentID].resize(NOTGATE_OUTPUT_SIZE);
+		inputGraph[newComponentID].resize(NOTGATE_INPUT_SIZE, empty);
+		outputGraph[newComponentID].resize(NOTGATE_OUTPUT_SIZE, empty);
 		break;
 	case COMPONENT_TYPE_XOR_GATE:
 		componentVector[newComponentID] = new CXORGateComponent();
-		inputGraph[newComponentID].resize(XORGATE_INPUT_SIZE);
-		outputGraph[newComponentID].resize(XORGATE_OUTPUT_SIZE);
+		inputGraph[newComponentID].resize(XORGATE_INPUT_SIZE, empty);
+		outputGraph[newComponentID].resize(XORGATE_OUTPUT_SIZE, empty);
 		break;
 
 		//wire component
 	case COMPONENT_TYPE_WIRE:
 		componentVector[newComponentID] = new CWireComponent();
 		///대충...
-		inputGraph[newComponentID].resize(1);
-		outputGraph[newComponentID].resize(10);
+		inputGraph[newComponentID].resize(1, empty);
+		outputGraph[newComponentID].resize(10, empty);
 		break;
 
 		//output component
@@ -144,8 +151,8 @@ bool CLibraryBox::addComponent(COMPONENT_INFO & componentInfo)
 	case COMPONENT_TYPE_OUTPUT_PIN:
 		outputPinIDVector.push_back(newComponentID);
 		componentVector[newComponentID] = new COutputPinComponent();
-		inputGraph[newComponentID].resize(OUTPUT_PIN_INPUT_SIZE);
-		outputGraph[newComponentID].resize(OUTPUT_PIN_OUTPUT_SIZE);
+		inputGraph[newComponentID].resize(OUTPUT_PIN_INPUT_SIZE, empty);
+		outputGraph[newComponentID].resize(OUTPUT_PIN_OUTPUT_SIZE, empty);
 		break;
 
 	//라이브러리 박스 나중에함
@@ -164,8 +171,7 @@ bool CLibraryBox::addComponent(COMPONENT_INFO & componentInfo)
 	return true;
 }
 
-
-//재구현 
+//부품 삭제일때
 bool CLibraryBox::deleteComponent(COMPONENT_ID _componentID)
 {
 	//존재하지 않은 부품을 삭제하려고 하면 false 반환
@@ -173,214 +179,178 @@ bool CLibraryBox::deleteComponent(COMPONENT_ID _componentID)
 		return false;
 	}
 
+	COMPONENT_CONENTION_INFO* info;
 	//연결된 부품을 찾아서 연결된부품에서 지우려는 부품의 연결을 끊고 사용하는 단자를 갱신함
-	
-	//연결된 반편 부품의 그래프와 터미널 정보를 갱신함
-	
+	//지울 부품의 인풋 단자에 연결된 부품의 간선을 제거함
+	for (int i = 0; i < inputGraph[_componentID].size(); i++) {
+		info = &inputGraph[_componentID][i];
+		outputGraph[info->componentID][info->terminalNumber].componentID = -1;
+		outputGraph[info->componentID][info->terminalNumber].terminalNumber = -1;
+		outputGraph[info->componentID][info->terminalNumber].terminalType = TERMINAL_TYPE_NONE;
+	}
+	//지울부품의 아웃풋단자에 연결된 부풉의 간선을 제거함
+	for (int i = 0; i < outputGraph[_componentID].size(); i++) {
+		info = &outputGraph[_componentID][i];
+		inputGraph[info->componentID][info->terminalNumber].componentID = -1;
+		inputGraph[info->componentID][info->terminalNumber].terminalNumber = -1;
+		inputGraph[info->componentID][info->terminalNumber].terminalType = TERMINAL_TYPE_NONE;
+	}
 
 	//지워지는 부품의 그래프와 터미널 정보를 갱신함
-
+	COMPONENT_CONENTION_INFO deleteinfo;
+	inputGraph[_componentID].resize(inputGraph[_componentID].size(), deleteinfo);
+	outputGraph[_componentID].resize(outputGraph[_componentID].size(), deleteinfo);
 
 	//컴포넌트 아이디 삭제
-
+	deleteComponentID(_componentID);
 	return true;
 }
 
-bool CLibraryBox::connnectComponent(COMPONENT_CONENTION_INFO & ComponentA, COMPONENT_CONENTION_INFO & ComponentB)
+bool CLibraryBox::connnectComponent(COMPONENT_CONENTION_INFO* componentA, COMPONENT_CONENTION_INFO* componentB)
 {
-	COMPONENT_CONENTION_INFO* temp;
+	COMPONENT_CONENTION_INFO A;
+	COMPONENT_CONENTION_INFO B;
+	
+	////A->B 로가는거
+	//output -> input
+	if (componentA->terminalType == TERMINAL_TYPE_INPUT &&
+		componentB->terminalType == TERMINAL_TYPE_OUTPUT) {
+		A.componentID = componentB->componentID;
+		A.terminalNumber = componentB->terminalNumber;
+		A.terminalType = componentB->terminalType;
+		B.componentID = componentA->componentID;
+		B.terminalNumber = componentA->terminalNumber;
+		B.terminalType = componentA->terminalType;;
+	}
+	else {
+		B.componentID = componentB->componentID;
+		B.terminalNumber = componentB->terminalNumber;
+		B.terminalType = componentB->terminalType;
+		A.componentID = componentA->componentID;
+		A.terminalNumber = componentA->terminalNumber;
+		A.terminalType = componentA->terminalType;;
+	}
+	
 	//같은 종류의 단자를 연결하려함
-	if (ComponentA.terminalType == ComponentB.terminalType) {
+	if (A.terminalType == B.terminalType) {
 		return false;
 	}
 
-	if (ComponentA.terminalType == )
+	//존재하지 않는 부품을 연결하려 할떄
+	if (A.componentID >= componentIDVector.size() ||
+		componentIDVector[A.componentID] == false ||
+		B.componentID >= componentIDVector.size() ||
+		componentIDVector[B.componentID] == false) {
+		return false;
+	}
+
+	//게이트와 게이트를 연결하려 할떄 또는
+	//줄과 줄을 연결하려 할때
+	if ((componentTypeVector[A.componentID] != COMPONENT_TYPE_WIRE ||
+		componentTypeVector[B.componentID] != COMPONENT_TYPE_WIRE) || 
+		(componentTypeVector[A.componentID] == COMPONENT_TYPE_WIRE &&
+			componentTypeVector[B.componentID] == COMPONENT_TYPE_WIRE)) {
+		return false;
+	}
+
+	//존재 하지 않는 단자에 연결하려할때
+	if (A.terminalNumber >= outputGraph[A.componentID].size() ||
+		B.terminalNumber >= inputGraph[B.componentID].size()) {
+		return false;
+	}
+
+	//이미 연결한 단자에 또 연결하려 할떄
+	if (outputGraph[A.componentID][A.terminalNumber].componentID == -1 ||
+		outputGraph[B.componentID][B.terminalNumber].componentID == -1) {
+		return false;
+	}
+
+
+	////A->B 로가는거
+	//output -> input
+	//방향 그래프 간선을 만들어줌
+	inputGraph[B.componentID][B.terminalNumber].componentID = A.componentID;
+	inputGraph[B.componentID][B.terminalNumber].terminalNumber = A.terminalNumber;
+	inputGraph[B.componentID][B.terminalNumber].terminalType = A.terminalType;
+
+	outputGraph[A.componentID][A.terminalNumber].componentID = B.componentID;
+	outputGraph[A.componentID][A.terminalNumber].terminalNumber = B.terminalNumber;
+	outputGraph[A.componentID][A.terminalNumber].terminalType = B.terminalType;
 
 
 	return true;
 }
 
-bool CLibraryBox::connectComponentAndWire(COMPONENT_CONENTION_INFO & ComponentInfo, COMPONENT_CONENTION_INFO & wireInfo)
+bool CLibraryBox::disconnectComponent(COMPONENT_CONENTION_INFO * componentA, COMPONENT_CONENTION_INFO * componentB)
 {
-	// 존재하지 않는 부품이랑 연결하려할떄 연결못하게함
-	if (componentTypeVector[ComponentInfo.componentID] == COMPONENT_TYPE_NONE ||
-		componentTypeVector[wireInfo.componentID] == COMPONENT_TYPE_NONE) {
+	COMPONENT_CONENTION_INFO A;
+	COMPONENT_CONENTION_INFO B;
+
+	////A->B 로가는거
+	//output -> input
+	if (componentA->terminalType == TERMINAL_TYPE_INPUT &&
+		componentB->terminalType == TERMINAL_TYPE_OUTPUT) {
+		A.componentID = componentB->componentID;
+		A.terminalNumber = componentB->terminalNumber;
+		A.terminalType = componentB->terminalType;
+		B.componentID = componentA->componentID;
+		B.terminalNumber = componentA->terminalNumber;
+		B.terminalType = componentA->terminalType;;
+	}
+	else {
+		B.componentID = componentB->componentID;
+		B.terminalNumber = componentB->terminalNumber;
+		B.terminalType = componentB->terminalType;
+		A.componentID = componentA->componentID;
+		A.terminalNumber = componentA->terminalNumber;
+		A.terminalType = componentA->terminalType;;
+	}
+
+	//같은 종류의 단자를 분리하려함
+	if (A.terminalType == B.terminalType) {
 		return false;
 	}
 
-	COMPONENT_CONENTION_INFO* connectionInfo;
-	// 연결하려는 부품의 단자가 이미사용중인지 검사
-	for (int i = 0; i < connectedTerminalInfo[ComponentInfo.componentID].size(); i++) {
-		connectionInfo = &connectedTerminalInfo[ComponentInfo.componentID][i];
-		if (connectionInfo->componentID == ComponentInfo.componentID &&
-			connectionInfo->terminalNumber == ComponentInfo.terminalNumber&&
-			connectionInfo->terminalType == ComponentInfo.terminalType) {
-			return false;
-		}
-	}
-	// 연결하려는 줄의 단자가 이미 사용중인자 검사
-	for (int i = 0; i < connectedTerminalInfo[wireInfo.componentID].size(); i++) {
-		connectionInfo = &connectedTerminalInfo[wireInfo.componentID][i];
-		if (connectionInfo->componentID == wireInfo.componentID &&
-			connectionInfo->terminalNumber == wireInfo.terminalNumber&&
-			connectionInfo->terminalType == wireInfo.terminalType) {
-			return false;
-		}
-	}
-
-	//양뱡향으로 연결함
-	connnectionGraph[ComponentInfo.componentID].push_back(wireInfo);
-	connectedTerminalInfo[ComponentInfo.componentID].push_back(ComponentInfo);
-	connnectionGraph[wireInfo.componentID].push_back(ComponentInfo);
-	connectedTerminalInfo[wireInfo.componentID].push_back(wireInfo);
-	return true;
-}
-
-bool CLibraryBox::disconnectComponentAndWire(COMPONENT_CONENTION_INFO & ComponentInfo, COMPONENT_CONENTION_INFO & wireInfo)
-{
-	// 존재하지 않는 부품이랑 분리하려할떄 연결못하게함
-	if (componentTypeVector[ComponentInfo.componentID] == COMPONENT_TYPE_NONE ||
-		componentTypeVector[wireInfo.componentID] == COMPONENT_TYPE_NONE) {
+	//존재하지 않는 부품을 분리하려 할떄
+	if (A.componentID >= componentIDVector.size() ||
+		componentIDVector[A.componentID] == false ||
+		B.componentID >= componentIDVector.size() ||
+		componentIDVector[B.componentID] == false) {
 		return false;
 	}
 
-	COMPONENT_CONENTION_INFO* currrentComponent;
-	//부품에서 와이어방향으로 연결된것을 끊음
-	for (int i = 0; i < connnectionGraph[ComponentInfo.componentID].size(); i++) {
-		currrentComponent = &connnectionGraph[ComponentInfo.componentID][i];
-		if (currrentComponent->componentID == wireInfo.componentID &&
-			currrentComponent->terminalNumber == wireInfo.terminalNumber &&
-			currrentComponent->terminalType == wireInfo.terminalType) {
-			connnectionGraph[ComponentInfo.componentID].erase(connnectionGraph[ComponentInfo.componentID].begin() + i);
-			break;
-		}
-	}
-
-	COMPONENT_CONENTION_INFO* currrentWire;
-	//와이어에서 부품 방향으로 연결된것을 끊음
-	for (int i = 0; i < connnectionGraph[wireInfo.componentID].size(); i++) {
-		currrentWire = &connnectionGraph[wireInfo.componentID][i];
-		if (currrentWire->componentID == ComponentInfo.componentID &&
-			currrentWire->terminalNumber == ComponentInfo.terminalNumber &&
-			currrentWire->terminalType == ComponentInfo.terminalType) {
-			connnectionGraph[wireInfo.componentID].erase(connnectionGraph[wireInfo.componentID].begin() + i);
-			break;
-		}
-	}
-
-	COMPONENT_CONENTION_INFO* connectionInfo;
-	//사용했던 부품의 단자의 목록을 갱신함
-	for (int i = 0; i < connectedTerminalInfo[ComponentInfo.componentID].size(); i++) {
-		connectionInfo = &connectedTerminalInfo[ComponentInfo.componentID][i];
-		if (connectionInfo->componentID == ComponentInfo.componentID &&
-			connectionInfo->terminalNumber == ComponentInfo.terminalNumber &&
-			connectionInfo->terminalType == ComponentInfo.terminalType) {
-			connectedTerminalInfo[ComponentInfo.componentID].erase(connectedTerminalInfo[ComponentInfo.componentID].begin() + i);
-			break;
-		}
-	}
-
-	//사용했던 와이어의 단자를 갱신함
-	for (int i = 0; i < connectedTerminalInfo[wireInfo.componentID].size(); i++) {
-		connectionInfo = &connectedTerminalInfo[wireInfo.componentID][i];
-		if (connectionInfo->componentID == wireInfo.componentID &&
-			connectionInfo->terminalNumber == wireInfo.terminalNumber &&
-			connectionInfo->terminalType == wireInfo.terminalType) {
-			connectedTerminalInfo[wireInfo.componentID].erase(connectedTerminalInfo[wireInfo.componentID].begin() + i);
-			break;
-		}
-	}
-
-	return true;
-}
-
-bool CLibraryBox::connectWireAndWire(COMPONENT_CONENTION_INFO & wireA, COMPONENT_CONENTION_INFO & wireB)
-{
-	//둘중 하나라도 존재하지않는 부품일떄
-	if (componentTypeVector[wireA.componentID] == COMPONENT_TYPE_NONE ||
-		componentTypeVector[wireB.componentID] == COMPONENT_TYPE_NONE) {
+	//게이트와 게이트를 분리하려 할떄 또는
+	//줄과 줄을 분리하려 할때
+	if ((componentTypeVector[A.componentID] != COMPONENT_TYPE_WIRE ||
+		componentTypeVector[B.componentID] != COMPONENT_TYPE_WIRE) ||
+		(componentTypeVector[A.componentID] == COMPONENT_TYPE_WIRE &&
+			componentTypeVector[B.componentID] == COMPONENT_TYPE_WIRE)) {
 		return false;
 	}
-	COMPONENT_CONENTION_INFO* wire;
-	//이미 연결했었는지 확인함
-	for (int i = 0; i < connnectionGraph[wireA.componentID].size(); i++) {
-		wire = &connnectionGraph[wireA.componentID][i];
-		if (wire->componentID == wireB.componentID &&
-			wire->terminalNumber == wireB.terminalNumber &&
-			wire->terminalType == wireB.terminalType) {
-			return false;
-		}
-	}
-	for (int i = 0; i < connnectionGraph[wireB.componentID].size(); i++) {
-		wire = &connnectionGraph[wireB.componentID][i];
-		if (wire->componentID == wireA.componentID &&
-			wire->terminalNumber == wireA.terminalNumber &&
-			wire->terminalType == wireA.terminalType) {
-			return false;
-		}
-	}
-
-	//연결함
-	connnectionGraph[wireA.componentID].push_back(wireB);
-	connnectionGraph[wireB.componentID].push_back(wireA);
-	connectedTerminalInfo[wireA.componentID].push_back(wireA);
-	connectedTerminalInfo[wireB.componentID].push_back(wireB);
-
-	return true;
-}
-
-bool CLibraryBox::disconnectWireAndWire(COMPONENT_CONENTION_INFO & wireA, COMPONENT_CONENTION_INFO & wireB)
-{
-	//존재하지 와이어를 분리하려는지 검사함
-	if (componentTypeVector[wireA.componentID] == COMPONENT_TYPE_NONE ||
-		componentTypeVector[wireB.componentID] == COMPONENT_TYPE_NONE) {
+	
+	//존재 하지 않는 단자에 분리하려할때
+	if (A.terminalNumber >= outputGraph[A.componentID].size() ||
+		B.terminalNumber >= inputGraph[B.componentID].size()) {
 		return false;
 	}
 
-	//연결 그래프에서 서로 와이어를 분리함
-	COMPONENT_CONENTION_INFO* currentWire;
-	for (int i = 0; i < connnectionGraph[wireA.componentID].size(); i++) {
-		currentWire = &connnectionGraph[wireA.componentID][i];
-		if (currentWire->componentID == wireB.componentID &&
-			currentWire->terminalNumber == wireB.terminalNumber &&
-			currentWire->terminalType == wireB.terminalType) {
-			connnectionGraph[wireA.componentID].erase(connnectionGraph[wireA.componentID].begin() + i);
-break;
-		}
+	//이미 연결한 단자에 또 분리하려 할떄
+	if (outputGraph[A.componentID][A.terminalNumber].componentID == -1 ||
+		outputGraph[B.componentID][B.terminalNumber].componentID == -1) {
+		return false;
 	}
-	for (int i = 0; i < connnectionGraph[wireB.componentID].size(); i++) {
-		currentWire = &connnectionGraph[wireB.componentID][i];
-		if (currentWire->componentID == wireA.componentID &&
-			currentWire->terminalNumber == wireA.terminalNumber &&
-			currentWire->terminalType == wireA.terminalType) {
-			connnectionGraph[wireB.componentID].erase(connnectionGraph[wireB.componentID].begin() + i);
-			break;
-		}
-	}
+	//A      -> B
+	//output -> input
+	inputGraph[B.componentID][B.terminalNumber].componentID = -1;
+	inputGraph[B.componentID][B.terminalNumber].terminalNumber = -1;
+	inputGraph[B.componentID][B.terminalNumber].terminalType = TERMINAL_TYPE_NONE;
 
-	COMPONENT_CONENTION_INFO* terminalInfo;
-	//서로 사용하는 단자를 갱신함
-	for (int i = 0; i < connnectionGraph[wireA.componentID].size(); i++) {
-		terminalInfo = &connnectionGraph[wireA.componentID][i];
-		if (terminalInfo->componentID == wireA.componentID &&
-			terminalInfo->terminalNumber == wireA.terminalNumber &&
-			terminalInfo->terminalType == wireA.terminalType) {
-			connnectionGraph[wireA.componentID].erase(connnectionGraph[wireA.componentID].begin() + i);
-			break;
-		}
-	}
-	for (int i = 0; i < connnectionGraph[wireB.componentID].size(); i++) {
-		terminalInfo = &connnectionGraph[wireB.componentID][i];
-		if (terminalInfo->componentID == wireB.componentID &&
-			terminalInfo->terminalNumber == wireB.terminalNumber &&
-			terminalInfo->terminalType == wireB.terminalType) {
-			connnectionGraph[wireB.componentID].erase(connnectionGraph[wireB.componentID].begin() + i);
-			break;
-		}
-	}
+	outputGraph[A.componentID][A.terminalNumber].componentID = -1;
+	outputGraph[A.componentID][A.terminalNumber].terminalNumber = -1;
+	outputGraph[A.componentID][A.terminalNumber].terminalType = TERMINAL_TYPE_NONE;
 
-	return true;
 }
+
 
 
 
@@ -420,6 +390,41 @@ vector 로 하지만 일일이 찾아서 삭제 하지말고 그냥 다만들어놓고 하기
 1 충돌되는 와이어를 검사한다
 2 진동검사를 한다 진동하면 예외 발생
 3 직접 갱신하는 함수돌린다
+
+
+
+
+ishavecycle = false
+
+def dfs(curV,inputvalue,terminalNumber):
+global ishavecycle
+//노드의 값을 갱신한다
+component[curV].setvalue(inputvalue,terminalNumber)
+
+//현재 노드가 줄이다
+if component[curV] = WIRE:
+int val = component[curV].getvalue()
+for next in outG[curV]:
+dfs(nextV,val,nextTerminal)
+if isHaveCycle == True:
+return
+
+//현재 노드가 부품일때
+else:
+outputValue = component[curV].getvalue()
+//상태를 검사한다
+if ouputValue in map[curV]:
+//사이클을 찾아냄
+ishavecycle = True
+retern
+for next in outG[curV]:
+val = component[curV].getval(currnetTerminal)
+dfs(nextV,val,currnetTerminal)
+if ishaveCycle == True:
+return
+
+
+return
 
 
 
@@ -475,46 +480,47 @@ bool CLibraryBox::updateCircuit()
 	return false;
 }
 
-void CLibraryBox::printstatus()
-{
-	printf("\n");
-	printf("################################\n");
-	printf("simultor status \n");
-	printf("################################\n");
-
-	//현재 들어있는 컴포넌트들을 과 상태값을 출력한다;
-
-	for (int i = 0; i < componentTypeVector.size(); i++) {
-		//없는거는 생략함
-		if (componentTypeVector[i] == COMPONENT_TYPE_NONE){
-			continue;
-		}
-		printf("componentID : %d component type: %d\n", i, componentTypeVector[i]);
-		printf("component information:\n");
-		//줄일때
-		COMPONENT_CONENTION_INFO* info;
-		printf("using terminal infoation:\n");
-		for (int j = 0; j<connectedTerminalInfo[i].size(); j++) {
-			info = &connectedTerminalInfo[i][j];
-			printf("terminal type : %d  terminal number : %d\n", 
-				info->terminalType, info->terminalNumber);
-		}
-		printf("connnected info\n");
-		for (int j = 0; j<connnectionGraph[i].size(); j++) {
-			info = &connnectionGraph[i][j];
-			printf("connnected to component ID : %d, terminal type : %d	terminal number : %d\n",
-				info->componentID, info->terminalType, info->terminalNumber);
-		}
-		printf("\n");
-	}
-
-
-
-
-	printf("################################\n");
-	printf("end\n");
-	printf("################################\n");
-	printf("\n\n");
-}
+//
+//void CLibraryBox::printstatus()
+//{
+//	printf("\n");
+//	printf("################################\n");
+//	printf("simultor status \n");
+//	printf("################################\n");
+//
+//	//현재 들어있는 컴포넌트들을 과 상태값을 출력한다;
+//
+//	for (int i = 0; i < componentTypeVector.size(); i++) {
+//		//없는거는 생략함
+//		if (componentTypeVector[i] == COMPONENT_TYPE_NONE){
+//			continue;
+//		}
+//		printf("componentID : %d component type: %d\n", i, componentTypeVector[i]);
+//		printf("component information:\n");
+//		//줄일때
+//		COMPONENT_CONENTION_INFO* info;
+//		printf("using terminal infoation:\n");
+//		for (int j = 0; j<connectedTerminalInfo[i].size(); j++) {
+//			info = &connectedTerminalInfo[i][j];
+//			printf("terminal type : %d  terminal number : %d\n", 
+//				info->terminalType, info->terminalNumber);
+//		}
+//		printf("connnected info\n");
+//		for (int j = 0; j<connnectionGraph[i].size(); j++) {
+//			info = &connnectionGraph[i][j];
+//			printf("connnected to component ID : %d, terminal type : %d	terminal number : %d\n",
+//				info->componentID, info->terminalType, info->terminalNumber);
+//		}
+//		printf("\n");
+//	}
+//
+//
+//
+//
+//	printf("################################\n");
+//	printf("end\n");
+//	printf("################################\n");
+//	printf("\n\n");
+//}
 
 

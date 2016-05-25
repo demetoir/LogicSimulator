@@ -129,7 +129,4 @@
       <Filter>헤더 파일\Input Component</Filter>
     </ClInclude>
   </ItemGroup>
-  <ItemGroup>
-    <None Include="ClassDiagram1.cd" />
-  </ItemGroup>
 </Project>
