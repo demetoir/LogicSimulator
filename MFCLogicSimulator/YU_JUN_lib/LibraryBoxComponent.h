@@ -52,6 +52,8 @@ enum COMPONENT_TYPE {
 #define COMPONENT_ID int 
 
 
+
+
 //연결할 component의 구조체
 struct COMPONENT_CONENTION_INFO {
 	COMPONENT_CONENTION_INFO() {
@@ -112,6 +114,19 @@ struct LIBRARY_BOX_DATA {
 
 
 class CLibraryBox :public CComponentObject {
+#define INPUT_PIN_INPUT_SIZE 0
+#define INPUT_PIN_OUTPUT_SIZE 1
+#define ANDGATE_INPUT_SIZE 2
+#define ANDGATE_OUTPUT_SIZE 1
+#define ORGATE_INPUT_SIZE 2
+#define ORGATE_OUTPUT_SIZE 1
+#define NOTGATE_INPUT_SIZE 1
+#define NOTGATE_OUTPUT_SIZE 1
+#define XORGATE_INPUT_SIZE 2
+#define XORGATE_OUTPUT_SIZE 1
+#define OUTPUT_PIN_INPUT_SIZE 1
+#define OUTPUT_PIN_OUTPUT_SIZE 0 
+
 private:
 	//부품들을 담을 벡터 객체들
 	std::vector<CSimulatorObject*> componentVector;
@@ -158,6 +173,8 @@ public:
 	//부품삭제
 	bool deleteComponent(COMPONENT_ID componentID);
 	
+	bool connnectComponent(COMPONENT_CONENTION_INFO& ComponentA, COMPONENT_CONENTION_INFO& ComponentB);
+
 	//연결되지않은 부품과 와이어를 연결함
 	bool connectComponentAndWire(COMPONENT_CONENTION_INFO& ComponentInfo, COMPONENT_CONENTION_INFO& wireInfo);
 	//와이어와 연결된 부품을 분리함

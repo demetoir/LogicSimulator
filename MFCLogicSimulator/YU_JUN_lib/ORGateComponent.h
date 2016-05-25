@@ -1,17 +1,13 @@
 #pragma once
-
 #include "ComponentObject.h"
-#include <vector>
 
-#define OR_GATE_INPUT_VALUE_SIZE 2 
-#define OR_GATE_OUTPUT_VALUE_SIZE 2 
 
 class CORGateComponent :public CComponentObject {
 #define OR_GATE_OUTPUT_DEFAULT_VALUE false
 #define OR_GATE_INPUT_DEFAULT_VALUE false 
 private:
-	std::vector< bool > inputValue;
-	std::vector< bool > outputValue;
+	bool inputValue[2];
+	bool outputValue;
 public:
 	CORGateComponent();
 	CORGateComponent(CORGateComponent& object);
@@ -19,7 +15,6 @@ public:
 
 	bool setInputValue(int index, bool _value);
 	bool getInputValue(int index);
-
-	bool getOutputValue(int index);
+	bool getOutputValue();
 	void updateOutputValue();
 };

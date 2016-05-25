@@ -2,15 +2,15 @@
 
 CNOTGateComponent::CNOTGateComponent()
 {
-	inputValue.resize(NOT_GATE_INPUT_VALUE_SIZE + 1, NOT_GATE_INPUT_DEFAULT_VALUE);
-	outputValue.resize(NOT_GATE_OUTPUT_VALUE_SIZE + 1, NOT_GATE_OUTPUT_DEFAULT_VALUE);
+	inputValue =  NOT_GATE_INPUT_DEFAULT_VALUE;
+	outputValue = NOT_GATE_OUTPUT_DEFAULT_VALUE;
 }
 
 CNOTGateComponent::CNOTGateComponent(CNOTGateComponent & object)
 	:CComponentObject(object)
 {
-	inputValue.resize(NOT_GATE_INPUT_VALUE_SIZE + 1, NOT_GATE_INPUT_DEFAULT_VALUE);
-	outputValue.resize(NOT_GATE_OUTPUT_VALUE_SIZE + 1, NOT_GATE_OUTPUT_DEFAULT_VALUE);
+	inputValue = NOT_GATE_INPUT_DEFAULT_VALUE;
+	outputValue = NOT_GATE_OUTPUT_DEFAULT_VALUE;
 }
 
 CNOTGateComponent::~CNOTGateComponent()
@@ -18,28 +18,29 @@ CNOTGateComponent::~CNOTGateComponent()
 }
 
 //input value 를 변경하면 output value 가 변경되었는지 알려준다
-bool CNOTGateComponent::setInputValue(int index, bool _value)
+bool CNOTGateComponent::setInputValue(bool _value)
 {
 	bool oldOutputValue;
-	oldOutputValue = outputValue[1];
+	oldOutputValue = outputValue;
+	inputValue = _value;
 	updateOutputValue();
-	if (oldOutputValue == outputValue[1]) {
+	if (oldOutputValue == outputValue) {
 		return false;
 	}
 	return true;
 }
 
-bool CNOTGateComponent::getInputValue(int index)
+bool CNOTGateComponent::getInputValue()
 {
-	return inputValue[index];
+	return inputValue;
 }
 
-bool CNOTGateComponent::getOutputValue(int index)
+bool CNOTGateComponent::getOutputValue()
 {
-	return outputValue[index];
+	return outputValue;
 }
 
 void CNOTGateComponent::updateOutputValue()
 {
-	outputValue[1] = !inputValue[1];
+	outputValue = !inputValue;
 }

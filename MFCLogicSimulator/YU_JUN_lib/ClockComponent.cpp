@@ -2,32 +2,29 @@
 
 CClockComponent::CClockComponent()
 {
-	value.resize(CLOCK_COMPONENT_OUTPUT_VALUE_SIZE +1);
-	value[1] = CLOCK_COMPONENT_DEFAULT_VALUE;
-	clockHZ = CLOCK_COMPONENT_DEFAULT_CLOCK_HZ;
-	outputTerminalInfo.resize(CLOCK_COMPONENT_OUTPUT_VALUE_SIZE + 1);
+	value = CLOCK_COMPONENT_DEFAULT_VALUE;
+	clockHZ = CLOCK_COMPONENT_DEFAULT_CLOCK_HZ
 }
 
 CClockComponent::CClockComponent(CClockComponent & object)
 	:CComponentObject(object)
 {
-	value[1] = object.getValue(1);
-	clockHZ = object.getClockHZ();
-	outputTerminalInfo.resize(CLOCK_COMPONENT_OUTPUT_VALUE_SIZE + 1);
+	value = CLOCK_COMPONENT_DEFAULT_VALUE;
+	clockHZ = CLOCK_COMPONENT_DEFAULT_CLOCK_HZ
 }
 
 CClockComponent::~CClockComponent()
 {
 }
 
-void CClockComponent::setValue(int valueIndex, bool _value)
+void CClockComponent::setValue(bool _value)
 {
-	value[valueIndex] = _value;
+	value = _value;
 }
 
-bool CClockComponent::getValue(int valueIndex)
+bool CClockComponent::getValue()
 {
-	return value[valueIndex];
+	return value;
 }
 
 void CClockComponent::setClockHZ(double _clockHZ)

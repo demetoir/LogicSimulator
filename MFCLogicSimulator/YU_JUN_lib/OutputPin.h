@@ -1,15 +1,11 @@
 #pragma once
 
 #include "ComponentObject.h"
-#include <vector>
-
-#define OUTPUT_PIN_INPUT_VALUE_SIZE 1
-#define OUTPUT_PIN_OUTPUT_VALUE_SIZE 1
-#define OUTPUT_PIN_DEFAULT_VALUE true 
 
 class COutputPinComponent :public CComponentObject {
+#define OUTPUT_PIN_DEFAULT_VALUE true 
 private:
-	std::vector<bool> value;
+	bool value;
 public:
 	COutputPinComponent();
 	COutputPinComponent(COutputPinComponent& object);

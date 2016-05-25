@@ -2,15 +2,17 @@
 
 CANDGateComponent::CANDGateComponent()
 {
-	outputValue.resize(AND_GATE_OUTPUT_VALUE_SIZE + 1, AND_GATE_OUTPUT_DEFUALT_VALUE);
-	inputValue.resize(AND_GATE_INPUT_VALUE_SIZE + 1, AND_GATE_INPUT_DEFUALT_VALUE);
+	outputValue =  AND_GATE_OUTPUT_DEFUALT_VALUE;
+	inputValue[0] = AND_GATE_INPUT_DEFUALT_VALUE;
+	inputValue[0] = AND_GATE_INPUT_DEFUALT_VALUE;
 }
 
 CANDGateComponent::CANDGateComponent(CANDGateComponent & object)
 	:CComponentObject(object)
 {
-	outputValue.resize(AND_GATE_OUTPUT_VALUE_SIZE + 1, AND_GATE_OUTPUT_DEFUALT_VALUE);
-	inputValue.resize(AND_GATE_INPUT_VALUE_SIZE + 1, AND_GATE_INPUT_DEFUALT_VALUE);
+	outputValue = AND_GATE_OUTPUT_DEFUALT_VALUE;
+	inputValue[0] = AND_GATE_INPUT_DEFUALT_VALUE;
+	inputValue[0] = AND_GATE_INPUT_DEFUALT_VALUE;
 }
 
 CANDGateComponent::~CANDGateComponent()
@@ -21,10 +23,10 @@ CANDGateComponent::~CANDGateComponent()
 bool CANDGateComponent::setInputValue(int index, bool _value)
 {
 	bool oldOuputValue;
-	oldOuputValue = outputValue[1];
+	oldOuputValue = outputValue;
 	inputValue[index] = _value;
 	updateOutputValue();
-	if (oldOuputValue = outputValue[1]) {
+	if (oldOuputValue = outputValue) {
 		return false;
 	}
 	return true;
@@ -35,12 +37,12 @@ bool CANDGateComponent::getInputValue(int index)
 	return inputValue[index];
 }
 
-bool CANDGateComponent::getOutputValue(int index)
+bool CANDGateComponent::getOutputValue()
 {
-	return	outputValue[index];
+	return	outputValue;
 }
 
 void CANDGateComponent::updateOutputValue()
 {
-	outputValue[1] = (inputValue[1] & inputValue[2]);
+	outputValue = (inputValue[0] & inputValue[1]);
 }

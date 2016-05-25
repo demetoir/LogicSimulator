@@ -2,15 +2,17 @@
 
 CORGateComponent::CORGateComponent()
 {
-	inputValue.resize(OR_GATE_INPUT_VALUE_SIZE + 1, OR_GATE_INPUT_DEFAULT_VALUE);
-	outputValue.resize(OR_GATE_OUTPUT_VALUE_SIZE + 1, OR_GATE_OUTPUT_DEFAULT_VALUE);
+	inputValue[0] =  OR_GATE_INPUT_DEFAULT_VALUE;
+	inputValue[1] = OR_GATE_INPUT_DEFAULT_VALUE;
+	outputValue = OR_GATE_OUTPUT_DEFAULT_VALUE;
 }
 
 CORGateComponent::CORGateComponent(CORGateComponent & object)
 	:CComponentObject(object)
 {
-	inputValue.resize(OR_GATE_INPUT_VALUE_SIZE + 1, OR_GATE_INPUT_DEFAULT_VALUE);
-	outputValue.resize(OR_GATE_OUTPUT_VALUE_SIZE + 1, OR_GATE_OUTPUT_DEFAULT_VALUE);
+	inputValue[0] = OR_GATE_INPUT_DEFAULT_VALUE;
+	inputValue[1] = OR_GATE_INPUT_DEFAULT_VALUE;
+	outputValue = OR_GATE_OUTPUT_DEFAULT_VALUE;
 }
 
 CORGateComponent::~CORGateComponent()
@@ -21,10 +23,10 @@ CORGateComponent::~CORGateComponent()
 bool CORGateComponent::setInputValue(int index, bool _value)
 {
 	bool oldOutputValue;
-	oldOutputValue = outputValue[1];
+	oldOutputValue = outputValue;
 	inputValue[index] = _value;
 	updateOutputValue();
-	if (oldOutputValue == outputValue[1]) {
+	if (oldOutputValue == outputValue) {
 		return false;
 	}
 	return true;
@@ -35,12 +37,12 @@ bool CORGateComponent::getInputValue(int index)
 	return inputValue[index];
 }
 
-bool CORGateComponent::getOutputValue(int index)
+bool CORGateComponent::getOutputValue()
 {
-	return outputValue[index];
+	return outputValue;
 }
 
 void CORGateComponent::updateOutputValue()
 {
-	outputValue[1] = (inputValue[1] | inputValue[2]);
+	outputValue = (inputValue[0] | inputValue[1]);
 }

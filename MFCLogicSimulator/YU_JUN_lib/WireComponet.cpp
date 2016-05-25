@@ -3,43 +3,13 @@
 CWireComponent::CWireComponent()
 {
 	CSimulatorObject();
-	startX = 0;
-	startY = 0;
-	endX = 0;
-	endY = 0;
-	junction = false;
-	value = false;
+	value = WIRE_COMPONENT_DEFAULT_VALUE;
 }
 
 CWireComponent::CWireComponent(CWireComponent&  object)
 	:CSimulatorObject(object)
 {
-	startX = object.getStartX();
-	startY = object.getStartY();
-	endX = object.getEndX();
-	endY = object.getEndY();
-	junction = object.getjuntion();
-	value = false;	
-}
-
-CWireComponent::CWireComponent(int _startX, int _startY, int _endX, int _endY)
-{
-	CComponentObject();
-	startX = _startX;
-	startY = _startY;
-	endX = _endX;
-	endY = _endY;
-	junction = false;
-	value = false;
-}
-
-CWireComponent::CWireComponent(int _startX, int _startY, int _endX, int _endY, bool _junction)
-{
-	startX = _startX;
-	startY = _startY;
-	endX = _endX;
-	endY = _endY;
-	junction = _junction;
+	value = WIRE_COMPONENT_DEFAULT_VALUE;
 }
 
 CWireComponent::~CWireComponent()
@@ -47,63 +17,12 @@ CWireComponent::~CWireComponent()
 	
 }
 
-void CWireComponent::setValue(bool _value)
+bool CWireComponent::setValue(bool _value)
 {
-	value = _value;
+	return value = _value;
 }
 
-int CWireComponent::getValue()
+bool CWireComponent::getValue()
 {
 	return value;
 }
-
-void CWireComponent::setStartX(int _StartX)
-{
-	startX = _StartX;
-}
-
-int CWireComponent::getStartX()
-{
-	return startX;
-}
-
-void CWireComponent::setStartY(int _StartY)
-{
-	startY = _StartY;
-}
-
-int CWireComponent::getStartY()
-{
-	return startY;
-}
-
-void CWireComponent::setJuntion(bool _junction)
-{
-	junction = _junction;
-}
-
-bool CWireComponent::getjuntion()
-{
-	return junction;
-}
-
-void CWireComponent::setEndX(int _EndX)
-{
-	endX = _EndX;
-}
-
-int CWireComponent::getEndX()
-{
-	return endX;
-}
-
-void CWireComponent::setEndY(int _EndY)
-{
-	endY = _EndY;
-}
-
-int CWireComponent::getEndY()
-{
-	return endY;
-}
-
