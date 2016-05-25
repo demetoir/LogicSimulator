@@ -5,12 +5,9 @@
 
 
 #define ONE_BIT_SWITCH_VALUE_SIZE 1
-#define ONE_BIT_SWITCH_DEFAULT_VALUE false
-
-
 
 class COneBitSwitchComponent :public CComponentObject {
-
+#define ONE_BIT_SWITCH_DEFAULT_VALUE false
 private:
 	std::vector<bool> value;
 

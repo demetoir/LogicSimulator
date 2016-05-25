@@ -6,9 +6,8 @@
 
 #define INPUT_PIN_OUTPUT_VALUE_SIZE 1
 
-#define INPUT_PIN_DEFAULT_INPUT_VALUE false
-
 class CInputPinComponent :public CComponentObject{
+#define INPUT_PIN_DEFAULT_INPUT_VALUE false
 private:
 	std::vector<bool>value;
 public:

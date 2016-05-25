@@ -106,19 +106,19 @@ bool CLibraryBox::addComponent(COMPONENT_INFO & componentInfo)
 		inputPinIDVector.push_back(newComponentID);
 		componentVector[newComponentID] = new CInputPinComponent();
 		inputGraph[newComponentID].resize(0);
-		outputGraph[newComponentID].resize(INPUT_PIN_OUTPUT_VALUE_SIZE);
+		outputGraph[newComponentID].resize(INPUT_PIN_OUTPUT_VALUE_SIZE+1);
 		break;
 	case COMPONENT_TYPE_CLOCK:
 		componentVector[newComponentID] = new CClockComponent();
-		inputGraph[newComponentID].resize(CLOCK_COMPONENT_OUTPUT_VALUE_SIZE+1);
-		outputGraph[newComponentID].resize(0);
+		inputGraph[newComponentID].resize(0);
+		outputGraph[newComponentID].resize(CLOCK_COMPONENT_OUTPUT_VALUE_SIZE+1);
 		break;
 	case COMPONENT_TYPE_ONE_BIT_SWITCH:
 		componentVector[newComponentID] = new COneBitSwitchComponent();		
-		inputGraph[newComponentID].resize(ONE_BIT_LAMP_INPUT_VALUE_SIZE+1);
-		outputGraph[newComponentID].resize(0);
-
+		inputGraph[newComponentID].resize(0);
+		outputGraph[newComponentID].resize(ONE_BIT_LAMP_INPUT_VALUE_SIZE);
 		break;
+
 		//logic gate component
 	case COMPONENT_TYPE_AND_GATE:
 		componentVector[newComponentID] = new CANDGateComponent();
@@ -159,12 +159,12 @@ bool CLibraryBox::addComponent(COMPONENT_INFO & componentInfo)
 		outputPinIDVector.push_back(newComponentID);
 		componentVector[newComponentID] = new COutputPinComponent();
 		inputGraph[newComponentID].resize(OUTPUT_PIN_INPUT_VALUE_SIZE);
-		outputGraph[newComponentID].resize(CLOCK_COMPONENT_OUTPUT_TERMINAL_NUMBER);
+		outputGraph[newComponentID].resize(0);
 		break;
 	case COMPONENT_TYPE_ONE_BIT_LAMP:
 		componentVector[newComponentID] = new COneBitLampComponent();
-		inputGraph[newComponentID].resize(CLOCK_COMPONENT_INPUT_TERMINAL_NUMBER);
-		outputGraph[newComponentID].resize(CLOCK_COMPONENT_OUTPUT_TERMINAL_NUMBER);
+		inputGraph[newComponentID].resize(ONE_BIT_LAMP_INPUT_VALUE_SIZE);
+		outputGraph[newComponentID].resize(0);
 		break;
 
 

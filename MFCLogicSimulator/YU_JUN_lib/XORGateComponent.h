@@ -3,13 +3,11 @@
 #include <vector>
 
 #define XOR_GATE_INPUT_VALUE_SIZE 2
-#define XOR_GATE_INPUT_DEFAULT_VALUE false
-
 #define XOR_GATE_OUTPUT_VALUE_SIZE 2
-#define XOR_GATE_OUTPUT_DEFAULT_VALUE false
-
 
 class CXORGateComponent :public CComponentObject {
+#define XOR_GATE_INPUT_DEFAULT_VALUE false
+#define XOR_GATE_OUTPUT_DEFAULT_VALUE false
 private:
 	std::vector< bool > inputValue;
 	std::vector< bool > outputValue;

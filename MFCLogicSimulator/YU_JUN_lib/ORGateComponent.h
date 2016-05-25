@@ -4,11 +4,11 @@
 #include <vector>
 
 #define OR_GATE_INPUT_VALUE_SIZE 2 
-#define OR_GATE_INPUT_DEFAULT_VALUE false 
 #define OR_GATE_OUTPUT_VALUE_SIZE 2 
-#define OR_GATE_OUTPUT_DEFAULT_VALUE false
 
 class CORGateComponent :public CComponentObject {
+#define OR_GATE_OUTPUT_DEFAULT_VALUE false
+#define OR_GATE_INPUT_DEFAULT_VALUE false 
 private:
 	std::vector< bool > inputValue;
 	std::vector< bool > outputValue;

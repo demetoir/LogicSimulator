@@ -1,15 +1,13 @@
 #pragma once
 #include "ComponentObject.h"
-#include "vector"
-
+#include <vector>
 
 #define NOT_GATE_INPUT_VALUE_SIZE 1
-#define NOT_GATE_INPUT_DEFAULT_VALUE false
-
 #define NOT_GATE_OUTPUT_VALUE_SIZE 1
-#define NOT_GATE_OUTPUT_DEFAULT_VALUE false
 
 class CNOTGateComponent :public CComponentObject {
+#define NOT_GATE_INPUT_DEFAULT_VALUE false
+#define NOT_GATE_OUTPUT_DEFAULT_VALUE false
 private:
 	std::vector < bool > inputValue;
 	std::vector < bool > outputValue;

@@ -148,8 +148,6 @@
     <ClCompile Include="ComponentObject.cpp" />
     <ClCompile Include="InputPinComponent.cpp" />
     <ClCompile Include="LibraryBoxComponent.cpp" />
-    <ClCompile Include="NANDGateComponent.cpp" />
-    <ClCompile Include="NORGateComponent.cpp" />
     <ClCompile Include="NOTGateComponent.cpp" />
     <ClCompile Include="OneBitLampComponent.cpp" />
     <ClCompile Include="OneBitSwitch.cpp" />
@@ -167,8 +165,6 @@
     <ClInclude Include="ComponentObject.h" />
     <ClInclude Include="InputPinComponent.h" />
     <ClInclude Include="LibraryBoxComponent.h" />
-    <ClInclude Include="NANDGateComponent.h" />
-    <ClInclude Include="NORGateComponent.h" />
     <ClInclude Include="NOTGateComponent.h" />
     <ClInclude Include="OneBitLampComponent.h" />
     <ClInclude Include="OneBitSwitch.h" />

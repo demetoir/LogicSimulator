@@ -6,10 +6,9 @@
 
 
 #define CLOCK_COMPONENT_OUTPUT_VALUE_SIZE 1
-#define CLOCK_COMPONENT_DEFAULT_CLOCK_HZ 10
-
 
 class CClockComponent :public CComponentObject {
+#define CLOCK_COMPONENT_DEFAULT_CLOCK_HZ 10
 #define CLOCK_COMPONENT_DEFAULT_VALUE false
 private:
 	bool value;
