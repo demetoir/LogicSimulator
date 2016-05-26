@@ -2,13 +2,17 @@
 
 C7SegmentComponent::C7SegmentComponent()
 {
-	value.resize(SEVEN_SEGMENT_INPUT_VALUE_SIZE + 1, SEVEN_SEGMENT_DEFUALT_VALUE);
+	for (int i = 0; i < 7; i++) {
+		value[i] = false;
+	}
 }
 
 C7SegmentComponent::C7SegmentComponent(C7SegmentComponent & object)
 	:CComponentObject(object)
 {
-	value.resize(SEVEN_SEGMENT_INPUT_VALUE_SIZE + 1, SEVEN_SEGMENT_DEFUALT_VALUE);
+	for (int i = 0; i < 7; i++) {
+		value[i] = false;
+	}
 }
 
 C7SegmentComponent::~C7SegmentComponent()
@@ -16,13 +20,28 @@ C7SegmentComponent::~C7SegmentComponent()
 	
 }
 
-bool C7SegmentComponent::get7SegmentState(int index)
+bool C7SegmentComponent::setInputValue(int index, bool _value)
+{
+	bool oldValue = value[index];
+	value[index] = _value;
+	if (oldValue == _value) {
+		return false;
+	}
+	return true;
+}
+
+bool C7SegmentComponent::getInputValue(int index)
 {
 	return value[index];
 }
 
-void C7SegmentComponent::set7SegmentState(int index, bool _value)
+bool C7SegmentComponent::getOutputValue(int index)
 {
-	value[index] = _value;
+	return value[index];
+}
+
+bool C7SegmentComponent::update()
+{
+	return false;
 }
 

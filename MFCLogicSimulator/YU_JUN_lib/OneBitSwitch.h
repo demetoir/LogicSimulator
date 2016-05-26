@@ -1,20 +1,20 @@
 #pragma once
 #include "ComponentObject.h"
-#include "vector"
-
-
 
 #define ONE_BIT_SWITCH_VALUE_SIZE 1
 
 class COneBitSwitchComponent :public CComponentObject {
 #define ONE_BIT_SWITCH_DEFAULT_VALUE false
 private:
-	std::vector<bool> value;
-
+	bool value;
 public:
 	COneBitSwitchComponent();
 	COneBitSwitchComponent(COneBitSwitchComponent& obj);
 	virtual ~COneBitSwitchComponent();
-	bool getValue();
-	void setValue(bool _val);
+
+
+	virtual bool setInputValue(int index, bool _value);
+	virtual bool getInputValue(int index);
+	virtual bool getOutputValue(int index);
+	virtual bool update();
 };

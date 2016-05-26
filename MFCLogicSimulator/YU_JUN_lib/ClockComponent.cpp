@@ -17,15 +17,30 @@ CClockComponent::~CClockComponent()
 {
 }
 
-void CClockComponent::setValue(bool _value)
+bool CClockComponent::setInputValue(int index, bool _value)
 {
+	if (value == _value) {
+		return false;
+	}
 	value = _value;
+	return true;
 }
 
-bool CClockComponent::getValue()
+bool CClockComponent::getInputValue(int index)
 {
 	return value;
 }
+
+bool CClockComponent::getOutputValue(int index)
+{
+	return value;
+}
+
+bool CClockComponent::update()
+{
+	return false;
+}
+
 
 void CClockComponent::setClockHZ(double _clockHZ)
 {

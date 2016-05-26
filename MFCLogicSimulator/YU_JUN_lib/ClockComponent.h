@@ -16,8 +16,10 @@ public:
 	CClockComponent(CClockComponent& object);
 	virtual ~CClockComponent();
 
-	void setValue(bool _value);
-	bool getValue();
+	virtual bool setInputValue(int index, bool _value);
+	virtual bool getInputValue(int index);
+	virtual bool getOutputValue(int index);
+	virtual bool update();
 
 	void setClockHZ(double _clockHZ);
 	double getClockHZ();

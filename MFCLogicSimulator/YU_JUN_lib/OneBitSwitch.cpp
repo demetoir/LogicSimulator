@@ -2,15 +2,13 @@
 
 COneBitSwitchComponent::COneBitSwitchComponent()
 {
-	value.resize(ONE_BIT_SWITCH_VALUE_SIZE+1);
-	value[1] = ONE_BIT_SWITCH_DEFAULT_VALUE;
+	value = ONE_BIT_SWITCH_DEFAULT_VALUE;
 }
 
 COneBitSwitchComponent::COneBitSwitchComponent(COneBitSwitchComponent & obj)
 	:CComponentObject(obj)
 {
-	value.resize(ONE_BIT_SWITCH_VALUE_SIZE + 1);
-	value[1] = obj.getValue();
+	value = ONE_BIT_SWITCH_DEFAULT_VALUE;
 }
 
 COneBitSwitchComponent::~COneBitSwitchComponent()
@@ -18,14 +16,28 @@ COneBitSwitchComponent::~COneBitSwitchComponent()
 	
 }
 
-bool COneBitSwitchComponent::getValue()
+bool COneBitSwitchComponent::setInputValue(int index, bool _value)
 {
-	return value[1];
+	if (value == _value) {
+		return false;
+	}
+	value = _value;
+	return  true;
 }
 
-void COneBitSwitchComponent::setValue(bool _value)
+bool COneBitSwitchComponent::getInputValue(int index)
 {
-	value[1] = _value;
+	return value;
+}
+
+bool COneBitSwitchComponent::getOutputValue(int index)
+{
+	return false;
+}
+
+bool COneBitSwitchComponent::update()
+{
+	return false;
 }
 
 

@@ -2,25 +2,42 @@
 
 COneBitLampComponent::COneBitLampComponent()
 {
-	value.resize(ONE_BIT_LAMP_INPUT_VALUE_SIZE + 1, ONE_BIT_LAMP_DEFUALT_VALUE);
+	value = ONE_BIT_LAMP_DEFUALT_VALUE;
 }
 
 COneBitLampComponent::COneBitLampComponent(COneBitLampComponent & object)
 	:CComponentObject(object)
 {
-	value.resize(ONE_BIT_LAMP_INPUT_VALUE_SIZE + 1, ONE_BIT_LAMP_DEFUALT_VALUE);
+	value = ONE_BIT_LAMP_DEFUALT_VALUE;
 }
 
 COneBitLampComponent::~COneBitLampComponent()
 {
 }
 
-void COneBitLampComponent::setValue(bool _value)
+bool COneBitLampComponent::setInputValue(int index, bool _value)
 {
-	value[1] = _value;
+	bool oldValue;
+	value = _value;
+	if(oldValue == value){
+		return false;
+	}
+	return true;
 }
 
-bool COneBitLampComponent::getValue()
+bool COneBitLampComponent::getInputValue(int index)
 {
-	return value[1];
+	return value;
 }
+
+bool COneBitLampComponent::getOutputValue(int index)
+{
+	return value;
+}
+
+bool COneBitLampComponent::update()
+{
+	return false;
+}
+
+
