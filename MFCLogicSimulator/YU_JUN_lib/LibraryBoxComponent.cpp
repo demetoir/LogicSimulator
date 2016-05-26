@@ -16,7 +16,8 @@ CLibraryBox::CLibraryBox()
 	//연결하는 방향 그래프	
 	inputGraph.resize(VECTOR_INIT_SIZE);
 	outputGraph.resize(VECTOR_INIT_SIZE);
-
+	numberOfComponent = 0;
+	isOscillation = false;
 	
 }
 
@@ -91,7 +92,7 @@ bool CLibraryBox::addComponent(COMPONENT_INFO & componentInfo)
 {
 	COMPONENT_TYPE newComponentType;
 	COMPONENT_ID newComponentID;
-	
+
 	COMPONENT_CONENTION_INFO empty;
 
 	//아이디를 할당해줌
@@ -101,9 +102,16 @@ bool CLibraryBox::addComponent(COMPONENT_INFO & componentInfo)
 
 	//부품들의 저장할공간과 그래프의 용량을 더 추가 해야 할경우 확장함
 	if (componentVector.size() <= newComponentID) {
-		componentVector.resize(componentVector.size() + 10);
-		inputGraph.resize(inputGraph.size() + 10);
-		outputGraph.resize(outputGraph.size() + 10);
+		componentVector.resize(componentVector.size() + 3);
+	}
+	if (inputGraph.size() <= newComponentID){
+		inputGraph.resize(inputGraph.size() + 3);
+	}
+	if (outputGraph.size()<=newComponentID){
+		outputGraph.resize(outputGraph.size() + 3);
+	}
+	if (componentTypeVector.size() <= newComponentID) {
+		componentTypeVector.resize(componentTypeVector.size() + 3);
 	}
 
 	switch (newComponentType)
@@ -112,6 +120,7 @@ bool CLibraryBox::addComponent(COMPONENT_INFO & componentInfo)
 	case COMPONENT_TYPE_INPUT_PIN:
 		inputPinIDVector.push_back(newComponentID);
 		componentVector[newComponentID] = new CInputPinComponent();
+		
 		inputGraph[newComponentID].resize(INPUT_PIN_INPUT_SIZE, empty);
 		outputGraph[newComponentID].resize(INPUT_PIN_OUTPUT_SIZE, empty);
 		break;
@@ -165,7 +174,8 @@ bool CLibraryBox::addComponent(COMPONENT_INFO & componentInfo)
 		break;
 	}
 
-
+	componentTypeVector[newComponentID] = newComponentType;
+	numberOfComponent += 1;
 
 	//생성 성공
 	return true;
@@ -201,8 +211,29 @@ bool CLibraryBox::deleteComponent(COMPONENT_ID _componentID)
 	inputGraph[_componentID].resize(inputGraph[_componentID].size(), deleteinfo);
 	outputGraph[_componentID].resize(outputGraph[_componentID].size(), deleteinfo);
 
+	//input pin 또는 output pin 이면 각각의 핀벡터에서 삭제한다
+	if (componentTypeVector[_componentID] == COMPONENT_TYPE_INPUT_PIN) {
+		for (int i = 0; i < inputPinIDVector.size(); i++) {
+			if (inputPinIDVector[i] == _componentID) {
+				inputPinIDVector.erase(inputPinIDVector.begin() + i);
+				break;
+			}
+		}
+	}
+	if (componentTypeVector[_componentID] == COMPONENT_TYPE_OUTPUT_PIN) {
+		for (int i = 0; i < outputPinIDVector.size(); i++) {
+			if (inputPinIDVector[i] == _componentID) {
+				outputPinIDVector.erase(outputPinIDVector.begin() + i);
+				break;
+			}			
+		}
+	}
+	
+	componentTypeVector[_componentID] = COMPONENT_TYPE_NONE;
 	//컴포넌트 아이디 삭제
 	deleteComponentID(_componentID);
+
+	numberOfComponent -= 1;
 	return true;
 }
 
@@ -432,6 +463,10 @@ return
 */
 bool CLibraryBox::updateCircuit()
 {
+	if (isOscillation == true) {
+		return false;
+	}
+
 
 	//와이어간에는 양뱡향이다
 	//부품과 와이어간의 단방향으로감
@@ -441,41 +476,43 @@ bool CLibraryBox::updateCircuit()
 	//만약 진동 회로 이면 멈추그만한다...
 
 	//bfs 방식으로 한다
-	std::queue<COMPONENT_ID> queue;
-	std::vector< std::vector<bool> > componentValueVector;
+	//bfs 를 위한 queue
+	//pair = (time,componentID)
+	queue< pair< int, int > > Q.;
 
-	//값을 저장해놓음
-	//필요한 사이즈 많큼 할당해놓음
-	componentValueVector.resize(componentTypeVector.size());
+	vector<int> checktime;
+	checktime.resize(componentIDVector.size(), 0);
+	int time = 0;
+	int timeLimit = 123456;
 
-
-	for (int i = 0; i < componentTypeVector.size(); i++) {
-
-
-
-
-	}
-
-	//시작점인 인풋핀의 component id 를 큐에다가 넣는다
+	//시작점이 될 부품을 큐에다가 집어넣음
 	for (int i = 0; i < inputPinIDVector.size(); i++) {
-		queue.push(inputPinIDVector[i]);
+		time += 1;
+		Q.push(make_pair(time, inputPinIDVector[i]));
+		checktime[inputPinIDVector[i]] = time;		
 	}
+	int curtime, curID;
+	while (!Q.empty()) {
+		
+		curtime= Q.front().first;
+		curID = Q.front().second;
+		Q.pop();
+		//최근의 정보가 아닐떄 그냥 넘김
+		if (checktime[curID] > curtime) { continue; }
+		
+		//시간은 흐른다
+		time += 1;
 
 
-	//큐를 돌면서 부품들의 내부정보를 갱신한다
-	while (queue.empty()) {
+		//현재 부품의 값을 갱신함
+		
+		//갱신해도 달라지지 않으면 넘어감
 
+		//다른값이 들어오면 다른 부품으로 전달함
 
 
 
 	}
-	//탐색을 할떄 아웃풋 방향으로 들어가면 더 멈춤
-	//또는 인풋으로 들어갔는데 나오는 아웃풋이 달라지면  달라지는 아웃풋에대해
-	//큐에 추가한다
-	//와이어는 인풋 아웃풋이 상관이없음
-
-	//오큘레이션 디텍션 어떻게 해야함?
-
 
 	return false;
 }

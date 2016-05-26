@@ -24,11 +24,13 @@
 
 #include <vector>
 #include <queue>
-
-
+using std::vector;
+using std::queue;
+using std::pair;
+using std::make_pair;
 //디버깅용 출력하는거
 #include <stdio.h>
-using std::vector;
+
 
 enum TERMINAL_TYPE {
 	TERMINAL_TYPE_NONE, TERMINAL_TYPE_INPUT,
@@ -126,6 +128,7 @@ class CLibraryBox :public CComponentObject {
 #define OUTPUT_PIN_OUTPUT_SIZE 0 
 
 private:
+	int numberOfComponent;
 	//부품들을 담을 벡터 객체들
 	vector< CSimulatorObject* > componentVector;
 
@@ -142,7 +145,7 @@ private:
 
 	//부품들의 아이디를 저장하는 벡터
 	vector < bool > componentIDVector;
-
+	bool isOscillation;
 
 public:
 	CLibraryBox();
