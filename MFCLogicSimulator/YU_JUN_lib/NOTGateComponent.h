@@ -14,9 +14,9 @@ public:
 
 	//input value 를 변경하면 output value 가 변경되었는지 알려준다
 
-	virtual bool setInputValue(bool _value);
-	virtual bool getInputValue();
-	virtual bool getOutputValue();
+	virtual bool setInputValue(int index,bool _value);
+	virtual bool getInputValue(int index);
+	virtual bool getOutputValue(int index);
 	virtual bool update();
 
 

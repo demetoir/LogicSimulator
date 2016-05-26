@@ -31,7 +31,7 @@ bool CORGateComponent::getInputValue(int index)
 	return inputValue[index];
 }
 
-bool CORGateComponent::getOutputValue()
+bool CORGateComponent::getOutputValue(int index)
 {
 	return outputValue;
 }

@@ -75,6 +75,7 @@ bool CLibraryBox::getSingleInputPinValue(int _inputPinNumber)
 	inputPinID = inputPinIDVector[_inputPinNumber];
 	CComponentObject* componentObject = ((CComponentObject*)componentVector[inputPinID]);
 	CInputPinComponent* inputPinObject = ((CInputPinComponent*)componentObject);
+	return false;
 }
 
 bool CLibraryBox::getSingleOutputPinValue(int _outPutPinNumber)
@@ -83,6 +84,7 @@ bool CLibraryBox::getSingleOutputPinValue(int _outPutPinNumber)
 	outputPinID = inputPinIDVector[_outPutPinNumber];
 	CComponentObject* componentObject = ((CComponentObject*)componentVector[outputPinID]);
 	CInputPinComponent* outputPinObject = ((CInputPinComponent*)componentObject);
+	return false;
 }
 
 
@@ -130,6 +132,8 @@ bool CLibraryBox::addComponent(COMPONENT_INFO & componentInfo)
 		componentVector[newComponentID] = new CANDGateComponent();
 		inputGraph[newComponentID].resize(ANDGATE_INPUT_SIZE, empty);
 		outputGraph[newComponentID].resize(ANDGATE_OUTPUT_SIZE, empty);
+		printf("%d\n", componentVector[newComponentID]->getOutputValue());
+
 		break;
 	case COMPONENT_TYPE_OR_GATE:
 		componentVector[newComponentID] = new CORGateComponent();
@@ -379,7 +383,7 @@ bool CLibraryBox::disconnectComponent(COMPONENT_CONENTION_INFO * componentA, COM
 	outputGraph[A.componentID][A.terminalNumber].componentID = -1;
 	outputGraph[A.componentID][A.terminalNumber].terminalNumber = -1;
 	outputGraph[A.componentID][A.terminalNumber].terminalType = TERMINAL_TYPE_NONE;
-
+	return true;
 }
 
 
@@ -478,13 +482,13 @@ bool CLibraryBox::updateCircuit()
 	//bfs 방식으로 한다
 	//bfs 를 위한 queue
 	//pair = (time,componentID)
-	queue< pair< int, int > > Q.;
+	queue< pair< int, int > > Q;
 
 	vector<int> checktime;
 	checktime.resize(componentIDVector.size(), 0);
 	int time = 0;
 	int timeLimit = 123456;
-
+	CComponentObject* curComponent;
 	//시작점이 될 부품을 큐에다가 집어넣음
 	for (int i = 0; i < inputPinIDVector.size(); i++) {
 		time += 1;
@@ -502,10 +506,11 @@ bool CLibraryBox::updateCircuit()
 		
 		//시간은 흐른다
 		time += 1;
-
+		
 
 		//현재 부품의 값을 갱신함
-	
+		curComponent = componentVector[curID];
+
 		//갱신해도 달라지지 않으면 넘어감
 
 		//다른값이 들어오면 다른 부품으로 전달함

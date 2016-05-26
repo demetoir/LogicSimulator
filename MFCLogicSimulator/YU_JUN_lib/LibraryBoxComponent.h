@@ -130,7 +130,7 @@ class CLibraryBox :public CComponentObject {
 private:
 	int numberOfComponent;
 	//부품들을 담을 벡터 객체들
-	vector< CSimulatorObject* > componentVector;
+	vector< CComponentObject* > componentVector;
 
 	//라이브러리 박스의 인풋핀과 아웃풋 핀을 저장하는 벡터 리스트
 	vector< COMPONENT_ID > inputPinIDVector;

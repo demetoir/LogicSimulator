@@ -15,7 +15,7 @@ CInputPinComponent::~CInputPinComponent()
 {
 }
 
-bool CInputPinComponent::setInputValue(bool _value)
+bool CInputPinComponent::setInputValue(int index, bool _value)
 {
 	bool oldValue = value;
 	value = _value;
@@ -25,12 +25,12 @@ bool CInputPinComponent::setInputValue(bool _value)
 	return false;
 }
 
-bool CInputPinComponent::getInputValue()
+bool CInputPinComponent::getInputValue(int index)
 {
 	return value;
 }
 
-bool CInputPinComponent::getOutputValue()
+bool CInputPinComponent::getOutputValue(int index)
 {
 	return value;
 }

@@ -15,7 +15,7 @@ COutputPinComponent::~COutputPinComponent()
 {
 }
 
-bool COutputPinComponent::setInputValue(bool _value)
+bool COutputPinComponent::setInputValue(int index, bool _value)
 {
 	bool oldValue = value;
 	value = _value;
@@ -25,12 +25,12 @@ bool COutputPinComponent::setInputValue(bool _value)
 	return true;
 }
 
-bool COutputPinComponent::getInputValue()
+bool COutputPinComponent::getInputValue(int index)
 {
 	return value;
 }
 
-bool COutputPinComponent::getOutputValue()
+bool COutputPinComponent::getOutputValue(int index)
 {
 	return value;
 }

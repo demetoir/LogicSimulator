@@ -30,7 +30,7 @@ bool CXORGateComponent::getInputValue(int index)
 	return inputValue[index];
 }
 
-bool CXORGateComponent::getOutputValue()
+bool CXORGateComponent::getOutputValue(int index)
 {
 	return outputValue ;
 }

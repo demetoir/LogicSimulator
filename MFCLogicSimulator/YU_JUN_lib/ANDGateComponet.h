@@ -18,7 +18,7 @@ public:
 
 	virtual bool setInputValue(int index, bool _value);
 	virtual bool getInputValue(int index);
-	virtual bool getOutputValue();
+	virtual bool getOutputValue(int index);
 	virtual bool update();
 
 

@@ -18,24 +18,18 @@ CNOTGateComponent::~CNOTGateComponent()
 }
 
 //input value 를 변경하면 output value 가 변경되었는지 알려준다
-bool CNOTGateComponent::setInputValue(bool _value)
+bool CNOTGateComponent::setInputValue(int index,bool _value)
 {
-	bool oldOutputValue;
-	oldOutputValue = outputValue;
 	inputValue = _value;
-	updateOutputValue();
-	if (oldOutputValue == outputValue) {
-		return false;
-	}
-	return true;
+	return update();
 }
 
-bool CNOTGateComponent::getInputValue()
+bool CNOTGateComponent::getInputValue(int index)
 {
 	return inputValue;
 }
 
-bool CNOTGateComponent::getOutputValue()
+bool CNOTGateComponent::getOutputValue(int index)
 {
 	return outputValue;
 }

@@ -2,7 +2,6 @@
 
 CWireComponent::CWireComponent()
 {
-	CSimulatorObject();
 	value = WIRE_COMPONENT_DEFAULT_VALUE;
 }
 

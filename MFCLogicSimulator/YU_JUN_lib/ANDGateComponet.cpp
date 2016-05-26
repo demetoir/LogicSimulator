@@ -31,14 +31,14 @@ bool CANDGateComponent::getInputValue(int index)
 	return inputValue[index];
 }
 
-bool CANDGateComponent::getOutputValue()
+bool CANDGateComponent::getOutputValue(int index)
 {
 	return	outputValue;
 }
 
 bool CANDGateComponent::update()
 {
-	int oldValue = outputValue;
+	bool oldValue = outputValue;
 	outputValue = (inputValue[0] & inputValue[1]);
 	if (oldValue == outputValue) {
 		return false;

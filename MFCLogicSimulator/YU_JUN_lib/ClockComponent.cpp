@@ -3,14 +3,14 @@
 CClockComponent::CClockComponent()
 {
 	value = CLOCK_COMPONENT_DEFAULT_VALUE;
-	clockHZ = CLOCK_COMPONENT_DEFAULT_CLOCK_HZ
+	clockHZ = CLOCK_COMPONENT_DEFAULT_CLOCK_HZ;
 }
 
 CClockComponent::CClockComponent(CClockComponent & object)
 	:CComponentObject(object)
 {
 	value = CLOCK_COMPONENT_DEFAULT_VALUE;
-	clockHZ = CLOCK_COMPONENT_DEFAULT_CLOCK_HZ
+	clockHZ = CLOCK_COMPONENT_DEFAULT_CLOCK_HZ;
 }
 
 CClockComponent::~CClockComponent()
