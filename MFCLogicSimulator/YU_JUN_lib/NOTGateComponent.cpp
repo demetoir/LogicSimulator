@@ -40,7 +40,13 @@ bool CNOTGateComponent::getOutputValue()
 	return outputValue;
 }
 
-void CNOTGateComponent::updateOutputValue()
+bool CNOTGateComponent::update()
 {
+	bool oldvalue = outputValue;
 	outputValue = !inputValue;
+	if (oldvalue == outputValue) {
+		return false;
+	}
+	return true;
 }
+

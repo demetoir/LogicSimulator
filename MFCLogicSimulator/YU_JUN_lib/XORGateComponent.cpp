@@ -21,14 +21,8 @@ CXORGateComponent::~CXORGateComponent()
 
 bool CXORGateComponent::setInputValue(int index, bool _value)
 {
-	bool oldOutputValue;
-	oldOutputValue = outputValue;
 	inputValue[index] = _value;
-	updateOutputValue();
-	if (oldOutputValue == outputValue) {
-		return false;
-	}
-	return true;
+	return update();
 }
 
 bool CXORGateComponent::getInputValue(int index)
@@ -38,10 +32,17 @@ bool CXORGateComponent::getInputValue(int index)
 
 bool CXORGateComponent::getOutputValue()
 {
-	return outputValue;
+	return outputValue ;
 }
 
-void CXORGateComponent::updateOutputValue()
+bool CXORGateComponent::update()
 {
+	bool oldValue = outputValue;
 	outputValue = (inputValue[0] ^ inputValue[1]);
+	if (oldValue == outputValue) {
+		return false;
+	}
+	return true;
 }
+
+

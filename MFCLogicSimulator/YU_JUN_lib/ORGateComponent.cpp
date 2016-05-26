@@ -22,14 +22,8 @@ CORGateComponent::~CORGateComponent()
 
 bool CORGateComponent::setInputValue(int index, bool _value)
 {
-	bool oldOutputValue;
-	oldOutputValue = outputValue;
 	inputValue[index] = _value;
-	updateOutputValue();
-	if (oldOutputValue == outputValue) {
-		return false;
-	}
-	return true;
+	return update();
 }
 
 bool CORGateComponent::getInputValue(int index)
@@ -42,7 +36,13 @@ bool CORGateComponent::getOutputValue()
 	return outputValue;
 }
 
-void CORGateComponent::updateOutputValue()
+bool CORGateComponent::update()
 {
+	bool oldValue = outputValue;
 	outputValue = (inputValue[0] | inputValue[1]);
+	if (oldValue == outputValue) {
+		return false;
+	}
+	return true;
 }
+

@@ -15,9 +15,13 @@ public:
 	CANDGateComponent(CANDGateComponent& object);
 	virtual ~CANDGateComponent();
 
-	//input이 바뀌면 output 값이 바뀌었는지 를 반환해줌
-	bool setInputValue(int index, bool _value);
-	bool getInputValue(int index);
-	bool getOutputValue();
-	void updateOutputValue();
+
+	virtual bool setInputValue(int index, bool _value);
+	virtual bool getInputValue(int index);
+	virtual bool getOutputValue();
+	virtual bool update();
+
+
+
+
 };

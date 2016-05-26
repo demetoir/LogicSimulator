@@ -2,7 +2,7 @@
 #include "ComponentObject.h"
 #include <vector>
 
-class CWireComponent:public CSimulatorObject {
+class CWireComponent:public CComponentObject {
 #define WIRE_COMPONENT_DEFAULT_VALUE false
 private:
 	bool value;
@@ -11,6 +11,8 @@ public:
 	CWireComponent(CWireComponent& object);
 	virtual ~CWireComponent();
 
-	bool setValue(bool _value);
-	bool getValue();
+	virtual bool setInputValue(bool _value);
+	virtual bool getInputValue();
+	virtual bool getOutputValue();
+	virtual bool update();
 };

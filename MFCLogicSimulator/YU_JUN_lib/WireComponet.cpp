@@ -7,7 +7,7 @@ CWireComponent::CWireComponent()
 }
 
 CWireComponent::CWireComponent(CWireComponent&  object)
-	:CSimulatorObject(object)
+	:CComponentObject(object)
 {
 	value = WIRE_COMPONENT_DEFAULT_VALUE;
 }
@@ -17,12 +17,29 @@ CWireComponent::~CWireComponent()
 	
 }
 
-bool CWireComponent::setValue(bool _value)
+bool CWireComponent::setInputValue(bool _value)
 {
-	return value = _value;
+	bool oldValue = value;
+	value = _value;
+	if (oldValue == value) {
+		return false;
+	}
+	return true;
 }
 
-bool CWireComponent::getValue()
+bool CWireComponent::getInputValue()
 {
 	return value;
 }
+
+bool CWireComponent::getOutputValue()
+{
+	return value;
+}
+
+bool CWireComponent::update()
+{
+	return false;
+}
+
+

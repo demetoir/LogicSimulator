@@ -15,12 +15,27 @@ COutputPinComponent::~COutputPinComponent()
 {
 }
 
-void COutputPinComponent::setValue(bool _value)
+bool COutputPinComponent::setInputValue(bool _value)
 {
+	bool oldValue = value;
 	value = _value;
+	if (oldValue == value) {
+		return false;
+	}
+	return true;
 }
 
-bool COutputPinComponent::getValue()
+bool COutputPinComponent::getInputValue()
 {
 	return value;
+}
+
+bool COutputPinComponent::getOutputValue()
+{
+	return value;
+}
+
+bool COutputPinComponent::update()
+{
+	return false;
 }

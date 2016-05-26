@@ -15,13 +15,29 @@ CInputPinComponent::~CInputPinComponent()
 {
 }
 
-void CInputPinComponent::setValue(bool _value)
+bool CInputPinComponent::setInputValue(bool _value)
 {
+	bool oldValue = value;
 	value = _value;
+	if (oldValue == value) {
+		return true;
+	}
+	return false;
 }
 
-bool CInputPinComponent::getValue()
+bool CInputPinComponent::getInputValue()
 {
 	return value;
 }
+
+bool CInputPinComponent::getOutputValue()
+{
+	return value;
+}
+
+bool CInputPinComponent::update()
+{
+	return false;
+}
+
 

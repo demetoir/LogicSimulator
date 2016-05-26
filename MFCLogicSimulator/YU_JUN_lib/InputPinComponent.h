@@ -11,6 +11,10 @@ public:
 	CInputPinComponent();
 	CInputPinComponent(CInputPinComponent& object);
 	~CInputPinComponent();
-	void setValue(bool _value);
-	bool getValue();
+
+
+	virtual bool setInputValue(bool _value);
+	virtual bool getInputValue();
+	virtual bool getOutputValue();
+	virtual bool update();
 };

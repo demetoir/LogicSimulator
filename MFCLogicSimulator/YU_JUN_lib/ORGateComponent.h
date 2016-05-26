@@ -13,8 +13,10 @@ public:
 	CORGateComponent(CORGateComponent& object);
 	virtual ~CORGateComponent();
 
-	bool setInputValue(int index, bool _value);
-	bool getInputValue(int index);
-	bool getOutputValue();
-	void updateOutputValue();
+
+
+	virtual bool setInputValue(int index,bool _value);
+	virtual bool getInputValue(int index);
+	virtual bool getOutputValue();
+	virtual bool update();
 };
