@@ -114,19 +114,7 @@ struct LIBRARY_BOX_DATA {
 
 
 class CLibraryBox :public CComponentObject {
-#define INPUT_PIN_INPUT_SIZE 0
-#define INPUT_PIN_OUTPUT_SIZE 1
-#define ANDGATE_INPUT_SIZE 2
-#define ANDGATE_OUTPUT_SIZE 1
-#define ORGATE_INPUT_SIZE 2
-#define ORGATE_OUTPUT_SIZE 1
-#define NOTGATE_INPUT_SIZE 1
-#define NOTGATE_OUTPUT_SIZE 1
-#define XORGATE_INPUT_SIZE 2
-#define XORGATE_OUTPUT_SIZE 1
-#define OUTPUT_PIN_INPUT_SIZE 1
-#define OUTPUT_PIN_OUTPUT_SIZE 0 
-
+#define LOOP_LIMIT 100
 private:
 	int numberOfComponent;
 	//부품들을 담을 벡터 객체들
@@ -168,6 +156,11 @@ public:
 	bool getSingleInputPinValue(int _inputPinNumber);
 	//아웃풋 핀 하나에대한 getter
 	bool getSingleOutputPinValue(int _outputPinNumber);
+	
+	//부품하나에 아웃풋 getter
+	bool getComponentOutputValue(COMPONENT_ID ID, int index);
+
+	bool checkOscillation();
 	
 	//부품 추가 실패시 false 반환
 	bool addComponent(COMPONENT_INFO& componentInfo);	

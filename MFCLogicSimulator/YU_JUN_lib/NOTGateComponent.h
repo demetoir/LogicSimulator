@@ -3,7 +3,7 @@
 
 class CNOTGateComponent :public CComponentObject {
 #define NOT_GATE_INPUT_DEFAULT_VALUE false
-#define NOT_GATE_OUTPUT_DEFAULT_VALUE false
+#define NOT_GATE_OUTPUT_DEFAULT_VALUE true
 private:
 	bool inputValue;
 	bool outputValue;

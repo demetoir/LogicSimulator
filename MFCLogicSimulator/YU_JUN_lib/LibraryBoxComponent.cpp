@@ -84,6 +84,16 @@ bool CLibraryBox::getSingleOutputPinValue(int _outPutPinNumber)
  	return componentVector[outputPinID]->getOutputValue(0);
 }
 
+bool CLibraryBox::getComponentOutputValue(COMPONENT_ID ID, int index)
+{
+	return componentVector[ID]->getOutputValue(index);
+}
+
+bool CLibraryBox::checkOscillation()
+{
+	return isOscillation;
+}
+
 
 
 // 부품 추가
@@ -385,26 +395,37 @@ bool CLibraryBox::updateCircuit()
 	checktime.resize(componentIDVector.size(), 0);
 	countCheck.resize(componentIDVector.size(), 0);
 	int time = 0;
-	int countLimit = 1000;
 	CComponentObject* curComponent;
 	CComponentObject* preComponent;
 	COMPONENT_CONENTION_INFO preConectionInfo;
 
-	//시작점이 될 부품을 큐에다가 집어넣음
 	int nextID;
-	for (int i = 0; i < inputPinIDVector.size(); i++) {
-		nextID = outputGraph[inputPinIDVector[i]][0].componentID;
-		if (nextID == -1) {
-			continue;
-		}
-		Q.push(make_pair(time, nextID));
-		
-		
-		checktime[inputPinIDVector[i]] = time;
-		countCheck[inputPinIDVector[i]] += 1;
 
-		time += 1;
-	}
+	//부품들을 큐에다가 집어넣음	
+	for (int i = 1; i < componentIDVector.size(); i++) {
+		//존재하지 않는 부품일때 넘어간다
+		if (componentIDVector[i] == false) { continue; }
+		int curID = i;
+	
+		bool isCanPushToQueue = false;
+		//현재 선택 한부품에  output 으로 이어진게 하나도 없을떄 넘어간다
+		for (int j = 0; j < componentVector[curID]->numberOfOutput(); j++) {
+			if (outputGraph[curID][j].componentID != -1) {
+				isCanPushToQueue = true;
+				break;
+			}
+		}
+
+		//큐에다가 집어넣음
+		if (isCanPushToQueue == true) { 
+			Q.push(make_pair(time, curID));
+			checktime[curID] = time;
+			countCheck[curID] += 1;
+			time += 1;	
+
+		}
+
+	}	
 
 	int curtime, curID, preID, preTerminalNumber;
 	while (!Q.empty()) {
@@ -412,29 +433,41 @@ bool CLibraryBox::updateCircuit()
 		curtime = Q.front().first;
 		curID = Q.front().second;
 		Q.pop();
+
 		//최근의 정보가 아닐떄 그냥 넘김
 		if (checktime[curID] > curtime) { continue; }
 
 		//진동이 발생하엿다.
-		if (countCheck[curID] >= countLimit) {
+		if (countCheck[curID] >= LOOP_LIMIT) {
 			isOscillation = true;
 			return true;
 
 		}
+		//printf("%d\n", countCheck[curID]);
 		//시간은 흐른다
 		time += 1;
-		
+		//printf("cur ID :%d\n", curID);
+
+		//현재 부품 객체
+		curComponent = componentVector[curID];
 
 		//현재 부품의 값을 갱신함
-		curComponent = componentVector[curID];
 		bool val = false;
 		bool isUpdated = false;
 		//갱신해도 달라지지 않으면 넘어감
 		for (int i = 0; i < curComponent->numberOfInput(); i++) {
 			//현재 부품으로 들어가는 값을 구함
 			preID = inputGraph[curID][i].componentID;
-			preTerminalNumber = inputGraph[curID][i].terminalNumber;
-			val = componentVector[preID]->getOutputValue(preTerminalNumber);
+
+			//현재부품에 지금 단자에 연결된게 없을떄
+			if (preID == -1) {
+				val = false;
+			}
+			//연결된것이있으면 거기서 값을 가져옴
+			else {
+				preTerminalNumber = inputGraph[curID][i].terminalNumber;
+				val = componentVector[preID]->getOutputValue(preTerminalNumber);
+			}			
 
 			//들어가는 부품으로 값이 바뀌는지 검사함
 			if (curComponent->setInputValue(i, val)) {
@@ -442,28 +475,25 @@ bool CLibraryBox::updateCircuit()
 			}
 		}
 
-
-
-		//다른값이 들어오면 다른 부품으로 전달함
-		//output 값이 바뀌면 출력으로 나가는 부품을 큐에 집어넣음
-		
+		//output 값이 바뀌면 출력으로 나가는 부품을 큐에 집어넣음		
 		if (isUpdated == true) {
 			// 아웃풋 핀의 값이 달라짐 
 			if (componentTypeVector[curID] == COMPONENT_TYPE_OUTPUT_PIN) {
 				isLibraryBoxOutputValueChanged = true;
 				continue;
 			}
+
 			//다음 부품으로 넘어감
 			for (int i = 0; i < curComponent->numberOfOutput(); i++) {
-				nextID = outputGraph[curID][i].componentID;				
+				nextID = outputGraph[curID][i].componentID;		
+				//다음 부품이 없을떄
 				if (nextID == -1) {
 					continue;
 				}
-				
+		
 				Q.push(make_pair(time, nextID));
-				checktime[inputPinIDVector[i]] = time;
-				countCheck[inputPinIDVector[i]] += 1;
-
+				checktime[nextID] = time;
+				countCheck[nextID] += 1;
 				time += 1;
 			}
 		}
@@ -502,48 +532,3 @@ bool CLibraryBox::update()
 {
 	return false;
 }
-
-//
-//void CLibraryBox::printstatus()
-//{
-//	printf("\n");
-//	printf("################################\n");
-//	printf("simultor status \n");
-//	printf("################################\n");
-//
-//	//현재 들어있는 컴포넌트들을 과 상태값을 출력한다;
-//
-//	for (int i = 0; i < componentTypeVector.size(); i++) {
-//		//없는거는 생략함
-//		if (componentTypeVector[i] == COMPONENT_TYPE_NONE){
-//			continue;
-//		}
-//		printf("componentID : %d component type: %d\n", i, componentTypeVector[i]);
-//		printf("component information:\n");
-//		//줄일때
-//		COMPONENT_CONENTION_INFO* info;
-//		printf("using terminal infoation:\n");
-//		for (int j = 0; j<connectedTerminalInfo[i].size(); j++) {
-//			info = &connectedTerminalInfo[i][j];
-//			printf("terminal type : %d  terminal number : %d\n", 
-//				info->terminalType, info->terminalNumber);
-//		}
-//		printf("connnected info\n");
-//		for (int j = 0; j<connnectionGraph[i].size(); j++) {
-//			info = &connnectionGraph[i][j];
-//			printf("connnected to component ID : %d, terminal type : %d	terminal number : %d\n",
-//				info->componentID, info->terminalType, info->terminalNumber);
-//		}
-//		printf("\n");
-//	}
-//
-//
-//
-//
-//	printf("################################\n");
-//	printf("end\n");
-//	printf("################################\n");
-//	printf("\n\n");
-//}
-
-
