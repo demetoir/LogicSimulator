@@ -16,7 +16,7 @@ CWireComponent::~CWireComponent()
 	
 }
 
-bool CWireComponent::setInputValue(bool _value)
+bool CWireComponent::setInputValue(int index,bool _value)
 {
 	bool oldValue = value;
 	value = _value;
@@ -26,12 +26,12 @@ bool CWireComponent::setInputValue(bool _value)
 	return true;
 }
 
-bool CWireComponent::getInputValue()
+bool CWireComponent::getInputValue(int index)
 {
 	return value;
 }
 
-bool CWireComponent::getOutputValue()
+bool CWireComponent::getOutputValue(int index)
 {
 	return value;
 }
@@ -39,6 +39,16 @@ bool CWireComponent::getOutputValue()
 bool CWireComponent::update()
 {
 	return false;
+}
+
+int CWireComponent::numberOfInput()
+{
+	return 1;
+}
+
+int CWireComponent::numberOfOutput()
+{
+	return 10;
 }
 
 

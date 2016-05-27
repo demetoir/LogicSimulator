@@ -44,3 +44,13 @@ bool CNOTGateComponent::update()
 	return true;
 }
 
+int CNOTGateComponent::numberOfInput()
+{
+	return 1;
+}
+
+int CNOTGateComponent::numberOfOutput()
+{
+	return 1;
+}
+

@@ -18,6 +18,8 @@ public:
 	virtual bool getInputValue(int index);
 	virtual bool getOutputValue(int index);
 	virtual bool update();
+	virtual int numberOfInput();
+	virtual int numberOfOutput();
 
 
 };

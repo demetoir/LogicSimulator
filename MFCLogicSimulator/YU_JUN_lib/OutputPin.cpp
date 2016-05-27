@@ -39,3 +39,13 @@ bool COutputPinComponent::update()
 {
 	return false;
 }
+
+int COutputPinComponent::numberOfInput()
+{
+	return 1;
+}
+
+int COutputPinComponent::numberOfOutput()
+{
+	return 1;
+}

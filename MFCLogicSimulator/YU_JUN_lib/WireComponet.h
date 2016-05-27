@@ -11,8 +11,10 @@ public:
 	CWireComponent(CWireComponent& object);
 	virtual ~CWireComponent();
 
-	virtual bool setInputValue(bool _value);
-	virtual bool getInputValue();
-	virtual bool getOutputValue();
+	virtual bool setInputValue(int index, bool _value);
+	virtual bool getInputValue(int index);
+	virtual bool getOutputValue(int index);
 	virtual bool update();
+	virtual int numberOfInput();
+	virtual int numberOfOutput();
 };

@@ -40,4 +40,14 @@ bool CInputPinComponent::update()
 	return false;
 }
 
+int CInputPinComponent::numberOfInput()
+{
+	return 1;
+}
+
+int CInputPinComponent::numberOfOutput()
+{
+	return 1;
+}
+
 

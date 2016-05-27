@@ -45,4 +45,14 @@ bool CXORGateComponent::update()
 	return true;
 }
 
+int CXORGateComponent::numberOfInput()
+{
+	return 2;
+}
+
+int CXORGateComponent::numberOfOutput()
+{
+	return 1;
+}
+
 

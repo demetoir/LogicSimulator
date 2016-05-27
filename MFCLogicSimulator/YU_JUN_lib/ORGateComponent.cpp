@@ -46,3 +46,13 @@ bool CORGateComponent::update()
 	return true;
 }
 
+int CORGateComponent::numberOfInput()
+{
+	return 2;
+}
+
+int CORGateComponent::numberOfOutput()
+{
+	return 1;
+}
+

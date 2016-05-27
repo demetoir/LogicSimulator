@@ -21,7 +21,8 @@ public:
 	virtual bool getOutputValue(int index);
 	virtual bool update();
 
-
+	virtual int numberOfInput();
+	virtual int numberOfOutput();
 
 
 };

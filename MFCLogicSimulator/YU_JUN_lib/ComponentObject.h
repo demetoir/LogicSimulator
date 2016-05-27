@@ -11,4 +11,6 @@ public:
 	virtual bool getInputValue(int index) = 0;
 	virtual bool getOutputValue(int index) = 0;
 	virtual bool update() = 0;
+	virtual int numberOfInput() = 0;
+	virtual int numberOfOutput() = 0;
 };

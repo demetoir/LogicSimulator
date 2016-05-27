@@ -46,3 +46,13 @@ bool CANDGateComponent::update()
 	return true;
 }
 
+int CANDGateComponent::numberOfInput()
+{
+	return 2;
+}
+
+int CANDGateComponent::numberOfOutput()
+{
+	return 1;
+}
+

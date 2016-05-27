@@ -146,7 +146,7 @@ private:
 	//부품들의 아이디를 저장하는 벡터
 	vector < bool > componentIDVector;
 	bool isOscillation;
-
+	bool isLibraryBoxOutputValueChanged;
 public:
 	CLibraryBox();
 	CLibraryBox(CLibraryBox& object);
@@ -184,4 +184,10 @@ public:
 	//보여주기여용 상태 정보 출력해주는 프로그램
 	void printstatus();
 
+	virtual int numberOfInput();
+	virtual int numberOfOutput();
+	virtual bool setInputValue(int index, bool _value);
+	virtual bool getInputValue(int index) ;
+	virtual bool getOutputValue(int index) ;
+	virtual bool update();
 };

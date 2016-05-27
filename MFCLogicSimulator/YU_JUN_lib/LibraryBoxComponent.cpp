@@ -3,22 +3,22 @@
 CLibraryBox::CLibraryBox()
 {
 	//컴포넌트를 담을벡터
-	componentVector.resize(VECTOR_INIT_SIZE,NULL);
+	componentVector.resize(VECTOR_INIT_SIZE, NULL);
 
-	inputPinIDVector.resize(VECTOR_INIT_SIZE);
-	outputPinIDVector.resize(VECTOR_INIT_SIZE);
+
 
 	//컴포넌트 타입을 저장하는 벡터
 	componentTypeVector.resize(VECTOR_INIT_SIZE, COMPONENT_TYPE_NONE);
 	//컴포넌트 아이디을 저장하는 
-	componentIDVector.resize(VECTOR_INIT_SIZE,false);
+	componentIDVector.resize(VECTOR_INIT_SIZE, false);
 
 	//연결하는 방향 그래프	
 	inputGraph.resize(VECTOR_INIT_SIZE);
 	outputGraph.resize(VECTOR_INIT_SIZE);
 	numberOfComponent = 0;
 	isOscillation = false;
-	
+	isLibraryBoxOutputValueChanged = false;
+
 }
 
 CLibraryBox::CLibraryBox(CLibraryBox & object)
@@ -31,7 +31,7 @@ CLibraryBox::~CLibraryBox()
 {
 	//동적 할당되는 부분을 모두 해제함
 	for (int i = 0; i < componentVector.size(); i++) {
-		if (componentIDVector[i] == true ) {
+		if (componentIDVector[i] == true) {
 			delete componentVector[i];
 		}
 	}
@@ -42,14 +42,14 @@ COMPONENT_ID CLibraryBox::makeNewComponetID(COMPONENT_TYPE componentType)
 {
 	for (int i = 1; i < componentTypeVector.size(); i++) {
 		if (componentIDVector[i] == false) {
-			componentIDVector[i] = false;
+			componentIDVector[i] = true;
 			componentTypeVector[i] = componentType;
 			return i;
 		}
 	}
 	componentIDVector.push_back(true);
 	componentTypeVector.push_back(componentType);
-	return componentTypeVector.size()-1;
+	return componentTypeVector.size() - 1;
 }
 
 //컴포넌트 아이디를 삭제함
@@ -73,8 +73,7 @@ bool CLibraryBox::getSingleInputPinValue(int _inputPinNumber)
 {
 	COMPONENT_ID inputPinID;
 	inputPinID = inputPinIDVector[_inputPinNumber];
-	CComponentObject* componentObject = ((CComponentObject*)componentVector[inputPinID]);
-	CInputPinComponent* inputPinObject = ((CInputPinComponent*)componentObject);
+	return componentVector[inputPinID]->getInputValue(0);
 	return false;
 }
 
@@ -82,9 +81,7 @@ bool CLibraryBox::getSingleOutputPinValue(int _outPutPinNumber)
 {
 	COMPONENT_ID outputPinID;
 	outputPinID = inputPinIDVector[_outPutPinNumber];
-	CComponentObject* componentObject = ((CComponentObject*)componentVector[outputPinID]);
-	CInputPinComponent* outputPinObject = ((CInputPinComponent*)componentObject);
-	return false;
+	return componentVector[outputPinID]->getOutputValue(0);
 }
 
 
@@ -106,10 +103,10 @@ bool CLibraryBox::addComponent(COMPONENT_INFO & componentInfo)
 	if (componentVector.size() <= newComponentID) {
 		componentVector.resize(componentVector.size() + 3);
 	}
-	if (inputGraph.size() <= newComponentID){
+	if (inputGraph.size() <= newComponentID) {
 		inputGraph.resize(inputGraph.size() + 3);
 	}
-	if (outputGraph.size()<=newComponentID){
+	if (outputGraph.size() <= newComponentID) {
 		outputGraph.resize(outputGraph.size() + 3);
 	}
 	if (componentTypeVector.size() <= newComponentID) {
@@ -122,41 +119,27 @@ bool CLibraryBox::addComponent(COMPONENT_INFO & componentInfo)
 	case COMPONENT_TYPE_INPUT_PIN:
 		inputPinIDVector.push_back(newComponentID);
 		componentVector[newComponentID] = new CInputPinComponent();
-		
-		inputGraph[newComponentID].resize(INPUT_PIN_INPUT_SIZE, empty);
-		outputGraph[newComponentID].resize(INPUT_PIN_OUTPUT_SIZE, empty);
 		break;
 
 		//logic gate component
 	case COMPONENT_TYPE_AND_GATE:
 		componentVector[newComponentID] = new CANDGateComponent();
-		inputGraph[newComponentID].resize(ANDGATE_INPUT_SIZE, empty);
-		outputGraph[newComponentID].resize(ANDGATE_OUTPUT_SIZE, empty);
-		printf("%d\n", componentVector[newComponentID]->getOutputValue());
-
 		break;
+
 	case COMPONENT_TYPE_OR_GATE:
 		componentVector[newComponentID] = new CORGateComponent();
-		inputGraph[newComponentID].resize(ORGATE_INPUT_SIZE, empty);
-		outputGraph[newComponentID].resize(ORGATE_OUTPUT_SIZE, empty);
 		break;
 	case COMPONENT_TYPE_NOT_GATE:
 		componentVector[newComponentID] = new CNOTGateComponent();
-		inputGraph[newComponentID].resize(NOTGATE_INPUT_SIZE, empty);
-		outputGraph[newComponentID].resize(NOTGATE_OUTPUT_SIZE, empty);
 		break;
 	case COMPONENT_TYPE_XOR_GATE:
 		componentVector[newComponentID] = new CXORGateComponent();
-		inputGraph[newComponentID].resize(XORGATE_INPUT_SIZE, empty);
-		outputGraph[newComponentID].resize(XORGATE_OUTPUT_SIZE, empty);
 		break;
 
 		//wire component
 	case COMPONENT_TYPE_WIRE:
 		componentVector[newComponentID] = new CWireComponent();
 		///대충...
-		inputGraph[newComponentID].resize(1, empty);
-		outputGraph[newComponentID].resize(10, empty);
 		break;
 
 		//output component
@@ -164,20 +147,20 @@ bool CLibraryBox::addComponent(COMPONENT_INFO & componentInfo)
 	case COMPONENT_TYPE_OUTPUT_PIN:
 		outputPinIDVector.push_back(newComponentID);
 		componentVector[newComponentID] = new COutputPinComponent();
-		inputGraph[newComponentID].resize(OUTPUT_PIN_INPUT_SIZE, empty);
-		outputGraph[newComponentID].resize(OUTPUT_PIN_OUTPUT_SIZE, empty);
 		break;
 
-	//라이브러리 박스 나중에함
-	case COMPONENT_TYPE_LIBRARY_BOX:	 
+		//라이브러리 박스 나중에함
+	case COMPONENT_TYPE_LIBRARY_BOX:
 		break;
-	//생성할수없음
+		//생성할수없음
 	default:
 		deleteComponentID(newComponentID);
 		return false;
 		break;
 	}
 
+	inputGraph[newComponentID].resize(componentVector[newComponentID]->numberOfInput(), empty);
+	outputGraph[newComponentID].resize(componentVector[newComponentID]->numberOfOutput(), empty);
 	componentTypeVector[newComponentID] = newComponentType;
 	numberOfComponent += 1;
 
@@ -229,14 +212,14 @@ bool CLibraryBox::deleteComponent(COMPONENT_ID _componentID)
 			if (inputPinIDVector[i] == _componentID) {
 				outputPinIDVector.erase(outputPinIDVector.begin() + i);
 				break;
-			}			
+			}
 		}
 	}
-	
+
 	componentTypeVector[_componentID] = COMPONENT_TYPE_NONE;
 	//컴포넌트 아이디 삭제
 	deleteComponentID(_componentID);
-
+	delete componentVector[_componentID];
 	numberOfComponent -= 1;
 	return true;
 }
@@ -245,7 +228,7 @@ bool CLibraryBox::connnectComponent(COMPONENT_CONENTION_INFO* componentA, COMPON
 {
 	COMPONENT_CONENTION_INFO A;
 	COMPONENT_CONENTION_INFO B;
-	
+
 	////A->B 로가는거
 	//output -> input
 	if (componentA->terminalType == TERMINAL_TYPE_INPUT &&
@@ -265,7 +248,7 @@ bool CLibraryBox::connnectComponent(COMPONENT_CONENTION_INFO* componentA, COMPON
 		A.terminalNumber = componentA->terminalNumber;
 		A.terminalType = componentA->terminalType;;
 	}
-	
+
 	//같은 종류의 단자를 연결하려함
 	if (A.terminalType == B.terminalType) {
 		return false;
@@ -281,8 +264,8 @@ bool CLibraryBox::connnectComponent(COMPONENT_CONENTION_INFO* componentA, COMPON
 
 	//게이트와 게이트를 연결하려 할떄 또는
 	//줄과 줄을 연결하려 할때
-	if ((componentTypeVector[A.componentID] != COMPONENT_TYPE_WIRE ||
-		componentTypeVector[B.componentID] != COMPONENT_TYPE_WIRE) || 
+	if ((componentTypeVector[A.componentID] != COMPONENT_TYPE_WIRE &&
+		componentTypeVector[B.componentID] != COMPONENT_TYPE_WIRE) ||
 		(componentTypeVector[A.componentID] == COMPONENT_TYPE_WIRE &&
 			componentTypeVector[B.componentID] == COMPONENT_TYPE_WIRE)) {
 		return false;
@@ -295,8 +278,8 @@ bool CLibraryBox::connnectComponent(COMPONENT_CONENTION_INFO* componentA, COMPON
 	}
 
 	//이미 연결한 단자에 또 연결하려 할떄
-	if (outputGraph[A.componentID][A.terminalNumber].componentID == -1 ||
-		outputGraph[B.componentID][B.terminalNumber].componentID == -1) {
+	if (outputGraph[A.componentID][A.terminalNumber].componentID != -1 ||
+		inputGraph[B.componentID][B.terminalNumber].componentID != -1) {
 		return false;
 	}
 
@@ -362,7 +345,7 @@ bool CLibraryBox::disconnectComponent(COMPONENT_CONENTION_INFO * componentA, COM
 			componentTypeVector[B.componentID] == COMPONENT_TYPE_WIRE)) {
 		return false;
 	}
-	
+
 	//존재 하지 않는 단자에 분리하려할때
 	if (A.terminalNumber >= outputGraph[A.componentID].size() ||
 		B.terminalNumber >= inputGraph[B.componentID].size()) {
@@ -389,136 +372,121 @@ bool CLibraryBox::disconnectComponent(COMPONENT_CONENTION_INFO * componentA, COM
 
 
 
-/*
-메모
-그래프 객체를 필요한 받아와서 정해주기함
-vector 로 하지만 일일이 찾아서 삭제 하지말고 그냥 다만들어놓고 하기
-
-
-*/
-/*윈프 과제 메모
-갱신하는방법 bfs 돌려서 한다
-
-//따로 검사함... 에러 처리해줌:
-와이어 충돌은 와이어 내에서 처리.. wire 에서
-->와이어에 인풋단자에 연결된 아웃풋 부품이 2개 인지 검사함
-시작 인풋을 큐에 넣을떄 충돌되는 와이어는 체크해서
-연결되지 않게 함
-충돌하는 와이어에대한 정보를 저장하는 벡터를 만들어놓음
-와이어 자체에 상태에 충돌상태를 추가한다
-
-진동에러 잡는방법:
-여러번 돌림?...
-돌면서 사이클을 검사해버린다
-.......
-따로 경로 트리를 만들어서 사이클이 발생하면 중지 해버림?
-..
-->dfs를 돌린다?
-경로를 dequeue에 저장 하고 돌린다
-..
-
-여러개의 정션된 와이어를 하나로 취급한다
-와이어를 잘구성해야한다
-
-갱신하는 함수안에서 순서
-초기화
-1 충돌되는 와이어를 검사한다
-2 진동검사를 한다 진동하면 예외 발생
-3 직접 갱신하는 함수돌린다
-
-
-
-
-ishavecycle = false
-
-def dfs(curV,inputvalue,terminalNumber):
-global ishavecycle
-//노드의 값을 갱신한다
-component[curV].setvalue(inputvalue,terminalNumber)
-
-//현재 노드가 줄이다
-if component[curV] = WIRE:
-int val = component[curV].getvalue()
-for next in outG[curV]:
-dfs(nextV,val,nextTerminal)
-if isHaveCycle == True:
-return
-
-//현재 노드가 부품일때
-else:
-outputValue = component[curV].getvalue()
-//상태를 검사한다
-if ouputValue in map[curV]:
-//사이클을 찾아냄
-ishavecycle = True
-retern
-for next in outG[curV]:
-val = component[curV].getval(currnetTerminal)
-dfs(nextV,val,currnetTerminal)
-if ishaveCycle == True:
-return
-
-
-return
-
-
-
-
-*/
 bool CLibraryBox::updateCircuit()
 {
 	if (isOscillation == true) {
 		return false;
 	}
 
-
-	//와이어간에는 양뱡향이다
-	//부품과 와이어간의 단방향으로감
-	//와이어의 output 타입이단자에서 부품의 input 타입 단자로 연결하면 방향은 와이어에서 부품으로 
-	//부품의 output 타입의 단자에서 와이어의 input 타입의 단자로 연결하면 방향은 부품에서 와이로 
-
-	//만약 진동 회로 이면 멈추그만한다...
-
-	//bfs 방식으로 한다
-	//bfs 를 위한 queue
-	//pair = (time,componentID)
 	queue< pair< int, int > > Q;
 
 	vector<int> checktime;
+	vector<int> countCheck;
 	checktime.resize(componentIDVector.size(), 0);
+	countCheck.resize(componentIDVector.size(), 0);
 	int time = 0;
-	int timeLimit = 123456;
+	int countLimit = 1000;
 	CComponentObject* curComponent;
+	CComponentObject* preComponent;
+	COMPONENT_CONENTION_INFO preConectionInfo;
+
 	//시작점이 될 부품을 큐에다가 집어넣음
 	for (int i = 0; i < inputPinIDVector.size(); i++) {
 		time += 1;
 		Q.push(make_pair(time, inputPinIDVector[i]));
-		checktime[inputPinIDVector[i]] = time;		
+		checktime[inputPinIDVector[i]] = time;
+		countCheck[inputPinIDVector[i]] += 1;
 	}
-	int curtime, curID;
+
+	int curtime, curID, preID, preTerminalNumber;
 	while (!Q.empty()) {
-		
-		curtime= Q.front().first;
+
+		curtime = Q.front().first;
 		curID = Q.front().second;
 		Q.pop();
 		//최근의 정보가 아닐떄 그냥 넘김
 		if (checktime[curID] > curtime) { continue; }
-		
+
+		//진동이 발생하엿다.
+		if (countCheck[curID] >= countLimit) {
+			isOscillation = true;
+			return true;
+
+		}
 		//시간은 흐른다
 		time += 1;
-		
+
 
 		//현재 부품의 값을 갱신함
 		curComponent = componentVector[curID];
-
+		bool val = false;
+		bool isUpdated = false;
 		//갱신해도 달라지지 않으면 넘어감
+		for (int i = 0; i < curComponent->numberOfInput(); i++) {
+			//현재 부품으로 들어가는 값을 구함
+			preID = inputGraph[curID][i].componentID;
+			preTerminalNumber = inputGraph[curID][i].terminalNumber;
+			val = componentVector[preID]->getOutputValue(preTerminalNumber);
+
+			//들어가는 부품으로 값이 바뀌는지 검사함
+			if (curComponent->setInputValue(i, val)) {
+				isUpdated = true;
+			}
+		}
+
+
 
 		//다른값이 들어오면 다른 부품으로 전달함
+		//output 값이 바뀌면 출력으로 나가는 부품을 큐에 집어넣음
+		int nextID;
+		if (isUpdated == true) {
+			// 아웃풋 핀의 값이 달라짐 
+			if (componentTypeVector[curID] == COMPONENT_TYPE_OUTPUT_PIN) {
+				isLibraryBoxOutputValueChanged = true;
+				continue;
+			}
+			//다음 부품으로 넘어감
+			for (int i = 0; i < curComponent->numberOfOutput(); i++) {
+				nextID = outputGraph[curID][i].componentID;
+				Q.push(make_pair(time, nextID));
+				checktime[inputPinIDVector[i]] = time;
+				countCheck[inputPinIDVector[i]] += 1;
 
-
-
+				time += 1;
+			}
+		}
 	}
 
+	return isLibraryBoxOutputValueChanged;
+}
+
+int CLibraryBox::numberOfInput()
+{
+	return inputPinIDVector.size();
+}
+
+int CLibraryBox::numberOfOutput()
+{
+	return outputPinIDVector.size();
+}
+
+bool CLibraryBox::setInputValue(int index, bool _value)
+{
+	return false;
+}
+
+bool CLibraryBox::getInputValue(int index)
+{
+	return false;
+}
+
+bool CLibraryBox::getOutputValue(int index)
+{
+	return false;
+}
+
+bool CLibraryBox::update()
+{
 	return false;
 }
 
