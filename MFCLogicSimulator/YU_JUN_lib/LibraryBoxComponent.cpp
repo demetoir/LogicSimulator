@@ -49,7 +49,7 @@ COMPONENT_ID CLibraryBox::makeNewComponetID(COMPONENT_TYPE componentType)
 	}
 	componentIDVector.push_back(true);
 	componentTypeVector.push_back(componentType);
-	return componentTypeVector.size() - 1;
+	return (int)(componentTypeVector.size() - 1);
 }
 
 //컴포넌트 아이디를 삭제함
@@ -80,8 +80,8 @@ bool CLibraryBox::getSingleInputPinValue(int _inputPinNumber)
 bool CLibraryBox::getSingleOutputPinValue(int _outPutPinNumber)
 {
 	COMPONENT_ID outputPinID;
-	outputPinID = inputPinIDVector[_outPutPinNumber];
-	return componentVector[outputPinID]->getOutputValue(0);
+	outputPinID = outputPinIDVector[_outPutPinNumber];
+ 	return componentVector[outputPinID]->getOutputValue(0);
 }
 
 
@@ -378,7 +378,7 @@ bool CLibraryBox::updateCircuit()
 		return false;
 	}
 
-	queue< pair< int, int > > Q;
+ 	queue< pair< int, int > > Q;
 
 	vector<int> checktime;
 	vector<int> countCheck;
@@ -391,16 +391,24 @@ bool CLibraryBox::updateCircuit()
 	COMPONENT_CONENTION_INFO preConectionInfo;
 
 	//시작점이 될 부품을 큐에다가 집어넣음
+	int nextID;
 	for (int i = 0; i < inputPinIDVector.size(); i++) {
-		time += 1;
-		Q.push(make_pair(time, inputPinIDVector[i]));
+		nextID = outputGraph[inputPinIDVector[i]][0].componentID;
+		if (nextID == -1) {
+			continue;
+		}
+		Q.push(make_pair(time, nextID));
+		
+		
 		checktime[inputPinIDVector[i]] = time;
 		countCheck[inputPinIDVector[i]] += 1;
+
+		time += 1;
 	}
 
 	int curtime, curID, preID, preTerminalNumber;
 	while (!Q.empty()) {
-
+		
 		curtime = Q.front().first;
 		curID = Q.front().second;
 		Q.pop();
@@ -415,7 +423,7 @@ bool CLibraryBox::updateCircuit()
 		}
 		//시간은 흐른다
 		time += 1;
-
+		
 
 		//현재 부품의 값을 갱신함
 		curComponent = componentVector[curID];
@@ -438,7 +446,7 @@ bool CLibraryBox::updateCircuit()
 
 		//다른값이 들어오면 다른 부품으로 전달함
 		//output 값이 바뀌면 출력으로 나가는 부품을 큐에 집어넣음
-		int nextID;
+		
 		if (isUpdated == true) {
 			// 아웃풋 핀의 값이 달라짐 
 			if (componentTypeVector[curID] == COMPONENT_TYPE_OUTPUT_PIN) {
@@ -447,7 +455,11 @@ bool CLibraryBox::updateCircuit()
 			}
 			//다음 부품으로 넘어감
 			for (int i = 0; i < curComponent->numberOfOutput(); i++) {
-				nextID = outputGraph[curID][i].componentID;
+				nextID = outputGraph[curID][i].componentID;				
+				if (nextID == -1) {
+					continue;
+				}
+				
 				Q.push(make_pair(time, nextID));
 				checktime[inputPinIDVector[i]] = time;
 				countCheck[inputPinIDVector[i]] += 1;
@@ -467,11 +479,12 @@ int CLibraryBox::numberOfInput()
 
 int CLibraryBox::numberOfOutput()
 {
-	return outputPinIDVector.size();
+	return (int)outputPinIDVector.size();
 }
 
 bool CLibraryBox::setInputValue(int index, bool _value)
 {
+	componentVector[inputPinIDVector[index]]->setInputValue(0,_value);
 	return false;
 }
 

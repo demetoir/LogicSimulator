@@ -42,7 +42,7 @@ bool CInputPinComponent::update()
 
 int CInputPinComponent::numberOfInput()
 {
-	return 1;
+	return 0;
 }
 
 int CInputPinComponent::numberOfOutput()

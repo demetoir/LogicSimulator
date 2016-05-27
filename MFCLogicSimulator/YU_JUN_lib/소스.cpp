@@ -9,6 +9,20 @@
 
 using namespace std;
 
+void printBoxInOutvalue(CLibraryBox& box) {
+
+	printf("box in out value ");
+	printf("input value : \n");
+	for (int i = 0; i < box.numberOfInput(); i++) {
+		printf("%d : %d \n", i, box.getSingleInputPinValue(i));
+	}
+	printf("output value : \n");
+	for (int i = 0; i < box.numberOfOutput(); i++) {
+		printf("%d : %d \n", i, box.getSingleOutputPinValue(i));
+	}
+	printf("\n");
+
+}
 
 int main() {
 	//LogicGateTest();
@@ -90,20 +104,31 @@ int main() {
 	B.componentID = outputpin1.componentID;
 	B.terminalNumber = 0;
 	B.terminalType = TERMINAL_TYPE_INPUT;
-
 	printf("%d\n", box.connnectComponent(&A, &B));
 
-	printf("input value : \n");
-	for (int i = 0; i < box.numberOfInput(); i++) {
-		printf("%d : %d \n", i, box.getSingleInputPinValue(i));
-	}
 
-	printf("\n");
-	printf("output value : \n");
-	for (int i = 0; i < box.numberOfOutput(); i++) {
-		printf("%d : %d \n", i, box.getSingleOutputPinValue(i));
-	}
 
- 
+	printBoxInOutvalue(box);
+
+
+	box.setInputValue(0, true);
+	box.updateCircuit();
+	printf("set value input pin1 to true\n");
+	printBoxInOutvalue(box);
+
+	box.setInputValue(1, true);
+	printf("set value input pin2 to true\n");
+	box.updateCircuit();
+	printBoxInOutvalue(box);
+
+	box.setInputValue(0, false);
+	printf("set value input pin1 to false\n");
+	box.updateCircuit();
+	printBoxInOutvalue(box);
+
+	box.setInputValue(1, false);
+	printf("set value input pin2 to false\n");
+	box.updateCircuit();
+	printBoxInOutvalue(box);
 
 }

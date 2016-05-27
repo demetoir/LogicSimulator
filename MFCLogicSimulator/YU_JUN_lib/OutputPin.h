@@ -3,7 +3,7 @@
 #include "ComponentObject.h"
 
 class COutputPinComponent :public CComponentObject {
-#define OUTPUT_PIN_DEFAULT_VALUE true 
+#define OUTPUT_PIN_DEFAULT_VALUE false 
 private:
 	bool value;
 public:
