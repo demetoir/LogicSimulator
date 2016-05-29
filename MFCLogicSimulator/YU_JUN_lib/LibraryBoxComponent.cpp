@@ -57,7 +57,7 @@ void CLibraryBox::deleteComponentID(COMPONENT_ID deleteId)
 }
 
 
-bool CLibraryBox::loadLibrarybox(LIBRARY_BOX_DATA & libraryBoxData)
+bool CLibraryBox::loadLibraryBoxData(LIBRARY_BOX_DATA & libraryBoxData)
 {
 	
 	numberOfComponent = libraryBoxData.numberOfComponent;
@@ -127,7 +127,7 @@ bool CLibraryBox::loadLibrarybox(LIBRARY_BOX_DATA & libraryBoxData)
 }
 
 //라이브러리 박스를 저장함
-bool CLibraryBox::saveLibrarybox(LIBRARY_BOX_DATA& libraryBoxData)
+bool CLibraryBox::saveLibraryBoxData(LIBRARY_BOX_DATA& libraryBoxData)
 {
 
 	libraryBoxData.numberOfComponent = numberOfComponent;
@@ -188,30 +188,6 @@ bool CLibraryBox::saveLibrarybox(LIBRARY_BOX_DATA& libraryBoxData)
 
 	return true;
 
-}
-
-//라이브러리 박스의 input output pin에대한 getter setter
-void CLibraryBox::setSingleInputPinValue(bool _inputValue, int _inputPinNumber)
-{
-	COMPONENT_ID inputPinID;
-	inputPinID = inputPinIDVector[_inputPinNumber];
-	CComponentObject* componentObject = ((CComponentObject*)componentVector[inputPinID]);
-	CInputPinComponent* inputPinObject = ((CInputPinComponent*)componentObject);
-}
-
-bool CLibraryBox::getSingleInputPinValue(int _inputPinNumber)
-{
-	COMPONENT_ID inputPinID;
-	inputPinID = inputPinIDVector[_inputPinNumber];
-	return componentVector[inputPinID]->getInputValue(0);
-	return false;
-}
-
-bool CLibraryBox::getSingleOutputPinValue(int _outPutPinNumber)
-{
-	COMPONENT_ID outputPinID;
-	outputPinID = outputPinIDVector[_outPutPinNumber];
- 	return componentVector[outputPinID]->getOutputValue(0);
 }
 
 bool CLibraryBox::getComponentOutputValue(COMPONENT_ID ID, int index)
@@ -361,29 +337,29 @@ bool CLibraryBox::deleteComponent(COMPONENT_ID _componentID)
 	return true;
 }
 
-bool CLibraryBox::connnectComponent(COMPONENT_CONENTION_INFO* componentA, COMPONENT_CONENTION_INFO* componentB)
+bool CLibraryBox::connnectComponent(COMPONENT_CONENTION_INFO& componentA, COMPONENT_CONENTION_INFO& componentB)
 {
 	COMPONENT_CONENTION_INFO A;
 	COMPONENT_CONENTION_INFO B;
 
 	////A->B 로가는거
 	//output -> input
-	if (componentA->terminalType == TERMINAL_TYPE_INPUT &&
-		componentB->terminalType == TERMINAL_TYPE_OUTPUT) {
-		A.componentID = componentB->componentID;
-		A.terminalNumber = componentB->terminalNumber;
-		A.terminalType = componentB->terminalType;
-		B.componentID = componentA->componentID;
-		B.terminalNumber = componentA->terminalNumber;
-		B.terminalType = componentA->terminalType;;
+	if (componentA.terminalType == TERMINAL_TYPE_INPUT &&
+		componentB.terminalType == TERMINAL_TYPE_OUTPUT) {
+		A.componentID = componentB.componentID;
+		A.terminalNumber = componentB.terminalNumber;
+		A.terminalType = componentB.terminalType;
+		B.componentID = componentA.componentID;
+		B.terminalNumber = componentA.terminalNumber;
+		B.terminalType = componentA.terminalType;;
 	}
 	else {
-		B.componentID = componentB->componentID;
-		B.terminalNumber = componentB->terminalNumber;
-		B.terminalType = componentB->terminalType;
-		A.componentID = componentA->componentID;
-		A.terminalNumber = componentA->terminalNumber;
-		A.terminalType = componentA->terminalType;;
+		B.componentID = componentB.componentID;
+		B.terminalNumber = componentB.terminalNumber;
+		B.terminalType = componentB.terminalType;
+		A.componentID = componentA.componentID;
+		A.terminalNumber = componentA.terminalNumber;
+		A.terminalType = componentA.terminalType;;
 	}
 
 	//같은 종류의 단자를 연결하려함
@@ -436,29 +412,29 @@ bool CLibraryBox::connnectComponent(COMPONENT_CONENTION_INFO* componentA, COMPON
 	return true;
 }
 
-bool CLibraryBox::disconnectComponent(COMPONENT_CONENTION_INFO * componentA, COMPONENT_CONENTION_INFO * componentB)
+bool CLibraryBox::disconnectComponent(COMPONENT_CONENTION_INFO& componentA, COMPONENT_CONENTION_INFO& componentB)
 {
 	COMPONENT_CONENTION_INFO A;
 	COMPONENT_CONENTION_INFO B;
 
 	////A->B 로가는거
 	//output -> input
-	if (componentA->terminalType == TERMINAL_TYPE_INPUT &&
-		componentB->terminalType == TERMINAL_TYPE_OUTPUT) {
-		A.componentID = componentB->componentID;
-		A.terminalNumber = componentB->terminalNumber;
-		A.terminalType = componentB->terminalType;
-		B.componentID = componentA->componentID;
-		B.terminalNumber = componentA->terminalNumber;
-		B.terminalType = componentA->terminalType;;
+	if (componentA.terminalType == TERMINAL_TYPE_INPUT &&
+		componentB.terminalType == TERMINAL_TYPE_OUTPUT) {
+		A.componentID = componentB.componentID;
+		A.terminalNumber = componentB.terminalNumber;
+		A.terminalType = componentB.terminalType;
+		B.componentID = componentA.componentID;
+		B.terminalNumber = componentA.terminalNumber;
+		B.terminalType = componentA.terminalType;;
 	}
 	else {
-		B.componentID = componentB->componentID;
-		B.terminalNumber = componentB->terminalNumber;
-		B.terminalType = componentB->terminalType;
-		A.componentID = componentA->componentID;
-		A.terminalNumber = componentA->terminalNumber;
-		A.terminalType = componentA->terminalType;;
+		B.componentID = componentB.componentID;
+		B.terminalNumber = componentB.terminalNumber;
+		B.terminalType = componentB.terminalType;
+		A.componentID = componentA.componentID;
+		A.terminalNumber = componentA.terminalNumber;
+		A.terminalType = componentA.terminalType;;
 	}
 
 	//같은 종류의 단자를 분리하려함
@@ -505,9 +481,6 @@ bool CLibraryBox::disconnectComponent(COMPONENT_CONENTION_INFO * componentA, COM
 	outputGraph[A.componentID][A.terminalNumber].terminalType = TERMINAL_TYPE_NONE;
 	return true;
 }
-
-
-
 
 bool CLibraryBox::updateCircuit()
 {
@@ -566,7 +539,6 @@ bool CLibraryBox::updateCircuit()
 		if (countCheck[curID] >= LOOP_LIMIT) {
 			isOscillation = true;
 			return true;
-
 		}
 		//printf("%d\n", countCheck[curID]);
 		//시간은 흐른다
@@ -599,7 +571,6 @@ bool CLibraryBox::updateCircuit()
 				isUpdated = true;
 			}
 		}
-
 		//output 값이 바뀌면 출력으로 나가는 부품을 큐에 집어넣음		
 		if (isUpdated == true) {
 			// 아웃풋 핀의 값이 달라짐 
@@ -639,18 +610,17 @@ int CLibraryBox::numberOfOutput()
 
 bool CLibraryBox::setInputValue(int index, bool _value)
 {
-	componentVector[inputPinIDVector[index]]->setInputValue(0,_value);
-	return false;
+	return componentVector[inputPinIDVector[index]]->setInputValue(0,_value);
 }
 
 bool CLibraryBox::getInputValue(int index)
 {
-	return false;
+	return componentVector[inputPinIDVector[index]]->getInputValue(0);
 }
 
 bool CLibraryBox::getOutputValue(int index)
 {
-	return false;
+	return componentVector[outputPinIDVector[index]]->getOutputValue(0);
 }
 
 bool CLibraryBox::update()

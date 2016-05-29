@@ -7,6 +7,9 @@
 #include "LibraryBoxComponent.h"
 
 
+#define ENDL printf("\n");
+#define print(str) printf(str);
+#define printE(str) printf(str);ENDL;
 using namespace std;
 
 
@@ -14,21 +17,20 @@ using namespace std;
 void printBoxInOutvalue(CLibraryBox& box) {
 
 	for (int i = 0; i < box.numberOfInput(); i++) {
-		printf("    %d ", box.getSingleInputPinValue(i));
+		printf("    %d ", box.getInputValue(i));
 	}
 	printf("   ->   ");
 	for (int i = 0; i < box.numberOfOutput(); i++) {
-		printf("    %d ", box.getSingleOutputPinValue(i));
+		printf("    %d ", box.getOutputValue(i));
 	}
 	printf("\n");
-
-
 }
 
 void printStateTable(CLibraryBox& box) {
 
-	printf("number of input value : %d\n", box.numberOfInput());
+	printf("number of input value  : %d\n", box.numberOfInput());
 	printf("number of output value : %d\n", box.numberOfOutput());
+	printE("-------------------------------------------------------");
 	for (int i = 0; i < box.numberOfInput(); i++) {
 		printf("in %2.d ", i+1);
 	}
@@ -37,20 +39,18 @@ void printStateTable(CLibraryBox& box) {
 		printf("out %2.d ", i+1);
 	}
 	printf("\n");
+	printE("-------------------------------------------------------");
 	//모든 인풋을 다해본다
 	int numberOfinput = box.numberOfInput();
-
 	int max = 1 << numberOfinput;
-	int bitmask = 0;
 	for (int i = 0; i < max; i++) {
-		bitmask = i;
 		for (int j = numberOfinput-1; j >=0; j--) {
-			//printf("###%d -> %d %d \n", i, j, (bitmask&(1 << j)));
-			box.setInputValue(j, (bitmask&(1 << j)));
+ 			box.setInputValue(j, ( i & (1 << j) ) );
 		}
 		box.updateCircuit();
 		printBoxInOutvalue(box);
 	}
+	printE("-------------------------------------------------------");
 	printf("\n");
 }
 
@@ -93,7 +93,7 @@ void NANDGATE_test(CLibraryBox& box) {
 	B.componentID = wire1.componentID;
 	B.terminalNumber = 0;
 	B.terminalType = TERMINAL_TYPE_INPUT;
-	box.connnectComponent(&A, &B);
+	box.connnectComponent(A, B);
 
 	//input pin 2 -> wire2 
 	A.componentID = inputpin2.componentID;
@@ -102,7 +102,7 @@ void NANDGATE_test(CLibraryBox& box) {
 	B.componentID = wire2.componentID;
 	B.terminalNumber = 0;
 	B.terminalType = TERMINAL_TYPE_INPUT;
-	box.connnectComponent(&A, &B);
+	box.connnectComponent(A, B);
 
 	//wire1 -> andgate in 1
 	A.componentID = wire1.componentID;
@@ -111,7 +111,7 @@ void NANDGATE_test(CLibraryBox& box) {
 	B.componentID = andgate.componentID;
 	B.terminalNumber = 0;
 	B.terminalType = TERMINAL_TYPE_INPUT;
-	box.connnectComponent(&A, &B);
+	box.connnectComponent(A, B);
 
 	//wire2 -> andgate in 2
 	A.componentID = wire2.componentID;
@@ -120,7 +120,7 @@ void NANDGATE_test(CLibraryBox& box) {
 	B.componentID = andgate.componentID;
 	B.terminalNumber = 1;
 	B.terminalType = TERMINAL_TYPE_INPUT;
-	box.connnectComponent(&A, &B);
+	box.connnectComponent(A, B);
 
 	//andgate out 1 -> wire 3
 	A.componentID = andgate.componentID;
@@ -129,7 +129,7 @@ void NANDGATE_test(CLibraryBox& box) {
 	B.componentID = wire3.componentID;
 	B.terminalNumber = 0;
 	B.terminalType = TERMINAL_TYPE_INPUT;
-	box.connnectComponent(&A, &B);
+	box.connnectComponent(A, B);
 
 	//wire 3 -> notgate 
 	A.componentID = wire3.componentID;
@@ -138,7 +138,7 @@ void NANDGATE_test(CLibraryBox& box) {
 	B.componentID = notgate.componentID;
 	B.terminalNumber = 0;
 	B.terminalType = TERMINAL_TYPE_INPUT;
-	box.connnectComponent(&A, &B);
+	box.connnectComponent(A, B);
 
 	//notgate -> wire 4
 	A.componentID = notgate.componentID;
@@ -147,7 +147,7 @@ void NANDGATE_test(CLibraryBox& box) {
 	B.componentID = wire4.componentID;
 	B.terminalNumber = 0;
 	B.terminalType = TERMINAL_TYPE_INPUT;
-	box.connnectComponent(&A, &B);
+	box.connnectComponent(A, B);
 
 	//wire 4 -> output pin 
 	A.componentID = wire4.componentID;
@@ -156,7 +156,7 @@ void NANDGATE_test(CLibraryBox& box) {
 	B.componentID = outputpin1.componentID;
 	B.terminalNumber = 0;
 	B.terminalType = TERMINAL_TYPE_INPUT;
-	box.connnectComponent(&A, &B);
+	box.connnectComponent(A, B);
 
 
 }
@@ -195,7 +195,7 @@ void NORGATE_test(CLibraryBox& box) {
 	B.componentID = wire1.componentID;
 	B.terminalNumber = 0;
 	B.terminalType = TERMINAL_TYPE_INPUT;
-	box.connnectComponent(&A, &B);
+	box.connnectComponent(A, B);
 
 	//input pin 2 -> wire2 
 	A.componentID = inputpin2.componentID;
@@ -204,7 +204,7 @@ void NORGATE_test(CLibraryBox& box) {
 	B.componentID = wire2.componentID;
 	B.terminalNumber = 0;
 	B.terminalType = TERMINAL_TYPE_INPUT;
-	box.connnectComponent(&A, &B);
+	box.connnectComponent(A, B);
 
 	//wire1 -> andgate in 1
 	A.componentID = wire1.componentID;
@@ -213,7 +213,7 @@ void NORGATE_test(CLibraryBox& box) {
 	B.componentID = andgate.componentID;
 	B.terminalNumber = 0;
 	B.terminalType = TERMINAL_TYPE_INPUT;
-	box.connnectComponent(&A, &B);
+	box.connnectComponent(A, B);
 
 	//wire2 -> andgate in 2
 	A.componentID = wire2.componentID;
@@ -222,7 +222,7 @@ void NORGATE_test(CLibraryBox& box) {
 	B.componentID = andgate.componentID;
 	B.terminalNumber = 1;
 	B.terminalType = TERMINAL_TYPE_INPUT;
-	box.connnectComponent(&A, &B);
+	box.connnectComponent(A, B);
 
 	//andgate out 1 -> wire 3
 	A.componentID = andgate.componentID;
@@ -231,7 +231,7 @@ void NORGATE_test(CLibraryBox& box) {
 	B.componentID = wire3.componentID;
 	B.terminalNumber = 0;
 	B.terminalType = TERMINAL_TYPE_INPUT;
-	box.connnectComponent(&A, &B);
+	box.connnectComponent(A, B);
 
 	//wire 3 -> notgate 
 	A.componentID = wire3.componentID;
@@ -240,7 +240,7 @@ void NORGATE_test(CLibraryBox& box) {
 	B.componentID = notgate.componentID;
 	B.terminalNumber = 0;
 	B.terminalType = TERMINAL_TYPE_INPUT;
-	box.connnectComponent(&A, &B);
+	box.connnectComponent(A, B);
 
 	//notgate -> wire 4
 	A.componentID = notgate.componentID;
@@ -249,7 +249,7 @@ void NORGATE_test(CLibraryBox& box) {
 	B.componentID = wire4.componentID;
 	B.terminalNumber = 0;
 	B.terminalType = TERMINAL_TYPE_INPUT;
-	box.connnectComponent(&A, &B);
+	box.connnectComponent(A, B);
 
 	//wire 4 -> output pin 
 	A.componentID = wire4.componentID;
@@ -258,7 +258,7 @@ void NORGATE_test(CLibraryBox& box) {
 	B.componentID = outputpin1.componentID;
 	B.terminalNumber = 0;
 	B.terminalType = TERMINAL_TYPE_INPUT;
-	box.connnectComponent(&A, &B);
+	box.connnectComponent(A, B);
 
 
 }
@@ -292,7 +292,7 @@ void ANDGATE_test(CLibraryBox& box) {
 	B.componentID = wire1.componentID;
 	B.terminalNumber = 0;
 	B.terminalType = TERMINAL_TYPE_INPUT;
-	box.connnectComponent(&A, &B);
+	box.connnectComponent(A, B);
 
 	//input pin 2 -> wire2 
 	A.componentID = inputpin2.componentID;
@@ -301,7 +301,7 @@ void ANDGATE_test(CLibraryBox& box) {
 	B.componentID = wire2.componentID;
 	B.terminalNumber = 0;
 	B.terminalType = TERMINAL_TYPE_INPUT;
-	box.connnectComponent(&A, &B);
+	box.connnectComponent(A, B);
 
 	//wire1 -> andgate in 1
 	A.componentID = wire1.componentID;
@@ -310,7 +310,7 @@ void ANDGATE_test(CLibraryBox& box) {
 	B.componentID = andgate.componentID;
 	B.terminalNumber = 0;
 	B.terminalType = TERMINAL_TYPE_INPUT;
-	box.connnectComponent(&A, &B);
+	box.connnectComponent(A, B);
 
 	//wire2 -> andgate in 2
 	A.componentID = wire2.componentID;
@@ -319,7 +319,7 @@ void ANDGATE_test(CLibraryBox& box) {
 	B.componentID = andgate.componentID;
 	B.terminalNumber = 1;
 	B.terminalType = TERMINAL_TYPE_INPUT;
-	box.connnectComponent(&A, &B);
+	box.connnectComponent(A, B);
 
 	//andgate out 1 -> wire 3
 	A.componentID = andgate.componentID;
@@ -328,7 +328,7 @@ void ANDGATE_test(CLibraryBox& box) {
 	B.componentID = wire3.componentID;
 	B.terminalNumber = 0;
 	B.terminalType = TERMINAL_TYPE_INPUT;
-	box.connnectComponent(&A, &B);
+	box.connnectComponent(A, B);
 
 	//wire 3 -> output pin1
 	A.componentID = wire3.componentID;
@@ -337,7 +337,7 @@ void ANDGATE_test(CLibraryBox& box) {
 	B.componentID = outputpin1.componentID;
 	B.terminalNumber = 0;
 	B.terminalType = TERMINAL_TYPE_INPUT;
-	box.connnectComponent(&A, &B);
+	box.connnectComponent(A, B);
 
 }
 
@@ -370,7 +370,7 @@ void ORGATE_test(CLibraryBox& box) {
 	B.componentID = wire1.componentID;
 	B.terminalNumber = 0;
 	B.terminalType = TERMINAL_TYPE_INPUT;
-	box.connnectComponent(&A, &B);
+	box.connnectComponent(A, B);
 
 	//input pin 2 -> wire2 
 	A.componentID = inputpin2.componentID;
@@ -379,7 +379,7 @@ void ORGATE_test(CLibraryBox& box) {
 	B.componentID = wire2.componentID;
 	B.terminalNumber = 0;
 	B.terminalType = TERMINAL_TYPE_INPUT;
-	box.connnectComponent(&A, &B);
+	box.connnectComponent(A, B);
 
 	//wire1 -> andgate in 1
 	A.componentID = wire1.componentID;
@@ -388,7 +388,7 @@ void ORGATE_test(CLibraryBox& box) {
 	B.componentID = andgate.componentID;
 	B.terminalNumber = 0;
 	B.terminalType = TERMINAL_TYPE_INPUT;
-	box.connnectComponent(&A, &B);
+	box.connnectComponent(A, B);
 
 	//wire2 -> andgate in 2
 	A.componentID = wire2.componentID;
@@ -397,7 +397,7 @@ void ORGATE_test(CLibraryBox& box) {
 	B.componentID = andgate.componentID;
 	B.terminalNumber = 1;
 	B.terminalType = TERMINAL_TYPE_INPUT;
-	box.connnectComponent(&A, &B);
+	box.connnectComponent(A, B);
 
 	//andgate out 1 -> wire 3
 	A.componentID = andgate.componentID;
@@ -406,7 +406,7 @@ void ORGATE_test(CLibraryBox& box) {
 	B.componentID = wire3.componentID;
 	B.terminalNumber = 0;
 	B.terminalType = TERMINAL_TYPE_INPUT;
-	box.connnectComponent(&A, &B);
+	box.connnectComponent(A, B);
 
 	//wire 3 -> output pin1
 	A.componentID = wire3.componentID;
@@ -415,7 +415,7 @@ void ORGATE_test(CLibraryBox& box) {
 	B.componentID = outputpin1.componentID;
 	B.terminalNumber = 0;
 	B.terminalType = TERMINAL_TYPE_INPUT;
-	box.connnectComponent(&A, &B);
+	box.connnectComponent(A, B);
 
 }
 
@@ -447,7 +447,7 @@ void XORGATE_test(CLibraryBox& box) {
 	B.componentID = wire1.componentID;
 	B.terminalNumber = 0;
 	B.terminalType = TERMINAL_TYPE_INPUT;
-	box.connnectComponent(&A, &B);
+	box.connnectComponent(A, B);
 
 	//input pin 2 -> wire2 
 	A.componentID = inputpin2.componentID;
@@ -456,7 +456,7 @@ void XORGATE_test(CLibraryBox& box) {
 	B.componentID = wire2.componentID;
 	B.terminalNumber = 0;
 	B.terminalType = TERMINAL_TYPE_INPUT;
-	box.connnectComponent(&A, &B);
+	box.connnectComponent(A, B);
 
 	//wire1 -> andgate in 1
 	A.componentID = wire1.componentID;
@@ -465,7 +465,7 @@ void XORGATE_test(CLibraryBox& box) {
 	B.componentID = andgate.componentID;
 	B.terminalNumber = 0;
 	B.terminalType = TERMINAL_TYPE_INPUT;
-	box.connnectComponent(&A, &B);
+	box.connnectComponent(A, B);
 
 	//wire2 -> andgate in 2
 	A.componentID = wire2.componentID;
@@ -474,7 +474,7 @@ void XORGATE_test(CLibraryBox& box) {
 	B.componentID = andgate.componentID;
 	B.terminalNumber = 1;
 	B.terminalType = TERMINAL_TYPE_INPUT;
-	box.connnectComponent(&A, &B);
+	box.connnectComponent(A, B);
 
 	//andgate out 1 -> wire 3
 	A.componentID = andgate.componentID;
@@ -483,7 +483,7 @@ void XORGATE_test(CLibraryBox& box) {
 	B.componentID = wire3.componentID;
 	B.terminalNumber = 0;
 	B.terminalType = TERMINAL_TYPE_INPUT;
-	box.connnectComponent(&A, &B);
+	box.connnectComponent(A, B);
 
 	//wire 3 -> output pin1
 	A.componentID = wire3.componentID;
@@ -492,7 +492,7 @@ void XORGATE_test(CLibraryBox& box) {
 	B.componentID = outputpin1.componentID;
 	B.terminalNumber = 0;
 	B.terminalType = TERMINAL_TYPE_INPUT;
-	box.connnectComponent(&A, &B);
+	box.connnectComponent(A, B);
 
 
 }
@@ -526,7 +526,7 @@ void Oscillation_test(CLibraryBox& box) {
 	B.componentID = wire1.componentID;
 	B.terminalNumber = 0;
 	B.terminalType = TERMINAL_TYPE_INPUT;
-	box.connnectComponent(&A, &B);
+	box.connnectComponent(A, B);
 
 
 
@@ -537,7 +537,7 @@ void Oscillation_test(CLibraryBox& box) {
 	B.componentID = andgate.componentID;
 	B.terminalNumber = 0;
 	B.terminalType = TERMINAL_TYPE_INPUT;
-	box.connnectComponent(&A, &B);
+	box.connnectComponent(A, B);
 
 	//wire3 -> andgate in 1
 	A.componentID = wire3.componentID;
@@ -546,7 +546,7 @@ void Oscillation_test(CLibraryBox& box) {
 	B.componentID = andgate.componentID;
 	B.terminalNumber = 1;
 	B.terminalType = TERMINAL_TYPE_INPUT;
-	box.connnectComponent(&A, &B);
+	box.connnectComponent(A, B);
 
 	//andgate out 1 -> wire 2
 	A.componentID = andgate.componentID;
@@ -555,7 +555,7 @@ void Oscillation_test(CLibraryBox& box) {
 	B.componentID = wire2.componentID;
 	B.terminalNumber = 0;
 	B.terminalType = TERMINAL_TYPE_INPUT;
-	box.connnectComponent(&A, &B);
+	box.connnectComponent(A, B);
 
 	//wire2  . 0 -> output pin1
 	A.componentID = wire2.componentID;
@@ -564,7 +564,7 @@ void Oscillation_test(CLibraryBox& box) {
 	B.componentID = outputpin1.componentID;
 	B.terminalNumber = 0;
 	B.terminalType = TERMINAL_TYPE_INPUT;
-	box.connnectComponent(&A, &B);
+	box.connnectComponent(A, B);
 
 	//wire2  . 1 -> not gate
 	A.componentID = wire2.componentID;
@@ -573,7 +573,7 @@ void Oscillation_test(CLibraryBox& box) {
 	B.componentID = notgate.componentID;
 	B.terminalNumber = 0;
 	B.terminalType = TERMINAL_TYPE_INPUT;
-	box.connnectComponent(&A, &B);
+	box.connnectComponent(A, B);
 
 	//not gate -> wire3 
 	A.componentID = notgate.componentID;
@@ -582,7 +582,7 @@ void Oscillation_test(CLibraryBox& box) {
 	B.componentID = wire3.componentID;
 	B.terminalNumber = 0;
 	B.terminalType = TERMINAL_TYPE_INPUT;
-	box.connnectComponent(&A, &B);
+	box.connnectComponent(A, B);
 
 	box.updateCircuit();
 
@@ -603,10 +603,10 @@ void libbox_Save_Load_test(CLibraryBox& box, CLibraryBox& box2){
 
 	printf("save box data\n");
 	LIBRARY_BOX_DATA boxData;
-	box.saveLibrarybox(boxData);
+	box.saveLibraryBoxData(boxData);
 
 	printf("load box data\n");
-	box2.loadLibrarybox(boxData);
+	box2.loadLibraryBoxData(boxData);
 
 	printf("box1 info\n");
 	printStateTable(box);
@@ -616,7 +616,7 @@ void libbox_Save_Load_test(CLibraryBox& box, CLibraryBox& box2){
 }
 
 int main() {
-	
+	printE("this is test");
 
 
 	CLibraryBox box1, box2;
@@ -631,10 +631,15 @@ int main() {
 	ORGATE_test(orgate);
 	printStateTable(orgate);
 
+	printf("xorgate test\n");
 	XORGATE_test(xorgate);
 	printStateTable(xorgate);
+
+	printf("norgate test"); ENDL;
 	NORGATE_test(norgate);
 	printStateTable(norgate);
+
+	printf("nand gate test"); ENDL;
 	NANDGATE_test(nandgate);
 	printStateTable(nandgate);
 

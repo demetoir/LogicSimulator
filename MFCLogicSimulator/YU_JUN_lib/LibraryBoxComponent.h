@@ -118,7 +118,7 @@ struct LIBRARY_BOX_DATA {
 
 
 class CLibraryBox :public CComponentObject {
-#define LOOP_LIMIT 100
+#define LOOP_LIMIT 200
 private:
 	int numberOfComponent;
 	//부품들을 담을 벡터 객체들
@@ -152,15 +152,9 @@ public:
 	void deleteComponentID(COMPONENT_ID deleteId);
 	
 	//라이브러리 박스를 로드함
-	bool loadLibrarybox(LIBRARY_BOX_DATA& libraryBoxData);
+	bool loadLibraryBoxData(LIBRARY_BOX_DATA& libraryBoxData);
 	//라이브러리 박스를 세이브함
-	bool saveLibrarybox(LIBRARY_BOX_DATA& libraryBoxData);
-
-	//인풋 핀 하나에대한 getter,setter
-	void setSingleInputPinValue(bool _inputValue, int _inputPinNumber);
-	bool getSingleInputPinValue(int _inputPinNumber);
-	//아웃풋 핀 하나에대한 getter
-	bool getSingleOutputPinValue(int _outputPinNumber);
+	bool saveLibraryBoxData(LIBRARY_BOX_DATA& libraryBoxData);
 	
 	//부품하나에 아웃풋 getter
 	bool getComponentOutputValue(COMPONENT_ID ID, int index);
@@ -169,17 +163,15 @@ public:
 	
 	//부품 추가 실패시 false 반환
 	bool addComponent(COMPONENT_INFO& componentInfo);	
-
 	//라이브러리 박스를 추가하는 함수 오버로딩됨
-	//bool addComponent(COMPONENT_INFO& componentInfo);
-	
-
+	bool addComponent(COMPONENT_INFO& componentInfo, LIBRARY_BOX_DATA& libBoxdata);
 	//부품삭제
 	bool deleteComponent(COMPONENT_ID componentID);
 	
-	bool connnectComponent(COMPONENT_CONENTION_INFO* componentA, COMPONENT_CONENTION_INFO* componentB);
-
-	bool disconnectComponent(COMPONENT_CONENTION_INFO* componentA, COMPONENT_CONENTION_INFO* componentB);
+	//부품 연결 
+	bool connnectComponent(COMPONENT_CONENTION_INFO& componentA, COMPONENT_CONENTION_INFO& componentB);
+	//부품 분리
+	bool disconnectComponent(COMPONENT_CONENTION_INFO& componentA, COMPONENT_CONENTION_INFO& componentB);
 
 	//라이브러리 박스 내부회로 갱신 
 	bool updateCircuit();
