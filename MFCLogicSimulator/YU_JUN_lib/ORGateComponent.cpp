@@ -46,6 +46,13 @@ bool CORGateComponent::update()
 	return true;
 }
 
+void CORGateComponent::reset()
+{
+	inputValue[0] = OR_GATE_INPUT_DEFAULT_VALUE;
+	inputValue[1] = OR_GATE_INPUT_DEFAULT_VALUE;
+	outputValue = OR_GATE_OUTPUT_DEFAULT_VALUE;
+}
+
 int CORGateComponent::numberOfInput()
 {
 	return 2;

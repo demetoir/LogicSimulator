@@ -42,9 +42,6 @@
     <ClCompile Include="소스.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="SimulatorObject.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
     <ClCompile Include="ComponentObject.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
@@ -86,9 +83,6 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="SimulatorObject.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
     <ClInclude Include="ComponentObject.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>

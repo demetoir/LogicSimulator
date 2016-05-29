@@ -2,11 +2,6 @@
 #include "ComponentObject.h"
 
 
-#include<vector>
-
-
-
-
 #define SEVEN_SEGMENT_INPUT_VALUE_SIZE 7
 
 class C7SegmentComponent :public CComponentObject {
@@ -24,4 +19,5 @@ public:
 	virtual bool getInputValue(int index);
 	virtual bool getOutputValue(int index);
 	virtual bool update();
+	virtual void reset();
 };

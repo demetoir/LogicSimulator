@@ -4,6 +4,8 @@
 
 class CWireComponent:public CComponentObject {
 #define WIRE_COMPONENT_DEFAULT_VALUE false
+#define WIRE_NUMBER_OF_INPUT 1
+#define WIRE_NUMBER_OF_OUTPUT 10
 private:
 	bool value;
 public:
@@ -17,4 +19,5 @@ public:
 	virtual bool update();
 	virtual int numberOfInput();
 	virtual int numberOfOutput();
+	virtual void reset();
 };

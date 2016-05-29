@@ -54,3 +54,9 @@ int CNOTGateComponent::numberOfOutput()
 	return 1;
 }
 
+void CNOTGateComponent::reset()
+{
+	inputValue = NOT_GATE_INPUT_DEFAULT_VALUE;
+	outputValue = NOT_GATE_OUTPUT_DEFAULT_VALUE;
+}
+

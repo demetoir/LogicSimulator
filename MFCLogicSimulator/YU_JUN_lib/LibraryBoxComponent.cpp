@@ -4,9 +4,6 @@ CLibraryBox::CLibraryBox()
 {
 	//컴포넌트를 담을벡터
 	componentVector.resize(VECTOR_INIT_SIZE, NULL);
-
-
-
 	//컴포넌트 타입을 저장하는 벡터
 	componentTypeVector.resize(VECTOR_INIT_SIZE, COMPONENT_TYPE_NONE);
 	//컴포넌트 아이디을 저장하는 
@@ -15,10 +12,10 @@ CLibraryBox::CLibraryBox()
 	//연결하는 방향 그래프	
 	inputGraph.resize(VECTOR_INIT_SIZE);
 	outputGraph.resize(VECTOR_INIT_SIZE);
+	//부품의 전체 갯수
 	numberOfComponent = 0;
 	isOscillation = false;
 	isLibraryBoxOutputValueChanged = false;
-
 }
 
 CLibraryBox::CLibraryBox(CLibraryBox & object)
@@ -60,6 +57,139 @@ void CLibraryBox::deleteComponentID(COMPONENT_ID deleteId)
 }
 
 
+bool CLibraryBox::loadLibrarybox(LIBRARY_BOX_DATA & libraryBoxData)
+{
+	
+	numberOfComponent = libraryBoxData.numberOfComponent;
+
+	//라이브러리 박스를 담을 떄는 어떻게?
+	//부품들을 담을 벡터 객체들
+	//vector< CComponentObject* > componentVector;
+
+	
+
+	//그래프 정보를 로드함
+	inputGraph.resize(libraryBoxData.inputGraph.size());
+	for (int i = 0; i < libraryBoxData.inputGraph.size(); i++) {
+		inputGraph[i].resize(libraryBoxData.inputGraph[i].size());
+		for (int j = 0; j < libraryBoxData.inputGraph[i].size(); j++) {
+			inputGraph[i][j].componentID  = libraryBoxData.inputGraph[i][j].componentID;
+			inputGraph[i][j].terminalNumber = libraryBoxData.inputGraph[i][j].terminalNumber;
+			inputGraph[i][j].terminalType = libraryBoxData.inputGraph[i][j].terminalType;
+		}
+	}
+	outputGraph.resize(libraryBoxData.outputGraph.size());
+	for (int i = 0; i < libraryBoxData.outputGraph.size(); i++) {
+		outputGraph[i].resize(libraryBoxData.outputGraph[i].size());
+		for (int j = 0; j < libraryBoxData.outputGraph[i].size(); j++) {
+			outputGraph[i][j].componentID = libraryBoxData.outputGraph[i][j].componentID;
+			outputGraph[i][j].terminalNumber = libraryBoxData.outputGraph[i][j].terminalNumber;
+			outputGraph[i][j].terminalType = libraryBoxData.outputGraph[i][j].terminalType;
+		}
+	}
+
+
+	//부품들의 ID와 부품의 타입으로 라이브러리 박스에 추가한다.
+	//먼저 쓰지 않는 ID를 못쓰게 막아놓는다
+	COMPONENT_INFO loadInfo;
+	componentIDVector.resize(libraryBoxData.componentIDVector.size());
+	for (int i = 0; i < libraryBoxData.componentIDVector.size(); i++) {
+		if (libraryBoxData.componentIDVector[i] == false) {
+			componentIDVector[i] = true;
+		}
+		else {
+			loadInfo.componentID = 0;
+			loadInfo.componentType = libraryBoxData.componentTypeVector[i];
+			addComponent(loadInfo);
+		}
+	}
+	//막아놓은 ID를 해제함
+	for (int i = 0; i < libraryBoxData.componentIDVector.size(); i++) {
+		if (libraryBoxData.componentIDVector[i] == false) {
+			componentIDVector[i] = false;
+		}
+	}
+
+	isOscillation = false;
+	isLibraryBoxOutputValueChanged = false;
+
+	//라이브러리 박스의 인풋핀과 아웃풋 핀을 저장하는 벡터 리스트
+	inputPinIDVector.resize(libraryBoxData.inputPinIDVector.size(),0);
+	for (int i = 0; i < libraryBoxData.inputPinIDVector.size(); i++) {
+		inputPinIDVector[i] = libraryBoxData.inputPinIDVector[i];
+	}
+	outputPinIDVector.resize(libraryBoxData.outputPinIDVector.size(), 0);
+	for (int i = 0; i < libraryBoxData.outputPinIDVector.size(); i++) {
+		outputPinIDVector[i] = libraryBoxData.outputPinIDVector[i];
+	}
+
+	return true;
+}
+
+//라이브러리 박스를 저장함
+bool CLibraryBox::saveLibrarybox(LIBRARY_BOX_DATA& libraryBoxData)
+{
+
+	libraryBoxData.numberOfComponent = numberOfComponent;
+
+	
+	//라이브러리 박스를 담을 떄는 어떻게?
+	//부품들을 담을 벡터 객체들
+	//vector< CComponentObject* > componentVector;
+
+
+
+	//라이브러리 박스의 인풋핀과 아웃풋 핀을 저장
+	libraryBoxData.inputPinIDVector.resize(inputPinIDVector.size());
+	for (int i = 0; i < inputPinIDVector.size(); i++) {
+		libraryBoxData.inputPinIDVector[i] = inputPinIDVector[i];
+	}
+
+	libraryBoxData.outputPinIDVector.resize(outputPinIDVector.size());
+	for (int i = 0; i < outputPinIDVector.size(); i++) {
+		libraryBoxData.outputPinIDVector[i] = outputPinIDVector[i];
+	}
+
+	//부품간의 그래프를 저장함
+	libraryBoxData.inputGraph.resize(inputGraph.size());
+	for (int i = 0; i < inputGraph.size(); i++) {
+		libraryBoxData.inputGraph[i].resize(inputGraph[i].size());
+		for (int j = 0; j < inputGraph[i].size(); j++) {
+			libraryBoxData.inputGraph[i][j].componentID = inputGraph[i][j].componentID;
+			libraryBoxData.inputGraph[i][j].terminalNumber = inputGraph[i][j].terminalNumber;
+			libraryBoxData.inputGraph[i][j].terminalType = inputGraph[i][j].terminalType;
+		}
+	}
+	libraryBoxData.outputGraph.resize(outputGraph.size());
+	for (int i = 0; i < outputGraph.size(); i++) {
+		libraryBoxData.outputGraph[i].resize(outputGraph[i].size());
+		for (int j = 0; j < outputGraph[i].size(); j++) {
+			libraryBoxData.outputGraph[i][j].componentID = outputGraph[i][j].componentID;
+			libraryBoxData.outputGraph[i][j].terminalNumber = outputGraph[i][j].terminalNumber;
+			libraryBoxData.outputGraph[i][j].terminalType = outputGraph[i][j].terminalType;
+		}
+	}
+
+	//부품들이 가지는 타입을 저장
+	libraryBoxData.componentTypeVector.resize(componentTypeVector.size());
+	for (int i = 0; i < componentTypeVector.size(); i++) {
+		libraryBoxData.componentTypeVector[i] = componentTypeVector[i];
+	}
+
+
+	//부품들의 아이디를 저장
+	libraryBoxData.componentIDVector.resize(componentIDVector.size());
+	for (int i = 0; i < componentIDVector.size(); i++) {
+		libraryBoxData.componentIDVector[i] = componentIDVector[i];
+	}
+
+	libraryBoxData.isOscillation = false;
+	libraryBoxData.isLibraryBoxOutputValueChanged = false;
+
+	return true;
+
+}
+
 //라이브러리 박스의 input output pin에대한 getter setter
 void CLibraryBox::setSingleInputPinValue(bool _inputValue, int _inputPinNumber)
 {
@@ -93,8 +223,6 @@ bool CLibraryBox::checkOscillation()
 {
 	return isOscillation;
 }
-
-
 
 // 부품 추가
 bool CLibraryBox::addComponent(COMPONENT_INFO & componentInfo)
@@ -135,7 +263,6 @@ bool CLibraryBox::addComponent(COMPONENT_INFO & componentInfo)
 	case COMPONENT_TYPE_AND_GATE:
 		componentVector[newComponentID] = new CANDGateComponent();
 		break;
-
 	case COMPONENT_TYPE_OR_GATE:
 		componentVector[newComponentID] = new CORGateComponent();
 		break;
@@ -149,20 +276,20 @@ bool CLibraryBox::addComponent(COMPONENT_INFO & componentInfo)
 		//wire component
 	case COMPONENT_TYPE_WIRE:
 		componentVector[newComponentID] = new CWireComponent();
-		///대충...
 		break;
 
 		//output component
-
 	case COMPONENT_TYPE_OUTPUT_PIN:
 		outputPinIDVector.push_back(newComponentID);
 		componentVector[newComponentID] = new COutputPinComponent();
 		break;
 
-		//라이브러리 박스 나중에함
+		//라이브러리 박스 
 	case COMPONENT_TYPE_LIBRARY_BOX:
+		componentVector[newComponentID] = new CLibraryBox();
 		break;
-		//생성할수없음
+
+		//지원하는 종류의 부픔이 아님 
 	default:
 		deleteComponentID(newComponentID);
 		return false;
@@ -387,7 +514,6 @@ bool CLibraryBox::updateCircuit()
 	if (isOscillation == true) {
 		return false;
 	}
-
  	queue< pair< int, int > > Q;
 
 	vector<int> checktime;
@@ -396,7 +522,6 @@ bool CLibraryBox::updateCircuit()
 	countCheck.resize(componentIDVector.size(), 0);
 	int time = 0;
 	CComponentObject* curComponent;
-	CComponentObject* preComponent;
 	COMPONENT_CONENTION_INFO preConectionInfo;
 
 	int nextID;
@@ -504,7 +629,7 @@ bool CLibraryBox::updateCircuit()
 
 int CLibraryBox::numberOfInput()
 {
-	return inputPinIDVector.size();
+	return (int)inputPinIDVector.size();
 }
 
 int CLibraryBox::numberOfOutput()
@@ -530,5 +655,14 @@ bool CLibraryBox::getOutputValue(int index)
 
 bool CLibraryBox::update()
 {
-	return false;
+	return updateCircuit();
+}
+
+void CLibraryBox::reset()
+{
+	for (int i = 0; i < componentIDVector.size(); i++) {
+		if (componentIDVector[i] == false) { continue; }
+		componentVector[i]->reset();
+	}
+	isOscillation = false;
 }

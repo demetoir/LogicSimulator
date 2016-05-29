@@ -20,6 +20,6 @@ public:
 	virtual bool update();
 	virtual int numberOfInput();
 	virtual int numberOfOutput();
-
+	virtual void reset();
 
 };

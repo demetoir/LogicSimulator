@@ -4,6 +4,8 @@
 
 class COutputPinComponent :public CComponentObject {
 #define OUTPUT_PIN_DEFAULT_VALUE false 
+#define OUTPUT_PIN_NUMBER_OF_INPUT 1
+#define OUTPUT_PIN_NUMBER_OF_OUTUPUT 0
 private:
 	bool value;
 public:
@@ -17,4 +19,5 @@ public:
 	virtual bool update();
 	virtual int numberOfInput();
 	virtual int numberOfOutput();
+	virtual void reset();
 };

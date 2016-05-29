@@ -13,4 +13,5 @@ public:
 	virtual bool update() = 0;
 	virtual int numberOfInput() = 0;
 	virtual int numberOfOutput() = 0;
+	virtual void reset() = 0;
 };

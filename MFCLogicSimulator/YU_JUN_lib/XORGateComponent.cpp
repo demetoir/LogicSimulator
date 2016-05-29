@@ -55,4 +55,11 @@ int CXORGateComponent::numberOfOutput()
 	return 1;
 }
 
+void CXORGateComponent::reset()
+{
+	inputValue[0] = XOR_GATE_INPUT_DEFAULT_VALUE;
+	inputValue[1] = XOR_GATE_INPUT_DEFAULT_VALUE;
+	outputValue = XOR_GATE_OUTPUT_DEFAULT_VALUE;
+}
+
 

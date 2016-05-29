@@ -41,6 +41,11 @@ bool CClockComponent::update()
 	return false;
 }
 
+void CClockComponent::reset()
+{
+	value = CLOCK_COMPONENT_DEFAULT_VALUE;
+}
+
 
 void CClockComponent::setClockHZ(double _clockHZ)
 {

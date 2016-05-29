@@ -89,26 +89,30 @@ struct COMPONENT_INFO {
 };
 
 
-//보류
-//세이브 로드 할 구조체
+//라이브러리 박스를 로드,세이브할 구조체
 struct LIBRARY_BOX_DATA {
-	LIBRARY_BOX_DATA() {
+	int numberOfComponent;
+	//부품들을 담을 벡터 객체들
+	vector< CComponentObject* > componentVector;
 
-	}
-	COMPONENT_ID componentID;
-	COMPONENT_TYPE componentType;
+	//라이브러리 박스의 인풋핀과 아웃풋 핀을 저장하는 벡터 리스트
+	vector< COMPONENT_ID > inputPinIDVector;
+	vector< COMPONENT_ID > outputPinIDVector;
 
+	//부품간을 연결나타내는 무방향 그래프의 인접리스트 
+	vector< vector < COMPONENT_CONENTION_INFO > > inputGraph;
+	vector< vector < COMPONENT_CONENTION_INFO > > outputGraph;
 
-	//CSimulatorObject 정보
-	std::string componentName;
-	int numberOfInputTerminal;
-	int numberOfOutputTerminal;
+	//부품들이 가지는 타입을 저장하는 벡터
+	vector< COMPONENT_TYPE >  componentTypeVector;
 
-	//CComponentObject 정보
-	int x, y;
-	enum DIRECTION direction;
-	std::string label;
+	//부품들의 아이디를 저장하는 벡터
+	vector < bool > componentIDVector;
+	bool isOscillation;
+	bool isLibraryBoxOutputValueChanged;
 
+	//중첩된 라이브러리 박스
+	//vector < LIBRARY_BOX_DATA > internalLibraryBoxData;
 
 };
 
@@ -135,6 +139,7 @@ private:
 	vector < bool > componentIDVector;
 	bool isOscillation;
 	bool isLibraryBoxOutputValueChanged;
+
 public:
 	CLibraryBox();
 	CLibraryBox(CLibraryBox& object);
@@ -147,9 +152,9 @@ public:
 	void deleteComponentID(COMPONENT_ID deleteId);
 	
 	//라이브러리 박스를 로드함
-	void loadLibrarybox(vector<LIBRARY_BOX_DATA>& LibraryBoxData);
+	bool loadLibrarybox(LIBRARY_BOX_DATA& libraryBoxData);
 	//라이브러리 박스를 세이브함
-	void saveLibrarybox(vector<LIBRARY_BOX_DATA>& _componentList);
+	bool saveLibrarybox(LIBRARY_BOX_DATA& libraryBoxData);
 
 	//인풋 핀 하나에대한 getter,setter
 	void setSingleInputPinValue(bool _inputValue, int _inputPinNumber);
@@ -164,6 +169,11 @@ public:
 	
 	//부품 추가 실패시 false 반환
 	bool addComponent(COMPONENT_INFO& componentInfo);	
+
+	//라이브러리 박스를 추가하는 함수 오버로딩됨
+	//bool addComponent(COMPONENT_INFO& componentInfo);
+	
+
 	//부품삭제
 	bool deleteComponent(COMPONENT_ID componentID);
 	
@@ -175,7 +185,7 @@ public:
 	bool updateCircuit();
 	
 	//보여주기여용 상태 정보 출력해주는 프로그램
-	void printstatus();
+	//void printstatus();
 
 	virtual int numberOfInput();
 	virtual int numberOfOutput();
@@ -183,4 +193,8 @@ public:
 	virtual bool getInputValue(int index) ;
 	virtual bool getOutputValue(int index) ;
 	virtual bool update();
+
+	//모든 부품을 초기값으로 돌림
+	virtual void reset();
+
 };

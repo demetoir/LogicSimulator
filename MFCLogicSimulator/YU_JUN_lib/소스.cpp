@@ -13,45 +13,48 @@ using namespace std;
 
 void printBoxInOutvalue(CLibraryBox& box) {
 
-	printf("input value : \n");
 	for (int i = 0; i < box.numberOfInput(); i++) {
-		printf("%d : %d \n", i, box.getSingleInputPinValue(i));
+		printf("    %d ", box.getSingleInputPinValue(i));
 	}
-	printf("output value : \n");
+	printf("   ->   ");
 	for (int i = 0; i < box.numberOfOutput(); i++) {
-		printf("%d : %d \n", i, box.getSingleOutputPinValue(i));
+		printf("    %d ", box.getSingleOutputPinValue(i));
 	}
 	printf("\n");
+
 
 }
 
 void printStateTable(CLibraryBox& box) {
 
-	box.setInputValue(0, false);
-	box.setInputValue(1, false);
-	box.updateCircuit();
-	printBoxInOutvalue(box);
+	printf("number of input value : %d\n", box.numberOfInput());
+	printf("number of output value : %d\n", box.numberOfOutput());
+	for (int i = 0; i < box.numberOfInput(); i++) {
+		printf("in %2.d ", i+1);
+	}
+	printf("       ");
+	for (int i = 0; i < box.numberOfOutput(); i++) {
+		printf("out %2.d ", i+1);
+	}
+	printf("\n");
+	//모든 인풋을 다해본다
+	int numberOfinput = box.numberOfInput();
 
-	box.setInputValue(0, true);
-	box.setInputValue(1, false);
-	box.updateCircuit();
-	printBoxInOutvalue(box);
-
-	box.setInputValue(0, false);
-	box.setInputValue(1, true);
-	box.updateCircuit();
-	printBoxInOutvalue(box);
-
-	box.setInputValue(0, true);
-	box.setInputValue(1, true);
-	box.updateCircuit();
-	printBoxInOutvalue(box);
+	int max = 1 << numberOfinput;
+	int bitmask = 0;
+	for (int i = 0; i < max; i++) {
+		bitmask = i;
+		for (int j = numberOfinput-1; j >=0; j--) {
+			//printf("###%d -> %d %d \n", i, j, (bitmask&(1 << j)));
+			box.setInputValue(j, (bitmask&(1 << j)));
+		}
+		box.updateCircuit();
+		printBoxInOutvalue(box);
+	}
+	printf("\n");
 }
 
-
-void NANDGATE_test() {
-
-	CLibraryBox box;
+void NANDGATE_test(CLibraryBox& box) {
 
 	COMPONENT_INFO andgate(COMPONENT_TYPE_AND_GATE);
 	COMPONENT_INFO notgate(COMPONENT_TYPE_NOT_GATE);
@@ -156,17 +159,10 @@ void NANDGATE_test() {
 	box.connnectComponent(&A, &B);
 
 
-
-	printStateTable(box);
-
-
 }
 
+void NORGATE_test(CLibraryBox& box) {
 
-
-void NORGATE_test() {
-
-	CLibraryBox box;
 
 	COMPONENT_INFO andgate(COMPONENT_TYPE_OR_GATE);
 	COMPONENT_INFO notgate(COMPONENT_TYPE_NOT_GATE);
@@ -265,14 +261,9 @@ void NORGATE_test() {
 	box.connnectComponent(&A, &B);
 
 
-	printStateTable(box);
-
-
 }
 
-void ANDGATE_test() {
-
-	CLibraryBox box;
+void ANDGATE_test(CLibraryBox& box) {
 
 	COMPONENT_INFO andgate(COMPONENT_TYPE_AND_GATE);
 	COMPONENT_INFO wire1(COMPONENT_TYPE_WIRE);
@@ -348,14 +339,9 @@ void ANDGATE_test() {
 	B.terminalType = TERMINAL_TYPE_INPUT;
 	box.connnectComponent(&A, &B);
 
-	printStateTable(box);
-
 }
 
-
-void ORGATE_test() {
-
-	CLibraryBox box;
+void ORGATE_test(CLibraryBox& box) {
 
 	COMPONENT_INFO andgate(COMPONENT_TYPE_OR_GATE);
 	COMPONENT_INFO wire1(COMPONENT_TYPE_WIRE);
@@ -431,14 +417,9 @@ void ORGATE_test() {
 	B.terminalType = TERMINAL_TYPE_INPUT;
 	box.connnectComponent(&A, &B);
 
-	printStateTable(box);
-
 }
 
-void XORGATE_test() {
-
-	CLibraryBox box;
-
+void XORGATE_test(CLibraryBox& box) {
 	COMPONENT_INFO andgate(COMPONENT_TYPE_XOR_GATE);
 	COMPONENT_INFO wire1(COMPONENT_TYPE_WIRE);
 	COMPONENT_INFO wire2(COMPONENT_TYPE_WIRE);
@@ -513,14 +494,11 @@ void XORGATE_test() {
 	B.terminalType = TERMINAL_TYPE_INPUT;
 	box.connnectComponent(&A, &B);
 
-	printStateTable(box);
 
 }
 
 
-void Oscillation_test() {
-
-	CLibraryBox box;
+void Oscillation_test(CLibraryBox& box) {
 
 	COMPONENT_INFO andgate(COMPONENT_TYPE_AND_GATE);
 	COMPONENT_INFO notgate(COMPONENT_TYPE_NOT_GATE);
@@ -619,28 +597,49 @@ void Oscillation_test() {
 	printBoxInOutvalue(box);
 }
 
+void libbox_Save_Load_test(CLibraryBox& box, CLibraryBox& box2){
+
+
+
+	printf("save box data\n");
+	LIBRARY_BOX_DATA boxData;
+	box.saveLibrarybox(boxData);
+
+	printf("load box data\n");
+	box2.loadLibrarybox(boxData);
+
+	printf("box1 info\n");
+	printStateTable(box);
+	printf("box2 info\n");
+	printStateTable(box2);
+
+}
+
 int main() {
+	
 
 
+	CLibraryBox box1, box2;
+	CLibraryBox andgate, orgate, xorgate, norgate, nandgate;
 
 
-	printf("#### nand test\n");
-	NANDGATE_test();
+	printf("and gate_test\n");
+	ANDGATE_test(andgate);
+	printStateTable(andgate);
 
-	printf("#### nor test \n");
-	NORGATE_test();
+	printf("orgate test\n");
+	ORGATE_test(orgate);
+	printStateTable(orgate);
 
-	printf("#### and  test \n");
-	ANDGATE_test();
+	XORGATE_test(xorgate);
+	printStateTable(xorgate);
+	NORGATE_test(norgate);
+	printStateTable(norgate);
+	NANDGATE_test(nandgate);
+	printStateTable(nandgate);
 
-	printf("#### or test\n");
-	ORGATE_test();
+	libbox_Save_Load_test(nandgate,box2);
 
-	printf("#### xor test\n");
-	XORGATE_test();
-
-	printf("#### oscillation test\n");
-	Oscillation_test();
 
 
 }

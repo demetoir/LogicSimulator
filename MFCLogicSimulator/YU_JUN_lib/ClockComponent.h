@@ -20,7 +20,7 @@ public:
 	virtual bool getInputValue(int index);
 	virtual bool getOutputValue(int index);
 	virtual bool update();
-
+	virtual void reset();
 	void setClockHZ(double _clockHZ);
 	double getClockHZ();
 	

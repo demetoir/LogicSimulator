@@ -40,4 +40,9 @@ bool COneBitSwitchComponent::update()
 	return false;
 }
 
+void COneBitSwitchComponent::reset()
+{
+	value = ONE_BIT_SWITCH_DEFAULT_VALUE;
+}
+
 

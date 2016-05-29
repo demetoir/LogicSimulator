@@ -40,6 +40,11 @@ bool CInputPinComponent::update()
 	return false;
 }
 
+void CInputPinComponent::reset()
+{
+	value = INPUT_PIN_DEFAULT_INPUT_VALUE;
+}
+
 int CInputPinComponent::numberOfInput()
 {
 	return 0;

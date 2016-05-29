@@ -17,4 +17,5 @@ public:
 	virtual bool getInputValue(int index);
 	virtual bool getOutputValue(int index);
 	virtual bool update();
+	virtual void reset();
 };

@@ -42,10 +42,15 @@ bool COutputPinComponent::update()
 
 int COutputPinComponent::numberOfInput()
 {
-	return 1;
+	return OUTPUT_PIN_NUMBER_OF_INPUT;
 }
 
 int COutputPinComponent::numberOfOutput()
 {
-	return 1;
+	return OUTPUT_PIN_NUMBER_OF_OUTUPUT;
+}
+
+void COutputPinComponent::reset()
+{
+	value = OUTPUT_PIN_DEFAULT_VALUE;
 }

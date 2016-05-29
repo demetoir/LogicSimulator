@@ -43,12 +43,17 @@ bool CWireComponent::update()
 
 int CWireComponent::numberOfInput()
 {
-	return 1;
+	return WIRE_NUMBER_OF_INPUT;
 }
 
 int CWireComponent::numberOfOutput()
 {
-	return 10;
+	return WIRE_NUMBER_OF_OUTPUT;
+}
+
+void CWireComponent::reset()
+{
+
 }
 
 

@@ -3,7 +3,7 @@
 C7SegmentComponent::C7SegmentComponent()
 {
 	for (int i = 0; i < 7; i++) {
-		value[i] = false;
+		value[i] = SEVEN_SEGMENT_DEFUALT_VALUE;
 	}
 }
 
@@ -11,7 +11,7 @@ C7SegmentComponent::C7SegmentComponent(C7SegmentComponent & object)
 	:CComponentObject(object)
 {
 	for (int i = 0; i < 7; i++) {
-		value[i] = false;
+		value[i] = SEVEN_SEGMENT_DEFUALT_VALUE;
 	}
 }
 
@@ -43,5 +43,12 @@ bool C7SegmentComponent::getOutputValue(int index)
 bool C7SegmentComponent::update()
 {
 	return false;
+}
+
+void C7SegmentComponent::reset()
+{
+	for (int i = 0; i < 7; i++) {
+		value[i] = SEVEN_SEGMENT_DEFUALT_VALUE;
+	}
 }
 

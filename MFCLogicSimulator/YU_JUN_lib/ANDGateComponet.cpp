@@ -46,6 +46,13 @@ bool CANDGateComponent::update()
 	return true;
 }
 
+void CANDGateComponent::reset()
+{
+	outputValue = AND_GATE_OUTPUT_DEFUALT_VALUE;
+	inputValue[0] = AND_GATE_INPUT_DEFUALT_VALUE;
+	inputValue[1] = AND_GATE_INPUT_DEFUALT_VALUE;
+}
+
 int CANDGateComponent::numberOfInput()
 {
 	return 2;

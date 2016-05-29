@@ -17,7 +17,7 @@ COneBitLampComponent::~COneBitLampComponent()
 
 bool COneBitLampComponent::setInputValue(int index, bool _value)
 {
-	bool oldValue;
+	bool oldValue = value;
 	value = _value;
 	if(oldValue == value){
 		return false;
@@ -38,6 +38,11 @@ bool COneBitLampComponent::getOutputValue(int index)
 bool COneBitLampComponent::update()
 {
 	return false;
+}
+
+void COneBitLampComponent::reset()
+{
+	value = ONE_BIT_LAMP_DEFUALT_VALUE;
 }
 
 

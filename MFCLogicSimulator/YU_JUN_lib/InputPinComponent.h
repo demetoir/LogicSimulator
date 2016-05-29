@@ -19,7 +19,7 @@ public:
 
 	virtual bool getOutputValue(int index);
 	virtual bool update();
-
+	virtual void reset();
 	virtual int numberOfInput();
 	virtual int numberOfOutput();
 };

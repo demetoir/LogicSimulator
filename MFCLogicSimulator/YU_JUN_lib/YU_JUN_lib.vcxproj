@@ -153,7 +153,6 @@
     <ClCompile Include="OneBitSwitch.cpp" />
     <ClCompile Include="ORGateComponent.cpp" />
     <ClCompile Include="OutputPin.cpp" />
-    <ClCompile Include="SimulatorObject.cpp" />
     <ClCompile Include="WireComponet.cpp" />
     <ClCompile Include="XORGateComponent.cpp" />
     <ClCompile Include="소스.cpp" />
@@ -170,7 +169,6 @@
     <ClInclude Include="OneBitSwitch.h" />
     <ClInclude Include="ORGateComponent.h" />
     <ClInclude Include="OutputPin.h" />
-    <ClInclude Include="SimulatorObject.h" />
     <ClInclude Include="WireComponet.h" />
     <ClInclude Include="XORGateComponent.h" />
   </ItemGroup>
