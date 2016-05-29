@@ -13,9 +13,10 @@
 //
 
 #pragma once
+// 스크롤 생성
+// http://moguwai.tistory.com/entry/CView-CScrollView%EB%A1%9C-%EC%A0%84%ED%99%98
 
-
-class CMFCLogicSimulatorView : public CView
+class CMFCLogicSimulatorView : public CScrollView
 {
 protected: // serialization에서만 만들어집니다.
 	CMFCLogicSimulatorView();
@@ -27,12 +28,14 @@ public:
 
 // 작업입니다.
 public:
-	CTreeCtrl abc;
+	CRect rlClientRect;
+	
 // 재정의입니다.
 public:
 	virtual void OnDraw(CDC* pDC);  // 이 뷰를 그리기 위해 재정의되었습니다.
 	virtual BOOL PreCreateWindow(CREATESTRUCT& cs);
 protected:
+	virtual void OnInitialUpdate();
 	virtual BOOL OnPreparePrinting(CPrintInfo* pInfo);
 	virtual void OnBeginPrinting(CDC* pDC, CPrintInfo* pInfo);
 	virtual void OnEndPrinting(CDC* pDC, CPrintInfo* pInfo);
@@ -56,6 +59,7 @@ protected:
 public:
 	afx_msg void OnLButtonDown(UINT nFlags, CPoint point);
 	afx_msg void OnLButtonUp(UINT nFlags, CPoint point);
+	afx_msg void OnPaint();
 };
 
 #ifndef _DEBUG  // MFCLogicSimulatorView.cpp의 디버그 버전
