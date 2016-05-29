@@ -118,6 +118,7 @@ void CChildFrame::OnUpdateFilePrintPreview(CCmdUI* pCmdUI)
 
 
 /*************** Ribbon check box 처리기 ***************/
+/* out put wnd 처리기 */
 void CChildFrame::OnCheckoutput()
 {
 	// TODO: 여기에 명령 처리기 코드를 추가합니다.
@@ -129,12 +130,11 @@ void CChildFrame::OnUpdateCheckoutput(CCmdUI *pCmdUI)
 	pCmdUI->Enable(TRUE);
 	//pCmdUI->SetCheck(BST_CHECKED);
 }
-
+/* properties wnd 처리기 */
 void CChildFrame::OnCheckproperties()
 {
 	// TODO: 여기에 명령 처리기 코드를 추가합니다.
 }
-
 
 void CChildFrame::OnUpdateCheckproperties(CCmdUI *pCmdUI)
 {
@@ -143,12 +143,11 @@ void CChildFrame::OnUpdateCheckproperties(CCmdUI *pCmdUI)
 	//pCmdUI->SetCheck(BST_CHECKED);
 }
 
-
+/* tool box wnd 처리기 */
 void CChildFrame::OnChecktoolbox()
 {
 	// TODO: 여기에 명령 처리기 코드를 추가합니다.
 }
-
 
 void CChildFrame::OnUpdateChecktoolbox(CCmdUI *pCmdUI)
 {
@@ -163,11 +162,11 @@ void CChildFrame::OnUpdateChecktoolbox(CCmdUI *pCmdUI)
 
 
 /*************** Ribbon button 처리기 *****************/
+/* 멈춤 button 처리기 */
 void CChildFrame::OnButtonstop()
 {
 	// TODO: 여기에 명령 처리기 코드를 추가합니다.
 }
-
 
 void CChildFrame::OnUpdateButtonstop(CCmdUI *pCmdUI)
 {
@@ -176,12 +175,11 @@ void CChildFrame::OnUpdateButtonstop(CCmdUI *pCmdUI)
 
 }
 
-
+/* 계속 button 처리기 */
 void CChildFrame::OnButtoncontinue()
 {
 	// TODO: 여기에 명령 처리기 코드를 추가합니다.
 }
-
 
 void CChildFrame::OnUpdateButtoncontinue(CCmdUI *pCmdUI)
 {
@@ -189,11 +187,11 @@ void CChildFrame::OnUpdateButtoncontinue(CCmdUI *pCmdUI)
 	pCmdUI->Enable(TRUE);
 }
 
+/* 실행모드 botton 처리기 */
 void CChildFrame::OnButtonact()
 {
 	// TODO: 여기에 명령 처리기 코드를 추가합니다.
 }
-
 
 void CChildFrame::OnUpdateButtonact(CCmdUI *pCmdUI)
 {
@@ -201,12 +199,11 @@ void CChildFrame::OnUpdateButtonact(CCmdUI *pCmdUI)
 	pCmdUI->Enable(TRUE);
 }
 
-
+/* 편집모드 botton 처리기 */
 void CChildFrame::OnButtonedit()
 {
 	// TODO: 여기에 명령 처리기 코드를 추가합니다.
 }
-
 
 void CChildFrame::OnUpdateButtonedit(CCmdUI *pCmdUI)
 {
@@ -219,9 +216,27 @@ void CChildFrame::OnUpdateButtonedit(CCmdUI *pCmdUI)
 
 
 /*************** Ribbon 클립보드 처리기 *****************/
+// https://msdn.microsoft.com/ko-kr/library/80db3kax.aspx
 void CChildFrame::OnEditCopy()
 {
 	// TODO: 여기에 명령 처리기 코드를 추가합니다.
+
+	if (!OpenClipboard())
+	{
+		AfxMessageBox(_T("Cannot open the Clipboard"));
+		return;
+	}
+	// Remove the current Clipboard contents
+	if (!EmptyClipboard())
+	{
+		AfxMessageBox(_T("Cannot empty the Clipboard"));
+		return;
+	}
+	// Get the currently selected data
+
+
+	CloseClipboard();
+
 }
 
 

@@ -10,7 +10,6 @@
 // All rights reserved.
 
 #pragma once
-
 #include "ViewTree.h"
 
 class CFileViewToolBar : public CMFCToolBar
@@ -34,7 +33,6 @@ public:
 
 // 특성입니다.
 protected:
-
 	CViewTree m_wndFileView;
 	CImageList m_FileViewImages;
 	CFileViewToolBar m_wndToolBar;

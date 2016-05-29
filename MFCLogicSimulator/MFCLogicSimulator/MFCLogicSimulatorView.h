@@ -13,6 +13,10 @@
 //
 
 #pragma once
+#include "ViewTree.h"
+#include "FileView.h" // tree item 관련하여 추가
+#include "PropertiesWnd.h" // 속성창 옵션 수정 관련하여 추가
+
 // 스크롤 생성
 // http://moguwai.tistory.com/entry/CView-CScrollView%EB%A1%9C-%EC%A0%84%ED%99%98
 
@@ -29,7 +33,7 @@ public:
 // 작업입니다.
 public:
 	CRect rlClientRect;
-	
+	CFileView* p_toolbox; // tool box 포인터
 // 재정의입니다.
 public:
 	virtual void OnDraw(CDC* pDC);  // 이 뷰를 그리기 위해 재정의되었습니다.

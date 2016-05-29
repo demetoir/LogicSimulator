@@ -68,13 +68,7 @@ int CFileView::OnCreate(LPCREATESTRUCT lpCreateStruct)
 	}
 
 	// 뷰 이미지를 로드합니다.
-	/* IDB_FILE_VIEW 리소스의 16픽셀 단위로 끊어서 사용한다고 말한거 */
-	/*
-	folder = 0
-	and = 1 선택(2)
-	..
-	이런 식으로 사용하면 됨.
-	*/
+	/* IDB_FILE_VIEW 리소스의 16픽셀 단위로 끊어서 사용한다. */
 	m_FileViewImages.Create(IDB_FILE_VIEW, 16, 0, RGB(255, 0, 255));
 	m_wndFileView.SetImageList(&m_FileViewImages, TVSIL_NORMAL);
 
@@ -110,7 +104,6 @@ void CFileView::FillFileView()
 	HTREEITEM hRoot = m_wndFileView.InsertItem(_T("Logic Simulator"), 0, 0);
 
 	m_wndFileView.SetItemState(hRoot, TVIS_BOLD, TVIS_BOLD);
-
 	/*
 		0 폴더 | 1,2 기타 | 3,4 and | 5,6 nand | 7,8 or |
 		9,10 nor | 11,12 xor | 13,14 not | 15,16 FF

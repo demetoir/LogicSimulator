@@ -22,6 +22,9 @@
 #include "MFCLogicSimulatorDoc.h"
 #include "MFCLogicSimulatorView.h"
 
+#include "FileView.h" // tree item 관련하여 추가
+#include "PropertiesWnd.h" // 속성창 옵션 수정 관련하여 추가
+
 #ifdef _DEBUG
 #define new DEBUG_NEW
 #endif
@@ -176,13 +179,14 @@ void CMFCLogicSimulatorView::OnPaint()
 					   // 그리기 메시지에 대해서는 CScrollView::OnPaint()을(를) 호출하지 마십시오.
 	
 	//AfxMessageBox(_T("onpaint"));
-	//CDC *pDC = GetDC();
-	//pDC->TextOutW(100, 50, _T("MFC Application test"));
-	//ReleaseDC(pDC); //사용이 끝나고 디바이스 컨텍스트를 운영체제에게 반답한다.
+	CDC *pDC = GetDC();
+	pDC->TextOutW(100, 50, _T("paint test"));
+	ReleaseDC(pDC); //사용이 끝나고 디바이스 컨텍스트를 운영체제에게 반답한다.
 	
 
 	// 뷰 스크롤 및 크기 조정
 	// https://msdn.microsoft.com/ko-kr/library/cc468151(v=vs.71).aspx
+	// http://eachan.tistory.com/3
 	/* 스크롤바 컨트롤 */
 	CDC MemDC;
 	
@@ -190,11 +194,8 @@ void CMFCLogicSimulatorView::OnPaint()
 	int nHorzScroll = GetScrollPos(SB_HORZ);
 
 	CPoint scrollpos = GetScrollPosition();
-	dc.BitBlt(-scrollpos.x, -scrollpos.y, rlClientRect.right, 1200,
+	dc.BitBlt(-scrollpos.x, -scrollpos.y, rlClientRect.right, rlClientRect.bottom,
 		&MemDC, 0, 0, SRCCOPY);
-
-	/* 스크롤바 컨트롤 */
-
-
+	/* 스크롤바 컨트롤 끝 */
 
 }
