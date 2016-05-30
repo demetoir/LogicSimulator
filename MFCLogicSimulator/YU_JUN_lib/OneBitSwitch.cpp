@@ -45,4 +45,14 @@ void COneBitSwitchComponent::reset()
 	value = ONE_BIT_SWITCH_DEFAULT_VALUE;
 }
 
+int COneBitSwitchComponent::numberOfInput()
+{
+	return 0;
+}
+
+int COneBitSwitchComponent::numberOfOutput()
+{
+	return 1;
+}
+
 

@@ -1,5 +1,4 @@
 #pragma once
-
 #include "ComponentObject.h"
 
 class COutputPinComponent :public CComponentObject {
@@ -8,11 +7,11 @@ class COutputPinComponent :public CComponentObject {
 #define OUTPUT_PIN_NUMBER_OF_OUTUPUT 0
 private:
 	bool value;
+
 public:
 	COutputPinComponent();
 	COutputPinComponent(COutputPinComponent& object);
 	~COutputPinComponent();
-
 	virtual bool setInputValue(int index, bool _value);
 	virtual bool getInputValue(int index);
 	virtual bool getOutputValue(int index);

@@ -45,4 +45,14 @@ void COneBitLampComponent::reset()
 	value = ONE_BIT_LAMP_DEFUALT_VALUE;
 }
 
+int COneBitLampComponent::numberOfInput()
+{
+	return 1;
+}
+
+int COneBitLampComponent::numberOfOutput()
+{
+	return 0;
+}
+
 

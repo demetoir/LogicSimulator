@@ -3,7 +3,6 @@
 #include <time.h>
 #include <vector>
 
-
 class CClockComponent :public CComponentObject {
 #define CLOCK_COMPONENT_DEFAULT_CLOCK_HZ 10
 #define CLOCK_COMPONENT_DEFAULT_VALUE false
@@ -23,5 +22,6 @@ public:
 	virtual void reset();
 	void setClockHZ(double _clockHZ);
 	double getClockHZ();
-	
+	virtual int numberOfInput();
+	virtual int numberOfOutput();	
 };

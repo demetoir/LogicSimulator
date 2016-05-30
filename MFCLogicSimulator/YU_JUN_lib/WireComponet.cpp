@@ -12,8 +12,7 @@ CWireComponent::CWireComponent(CWireComponent&  object)
 }
 
 CWireComponent::~CWireComponent()
-{
-	
+{	
 }
 
 bool CWireComponent::setInputValue(int index,bool _value)
@@ -53,7 +52,7 @@ int CWireComponent::numberOfOutput()
 
 void CWireComponent::reset()
 {
-
+	value = WIRE_COMPONENT_DEFAULT_VALUE;
 }
 
 

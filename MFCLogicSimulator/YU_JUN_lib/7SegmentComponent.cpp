@@ -52,3 +52,13 @@ void C7SegmentComponent::reset()
 	}
 }
 
+int C7SegmentComponent::numberOfInput()
+{
+	return 7;
+}
+
+int C7SegmentComponent::numberOfOutput()
+{
+	return 0;
+}
+

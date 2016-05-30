@@ -1,7 +1,6 @@
 #pragma once
 #include "ComponentObject.h"
 
-
 class CXORGateComponent :public CComponentObject {
 #define XOR_GATE_INPUT_DEFAULT_VALUE false
 #define XOR_GATE_OUTPUT_DEFAULT_VALUE false
@@ -13,7 +12,6 @@ public:
 	CXORGateComponent();
 	CXORGateComponent(CXORGateComponent& object);
 	virtual ~CXORGateComponent();
-
 	virtual bool setInputValue(int index, bool _value);
 	virtual bool getInputValue(int index);
 	virtual bool getOutputValue(int index);

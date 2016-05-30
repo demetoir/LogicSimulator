@@ -56,3 +56,13 @@ double CClockComponent::getClockHZ()
 {
 	return clockHZ;
 }
+
+int CClockComponent::numberOfInput()
+{
+	return 0;
+}
+
+int CClockComponent::numberOfOutput()
+{
+	return 1;
+}

@@ -1,21 +1,17 @@
 #pragma once
 //조상 클래스 추가
 #include "ComponentObject.h"
-
 //논리 게이트 헤더 헤더추가
 #include "ANDGateComponet.h"
 #include "ORGateComponent.h"
 #include "NOTGateComponent.h"
 #include "XORGateComponent.h"
-
 //와이어 헤더 추가
 #include "WireComponet.h" 
-
 //input component 헤더 추가
 #include "InputPinComponent.h"
 #include "ClockComponent.h"
 #include "OneBitSwitch.h"
-
 //output pin 헤더 추가
 #include "OutputPin.h"
 #include "7SegmentComponent.h"
@@ -28,15 +24,15 @@ using std::vector;
 using std::queue;
 using std::pair;
 using std::make_pair;
+
 //디버깅용 출력하는거
 #include <stdio.h>
 
-
+//부품의 터미널 타입
 enum TERMINAL_TYPE {
 	TERMINAL_TYPE_NONE, TERMINAL_TYPE_INPUT,
 	TERMINAL_TYPE_OUTPUT, TERMINAL_TYPE_WIRE
 };
-
 
 //component 타입
 enum COMPONENT_TYPE {
@@ -49,10 +45,12 @@ enum COMPONENT_TYPE {
 	COMPONENT_TYPE_LIBRARY_BOX
 };
 
+//부품들의 아이디
 #define COMPONENT_ID int 
-
-
-
+//vector 의 기본 사이즈
+#define VECTOR_INIT_SIZE 10
+//루프 카운트를 위한 최대 제한
+#define LOOP_LIMIT 200
 
 //연결할 component의 구조체
 struct COMPONENT_CONENTION_INFO {
@@ -71,9 +69,6 @@ struct COMPONENT_CONENTION_INFO {
 	int terminalNumber;
 };
 
-
-#define VECTOR_INIT_SIZE 10
-
 //추가할 component의 구조체 
 struct COMPONENT_INFO {
 	COMPONENT_INFO() {
@@ -88,7 +83,6 @@ struct COMPONENT_INFO {
 	COMPONENT_TYPE componentType;
 };
 
-
 //라이브러리 박스를 로드,세이브할 구조체
 struct LIBRARY_BOX_DATA {
 	int numberOfComponent;
@@ -99,6 +93,8 @@ struct LIBRARY_BOX_DATA {
 	vector< COMPONENT_ID > inputPinIDVector;
 	vector< COMPONENT_ID > outputPinIDVector;
 
+	vector < COMPONENT_ID > inputClockVector;
+
 	//부품간을 연결나타내는 무방향 그래프의 인접리스트 
 	vector< vector < COMPONENT_CONENTION_INFO > > inputGraph;
 	vector< vector < COMPONENT_CONENTION_INFO > > outputGraph;
@@ -108,14 +104,15 @@ struct LIBRARY_BOX_DATA {
 
 	//부품들의 아이디를 저장하는 벡터
 	vector < bool > componentIDVector;
+
+
 	bool isOscillation;
 	bool isLibraryBoxOutputValueChanged;
 
 	//중첩된 라이브러리 박스
-	//vector < LIBRARY_BOX_DATA > internalLibraryBoxData;
+	vector < LIBRARY_BOX_DATA > internalLibraryBoxData;
 
 };
-
 
 class CLibraryBox :public CComponentObject {
 #define LOOP_LIMIT 200
@@ -127,6 +124,7 @@ private:
 	//라이브러리 박스의 인풋핀과 아웃풋 핀을 저장하는 벡터 리스트
 	vector< COMPONENT_ID > inputPinIDVector;
 	vector< COMPONENT_ID > outputPinIDVector;
+	vector < COMPONENT_ID > inputClockVector;
 
 	//부품간을 연결나타내는 무방향 그래프의 인접리스트 
 	vector< vector < COMPONENT_CONENTION_INFO > > inputGraph;
@@ -137,14 +135,20 @@ private:
 
 	//부품들의 아이디를 저장하는 벡터
 	vector < bool > componentIDVector;
+	//현재 지금 회로가 진동하는지 확인하는 플래그
 	bool isOscillation;
+
+	//현재 회로가 출력값이 바뀌었는지 확인하는 플래그
 	bool isLibraryBoxOutputValueChanged;
+
+	//회로를 갱신한다
+	bool updateCircuit();
 
 public:
 	CLibraryBox();
 	CLibraryBox(CLibraryBox& object);
 	~CLibraryBox();
-	
+	bool amIInsideBox;
 
 	//부품의 아이디를 만들어줌
 	COMPONENT_ID makeNewComponetID(COMPONENT_TYPE componentType);
@@ -158,7 +162,8 @@ public:
 	
 	//부품하나에 아웃풋 getter
 	bool getComponentOutputValue(COMPONENT_ID ID, int index);
-
+	
+	//현재 회로가 진동하는지 확인함
 	bool checkOscillation();
 	
 	//부품 추가 실패시 false 반환
@@ -173,12 +178,6 @@ public:
 	//부품 분리
 	bool disconnectComponent(COMPONENT_CONENTION_INFO& componentA, COMPONENT_CONENTION_INFO& componentB);
 
-	//라이브러리 박스 내부회로 갱신 
-	bool updateCircuit();
-	
-	//보여주기여용 상태 정보 출력해주는 프로그램
-	//void printstatus();
-
 	virtual int numberOfInput();
 	virtual int numberOfOutput();
 	virtual bool setInputValue(int index, bool _value);
@@ -189,4 +188,7 @@ public:
 	//모든 부품을 초기값으로 돌림
 	virtual void reset();
 
+	bool setClockValue(int index, bool  _value);
+	bool getClockValue(int index);
+	int numberOfClock();
 };
