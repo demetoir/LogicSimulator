@@ -1,3 +1,5 @@
+#include "stdafx.h"
+
 #include "7SegmentComponent.h"
 
 C7SegmentComponent::C7SegmentComponent()

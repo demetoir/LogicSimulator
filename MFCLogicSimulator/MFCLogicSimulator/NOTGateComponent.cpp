@@ -1,3 +1,4 @@
+#include "stdafx.h"
 #include "NOTGateComponent.h"
 
 CNOTGateComponent::CNOTGateComponent()

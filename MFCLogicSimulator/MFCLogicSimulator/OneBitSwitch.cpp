@@ -1,3 +1,4 @@
+#include "stdafx.h"
 #include "OneBitSwitch.h"
 
 COneBitSwitchComponent::COneBitSwitchComponent()

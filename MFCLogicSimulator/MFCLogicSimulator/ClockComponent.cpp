@@ -1,3 +1,4 @@
+#include "stdafx.h"
 #include "ClockComponent.h"
 
 CClockComponent::CClockComponent()

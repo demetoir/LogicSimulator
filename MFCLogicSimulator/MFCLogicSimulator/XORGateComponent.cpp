@@ -1,3 +1,4 @@
+#include "stdafx.h"
 #include "XORGateComponent.h"
 
 CXORGateComponent::CXORGateComponent()

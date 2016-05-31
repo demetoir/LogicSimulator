@@ -1,3 +1,4 @@
+#include "stdafx.h"
 #include "OneBitLampComponent.h"
 
 COneBitLampComponent::COneBitLampComponent()

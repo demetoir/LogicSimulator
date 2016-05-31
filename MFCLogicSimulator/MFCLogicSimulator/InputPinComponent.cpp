@@ -1,3 +1,4 @@
+#include "stdafx.h"
 #include "InputPinComponent.h"
 
 CInputPinComponent::CInputPinComponent()

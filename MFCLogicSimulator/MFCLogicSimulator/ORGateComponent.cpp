@@ -1,3 +1,4 @@
+#include "stdafx.h"
 #include "ORGateComponent.h"
 
 CORGateComponent::CORGateComponent()
