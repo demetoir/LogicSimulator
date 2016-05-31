@@ -731,5 +731,5 @@ bool CLibraryBox::getClockValue(int index)
 
 int CLibraryBox::numberOfClock()
 {
-	return inputClockVector.size();
+	return (int)inputClockVector.size();
 }

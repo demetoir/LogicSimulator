@@ -645,15 +645,15 @@ void Oscillation_test(CLibraryBox& box) {
 		box.connnectComponent(A, B);
 	}
 
-	box.updateCircuit();
+	box.update();
 
 	box.setInputValue(0, false);
-	box.updateCircuit();
+	box.update();
 	printf("oscillation : %d\n", box.checkOscillation());
 	printBoxInOutvalue(box);
 
 	box.setInputValue(0, true);
-	box.updateCircuit();
+	box.update();
 	printf("oscillation : %d\n", box.checkOscillation());
 	printBoxInOutvalue(box);
 }
