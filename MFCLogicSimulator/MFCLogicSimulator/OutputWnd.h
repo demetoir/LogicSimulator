@@ -13,7 +13,8 @@
 
 /////////////////////////////////////////////////////////////////////////////
 // COutputList 창
-
+#include "vector"
+using std::vector;
 class COutputList : public CListBox
 {
 // 생성입니다.
@@ -65,5 +66,11 @@ protected:
 	afx_msg void OnSize(UINT nType, int cx, int cy);
 
 	DECLARE_MESSAGE_MAP()
+private :
+	vector <CString> buildwindowStringVector;
+public : 
+	void addBuildWindowString(CString& str);
+	void resetBuildWindowString();
+	afx_msg void OnPaint();
 };
 

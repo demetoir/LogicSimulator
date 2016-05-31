@@ -22,7 +22,7 @@ public:
 
 // 재정의입니다.
 protected:
-	virtual BOOL OnNotify(WPARAM wParam, LPARAM lParam, LRESULT* pResult);
+//	virtual BOOL OnNotify(WPARAM wParam, LPARAM lParam, LRESULT* pResult);
 
 // 구현입니다.
 public:
@@ -37,6 +37,11 @@ public:
 
 	afx_msg void OnContextMenu(CWnd* /*pWnd*/, CPoint /*point*/);
 //	afx_msg void OnLButtonUp(UINT nFlags, CPoint point);
-	afx_msg void OnLButtonDblClk(UINT nFlags, CPoint point);
+//	afx_msg void OnLButtonDblClk(UINT nFlags, CPoint point);
 	afx_msg void OnLButtonDown(UINT nFlags, CPoint point);
+//	afx_msg void OnTvnItemChanged(NMHDR *pNMHDR, LRESULT *pResult);
+//	afx_msg void OnTvnItemChanging(NMHDR *pNMHDR, LRESULT *pResult);
+//	afx_msg void OnTvnItemChanged(NMHDR *pNMHDR, LRESULT *pResult);
+	afx_msg void OnTvnSelchanged(NMHDR *pNMHDR, LRESULT *pResult);
+//	afx_msg void OnTvnSelchanging(NMHDR *pNMHDR, LRESULT *pResult);
 };

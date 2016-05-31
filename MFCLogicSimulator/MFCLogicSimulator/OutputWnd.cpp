@@ -35,6 +35,7 @@ COutputWnd::~COutputWnd()
 BEGIN_MESSAGE_MAP(COutputWnd, CDockablePane)
 	ON_WM_CREATE()
 	ON_WM_SIZE()
+	ON_WM_PAINT()
 END_MESSAGE_MAP()
 
 int COutputWnd::OnCreate(LPCREATESTRUCT lpCreateStruct)
@@ -97,6 +98,16 @@ void COutputWnd::OnSize(UINT nType, int cx, int cy)
 	m_wndTabs.SetWindowPos (NULL, -1, -1, cx, cy, SWP_NOMOVE | SWP_NOACTIVATE | SWP_NOZORDER);
 }
 
+void COutputWnd::addBuildWindowString(CString & str)
+{
+	m_wndOutputBuild.AddString(str);	
+}
+
+void COutputWnd::resetBuildWindowString()
+{
+	m_wndOutputBuild.ResetContent();
+}
+
 void COutputWnd::AdjustHorzScroll(CListBox& wndListBox)
 {
 	CClientDC dc(this);
@@ -118,7 +129,6 @@ void COutputWnd::AdjustHorzScroll(CListBox& wndListBox)
 
 void COutputWnd::FillBuildWindow()
 {
-	m_wndOutputBuild.AddString(_T("여기에 결과 및 과정 출력"));
 
 }
 
@@ -206,4 +216,12 @@ void COutputList::OnViewOutput()
 		pMainFrame->RecalcLayout();
 
 	}
+}
+
+
+void COutputWnd::OnPaint()
+{
+	CPaintDC dc(this); // device context for painting
+					   // TODO: 여기에 메시지 처리기 코드를 추가합니다.
+					   // 그리기 메시지에 대해서는 CDockablePane::OnPaint()을(를) 호출하지 마십시오.
 }

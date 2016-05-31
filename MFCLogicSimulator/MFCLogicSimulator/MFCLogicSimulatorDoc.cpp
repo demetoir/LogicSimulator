@@ -46,6 +46,7 @@ CMFCLogicSimulatorDoc::CMFCLogicSimulatorDoc()
 {
 	// TODO: 여기에 일회성 생성 코드를 추가합니다.
 	component_data.resize(10);
+	currentSelectedComponent = -1;
 }
 
 int CMFCLogicSimulatorDoc::itemSelectedInDoc()
