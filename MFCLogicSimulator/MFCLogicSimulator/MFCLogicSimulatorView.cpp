@@ -29,6 +29,14 @@
 #define new DEBUG_NEW
 #endif
 
+enum item {
+	FOLDER_ROOT, FOLDER_WIRE, ITEM_WIRE, ITEM_PIN,
+	ITEM_PROBE, FOLDER_GATE, ITEM_AND, ITEM_NAND, ITEM_OR,
+	ITEM_NOR, ITEM_XOR, ITEM_NOT, FOLDER_FF, ITEM_DFF,
+	ITEM_JKFF, ITEM_TFF, ITEM_1BITBUTIN, ITEM_CLOCK,
+	ITEM_1BITBUTOUT, ITEM_7SEGMENT, ITEM_ETC
+};
+
 // CMFCLogicSimulatorView
 
 IMPLEMENT_DYNCREATE(CMFCLogicSimulatorView, CScrollView)
@@ -158,36 +166,26 @@ CMFCLogicSimulatorDoc* CMFCLogicSimulatorView::GetDocument() const // 디버그되지
 void CMFCLogicSimulatorView::OnLButtonDown(UINT nFlags, CPoint point)
 {
 	// TODO: 여기에 메시지 처리기 코드를 추가 및/또는 기본값을 호출합니다.
-	//AfxMessageBox(_T("lbut down test"));
+	CDC* pDC = GetDC();
+	CString str;
 
-	int a = GetDocument()->itemSelectedInDoc();
+	int itemIndex = GetDocument()->itemSelectedInDoc();
+	str.Format(_T("%d"), itemIndex);
 
-	switch (a) {
-	case 0:
-		AfxMessageBox(_T("item 0"));
-		break;
-	case 1:
-		AfxMessageBox(_T("item 1"));
-		break;
-	case 2:
-		AfxMessageBox(_T("item 2"));
-		break;
-	case 3:
-		AfxMessageBox(_T("item 3"));
-		break;
-	case 4:
-		AfxMessageBox(_T("item 4"));
-		break;
-	case 5:
-		AfxMessageBox(_T("item 5"));
+	// 스크롤바 컨트롤시 지워지는 문제있음
+	switch (itemIndex) { // 사용자 설정 따로 빼둘 것
+	case FOLDER_ROOT: // root
+		AfxMessageBox(_T("root"));
+		pDC->TextOutW(point.x, point.y, str);
 		break;
 	default:
-		AfxMessageBox(_T("item ??"));
+		//AfxMessageBox(_T("item ??"));
+		pDC->TextOutW(point.x, point.y, str);
 		break;
 	}
+	ReleaseDC(pDC); //사용이 끝나고 디바이스 컨텍스트를 운영체제에게 반답한다.
 
 	CScrollView::OnLButtonDown(nFlags, point);
-
 }
 
 
@@ -215,7 +213,8 @@ void CMFCLogicSimulatorView::OnPaint()
 	// http://eachan.tistory.com/3
 	/* 스크롤바 컨트롤 */
 	CDC MemDC;
-	
+	CDC *pDC = GetDC();
+
 	int nVertScroll = GetScrollPos(SB_VERT);
 	int nHorzScroll = GetScrollPos(SB_HORZ);
 
@@ -224,4 +223,7 @@ void CMFCLogicSimulatorView::OnPaint()
 		&MemDC, 0, 0, SRCCOPY);
 	/* 스크롤바 컨트롤 끝 */
 
+	// 더블 버퍼링 해결 관련
+	// goo.gl/CucRl6
+	
 }
