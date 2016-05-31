@@ -185,26 +185,50 @@
     <Text Include="ReadMe.txt" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="7SegmentComponent.h" />
+    <ClInclude Include="ANDGateComponet.h" />
     <ClInclude Include="ChildFrm.h" />
+    <ClInclude Include="ClockComponent.h" />
+    <ClInclude Include="ComponentObject.h" />
     <ClInclude Include="FileView.h" />
+    <ClInclude Include="InputPinComponent.h" />
+    <ClInclude Include="LibraryBoxComponent.h" />
     <ClInclude Include="MainFrm.h" />
     <ClInclude Include="MFCLogicSimulator.h" />
     <ClInclude Include="MFCLogicSimulatorDoc.h" />
     <ClInclude Include="MFCLogicSimulatorView.h" />
+    <ClInclude Include="NOTGateComponent.h" />
+    <ClInclude Include="OneBitLampComponent.h" />
+    <ClInclude Include="OneBitSwitch.h" />
+    <ClInclude Include="ORGateComponent.h" />
+    <ClInclude Include="OutputPin.h" />
     <ClInclude Include="OutputWnd.h" />
     <ClInclude Include="PropertiesWnd.h" />
     <ClInclude Include="Resource.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="targetver.h" />
     <ClInclude Include="ViewTree.h" />
+    <ClInclude Include="WireComponet.h" />
+    <ClInclude Include="XORGateComponent.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="7SegmentComponent.cpp" />
+    <ClCompile Include="ANDGateComponet.cpp" />
     <ClCompile Include="ChildFrm.cpp" />
+    <ClCompile Include="ClockComponent.cpp" />
+    <ClCompile Include="ComponentObject.cpp" />
     <ClCompile Include="FileView.cpp" />
+    <ClCompile Include="InputPinComponent.cpp" />
+    <ClCompile Include="LibraryBoxComponent.cpp" />
     <ClCompile Include="MainFrm.cpp" />
     <ClCompile Include="MFCLogicSimulator.cpp" />
     <ClCompile Include="MFCLogicSimulatorDoc.cpp" />
     <ClCompile Include="MFCLogicSimulatorView.cpp" />
+    <ClCompile Include="NOTGateComponent.cpp" />
+    <ClCompile Include="OneBitLampComponent.cpp" />
+    <ClCompile Include="OneBitSwitch.cpp" />
+    <ClCompile Include="ORGateComponent.cpp" />
+    <ClCompile Include="OutputPin.cpp" />
     <ClCompile Include="OutputWnd.cpp" />
     <ClCompile Include="PropertiesWnd.cpp" />
     <ClCompile Include="stdafx.cpp">
@@ -214,6 +238,8 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="ViewTree.cpp" />
+    <ClCompile Include="WireComponet.cpp" />
+    <ClCompile Include="XORGateComponent.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="ClassDiagram.cd" />
