@@ -30,6 +30,36 @@ protected: // serialization에서만 만들어집니다.
 public:
 	CMFCLogicSimulatorDoc* GetDocument() const;
 
+	enum ToolBoxItemFlag {
+		FOLDER_ROOT,
+			FOLDER_WIRE,
+				ITEM_WIRE, ITEM_PIN, ITEM_PROBE,
+			FOLDER_GATE,
+				ITEM_AND, ITEM_NAND, ITEM_OR,
+				ITEM_NOR, ITEM_XOR, ITEM_NOT,
+			FOLDER_FF,
+				ITEM_DFF, ITEM_JKFF, ITEM_TFF,
+			FOLDER_INPUT,
+				ITEM_1BITBUTIN, ITEM_CLOCK,
+			FOLDER_OUTPUT,
+				ITEM_1BITBUTOUT, ITEM_7SEGMENT,
+			ITEM_ETC
+	};
+
+	enum MouseButtonFlag {
+		NBUTTON = NULL,							// 마우스 버튼이 눌리지 않은 상태
+		LBUTTON = MK_LBUTTON,					// 좌클릭 상태
+		RBUTTON = MK_RBUTTON,					// 우클릭 상태
+		MBUTTON = MK_MBUTTON					// 가운데 클릭 상태
+	};
+	MouseButtonFlag m_MouseButtonFlag;			// 마우스 버튼이 클릭되어있는 상태 플래그
+	
+	enum ModeFlag {
+		NONE = NULL,	// 모드 버튼이 눌리지 않은 상태
+		//EDIT = ID_INSERT_LINE		// 편집 모드 버튼
+	};
+	ModeFlag m_ModeFlag;
+
 // 작업입니다.
 public:
 	CRect rlClientRect;
