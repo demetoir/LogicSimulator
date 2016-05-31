@@ -111,8 +111,7 @@ public :
 	//뷰에서 사용되어질 정보들
 	vector <COMPONENT_DATA> component_data;
 
-	//부품을 선택하거나 안했거나를 표시하는 플래그
-	bool isSelectComponent;
-	int currentSelectedComponent;
+	//트리뷰에서 선택한 부품정보
+	int currentSelectedItem;
 	
 };

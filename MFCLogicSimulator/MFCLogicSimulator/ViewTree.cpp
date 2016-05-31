@@ -43,11 +43,11 @@ BEGIN_MESSAGE_MAP(CViewTree, CTreeCtrl)
 	ON_WM_CONTEXTMENU()
 	//	ON_WM_LBUTTONUP()
 //	ON_WM_LBUTTONDBLCLK()
-	ON_WM_LBUTTONDOWN()
-	//	ON_NOTIFY_REFLECT(TVN_ITEMCHANGED, &CViewTree::OnTvnItemChanged)
+ON_WM_LBUTTONDOWN()
+//	ON_NOTIFY_REFLECT(TVN_ITEMCHANGED, &CViewTree::OnTvnItemChanged)
 //	ON_NOTIFY_REFLECT(TVN_ITEMCHANGING, &CViewTree::OnTvnItemChanging)
 //	ON_NOTIFY_REFLECT(TVN_ITEMCHANGED, &CViewTree::OnTvnItemChanged)
-	ON_NOTIFY_REFLECT(TVN_SELCHANGED, &CViewTree::OnTvnSelchanged)
+ON_NOTIFY_REFLECT(TVN_SELCHANGED, &CViewTree::OnTvnSelchanged)
 //	ON_NOTIFY_REFLECT(TVN_SELCHANGING, &CViewTree::OnTvnSelchanging)
 END_MESSAGE_MAP()
 
@@ -57,6 +57,8 @@ END_MESSAGE_MAP()
 
 int CViewTree::OnCreate(LPCREATESTRUCT lpCreateStruct)
 {
+
+
 	if (CTreeCtrl::OnCreate(lpCreateStruct) == -1)
 		return -1;
 
@@ -101,22 +103,22 @@ void CViewTree::OnLButtonDown(UINT nFlags, CPoint point)
 	//선택한 것의 상자 안에 들어 가있음
 	if (rect.left <= point.x && point.x <= rect.right
 		&&rect.top <= point.y && point.y <= rect.bottom) {
-	
-		if (pDoc->currentSelectedComponent == -1) {
+
+		if (pDoc->currentSelectedItem == -1) {
 			CString str;
 			str.Format(_T("in tree view : item %d selected\n"), itemIndex);
 			pOutput->addBuildWindowString(str);
-			pDoc->currentSelectedComponent = itemIndex;
+			pDoc->currentSelectedItem = itemIndex;
 			this->SetItemState(hItem, TVIS_SELECTED, TVIS_SELECTED);
 		}
-		else if (itemIndex == pDoc->currentSelectedComponent) {
+		else if (itemIndex == pDoc->currentSelectedItem) {
 			CString str;
 			str.Format(_T("in tree view : item %d unselected\n"), itemIndex);
 			pOutput->addBuildWindowString(str);
-			pDoc->currentSelectedComponent = -1;
+			pDoc->currentSelectedItem = -1;
 			this->SetItemState(hItem, ~TVIS_SELECTED, TVIS_SELECTED);
 		}
-		
+
 	}
 	CTreeCtrl::OnLButtonDown(nFlags, point);
 }
@@ -138,14 +140,14 @@ void CViewTree::OnTvnSelchanged(NMHDR *pNMHDR, LRESULT *pResult)
 	CChildFrame *pChild = (CChildFrame *)pFrame->GetActiveFrame();
 	CMFCLogicSimulatorDoc *pDoc = (CMFCLogicSimulatorDoc *)pChild->GetActiveDocument();
 	COutputWnd* pOutput = pFrame->getCOutputWnd();
-	
+
 	if (pDoc == NULL)return;
 	// 트리 컨트롤 아이템 인덱스
 	// goo.gl/mdFKLz
 
 	HTREEITEM hItem = p_Toolbox->GetSelectedItem();
 	int itemIndex = pDoc->itemSelectedInDoc();
-	
+
 	int state;
 	state = this->GetItemState(hItem, TVIS_SELECTED);
 
@@ -153,10 +155,10 @@ void CViewTree::OnTvnSelchanged(NMHDR *pNMHDR, LRESULT *pResult)
 	str.Format(_T("in tree view : item %d selected\n"), itemIndex);
 	pOutput->addBuildWindowString(str);
 	if (itemIndex == 0) {
-		pDoc->currentSelectedComponent = -1;
+		pDoc->currentSelectedItem = -1;
 	}
 	else {
-		pDoc->currentSelectedComponent = itemIndex;
+		pDoc->currentSelectedItem = itemIndex;
 	}
 }
 
