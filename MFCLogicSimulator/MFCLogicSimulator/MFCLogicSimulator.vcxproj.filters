@@ -13,14 +13,14 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
-    <Filter Include="엔진">
-      <UniqueIdentifier>{3527b024-8cb3-42a4-853c-860212224978}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="엔진\라이브러리 엔진 소스">
+    <Filter Include="소스 파일\라이브러리 엔진 소스">
       <UniqueIdentifier>{cfcf4171-4be3-4591-b753-a1c4699ba398}</UniqueIdentifier>
     </Filter>
-    <Filter Include="엔진\라이브러리 엔진 헤더">
+    <Filter Include="헤더 파일\라이브러리 엔진 헤더">
       <UniqueIdentifier>{d91b447a-19a9-4071-afe1-7c86dcc6f2fb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="리소스 파일\root">
+      <UniqueIdentifier>{f24c3a57-a2c5-4daf-92f9-9ef69c7f7404}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -64,43 +64,43 @@
       <Filter>헤더 파일</Filter>
     </ClInclude>
     <ClInclude Include="7SegmentComponent.h">
-      <Filter>엔진\라이브러리 엔진 헤더</Filter>
+      <Filter>헤더 파일\라이브러리 엔진 헤더</Filter>
     </ClInclude>
     <ClInclude Include="ANDGateComponet.h">
-      <Filter>엔진\라이브러리 엔진 헤더</Filter>
+      <Filter>헤더 파일\라이브러리 엔진 헤더</Filter>
     </ClInclude>
     <ClInclude Include="ClockComponent.h">
-      <Filter>엔진\라이브러리 엔진 헤더</Filter>
+      <Filter>헤더 파일\라이브러리 엔진 헤더</Filter>
     </ClInclude>
     <ClInclude Include="ComponentObject.h">
-      <Filter>엔진\라이브러리 엔진 헤더</Filter>
+      <Filter>헤더 파일\라이브러리 엔진 헤더</Filter>
     </ClInclude>
     <ClInclude Include="InputPinComponent.h">
-      <Filter>엔진\라이브러리 엔진 헤더</Filter>
+      <Filter>헤더 파일\라이브러리 엔진 헤더</Filter>
     </ClInclude>
     <ClInclude Include="LibraryBoxComponent.h">
-      <Filter>엔진\라이브러리 엔진 헤더</Filter>
+      <Filter>헤더 파일\라이브러리 엔진 헤더</Filter>
     </ClInclude>
     <ClInclude Include="NOTGateComponent.h">
-      <Filter>엔진\라이브러리 엔진 헤더</Filter>
+      <Filter>헤더 파일\라이브러리 엔진 헤더</Filter>
     </ClInclude>
     <ClInclude Include="OneBitLampComponent.h">
-      <Filter>엔진\라이브러리 엔진 헤더</Filter>
+      <Filter>헤더 파일\라이브러리 엔진 헤더</Filter>
     </ClInclude>
     <ClInclude Include="OneBitSwitch.h">
-      <Filter>엔진\라이브러리 엔진 헤더</Filter>
+      <Filter>헤더 파일\라이브러리 엔진 헤더</Filter>
     </ClInclude>
     <ClInclude Include="ORGateComponent.h">
-      <Filter>엔진\라이브러리 엔진 헤더</Filter>
+      <Filter>헤더 파일\라이브러리 엔진 헤더</Filter>
     </ClInclude>
     <ClInclude Include="OutputPin.h">
-      <Filter>엔진\라이브러리 엔진 헤더</Filter>
+      <Filter>헤더 파일\라이브러리 엔진 헤더</Filter>
     </ClInclude>
     <ClInclude Include="WireComponet.h">
-      <Filter>엔진\라이브러리 엔진 헤더</Filter>
+      <Filter>헤더 파일\라이브러리 엔진 헤더</Filter>
     </ClInclude>
     <ClInclude Include="XORGateComponent.h">
-      <Filter>엔진\라이브러리 엔진 헤더</Filter>
+      <Filter>헤더 파일\라이브러리 엔진 헤더</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -135,43 +135,43 @@
       <Filter>소스 파일</Filter>
     </ClCompile>
     <ClCompile Include="7SegmentComponent.cpp">
-      <Filter>엔진\라이브러리 엔진 소스</Filter>
+      <Filter>소스 파일\라이브러리 엔진 소스</Filter>
     </ClCompile>
     <ClCompile Include="ANDGateComponet.cpp">
-      <Filter>엔진\라이브러리 엔진 소스</Filter>
+      <Filter>소스 파일\라이브러리 엔진 소스</Filter>
     </ClCompile>
     <ClCompile Include="ClockComponent.cpp">
-      <Filter>엔진\라이브러리 엔진 소스</Filter>
+      <Filter>소스 파일\라이브러리 엔진 소스</Filter>
     </ClCompile>
     <ClCompile Include="ComponentObject.cpp">
-      <Filter>엔진\라이브러리 엔진 소스</Filter>
+      <Filter>소스 파일\라이브러리 엔진 소스</Filter>
     </ClCompile>
     <ClCompile Include="InputPinComponent.cpp">
-      <Filter>엔진\라이브러리 엔진 소스</Filter>
+      <Filter>소스 파일\라이브러리 엔진 소스</Filter>
     </ClCompile>
     <ClCompile Include="LibraryBoxComponent.cpp">
-      <Filter>엔진\라이브러리 엔진 소스</Filter>
+      <Filter>소스 파일\라이브러리 엔진 소스</Filter>
     </ClCompile>
     <ClCompile Include="NOTGateComponent.cpp">
-      <Filter>엔진\라이브러리 엔진 소스</Filter>
+      <Filter>소스 파일\라이브러리 엔진 소스</Filter>
     </ClCompile>
     <ClCompile Include="OneBitLampComponent.cpp">
-      <Filter>엔진\라이브러리 엔진 소스</Filter>
+      <Filter>소스 파일\라이브러리 엔진 소스</Filter>
     </ClCompile>
     <ClCompile Include="OneBitSwitch.cpp">
-      <Filter>엔진\라이브러리 엔진 소스</Filter>
+      <Filter>소스 파일\라이브러리 엔진 소스</Filter>
     </ClCompile>
     <ClCompile Include="ORGateComponent.cpp">
-      <Filter>엔진\라이브러리 엔진 소스</Filter>
+      <Filter>소스 파일\라이브러리 엔진 소스</Filter>
     </ClCompile>
     <ClCompile Include="OutputPin.cpp">
-      <Filter>엔진\라이브러리 엔진 소스</Filter>
+      <Filter>소스 파일\라이브러리 엔진 소스</Filter>
     </ClCompile>
     <ClCompile Include="WireComponet.cpp">
-      <Filter>엔진\라이브러리 엔진 소스</Filter>
+      <Filter>소스 파일\라이브러리 엔진 소스</Filter>
     </ClCompile>
     <ClCompile Include="XORGateComponent.cpp">
-      <Filter>엔진\라이브러리 엔진 소스</Filter>
+      <Filter>소스 파일\라이브러리 엔진 소스</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -268,9 +268,6 @@
     <Image Include="res\Toolbar256.bmp">
       <Filter>리소스 파일</Filter>
     </Image>
-    <Image Include="res\AND.bmp">
-      <Filter>리소스 파일</Filter>
-    </Image>
     <Image Include="res\class_view.ico">
       <Filter>리소스 파일</Filter>
     </Image>
@@ -283,8 +280,53 @@
     <Image Include="res\classview_hc.bmp">
       <Filter>리소스 파일</Filter>
     </Image>
-    <Image Include="res\bitmap1.bmp">
-      <Filter>리소스 파일</Filter>
+    <Image Include="res\root\gate\AND.png">
+      <Filter>리소스 파일\root</Filter>
+    </Image>
+    <Image Include="res\root\wire\copper wire.jpg">
+      <Filter>리소스 파일\root</Filter>
+    </Image>
+    <Image Include="res\root\FF\D-FF.png">
+      <Filter>리소스 파일\root</Filter>
+    </Image>
+    <Image Include="res\root\gate\INVERTOR.png">
+      <Filter>리소스 파일\root</Filter>
+    </Image>
+    <Image Include="res\root\FF\JK-FF.png">
+      <Filter>리소스 파일\root</Filter>
+    </Image>
+    <Image Include="res\root\gate\NAND.png">
+      <Filter>리소스 파일\root</Filter>
+    </Image>
+    <Image Include="res\root\gate\NOR.png">
+      <Filter>리소스 파일\root</Filter>
+    </Image>
+    <Image Include="res\root\in\OFF.bmp">
+      <Filter>리소스 파일\root</Filter>
+    </Image>
+    <Image Include="res\root\in\ON.bmp">
+      <Filter>리소스 파일\root</Filter>
+    </Image>
+    <Image Include="res\root\out\OFF_LAMP.bmp">
+      <Filter>리소스 파일\root</Filter>
+    </Image>
+    <Image Include="res\root\out\ON_LAMP.bmp">
+      <Filter>리소스 파일\root</Filter>
+    </Image>
+    <Image Include="res\root\gate\OR.png">
+      <Filter>리소스 파일\root</Filter>
+    </Image>
+    <Image Include="res\root\wire\PIN.bmp">
+      <Filter>리소스 파일\root</Filter>
+    </Image>
+    <Image Include="res\root\wire\PROBE.bmp">
+      <Filter>리소스 파일\root</Filter>
+    </Image>
+    <Image Include="res\root\FF\T-FF.png">
+      <Filter>리소스 파일\root</Filter>
+    </Image>
+    <Image Include="res\root\gate\XOR.png">
+      <Filter>리소스 파일\root</Filter>
     </Image>
   </ItemGroup>
 </Project>
