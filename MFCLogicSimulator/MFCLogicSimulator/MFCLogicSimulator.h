@@ -9,6 +9,12 @@
 // Copyright (C) Microsoft Corporation
 // All rights reserved.
 
+
+
+// MFC 프로그램의 뼈대를 이루는 클래스들 간의 상호 참조  
+// http://blog.naver.com/xtelite/50016721906
+// http://egloos.zum.com/printf/v/1940633
+
 // MFCLogicSimulator.h : MFCLogicSimulator 응용 프로그램에 대한 주 헤더 파일
 //
 #pragma once
@@ -28,7 +34,8 @@ class CMFCLogicSimulatorApp : public CWinAppEx
 {
 public:
 	CMFCLogicSimulatorApp();
-
+// 작업입니다.
+	int selectItem;
 
 // 재정의입니다.
 public:

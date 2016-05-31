@@ -14,7 +14,7 @@
 
 #pragma once
 #include "FileView.h"
-#include "ClassView.h"
+//#include "ClassView.h"
 #include "OutputWnd.h"
 #include "PropertiesWnd.h"
 
@@ -26,10 +26,12 @@ public:
 
 // 특성입니다.
 public:
-
+	
 // 작업입니다.
 public:
-
+	CFileView* getCFileView();
+	CPropertiesWnd* getCPropertiesWnd();
+	COutputWnd* getCOutputWnd();
 // 재정의입니다.
 public:
 	virtual BOOL PreCreateWindow(CREATESTRUCT& cs);
@@ -48,7 +50,7 @@ protected:  // 컨트롤 모음이 포함된 멤버입니다.
 	CMFCToolBarImages m_PanelImages;
 	CMFCRibbonStatusBar  m_wndStatusBar;
 	CFileView         m_wndFileView;
-	CClassView        m_wndClassView;
+	//CClassView        m_wndClassView;
 	COutputWnd        m_wndOutput;
 	CPropertiesWnd    m_wndProperties;
 

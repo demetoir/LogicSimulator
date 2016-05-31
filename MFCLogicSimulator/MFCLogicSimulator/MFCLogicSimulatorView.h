@@ -13,9 +13,14 @@
 //
 
 #pragma once
+#include "ViewTree.h"
+#include "FileView.h" // tree item 관련하여 추가
+#include "PropertiesWnd.h" // 속성창 옵션 수정 관련하여 추가
 
+// 스크롤 생성
+// http://moguwai.tistory.com/entry/CView-CScrollView%EB%A1%9C-%EC%A0%84%ED%99%98
 
-class CMFCLogicSimulatorView : public CView
+class CMFCLogicSimulatorView : public CScrollView
 {
 protected: // serialization에서만 만들어집니다.
 	CMFCLogicSimulatorView();
@@ -25,14 +30,47 @@ protected: // serialization에서만 만들어집니다.
 public:
 	CMFCLogicSimulatorDoc* GetDocument() const;
 
+	enum ToolBoxItemFlag {
+		FOLDER_ROOT,
+			FOLDER_WIRE,
+				ITEM_WIRE, ITEM_PIN, ITEM_PROBE,
+			FOLDER_GATE,
+				ITEM_AND, ITEM_NAND, ITEM_OR,
+				ITEM_NOR, ITEM_XOR, ITEM_NOT,
+			FOLDER_FF,
+				ITEM_DFF, ITEM_JKFF, ITEM_TFF,
+			FOLDER_INPUT,
+				ITEM_1BITBUTIN, ITEM_CLOCK,
+			FOLDER_OUTPUT,
+				ITEM_1BITBUTOUT, ITEM_7SEGMENT,
+			ITEM_ETC
+	};
+
+	enum MouseButtonFlag {
+		NBUTTON = NULL,							// 마우스 버튼이 눌리지 않은 상태
+		LBUTTON = MK_LBUTTON,					// 좌클릭 상태
+		RBUTTON = MK_RBUTTON,					// 우클릭 상태
+		MBUTTON = MK_MBUTTON					// 가운데 클릭 상태
+	};
+	MouseButtonFlag m_MouseButtonFlag;			// 마우스 버튼이 클릭되어있는 상태 플래그
+	
+	enum ModeFlag {
+		NONE = NULL,	// 모드 버튼이 눌리지 않은 상태
+		//EDIT = ID_INSERT_LINE		// 편집 모드 버튼
+	};
+	ModeFlag m_ModeFlag;
+
 // 작업입니다.
 public:
-
+	CRect rlClientRect;
+	CFileView* p_toolbox; // tool box 포인터
+						  
 // 재정의입니다.
 public:
 	virtual void OnDraw(CDC* pDC);  // 이 뷰를 그리기 위해 재정의되었습니다.
 	virtual BOOL PreCreateWindow(CREATESTRUCT& cs);
 protected:
+	virtual void OnInitialUpdate();
 	virtual BOOL OnPreparePrinting(CPrintInfo* pInfo);
 	virtual void OnBeginPrinting(CDC* pDC, CPrintInfo* pInfo);
 	virtual void OnEndPrinting(CDC* pDC, CPrintInfo* pInfo);
@@ -53,6 +91,10 @@ protected:
 	afx_msg void OnRButtonUp(UINT nFlags, CPoint point);
 	afx_msg void OnContextMenu(CWnd* pWnd, CPoint point);
 	DECLARE_MESSAGE_MAP()
+public:
+	afx_msg void OnLButtonDown(UINT nFlags, CPoint point);
+	afx_msg void OnLButtonUp(UINT nFlags, CPoint point);
+	afx_msg void OnPaint();
 };
 
 #ifndef _DEBUG  // MFCLogicSimulatorView.cpp의 디버그 버전

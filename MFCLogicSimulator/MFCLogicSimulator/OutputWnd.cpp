@@ -72,16 +72,18 @@ int COutputWnd::OnCreate(LPCREATESTRUCT lpCreateStruct)
 	bNameValid = strTabName.LoadString(IDS_BUILD_TAB);
 	ASSERT(bNameValid);
 	m_wndTabs.AddTab(&m_wndOutputBuild, strTabName, (UINT)0);
-	bNameValid = strTabName.LoadString(IDS_DEBUG_TAB);
-	ASSERT(bNameValid);
-	m_wndTabs.AddTab(&m_wndOutputDebug, strTabName, (UINT)1);
+
+	//bNameValid = strTabName.LoadString(IDS_DEBUG_TAB);
+	//ASSERT(bNameValid);
+	//m_wndTabs.AddTab(&m_wndOutputDebug, strTabName, (UINT)1);
+
 	bNameValid = strTabName.LoadString(IDS_FIND_TAB);
 	ASSERT(bNameValid);
-	m_wndTabs.AddTab(&m_wndOutputFind, strTabName, (UINT)2);
+	m_wndTabs.AddTab(&m_wndOutputFind, strTabName, (UINT)1);
 
 	// 출력 탭을 더미 텍스트로 채웁니다.
 	FillBuildWindow();
-	FillDebugWindow();
+	//FillDebugWindow();
 	FillFindWindow();
 
 	return 0;
@@ -116,31 +118,27 @@ void COutputWnd::AdjustHorzScroll(CListBox& wndListBox)
 
 void COutputWnd::FillBuildWindow()
 {
-	m_wndOutputBuild.AddString(_T("여기에 빌드 출력이 표시됩니다."));
-	m_wndOutputBuild.AddString(_T("출력이 목록 뷰 행에 표시되지만"));
-	m_wndOutputBuild.AddString(_T("표시 방법을 원하는 대로 변경할 수 있습니다."));
-	//m_wndOutputBuild.AddString(_T("TEST PRINT!!"));
+	m_wndOutputBuild.AddString(_T("여기에 결과 및 과정 출력"));
 
 }
 
-void COutputWnd::FillDebugWindow()
-{
-	m_wndOutputDebug.AddString(_T("여기에 디버그 출력이 표시됩니다."));
-	m_wndOutputDebug.AddString(_T("출력이 목록 뷰 행에 표시되지만"));
-	m_wndOutputDebug.AddString(_T("표시 방법을 원하는 대로 변경할 수 있습니다."));
-}
+//void COutputWnd::FillDebugWindow()
+//{
+//	m_wndOutputDebug.AddString(_T("여기에 디버그 출력이 표시됩니다."));
+//	m_wndOutputDebug.AddString(_T("출력이 목록 뷰 행에 표시되지만"));
+//	m_wndOutputDebug.AddString(_T("표시 방법을 원하는 대로 변경할 수 있습니다."));
+//}
 
 void COutputWnd::FillFindWindow()
 {
-	m_wndOutputFind.AddString(_T("여기에 찾기 출력이 표시됩니다."));
-	m_wndOutputFind.AddString(_T("출력이 목록 뷰 행에 표시되지만"));
-	m_wndOutputFind.AddString(_T("표시 방법을 원하는 대로 변경할 수 있습니다."));
+	m_wndOutputFind.AddString(_T("여기에 그래프 출력"));
+
 }
 
 void COutputWnd::UpdateFonts()
 {
 	m_wndOutputBuild.SetFont(&afxGlobalData.fontRegular);
-	m_wndOutputDebug.SetFont(&afxGlobalData.fontRegular);
+	//m_wndOutputDebug.SetFont(&afxGlobalData.fontRegular);
 	m_wndOutputFind.SetFont(&afxGlobalData.fontRegular);
 }
 

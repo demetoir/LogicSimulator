@@ -36,7 +36,7 @@ BEGIN_MESSAGE_MAP(CFileView, CDockablePane)
 	ON_WM_CREATE()
 	ON_WM_SIZE()
 	ON_WM_CONTEXTMENU()
-	ON_COMMAND(ID_PROPERTIES, OnProperties)
+	//ON_COMMAND(ID_PROPERTIES, OnProperties)
 	ON_COMMAND(ID_OPEN, OnFileOpen)
 	ON_COMMAND(ID_OPEN_WITH, OnFileOpenWith)
 	ON_COMMAND(ID_DUMMY_COMPILE, OnDummyCompile)
@@ -54,20 +54,21 @@ int CFileView::OnCreate(LPCREATESTRUCT lpCreateStruct)
 {
 	if (CDockablePane::OnCreate(lpCreateStruct) == -1)
 		return -1;
-
+	
 	CRect rectDummy;
 	rectDummy.SetRectEmpty();
 
 	// 뷰를 만듭니다.
 	const DWORD dwViewStyle = WS_CHILD | WS_VISIBLE | TVS_HASLINES | TVS_LINESATROOT | TVS_HASBUTTONS;
-
+	
 	if (!m_wndFileView.Create(dwViewStyle, rectDummy, this, 4))
 	{
-		TRACE0("파일 뷰를 만들지 못했습니다.\n");
+		TRACE0("도구 상자를 만들지 못했습니다.\n");
 		return -1;      // 만들지 못했습니다.
 	}
 
 	// 뷰 이미지를 로드합니다.
+	/* IDB_FILE_VIEW 리소스의 16픽셀 단위로 끊어서 사용한다. */
 	m_FileViewImages.Create(IDB_FILE_VIEW, 16, 0, RGB(255, 0, 255));
 	m_wndFileView.SetImageList(&m_FileViewImages, TVSIL_NORMAL);
 
@@ -81,11 +82,11 @@ int CFileView::OnCreate(LPCREATESTRUCT lpCreateStruct)
 	m_wndToolBar.SetPaneStyle(m_wndToolBar.GetPaneStyle() & ~(CBRS_GRIPPER | CBRS_SIZE_DYNAMIC | CBRS_BORDER_TOP | CBRS_BORDER_BOTTOM | CBRS_BORDER_LEFT | CBRS_BORDER_RIGHT));
 
 	m_wndToolBar.SetOwner(this);
-
+	
 	// 모든 명령은 부모 프레임이 아닌 이 컨트롤을 통해 라우팅됩니다.
 	m_wndToolBar.SetRouteCommandsViaFrame(FALSE);
 
-	// 정적 트리 뷰 데이터를 더미 코드로 채웁니다.
+	// 정적 트리 뷰 데이터를 채웁니다.
 	FillFileView();
 	AdjustLayout();
 
@@ -99,38 +100,53 @@ void CFileView::OnSize(UINT nType, int cx, int cy)
 }
 
 void CFileView::FillFileView()
-{
-	HTREEITEM hRoot = m_wndFileView.InsertItem(_T("FakeApp 파일"), 0, 0);
+{	// tool box data
+	HTREEITEM hRoot = m_wndFileView.InsertItem(_T("Logic Simulator"), 0, 0);
+
 	m_wndFileView.SetItemState(hRoot, TVIS_BOLD, TVIS_BOLD);
+	/*
+		0 폴더 | 1,2 기타 | 3,4 and | 5,6 nand | 7,8 or |
+		9,10 nor | 11,12 xor | 13,14 not | 15,16 FF
+	*/
 
-	HTREEITEM hSrc = m_wndFileView.InsertItem(_T("FakeApp 소스 파일"), 0, 0, hRoot);
+	HTREEITEM hWire = m_wndFileView.InsertItem(_T("Wire"), 0, 0, hRoot);
 
-	m_wndFileView.InsertItem(_T("FakeApp.cpp"), 1, 1, hSrc);
-	m_wndFileView.InsertItem(_T("FakeApp.rc"), 1, 1, hSrc);
-	m_wndFileView.InsertItem(_T("FakeAppDoc.cpp"), 1, 1, hSrc);
-	m_wndFileView.InsertItem(_T("FakeAppView.cpp"), 1, 1, hSrc);
-	m_wndFileView.InsertItem(_T("MainFrm.cpp"), 1, 1, hSrc);
-	m_wndFileView.InsertItem(_T("StdAfx.cpp"), 1, 1, hSrc);
+	m_wndFileView.InsertItem(_T("Wire"), 1, 2, hWire);
+	m_wndFileView.InsertItem(_T("Pin"), 1, 2, hWire);
+	m_wndFileView.InsertItem(_T("Probe"), 1, 2, hWire);
 
-	HTREEITEM hInc = m_wndFileView.InsertItem(_T("FakeApp 헤더 파일"), 0, 0, hRoot);
+	HTREEITEM hLog = m_wndFileView.InsertItem(_T("Logic Gate"), 0, 0, hRoot);
 
-	m_wndFileView.InsertItem(_T("FakeApp.h"), 2, 2, hInc);
-	m_wndFileView.InsertItem(_T("FakeAppDoc.h"), 2, 2, hInc);
-	m_wndFileView.InsertItem(_T("FakeAppView.h"), 2, 2, hInc);
-	m_wndFileView.InsertItem(_T("Resource.h"), 2, 2, hInc);
-	m_wndFileView.InsertItem(_T("MainFrm.h"), 2, 2, hInc);
-	m_wndFileView.InsertItem(_T("StdAfx.h"), 2, 2, hInc);
+	m_wndFileView.InsertItem(_T("AND"), 3, 4, hLog);
+	m_wndFileView.InsertItem(_T("NAND"), 5, 6, hLog);
+	m_wndFileView.InsertItem(_T("OR"), 7, 8, hLog);
+	m_wndFileView.InsertItem(_T("NOR"), 9, 10, hLog);
+	m_wndFileView.InsertItem(_T("XOR"), 11, 12, hLog);
+	m_wndFileView.InsertItem(_T("NOT"), 13, 14, hLog);
 
-	HTREEITEM hRes = m_wndFileView.InsertItem(_T("FakeApp 리소스 파일"), 0, 0, hRoot);
+	HTREEITEM hFlip = m_wndFileView.InsertItem(_T("Flip-flop"), 0, 0, hRoot);
 
-	m_wndFileView.InsertItem(_T("FakeApp.ico"), 2, 2, hRes);
-	m_wndFileView.InsertItem(_T("FakeApp.rc2"), 2, 2, hRes);
-	m_wndFileView.InsertItem(_T("FakeAppDoc.ico"), 2, 2, hRes);
-	m_wndFileView.InsertItem(_T("FakeToolbar.bmp"), 2, 2, hRes);
+	m_wndFileView.InsertItem(_T("D-FF"), 15, 16, hFlip);
+	m_wndFileView.InsertItem(_T("JK-FF"), 15, 16, hFlip);
+	m_wndFileView.InsertItem(_T("T-FF"), 15, 16, hFlip);
+
+	HTREEITEM hInp = m_wndFileView.InsertItem(_T("Input"), 0, 0, hRoot);
+
+	m_wndFileView.InsertItem(_T("1 Bit input switch"), 1, 2, hInp);
+	m_wndFileView.InsertItem(_T("Clock"), 1, 2, hInp);
+
+	HTREEITEM hOut = m_wndFileView.InsertItem(_T("Output"), 0, 0, hRoot);
+
+	m_wndFileView.InsertItem(_T("1 Bit out put lamp"), 1, 2, hOut);
+	m_wndFileView.InsertItem(_T("7-segment"), 1, 2, hOut);
 
 	m_wndFileView.Expand(hRoot, TVE_EXPAND);
-	m_wndFileView.Expand(hSrc, TVE_EXPAND);
-	m_wndFileView.Expand(hInc, TVE_EXPAND);
+	m_wndFileView.Expand(hWire, TVE_EXPAND);
+	m_wndFileView.Expand(hLog, TVE_EXPAND);
+	m_wndFileView.Expand(hFlip, TVE_EXPAND);
+	m_wndFileView.Expand(hInp, TVE_EXPAND);
+	m_wndFileView.Expand(hOut, TVE_EXPAND);
+
 }
 
 void CFileView::OnContextMenu(CWnd* pWnd, CPoint point)
@@ -178,11 +194,11 @@ void CFileView::AdjustLayout()
 	m_wndFileView.SetWindowPos(NULL, rectClient.left + 1, rectClient.top + cyTlb + 1, rectClient.Width() - 2, rectClient.Height() - cyTlb - 2, SWP_NOACTIVATE | SWP_NOZORDER);
 }
 
-void CFileView::OnProperties()
-{
-	AfxMessageBox(_T("속성...."));
-
-}
+//void CFileView::OnProperties()
+//{
+//	AfxMessageBox(_T("속성...."));
+//
+//}
 
 void CFileView::OnFileOpen()
 {
@@ -262,5 +278,26 @@ void CFileView::OnChangeVisualStyle()
 
 	m_wndFileView.SetImageList(&m_FileViewImages, TVSIL_NORMAL);
 }
+
+CViewTree * CFileView::getCFileViewTree()
+{
+	return &m_wndFileView;
+}
+
+//HTREEITEM CFileView::getItemSelected() const
+//{
+//	return selectedItem;
+//}
+//
+//HTREEITEM CFileView::getChildItem(HTREEITEM hItem) const
+//{
+//	return m_wndFileView.GetChildItem(hItem);
+//}
+//
+//HTREEITEM CFileView::getNextItem(HTREEITEM n_Item, UINT n_Flag) const
+//{
+//	return m_wndFileView.GetNextItem(n_Item, n_Flag);
+//}
+
 
 

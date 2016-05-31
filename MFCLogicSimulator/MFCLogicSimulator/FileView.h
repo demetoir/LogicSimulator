@@ -10,7 +10,6 @@
 // All rights reserved.
 
 #pragma once
-
 #include "ViewTree.h"
 
 class CFileViewToolBar : public CMFCToolBar
@@ -28,13 +27,18 @@ class CFileView : public CDockablePane
 // 생성입니다.
 public:
 	CFileView();
+	//HTREEITEM selectedItem;
+	//HTREEITEM nextItem;
 
 	void AdjustLayout();
 	void OnChangeVisualStyle();
+	//HTREEITEM getItemSelected() const;
+	//HTREEITEM getChildItem(HTREEITEM hItem) const;
+	//HTREEITEM getNextItem(HTREEITEM n_Item, UINT n_Flag) const;
+	CViewTree* getCFileViewTree();
 
 // 특성입니다.
 protected:
-
 	CViewTree m_wndFileView;
 	CImageList m_FileViewImages;
 	CFileViewToolBar m_wndToolBar;
@@ -50,7 +54,7 @@ protected:
 	afx_msg int OnCreate(LPCREATESTRUCT lpCreateStruct);
 	afx_msg void OnSize(UINT nType, int cx, int cy);
 	afx_msg void OnContextMenu(CWnd* pWnd, CPoint point);
-	afx_msg void OnProperties();
+//	afx_msg void OnProperties();
 	afx_msg void OnFileOpen();
 	afx_msg void OnFileOpenWith();
 	afx_msg void OnDummyCompile();

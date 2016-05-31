@@ -22,22 +22,27 @@
 #include "MFCLogicSimulatorDoc.h"
 #include "MFCLogicSimulatorView.h"
 
+#include "FileView.h" // tree item 관련하여 추가
+#include "PropertiesWnd.h" // 속성창 옵션 수정 관련하여 추가
+
 #ifdef _DEBUG
 #define new DEBUG_NEW
 #endif
 
-
 // CMFCLogicSimulatorView
 
-IMPLEMENT_DYNCREATE(CMFCLogicSimulatorView, CView)
+IMPLEMENT_DYNCREATE(CMFCLogicSimulatorView, CScrollView)
 
-BEGIN_MESSAGE_MAP(CMFCLogicSimulatorView, CView)
+BEGIN_MESSAGE_MAP(CMFCLogicSimulatorView, CScrollView)
 	// 표준 인쇄 명령입니다.
-	ON_COMMAND(ID_FILE_PRINT, &CView::OnFilePrint)
-	ON_COMMAND(ID_FILE_PRINT_DIRECT, &CView::OnFilePrint)
+	ON_COMMAND(ID_FILE_PRINT, &CScrollView::OnFilePrint)
+	ON_COMMAND(ID_FILE_PRINT_DIRECT, &CScrollView::OnFilePrint)
 	ON_COMMAND(ID_FILE_PRINT_PREVIEW, &CMFCLogicSimulatorView::OnFilePrintPreview)
 	ON_WM_CONTEXTMENU()
 	ON_WM_RBUTTONUP()
+	ON_WM_LBUTTONDOWN()
+	ON_WM_LBUTTONUP()
+	ON_WM_PAINT()
 END_MESSAGE_MAP()
 
 // CMFCLogicSimulatorView 생성/소멸
@@ -57,7 +62,7 @@ BOOL CMFCLogicSimulatorView::PreCreateWindow(CREATESTRUCT& cs)
 	// TODO: CREATESTRUCT cs를 수정하여 여기에서
 	//  Window 클래스 또는 스타일을 수정합니다.
 
-	return CView::PreCreateWindow(cs);
+	return CScrollView::PreCreateWindow(cs);
 }
 
 // CMFCLogicSimulatorView 그리기
@@ -70,6 +75,7 @@ void CMFCLogicSimulatorView::OnDraw(CDC* /*pDC*/)
 		return;
 
 	// TODO: 여기에 원시 데이터에 대한 그리기 코드를 추가합니다.
+
 }
 
 
@@ -81,6 +87,18 @@ void CMFCLogicSimulatorView::OnFilePrintPreview()
 #ifndef SHARED_HANDLERS
 	AFXPrintPreview(this);
 #endif
+}
+
+void CMFCLogicSimulatorView::OnInitialUpdate()
+{
+	GetClientRect(&rlClientRect);
+
+	CSize sizeTotal;
+	// 뷰의 전체 크기 계산(정의)
+	sizeTotal.cx = 1600;
+	sizeTotal.cy = 1200;
+
+	SetScrollSizes(MM_TEXT, sizeTotal);
 }
 
 BOOL CMFCLogicSimulatorView::OnPreparePrinting(CPrintInfo* pInfo)
@@ -118,12 +136,12 @@ void CMFCLogicSimulatorView::OnContextMenu(CWnd* /* pWnd */, CPoint point)
 #ifdef _DEBUG
 void CMFCLogicSimulatorView::AssertValid() const
 {
-	CView::AssertValid();
+	CScrollView::AssertValid();
 }
 
 void CMFCLogicSimulatorView::Dump(CDumpContext& dc) const
 {
-	CView::Dump(dc);
+	CScrollView::Dump(dc);
 }
 
 CMFCLogicSimulatorDoc* CMFCLogicSimulatorView::GetDocument() const // 디버그되지 않은 버전은 인라인으로 지정됩니다.
@@ -135,3 +153,69 @@ CMFCLogicSimulatorDoc* CMFCLogicSimulatorView::GetDocument() const // 디버그되지
 
 
 // CMFCLogicSimulatorView 메시지 처리기
+
+
+void CMFCLogicSimulatorView::OnLButtonDown(UINT nFlags, CPoint point)
+{
+	// TODO: 여기에 메시지 처리기 코드를 추가 및/또는 기본값을 호출합니다.
+	CDC* pDC = GetDC();
+	CString str;
+
+	int itemIndex = GetDocument()->itemSelectedInDoc();
+	str.Format(_T("%d"), itemIndex);
+
+	// 스크롤바 컨트롤시 지워지는 문제있음
+	switch (itemIndex) { // 사용자 설정 따로 빼둘 것
+	case FOLDER_ROOT: // root
+		AfxMessageBox(_T("root"));
+		pDC->TextOutW(point.x, point.y, str);
+		break;
+	default:
+		//AfxMessageBox(_T("item ??"));
+		pDC->TextOutW(point.x, point.y, str);
+		break;
+	}
+	ReleaseDC(pDC); //사용이 끝나고 디바이스 컨텍스트를 운영체제에게 반답한다.
+
+	CScrollView::OnLButtonDown(nFlags, point);
+}
+
+
+void CMFCLogicSimulatorView::OnLButtonUp(UINT nFlags, CPoint point)
+{
+	// TODO: 여기에 메시지 처리기 코드를 추가 및/또는 기본값을 호출합니다.
+
+	CScrollView::OnLButtonUp(nFlags, point);
+}
+
+
+void CMFCLogicSimulatorView::OnPaint()
+{
+	CPaintDC dc(this); // device context for painting
+					   // TODO: 여기에 메시지 처리기 코드를 추가합니다.
+					   // 그리기 메시지에 대해서는 CScrollView::OnPaint()을(를) 호출하지 마십시오.
+	
+	//AfxMessageBox(_T("onpaint"));
+	//CDC *pDC = GetDC();
+	//pDC->TextOutW(100, 50, _T("paint test"));
+	//ReleaseDC(pDC); //사용이 끝나고 디바이스 컨텍스트를 운영체제에게 반답한다.
+
+	// 뷰 스크롤 및 크기 조정
+	// https://msdn.microsoft.com/ko-kr/library/cc468151(v=vs.71).aspx
+	// http://eachan.tistory.com/3
+	/* 스크롤바 컨트롤 */
+	CDC MemDC;
+	CDC *pDC = GetDC();
+
+	int nVertScroll = GetScrollPos(SB_VERT);
+	int nHorzScroll = GetScrollPos(SB_HORZ);
+
+	CPoint scrollpos = GetScrollPosition();
+	dc.BitBlt(-scrollpos.x, -scrollpos.y, rlClientRect.right, rlClientRect.bottom,
+		&MemDC, 0, 0, SRCCOPY);
+	/* 스크롤바 컨트롤 끝 */
+
+	// 더블 버퍼링 해결 관련
+	// goo.gl/CucRl6
+	
+}

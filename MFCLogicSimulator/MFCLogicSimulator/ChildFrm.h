@@ -22,7 +22,7 @@ public:
 
 // 특성입니다.
 public:
-
+	/* check box, button 이벤트 처리 변수 추가 요망 */
 // 작업입니다.
 public:
 
@@ -43,4 +43,31 @@ protected:
 	afx_msg void OnFilePrintPreview();
 	afx_msg void OnUpdateFilePrintPreview(CCmdUI* pCmdUI);
 	DECLARE_MESSAGE_MAP()
+public:
+	afx_msg void OnUpdateCheckoutput(CCmdUI *pCmdUI);
+	afx_msg void OnCheckoutput();
+	afx_msg void OnCheckproperties();
+	afx_msg void OnUpdateCheckproperties(CCmdUI *pCmdUI);
+	afx_msg void OnChecktoolbox();
+	afx_msg void OnUpdateChecktoolbox(CCmdUI *pCmdUI);
+	afx_msg void OnButtonstop();
+	afx_msg void OnUpdateButtonstop(CCmdUI *pCmdUI);
+	afx_msg void OnButtoncontinue();
+	afx_msg void OnUpdateButtoncontinue(CCmdUI *pCmdUI);
+	afx_msg void OnButtonact();
+	afx_msg void OnUpdateButtonact(CCmdUI *pCmdUI);
+	afx_msg void OnButtonedit();
+	afx_msg void OnUpdateButtonedit(CCmdUI *pCmdUI);
+	afx_msg void OnEditCopy();
+	afx_msg void OnUpdateEditCopy(CCmdUI *pCmdUI);
+	afx_msg void OnEditPaste();
+	afx_msg void OnUpdateEditPaste(CCmdUI *pCmdUI);
+	afx_msg void OnEditUndo();
+	afx_msg void OnUpdateEditUndo(CCmdUI *pCmdUI);
+	afx_msg void OnEditCut();
+	afx_msg void OnUpdateEditCut(CCmdUI *pCmdUI);
+	afx_msg void OnEditSelectAll();
+	afx_msg void OnUpdateEditSelectAll(CCmdUI *pCmdUI);
+	afx_msg void OnEditRedo();
+	afx_msg void OnUpdateEditRedo(CCmdUI *pCmdUI);
 };

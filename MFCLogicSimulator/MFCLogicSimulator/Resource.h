@@ -91,13 +91,24 @@
 #define IDS_EDIT_MENU                   306
 #define IDR_RIBBON                      307
 #define ID_WRITE_PASTEASHYPERLINK       32770
+#define ID_CHECKTOOLBOX                 32771
+#define ID_CHECKOUTPUT                  32772
+#define ID_CHECKPROPERTIES              32773
+#define ID_BUTTONRESTART                32774
+#define ID_BUTTONSTOP                   32775
+#define ID_BUTTON4                      32776
+#define ID_BUTTONCONTINUE               32776
+#define ID_BUTTON6                      32784
+#define ID_BUTTON7                      32786
+#define ID_BUTTONACT                    32787
+#define ID_BUTTONEDIT                   32788
 
 // Next default values for new objects
 // 
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
-#define _APS_NEXT_RESOURCE_VALUE        319
-#define _APS_NEXT_COMMAND_VALUE         32771
+#define _APS_NEXT_RESOURCE_VALUE        321
+#define _APS_NEXT_COMMAND_VALUE         32793
 #define _APS_NEXT_CONTROL_VALUE         1000
 #define _APS_NEXT_SYMED_VALUE           310
 #endif

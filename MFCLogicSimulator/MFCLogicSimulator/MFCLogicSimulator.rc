@@ -138,6 +138,7 @@ IDR_PROPERTIES          BITMAP                  "res\\properties.bmp"
 
 IDB_PROPERTIES_HC       BITMAP                  "res\\properties_hc.bmp"
 
+
 /////////////////////////////////////////////////////////////////////////////
 //
 // Toolbar
@@ -622,7 +623,7 @@ END
 
 STRINGTABLE
 BEGIN
-    IDS_FILE_VIEW           "파일 뷰"
+    IDS_FILE_VIEW           "도구 상자"
     IDS_CLASS_VIEW          "클래스 뷰"
     IDS_OUTPUT_WND          "출력"
     IDS_PROPERTIES_WND      "속성"
@@ -636,9 +637,23 @@ END
 
 STRINGTABLE
 BEGIN
-    IDS_BUILD_TAB           "빌드"
+    IDS_BUILD_TAB           "Simulator result"
     IDS_DEBUG_TAB           "디버그"
-    IDS_FIND_TAB            "찾기"
+    IDS_FIND_TAB            "Graph"
+END
+
+STRINGTABLE
+BEGIN
+    ID_CHECKTOOLBOX         "도구 상자를 열거나 닫습니다.\n도구 상자 설정/해제"
+    ID_CHECKOUTPUT          "출력 창을 열거나 닫습니다.\n출력 창 설정/해제"
+    ID_CHECKPROPERTIES      "속성 창을 열거나 닫습니다.\n속성 창 설정/해제"
+END
+
+STRINGTABLE
+BEGIN
+    ID_BUTTON6              "편집/동작 모드 활성화 버튼입니다."
+    ID_BUTTON7              "편집 모드를 활성화합니다."
+    ID_BUTTONACT            "동작 모드를 활성화합니다."
 END
 
 #endif    // 한국어(대한민국) resources

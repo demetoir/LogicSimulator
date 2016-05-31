@@ -186,7 +186,6 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ChildFrm.h" />
-    <ClInclude Include="ClassView.h" />
     <ClInclude Include="FileView.h" />
     <ClInclude Include="MainFrm.h" />
     <ClInclude Include="MFCLogicSimulator.h" />
@@ -201,7 +200,6 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ChildFrm.cpp" />
-    <ClCompile Include="ClassView.cpp" />
     <ClCompile Include="FileView.cpp" />
     <ClCompile Include="MainFrm.cpp" />
     <ClCompile Include="MFCLogicSimulator.cpp" />
@@ -218,6 +216,7 @@
     <ClCompile Include="ViewTree.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="ClassDiagram.cd" />
     <None Include="MFCLogicSimulator.reg" />
     <None Include="res\MFCLogicSimulator.rc2" />
     <None Include="res\ribbon.mfcribbon-ms" />
@@ -226,6 +225,8 @@
     <ResourceCompile Include="MFCLogicSimulator.rc" />
   </ItemGroup>
   <ItemGroup>
+    <Image Include="res\AND.bmp" />
+    <Image Include="res\bitmap1.bmp" />
     <Image Include="res\buttons.bmp" />
     <Image Include="res\classview.bmp" />
     <Image Include="res\classview_hc.bmp" />
@@ -260,4 +261,9 @@
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>
+  <ProjectExtensions>
+    <VisualStudio>
+      <UserProperties RESOURCE_FILE="MFCLogicSimulator.rc" />
+    </VisualStudio>
+  </ProjectExtensions>
 </Project>
