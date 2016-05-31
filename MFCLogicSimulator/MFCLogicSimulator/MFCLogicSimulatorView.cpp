@@ -157,7 +157,7 @@ CMFCLogicSimulatorDoc* CMFCLogicSimulatorView::GetDocument() const // 디버그되지
 
 void CMFCLogicSimulatorView::OnLButtonDown(UINT nFlags, CPoint point)
 {	
-	//도큐먼트의를 가져옴
+	// logic doc 포인터 가져옴
 	CMainFrame* pFrame = (CMainFrame*)AfxGetMainWnd();
 	CMFCLogicSimulatorDoc* pDoc = (CMFCLogicSimulatorDoc*)pFrame->GetActiveDocument();
 
@@ -171,7 +171,6 @@ void CMFCLogicSimulatorView::OnLButtonDown(UINT nFlags, CPoint point)
 	// 스크롤바 컨트롤시 지워지는 문제있음
 	switch (itemIndex) { // 사용자 설정 따로 빼둘 것
 	case FOLDER_ROOT: // root
-		AfxMessageBox(_T("root"));
 		pDC->TextOutW(point.x, point.y, str);
 		break;
 	default:
@@ -179,7 +178,7 @@ void CMFCLogicSimulatorView::OnLButtonDown(UINT nFlags, CPoint point)
 		pDC->TextOutW(point.x, point.y, str);
 		break;
 	}
-	ReleaseDC(pDC); //사용이 끝나고 디바이스 컨텍스트를 운영체제에게 반답한다.
+	ReleaseDC(pDC); //사용이 끝나고 디바이스 컨텍스트를 운영체제에게 반납한다.
 
 	CScrollView::OnLButtonDown(nFlags, point);
 }
