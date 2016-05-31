@@ -185,19 +185,6 @@
     <Text Include="ReadMe.txt" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\YU_JUN_lib\7SegmentComponent.h" />
-    <ClInclude Include="..\YU_JUN_lib\ANDGateComponet.h" />
-    <ClInclude Include="..\YU_JUN_lib\ClockComponent.h" />
-    <ClInclude Include="..\YU_JUN_lib\ComponentObject.h" />
-    <ClInclude Include="..\YU_JUN_lib\InputPinComponent.h" />
-    <ClInclude Include="..\YU_JUN_lib\LibraryBoxComponent.h" />
-    <ClInclude Include="..\YU_JUN_lib\NOTGateComponent.h" />
-    <ClInclude Include="..\YU_JUN_lib\OneBitLampComponent.h" />
-    <ClInclude Include="..\YU_JUN_lib\OneBitSwitch.h" />
-    <ClInclude Include="..\YU_JUN_lib\ORGateComponent.h" />
-    <ClInclude Include="..\YU_JUN_lib\OutputPin.h" />
-    <ClInclude Include="..\YU_JUN_lib\WireComponet.h" />
-    <ClInclude Include="..\YU_JUN_lib\XORGateComponent.h" />
     <ClInclude Include="ChildFrm.h" />
     <ClInclude Include="FileView.h" />
     <ClInclude Include="MainFrm.h" />
@@ -212,19 +199,6 @@
     <ClInclude Include="ViewTree.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\YU_JUN_lib\7SegmentComponent.cpp" />
-    <ClCompile Include="..\YU_JUN_lib\ANDGateComponet.cpp" />
-    <ClCompile Include="..\YU_JUN_lib\ClockComponent.cpp" />
-    <ClCompile Include="..\YU_JUN_lib\ComponentObject.cpp" />
-    <ClCompile Include="..\YU_JUN_lib\InputPinComponent.cpp" />
-    <ClCompile Include="..\YU_JUN_lib\LibraryBoxComponent.cpp" />
-    <ClCompile Include="..\YU_JUN_lib\NOTGateComponent.cpp" />
-    <ClCompile Include="..\YU_JUN_lib\OneBitLampComponent.cpp" />
-    <ClCompile Include="..\YU_JUN_lib\OneBitSwitch.cpp" />
-    <ClCompile Include="..\YU_JUN_lib\ORGateComponent.cpp" />
-    <ClCompile Include="..\YU_JUN_lib\OutputPin.cpp" />
-    <ClCompile Include="..\YU_JUN_lib\WireComponet.cpp" />
-    <ClCompile Include="..\YU_JUN_lib\XORGateComponent.cpp" />
     <ClCompile Include="ChildFrm.cpp" />
     <ClCompile Include="FileView.cpp" />
     <ClCompile Include="MainFrm.cpp" />
