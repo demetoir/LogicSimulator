@@ -15,8 +15,48 @@
 
 #pragma once
 #include "MainFrm.h"
-
+#include "LibraryBoxComponent.h"
 class CMainFrame;
+using std::vector;
+using std::pair;
+using std::make_pair;
+
+enum COMPONENT_DIRECTION {
+	EAST,WEST,NORTH,SOUTH
+};
+
+//도큐먼트에서 사용할 구조체
+struct COMPONENT_DATA {
+	COMPONENT_DATA() {
+		x = 0;
+		y = 0;
+		id = -1;
+		type = COMPONENT_TYPE_NONE;
+		direction = EAST;		
+	}
+	//가장 왼쪽 위 의 기준 좌표
+	int x,y;
+	COMPONENT_ID id;
+	COMPONENT_TYPE type;
+	COMPONENT_DIRECTION direction;
+	
+};
+
+enum ToolBoxItemFlag {
+	FOLDER_ROOT,
+	FOLDER_WIRE,
+	ITEM_WIRE, ITEM_PIN, ITEM_PROBE,
+	FOLDER_GATE,
+	ITEM_AND, ITEM_NAND, ITEM_OR,
+	ITEM_NOR, ITEM_XOR, ITEM_NOT,
+	FOLDER_FF,
+	ITEM_DFF, ITEM_JKFF, ITEM_TFF,
+	FOLDER_INPUT,
+	ITEM_1BITBUTIN, ITEM_CLOCK,
+	FOLDER_OUTPUT,
+	ITEM_1BITBUTOUT, ITEM_7SEGMENT,
+	ITEM_ETC
+};
 
 class CMFCLogicSimulatorDoc : public CDocument
 {
@@ -59,4 +99,20 @@ protected:
 	// 검색 처리기에 대한 검색 콘텐츠를 설정하는 도우미 함수
 	void SetSearchContent(const CString& value);
 #endif // SHARED_HANDLERS
+
+
+public : 
+	//엔진을 저장할 변수
+	CLibraryBox logicSimulatorEngine;
+	//엔진 데이터들
+	LIBRARY_BOX_DATA engineData;
+
+
+	//뷰에서 사용되어질 정보들
+	vector <COMPONENT_DATA> component_data;
+
+	//부품을 선택하거나 안했거나를 표시하는 플래그
+	bool isSelectComponent;
+	int currentSelectedComponent;
+	
 };

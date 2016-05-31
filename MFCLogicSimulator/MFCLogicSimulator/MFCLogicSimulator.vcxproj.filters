@@ -13,10 +13,13 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
-    <Filter Include="소스 파일\라이브러리 엔진 소스">
+    <Filter Include="엔진">
+      <UniqueIdentifier>{3527b024-8cb3-42a4-853c-860212224978}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="엔진\라이브러리 엔진 소스">
       <UniqueIdentifier>{cfcf4171-4be3-4591-b753-a1c4699ba398}</UniqueIdentifier>
     </Filter>
-    <Filter Include="헤더 파일\라이브러리 엔진 헤더">
+    <Filter Include="엔진\라이브러리 엔진 헤더">
       <UniqueIdentifier>{d91b447a-19a9-4071-afe1-7c86dcc6f2fb}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
@@ -61,43 +64,43 @@
       <Filter>헤더 파일</Filter>
     </ClInclude>
     <ClInclude Include="7SegmentComponent.h">
-      <Filter>헤더 파일\라이브러리 엔진 헤더</Filter>
+      <Filter>엔진\라이브러리 엔진 헤더</Filter>
     </ClInclude>
     <ClInclude Include="ANDGateComponet.h">
-      <Filter>헤더 파일\라이브러리 엔진 헤더</Filter>
+      <Filter>엔진\라이브러리 엔진 헤더</Filter>
     </ClInclude>
     <ClInclude Include="ClockComponent.h">
-      <Filter>헤더 파일\라이브러리 엔진 헤더</Filter>
+      <Filter>엔진\라이브러리 엔진 헤더</Filter>
     </ClInclude>
     <ClInclude Include="ComponentObject.h">
-      <Filter>헤더 파일\라이브러리 엔진 헤더</Filter>
+      <Filter>엔진\라이브러리 엔진 헤더</Filter>
     </ClInclude>
     <ClInclude Include="InputPinComponent.h">
-      <Filter>헤더 파일\라이브러리 엔진 헤더</Filter>
+      <Filter>엔진\라이브러리 엔진 헤더</Filter>
     </ClInclude>
     <ClInclude Include="LibraryBoxComponent.h">
-      <Filter>헤더 파일\라이브러리 엔진 헤더</Filter>
+      <Filter>엔진\라이브러리 엔진 헤더</Filter>
     </ClInclude>
     <ClInclude Include="NOTGateComponent.h">
-      <Filter>헤더 파일\라이브러리 엔진 헤더</Filter>
+      <Filter>엔진\라이브러리 엔진 헤더</Filter>
     </ClInclude>
     <ClInclude Include="OneBitLampComponent.h">
-      <Filter>헤더 파일\라이브러리 엔진 헤더</Filter>
+      <Filter>엔진\라이브러리 엔진 헤더</Filter>
     </ClInclude>
     <ClInclude Include="OneBitSwitch.h">
-      <Filter>헤더 파일\라이브러리 엔진 헤더</Filter>
+      <Filter>엔진\라이브러리 엔진 헤더</Filter>
     </ClInclude>
     <ClInclude Include="ORGateComponent.h">
-      <Filter>헤더 파일\라이브러리 엔진 헤더</Filter>
+      <Filter>엔진\라이브러리 엔진 헤더</Filter>
     </ClInclude>
     <ClInclude Include="OutputPin.h">
-      <Filter>헤더 파일\라이브러리 엔진 헤더</Filter>
+      <Filter>엔진\라이브러리 엔진 헤더</Filter>
     </ClInclude>
     <ClInclude Include="WireComponet.h">
-      <Filter>헤더 파일\라이브러리 엔진 헤더</Filter>
+      <Filter>엔진\라이브러리 엔진 헤더</Filter>
     </ClInclude>
     <ClInclude Include="XORGateComponent.h">
-      <Filter>헤더 파일\라이브러리 엔진 헤더</Filter>
+      <Filter>엔진\라이브러리 엔진 헤더</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -132,43 +135,43 @@
       <Filter>소스 파일</Filter>
     </ClCompile>
     <ClCompile Include="7SegmentComponent.cpp">
-      <Filter>소스 파일\라이브러리 엔진 소스</Filter>
+      <Filter>엔진\라이브러리 엔진 소스</Filter>
     </ClCompile>
     <ClCompile Include="ANDGateComponet.cpp">
-      <Filter>소스 파일\라이브러리 엔진 소스</Filter>
+      <Filter>엔진\라이브러리 엔진 소스</Filter>
     </ClCompile>
     <ClCompile Include="ClockComponent.cpp">
-      <Filter>소스 파일\라이브러리 엔진 소스</Filter>
+      <Filter>엔진\라이브러리 엔진 소스</Filter>
     </ClCompile>
     <ClCompile Include="ComponentObject.cpp">
-      <Filter>소스 파일\라이브러리 엔진 소스</Filter>
+      <Filter>엔진\라이브러리 엔진 소스</Filter>
     </ClCompile>
     <ClCompile Include="InputPinComponent.cpp">
-      <Filter>소스 파일\라이브러리 엔진 소스</Filter>
+      <Filter>엔진\라이브러리 엔진 소스</Filter>
     </ClCompile>
     <ClCompile Include="LibraryBoxComponent.cpp">
-      <Filter>소스 파일\라이브러리 엔진 소스</Filter>
+      <Filter>엔진\라이브러리 엔진 소스</Filter>
     </ClCompile>
     <ClCompile Include="NOTGateComponent.cpp">
-      <Filter>소스 파일\라이브러리 엔진 소스</Filter>
+      <Filter>엔진\라이브러리 엔진 소스</Filter>
     </ClCompile>
     <ClCompile Include="OneBitLampComponent.cpp">
-      <Filter>소스 파일\라이브러리 엔진 소스</Filter>
+      <Filter>엔진\라이브러리 엔진 소스</Filter>
     </ClCompile>
     <ClCompile Include="OneBitSwitch.cpp">
-      <Filter>소스 파일\라이브러리 엔진 소스</Filter>
+      <Filter>엔진\라이브러리 엔진 소스</Filter>
     </ClCompile>
     <ClCompile Include="ORGateComponent.cpp">
-      <Filter>소스 파일\라이브러리 엔진 소스</Filter>
+      <Filter>엔진\라이브러리 엔진 소스</Filter>
     </ClCompile>
     <ClCompile Include="OutputPin.cpp">
-      <Filter>소스 파일\라이브러리 엔진 소스</Filter>
+      <Filter>엔진\라이브러리 엔진 소스</Filter>
     </ClCompile>
     <ClCompile Include="WireComponet.cpp">
-      <Filter>소스 파일\라이브러리 엔진 소스</Filter>
+      <Filter>엔진\라이브러리 엔진 소스</Filter>
     </ClCompile>
     <ClCompile Include="XORGateComponent.cpp">
-      <Filter>소스 파일\라이브러리 엔진 소스</Filter>
+      <Filter>엔진\라이브러리 엔진 소스</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

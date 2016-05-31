@@ -16,9 +16,10 @@
 #include "ViewTree.h"
 #include "FileView.h" // tree item 관련하여 추가
 #include "PropertiesWnd.h" // 속성창 옵션 수정 관련하여 추가
-
+#include "MFCLogicSimulatorDoc.h"
 // 스크롤 생성
 // http://moguwai.tistory.com/entry/CView-CScrollView%EB%A1%9C-%EC%A0%84%ED%99%98
+
 
 class CMFCLogicSimulatorView : public CScrollView
 {
@@ -30,21 +31,7 @@ protected: // serialization에서만 만들어집니다.
 public:
 	CMFCLogicSimulatorDoc* GetDocument() const;
 
-	enum ToolBoxItemFlag {
-		FOLDER_ROOT,
-			FOLDER_WIRE,
-				ITEM_WIRE, ITEM_PIN, ITEM_PROBE,
-			FOLDER_GATE,
-				ITEM_AND, ITEM_NAND, ITEM_OR,
-				ITEM_NOR, ITEM_XOR, ITEM_NOT,
-			FOLDER_FF,
-				ITEM_DFF, ITEM_JKFF, ITEM_TFF,
-			FOLDER_INPUT,
-				ITEM_1BITBUTIN, ITEM_CLOCK,
-			FOLDER_OUTPUT,
-				ITEM_1BITBUTOUT, ITEM_7SEGMENT,
-			ITEM_ETC
-	};
+	
 
 	enum MouseButtonFlag {
 		NBUTTON = NULL,							// 마우스 버튼이 눌리지 않은 상태

@@ -11,6 +11,12 @@
 
 #include "stdafx.h"
 #include "ViewTree.h"
+#include "MFCLogicSimulatorDoc.h"
+#include "MainFrm.h"
+#include "MFCLogicSimulatorView.h"
+#include "MFCLogicSimulator.h"
+#include "ChildFrm.h"
+#include "FileView.h"
 
 #ifdef _DEBUG
 #define new DEBUG_NEW
@@ -31,8 +37,13 @@ CViewTree::~CViewTree()
 }
 
 BEGIN_MESSAGE_MAP(CViewTree, CTreeCtrl)
-	ON_WM_LBUTTONDOWN()
+	//	ON_WM_LBUTTONDOWN()
 	ON_WM_CREATE()
+
+	ON_WM_CONTEXTMENU()
+	//	ON_WM_LBUTTONUP()
+	ON_WM_LBUTTONDBLCLK()
+	ON_WM_LBUTTONDOWN()
 END_MESSAGE_MAP()
 
 /////////////////////////////////////////////////////////////////////////////
@@ -53,15 +64,11 @@ BOOL CViewTree::OnNotify(WPARAM wParam, LPARAM lParam, LRESULT* pResult)
 	return bRes;
 }
 
-void CViewTree::OnLButtonDown(UINT nFlags, CPoint point)
-{
-	// TODO: 여기에 메시지 처리기 코드를 추가 및/또는 기본값을 호출합니다.
-	//CTreeCtrl* m_ctlTreeview;
-	
-	//MessageBox(_T("test"), _T("test dig"), 0);
-
-	CTreeCtrl::OnLButtonDown(nFlags, point);
-}
+//트리 뷰에서 선택하면 선택 정보를 도큐먼트로 넘겨준다
+//void CViewTree::OnLButtonDown(UINT nFlags, CPoint point)
+//{
+//	CTreeCtrl::OnLButtonDown(nFlags, point);
+//}
 
 
 int CViewTree::OnCreate(LPCREATESTRUCT lpCreateStruct)
@@ -75,4 +82,88 @@ int CViewTree::OnCreate(LPCREATESTRUCT lpCreateStruct)
 
 
 	return 0;
+}
+
+
+
+
+
+void CViewTree::OnContextMenu(CWnd* /*pWnd*/, CPoint /*point*/)
+{
+	// TODO: 여기에 메시지 처리기 코드를 추가합니다.
+}
+
+
+
+
+void CViewTree::OnLButtonDblClk(UINT nFlags, CPoint point)
+{
+	// TODO: 여기에 메시지 처리기 코드를 추가 및/또는 기본값을 호출합니다.
+	CMainFrame* p_MainFrm = (CMainFrame*)AfxGetMainWnd();
+	//
+	CFileView* p_FileView = p_MainFrm->getCFileView();
+
+	CViewTree* p_Toolbox = p_FileView->getCFileViewTree();
+
+	CMainFrame *pFrame = (CMainFrame*)AfxGetMainWnd();
+	CChildFrame *pChild = (CChildFrame *)pFrame->GetActiveFrame();
+	CMFCLogicSimulatorDoc *pDoc = (CMFCLogicSimulatorDoc *)pChild->GetActiveDocument();
+
+	// 트리 컨트롤 아이템 인덱스
+	// goo.gl/mdFKLz
+
+
+	HTREEITEM hItem = p_Toolbox->GetSelectedItem();
+	HTREEITEM hComp = p_Toolbox->GetChildItem(NULL);
+
+	int itemIndex = pDoc->itemSelectedInDoc();
+	//아이템이 있고 체크박스에 이벤트가 발생하면
+	if (itemIndex != FOLDER_ROOT&&itemIndex == pDoc->currentSelectedComponent) {
+		//같은걸 선택하면 체크를 해제한다	
+		int state, selecterimage;
+		//this->GetItemImage(hItem, image, selecterimage);
+		state = this->GetItemState(hItem, TVIS_SELECTED);
+		this->SetItemState(hItem, TVIS_SELECTED, TVIS_SELECTED);
+		
+		//->SetItemImage(hItem, image, selecterimage);
+		pDoc->currentSelectedComponent = 0;
+	}
+
+
+	CTreeCtrl::OnLButtonDblClk(nFlags, point);
+}
+
+
+void CViewTree::OnLButtonDown(UINT nFlags, CPoint point)
+{
+	// TODO: 여기에 메시지 처리기 코드를 추가 및/또는 기본값을 호출합니다.
+	CMainFrame* p_MainFrm = (CMainFrame*)AfxGetMainWnd();
+	//
+	CFileView* p_FileView = p_MainFrm->getCFileView();
+
+	CViewTree* p_Toolbox = p_FileView->getCFileViewTree();
+
+	CMainFrame *pFrame = (CMainFrame*)AfxGetMainWnd();
+	CChildFrame *pChild = (CChildFrame *)pFrame->GetActiveFrame();
+	CMFCLogicSimulatorDoc *pDoc = (CMFCLogicSimulatorDoc *)pChild->GetActiveDocument();
+
+	// 트리 컨트롤 아이템 인덱스
+	// goo.gl/mdFKLz
+
+	HTREEITEM hItem = p_Toolbox->GetSelectedItem();
+
+
+	int itemIndex = pDoc->itemSelectedInDoc();
+
+	
+	int state;
+	state = this->GetItemState(hItem, TVIS_SELECTED);
+	if (state == TVIS_SELECTED) {
+		this->SetItemState(hItem, ~TVIS_SELECTED, TVIS_SELECTED);
+	}
+	else {
+		this->SetItemState(hItem, TVIS_SELECTED, TVIS_SELECTED);
+	}
+
+	CTreeCtrl::OnLButtonDown(nFlags, point);
 }

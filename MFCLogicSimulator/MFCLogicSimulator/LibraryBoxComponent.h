@@ -191,4 +191,5 @@ public:
 	bool setClockValue(int index, bool  _value);
 	bool getClockValue(int index);
 	int numberOfClock();
+
 };

@@ -24,6 +24,8 @@
 
 #include <propkey.h>
 
+
+
 #ifdef _DEBUG
 #define new DEBUG_NEW
 #endif
@@ -38,10 +40,12 @@ END_MESSAGE_MAP()
 
 // CMFCLogicSimulatorDoc 생성/소멸
 
+
+//문서를 만들면서 라이브러리 엔진을 넣는다
 CMFCLogicSimulatorDoc::CMFCLogicSimulatorDoc()
 {
 	// TODO: 여기에 일회성 생성 코드를 추가합니다.
-
+	component_data.resize(10);
 }
 
 int CMFCLogicSimulatorDoc::itemSelectedInDoc()
@@ -50,13 +54,10 @@ int CMFCLogicSimulatorDoc::itemSelectedInDoc()
 	// http://www.dreamy.pe.kr/zbxe/CodeClip/18117
 
 	CMainFrame* p_MainFrm = (CMainFrame*)AfxGetMainWnd();
-	ASSERT_VALID(p_MainFrm);
 
 	CFileView* p_FileViewInDoc = p_MainFrm->getCFileView();
-	ASSERT_VALID(p_FileViewInDoc);
 
 	CViewTree* p_ToolboxInDoc = p_FileViewInDoc->getCFileViewTree();
-	ASSERT_VALID(p_ToolboxInDoc);
 
 	// 트리 컨트롤 아이템 인덱스
 	// goo.gl/mdFKLz
@@ -71,6 +72,7 @@ int CMFCLogicSimulatorDoc::itemSelectedInDoc()
 		hComp = p_ToolboxInDoc->GetNextItem(hComp, TVGN_NEXTVISIBLE);
 		++indexOfItem;
 	}
+
 
 	return indexOfItem;
 }
