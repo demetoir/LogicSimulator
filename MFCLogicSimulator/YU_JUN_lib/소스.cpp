@@ -1046,6 +1046,7 @@ void libboxIn_libbox_test(CLibraryBox& outbox, CLibraryBox& inbox) {
 
 int main() {
 	printE("this is test");
+	//머지 하고 작업 브랜치 만듦
 
 
 	CLibraryBox box1, box2;
