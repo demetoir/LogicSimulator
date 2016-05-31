@@ -537,7 +537,7 @@ END
 
 STRINGTABLE
 BEGIN
-    ID_FILE_MRU_FILE1       "현재 문서를 엽니다."
+    ID_FILE_MRU_FILE1       "라이브러리 박스를 저장합니다"
     ID_FILE_MRU_FILE2       "현재 문서를 엽니다."
     ID_FILE_MRU_FILE3       "현재 문서를 엽니다."
     ID_FILE_MRU_FILE4       "현재 문서를 엽니다."
@@ -583,7 +583,7 @@ BEGIN
     ID_EDIT_REPLACE         "특정 텍스트를 다른 텍스트로 바꿉니다.\n바꾸기"
     ID_EDIT_SELECT_ALL      "전체 문서를 선택합니다.\n모두 선택"
     ID_EDIT_UNDO            "마지막 작업 실행을 취소합니다.\n실행 취소"
-    ID_EDIT_REDO            "이전에 실행 취소된 작업을 다시 실행합니다.\n다시 실행"
+    ID_EDIT_REDO            "라이브러리 박스를 로드합니다"
 END
 
 STRINGTABLE
@@ -654,6 +654,7 @@ BEGIN
     ID_BUTTON6              "편집/동작 모드 활성화 버튼입니다."
     ID_BUTTON7              "편집 모드를 활성화합니다."
     ID_BUTTONACT            "동작 모드를 활성화합니다."
+    ID_LOAD_LIBRARYBOX      "라이브러리 박스를 로드합니다"
 END
 
 #endif    // 한국어(대한민국) resources
