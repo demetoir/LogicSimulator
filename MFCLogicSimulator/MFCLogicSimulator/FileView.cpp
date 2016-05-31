@@ -171,7 +171,6 @@ void CFileView::OnContextMenu(CWnd* pWnd, CPoint point)
 		if (hTreeItem != NULL)
 		{
 			pWndTree->SelectItem(hTreeItem);
-			//selectedItem = m_wndFileView.GetSelectedItem();
 		}
 	}
 

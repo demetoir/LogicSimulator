@@ -46,23 +46,29 @@ CMFCLogicSimulatorDoc::CMFCLogicSimulatorDoc()
 
 int CMFCLogicSimulatorDoc::itemSelectedInDoc()
 {	
-	// mainfrm에서 fileview 정보 가져와서 HTREEITEM hItem, hComp에다가 저장
-	CFileView* p_FileViewInDoc = ((CMainFrame*)&m_MainFrmInDoc)->getCFileView();
+	// mainframe에서 fileview의 트리 정보 조회
+	// http://www.dreamy.pe.kr/zbxe/CodeClip/18117
+
+	CMainFrame* p_MainFrm = (CMainFrame*)AfxGetMainWnd();
+	ASSERT_VALID(p_MainFrm);
+
+	CFileView* p_FileViewInDoc = p_MainFrm->getCFileView();
 	ASSERT_VALID(p_FileViewInDoc);
+
 	CViewTree* p_ToolboxInDoc = p_FileViewInDoc->getCFileViewTree();
 	ASSERT_VALID(p_ToolboxInDoc);
 
+	// 트리 컨트롤 아이템 인덱스
+	// goo.gl/mdFKLz
 	int indexOfItem = 0;
 
 	HTREEITEM hItem = p_ToolboxInDoc->GetSelectedItem();
 	HTREEITEM hComp = p_ToolboxInDoc->GetChildItem(NULL);
 
-	AfxMessageBox(_T("test1"));
-
 	while (hComp)
 	{
 		if (hComp == hItem) break;
-		hComp = p_ToolboxInDoc->GetNextItem(hComp, TVGN_NEXT);
+		hComp = p_ToolboxInDoc->GetNextItem(hComp, TVGN_NEXTVISIBLE);
 		++indexOfItem;
 	}
 

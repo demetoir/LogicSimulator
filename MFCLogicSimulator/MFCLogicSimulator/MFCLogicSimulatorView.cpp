@@ -163,6 +163,9 @@ void CMFCLogicSimulatorView::OnLButtonDown(UINT nFlags, CPoint point)
 	int a = GetDocument()->itemSelectedInDoc();
 
 	switch (a) {
+	case 0:
+		AfxMessageBox(_T("item 0"));
+		break;
 	case 1:
 		AfxMessageBox(_T("item 1"));
 		break;
