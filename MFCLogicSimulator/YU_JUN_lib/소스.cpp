@@ -724,6 +724,8 @@ void make_D_flipflop(CLibraryBox& box) {
 	box.addComponent(nandgate2,data);
 	box.addComponent(nandgate3, data);
 	box.addComponent(nandgate4, data);
+	
+	
 	COMPONENT_CONENTION_INFO B, A;
 
 
