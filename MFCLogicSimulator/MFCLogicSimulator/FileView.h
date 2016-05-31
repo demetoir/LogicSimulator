@@ -27,9 +27,15 @@ class CFileView : public CDockablePane
 // 생성입니다.
 public:
 	CFileView();
+	//HTREEITEM selectedItem;
+	//HTREEITEM nextItem;
 
 	void AdjustLayout();
 	void OnChangeVisualStyle();
+	//HTREEITEM getItemSelected() const;
+	//HTREEITEM getChildItem(HTREEITEM hItem) const;
+	//HTREEITEM getNextItem(HTREEITEM n_Item, UINT n_Flag) const;
+	CViewTree* getCFileViewTree();
 
 // 특성입니다.
 protected:

@@ -158,6 +158,30 @@ CMFCLogicSimulatorDoc* CMFCLogicSimulatorView::GetDocument() const // 디버그되지
 void CMFCLogicSimulatorView::OnLButtonDown(UINT nFlags, CPoint point)
 {
 	// TODO: 여기에 메시지 처리기 코드를 추가 및/또는 기본값을 호출합니다.
+	//AfxMessageBox(_T("lbut down test"));
+
+	int a = GetDocument()->itemSelectedInDoc();
+
+	switch (a) {
+	case 1:
+		AfxMessageBox(_T("item 1"));
+		break;
+	case 2:
+		AfxMessageBox(_T("item 2"));
+		break;
+	case 3:
+		AfxMessageBox(_T("item 3"));
+		break;
+	case 4:
+		AfxMessageBox(_T("item 4"));
+		break;
+	case 5:
+		AfxMessageBox(_T("item 5"));
+		break;
+	default:
+		AfxMessageBox(_T("item ??"));
+		break;
+	}
 
 	CScrollView::OnLButtonDown(nFlags, point);
 
@@ -179,10 +203,9 @@ void CMFCLogicSimulatorView::OnPaint()
 					   // 그리기 메시지에 대해서는 CScrollView::OnPaint()을(를) 호출하지 마십시오.
 	
 	//AfxMessageBox(_T("onpaint"));
-	CDC *pDC = GetDC();
-	pDC->TextOutW(100, 50, _T("paint test"));
-	ReleaseDC(pDC); //사용이 끝나고 디바이스 컨텍스트를 운영체제에게 반답한다.
-	
+	//CDC *pDC = GetDC();
+	//pDC->TextOutW(100, 50, _T("paint test"));
+	//ReleaseDC(pDC); //사용이 끝나고 디바이스 컨텍스트를 운영체제에게 반답한다.
 
 	// 뷰 스크롤 및 크기 조정
 	// https://msdn.microsoft.com/ko-kr/library/cc468151(v=vs.71).aspx

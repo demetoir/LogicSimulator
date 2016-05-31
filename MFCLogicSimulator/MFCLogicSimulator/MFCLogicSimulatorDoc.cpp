@@ -20,6 +20,7 @@
 #endif
 
 #include "MFCLogicSimulatorDoc.h"
+#include "MainFrm.h"
 
 #include <propkey.h>
 
@@ -41,6 +42,31 @@ CMFCLogicSimulatorDoc::CMFCLogicSimulatorDoc()
 {
 	// TODO: 여기에 일회성 생성 코드를 추가합니다.
 
+}
+
+int CMFCLogicSimulatorDoc::itemSelectedInDoc()
+{	
+	// mainfrm에서 fileview 정보 가져와서 HTREEITEM hItem, hComp에다가 저장
+	CFileView* p_FileViewInDoc = ((CMainFrame*)&m_MainFrmInDoc)->getCFileView();
+	ASSERT_VALID(p_FileViewInDoc);
+	CViewTree* p_ToolboxInDoc = p_FileViewInDoc->getCFileViewTree();
+	ASSERT_VALID(p_ToolboxInDoc);
+
+	int indexOfItem = 0;
+
+	HTREEITEM hItem = p_ToolboxInDoc->GetSelectedItem();
+	HTREEITEM hComp = p_ToolboxInDoc->GetChildItem(NULL);
+
+	AfxMessageBox(_T("test1"));
+
+	while (hComp)
+	{
+		if (hComp == hItem) break;
+		hComp = p_ToolboxInDoc->GetNextItem(hComp, TVGN_NEXT);
+		++indexOfItem;
+	}
+
+	return indexOfItem;
 }
 
 CMFCLogicSimulatorDoc::~CMFCLogicSimulatorDoc()
@@ -72,6 +98,8 @@ void CMFCLogicSimulatorDoc::Serialize(CArchive& ar)
 	else
 	{
 		// TODO: 여기에 로딩 코드를 추가합니다.
+
+
 	}
 }
 
@@ -145,3 +173,40 @@ void CMFCLogicSimulatorDoc::Dump(CDumpContext& dc) const
 
 
 // CMFCLogicSimulatorDoc 명령
+
+/*
+int indexOfItem = 0;
+CFileView* p_FileViewInDoc;
+p_FileViewInDoc = (CFileView*) &m_FileViewInDoc;
+ASSERT_VALID(p_FileViewInDoc);
+
+
+HTREEITEM hItem = p_FileViewInDoc->getItemSelected();
+HTREEITEM hComp = p_FileViewInDoc->getChildItem(NULL);
+
+while (hComp)
+{
+if (hComp == hItem) break;
+hComp = p_FileViewInDoc->getNextItem(hComp, TVGN_NEXT);
+++indexOfItem;
+}
+
+switch (indexOfItem)
+{
+case 1:
+AfxMessageBox(_T("item num 1"));
+case 2:
+AfxMessageBox(_T("item num 2"));
+case 3:
+AfxMessageBox(_T("item num 3"));
+case 4:
+AfxMessageBox(_T("item num 4"));
+case 5:
+AfxMessageBox(_T("item num 5"));
+case 6:
+AfxMessageBox(_T("item num 6"));
+default:
+AfxMessageBox(_T("item select switch err"));
+break;
+}
+*/

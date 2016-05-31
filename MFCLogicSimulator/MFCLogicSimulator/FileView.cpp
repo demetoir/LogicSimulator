@@ -171,6 +171,7 @@ void CFileView::OnContextMenu(CWnd* pWnd, CPoint point)
 		if (hTreeItem != NULL)
 		{
 			pWndTree->SelectItem(hTreeItem);
+			//selectedItem = m_wndFileView.GetSelectedItem();
 		}
 	}
 
@@ -278,5 +279,26 @@ void CFileView::OnChangeVisualStyle()
 
 	m_wndFileView.SetImageList(&m_FileViewImages, TVSIL_NORMAL);
 }
+
+CViewTree * CFileView::getCFileViewTree()
+{
+	return &m_wndFileView;
+}
+
+//HTREEITEM CFileView::getItemSelected() const
+//{
+//	return selectedItem;
+//}
+//
+//HTREEITEM CFileView::getChildItem(HTREEITEM hItem) const
+//{
+//	return m_wndFileView.GetChildItem(hItem);
+//}
+//
+//HTREEITEM CFileView::getNextItem(HTREEITEM n_Item, UINT n_Flag) const
+//{
+//	return m_wndFileView.GetNextItem(n_Item, n_Flag);
+//}
+
 
 

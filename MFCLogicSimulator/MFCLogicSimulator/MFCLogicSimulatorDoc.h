@@ -14,7 +14,9 @@
 
 
 #pragma once
+#include "MainFrm.h"
 
+class CMainFrame;
 
 class CMFCLogicSimulatorDoc : public CDocument
 {
@@ -24,10 +26,12 @@ protected: // serialization에서만 만들어집니다.
 
 // 특성입니다.
 public:
-
+	int itemSelectedInDoc();
 // 작업입니다.
 public:
-
+	CMainFrame m_MainFrmInDoc;
+	CFileView m_FileViewInDoc;
+	CViewTree m_FileViewTreeInDoc;
 // 재정의입니다.
 public:
 	virtual BOOL OnNewDocument();
