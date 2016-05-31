@@ -142,35 +142,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="7SegmentComponent.cpp" />
-    <ClCompile Include="ANDGateComponet.cpp" />
-    <ClCompile Include="ClockComponent.cpp" />
-    <ClCompile Include="ComponentObject.cpp" />
-    <ClCompile Include="InputPinComponent.cpp" />
-    <ClCompile Include="LibraryBoxComponent.cpp" />
-    <ClCompile Include="NOTGateComponent.cpp" />
-    <ClCompile Include="OneBitLampComponent.cpp" />
-    <ClCompile Include="OneBitSwitch.cpp" />
-    <ClCompile Include="ORGateComponent.cpp" />
-    <ClCompile Include="OutputPin.cpp" />
-    <ClCompile Include="WireComponet.cpp" />
-    <ClCompile Include="XORGateComponent.cpp" />
     <ClCompile Include="소스.cpp" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="7SegmentComponent.h" />
-    <ClInclude Include="ANDGateComponet.h" />
-    <ClInclude Include="ClockComponent.h" />
-    <ClInclude Include="ComponentObject.h" />
-    <ClInclude Include="InputPinComponent.h" />
-    <ClInclude Include="LibraryBoxComponent.h" />
-    <ClInclude Include="NOTGateComponent.h" />
-    <ClInclude Include="OneBitLampComponent.h" />
-    <ClInclude Include="OneBitSwitch.h" />
-    <ClInclude Include="ORGateComponent.h" />
-    <ClInclude Include="OutputPin.h" />
-    <ClInclude Include="WireComponet.h" />
-    <ClInclude Include="XORGateComponent.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

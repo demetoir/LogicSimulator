@@ -13,6 +13,36 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="소스 파일\라이브러리 박스 엔진 소스">
+      <UniqueIdentifier>{3dec1526-614b-47e2-a3ca-20646db2d3ec}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\라이브러리 박스 엔진 소스\Output component">
+      <UniqueIdentifier>{5645194b-7d43-42a2-a885-6d53ca62da45}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\라이브러리 박스 엔진 소스\Wire Component">
+      <UniqueIdentifier>{b4ce8186-20c8-497e-a7ac-499275ebde7c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\라이브러리 박스 엔진 소스\Logic Gate Component">
+      <UniqueIdentifier>{13d6a609-cff2-4373-a5b4-b33075673872}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\라이브러리 박스 엔진 소스\Input Component">
+      <UniqueIdentifier>{74e942eb-62a0-4785-9799-ea3fc83f6d1a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="헤더 파일\라이브러리 박스 엔진 헤더">
+      <UniqueIdentifier>{feba9367-3d83-442f-86f4-1f088597e9f4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="헤더 파일\라이브러리 박스 엔진 헤더\Output component">
+      <UniqueIdentifier>{3ffbc946-3e5e-4f27-ad61-6bd15f2ab568}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="헤더 파일\라이브러리 박스 엔진 헤더\Wire Component">
+      <UniqueIdentifier>{5a06f3eb-bb8a-48f9-a445-a5445df2dabb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="헤더 파일\라이브러리 박스 엔진 헤더\Input Component">
+      <UniqueIdentifier>{a8607864-02ae-4c98-9948-6710bbe7206f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="헤더 파일\라이브러리 박스 엔진 헤더\Logic gate Component">
+      <UniqueIdentifier>{5e825cb8-6fb1-4ea7-a803-a27b4dbd6371}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
@@ -54,6 +84,45 @@
     <ClInclude Include="PropertiesWnd.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
+    <ClInclude Include="..\YU_JUN_lib\ComponentObject.h">
+      <Filter>헤더 파일\라이브러리 박스 엔진 헤더</Filter>
+    </ClInclude>
+    <ClInclude Include="..\YU_JUN_lib\LibraryBoxComponent.h">
+      <Filter>헤더 파일\라이브러리 박스 엔진 헤더</Filter>
+    </ClInclude>
+    <ClInclude Include="..\YU_JUN_lib\7SegmentComponent.h">
+      <Filter>헤더 파일\라이브러리 박스 엔진 헤더\Output component</Filter>
+    </ClInclude>
+    <ClInclude Include="..\YU_JUN_lib\OneBitLampComponent.h">
+      <Filter>헤더 파일\라이브러리 박스 엔진 헤더\Output component</Filter>
+    </ClInclude>
+    <ClInclude Include="..\YU_JUN_lib\OutputPin.h">
+      <Filter>헤더 파일\라이브러리 박스 엔진 헤더\Output component</Filter>
+    </ClInclude>
+    <ClInclude Include="..\YU_JUN_lib\WireComponet.h">
+      <Filter>헤더 파일\라이브러리 박스 엔진 헤더\Wire Component</Filter>
+    </ClInclude>
+    <ClInclude Include="..\YU_JUN_lib\ClockComponent.h">
+      <Filter>헤더 파일\라이브러리 박스 엔진 헤더\Input Component</Filter>
+    </ClInclude>
+    <ClInclude Include="..\YU_JUN_lib\InputPinComponent.h">
+      <Filter>헤더 파일\라이브러리 박스 엔진 헤더\Input Component</Filter>
+    </ClInclude>
+    <ClInclude Include="..\YU_JUN_lib\OneBitSwitch.h">
+      <Filter>헤더 파일\라이브러리 박스 엔진 헤더\Input Component</Filter>
+    </ClInclude>
+    <ClInclude Include="..\YU_JUN_lib\ANDGateComponet.h">
+      <Filter>헤더 파일\라이브러리 박스 엔진 헤더\Logic gate Component</Filter>
+    </ClInclude>
+    <ClInclude Include="..\YU_JUN_lib\NOTGateComponent.h">
+      <Filter>헤더 파일\라이브러리 박스 엔진 헤더\Logic gate Component</Filter>
+    </ClInclude>
+    <ClInclude Include="..\YU_JUN_lib\ORGateComponent.h">
+      <Filter>헤더 파일\라이브러리 박스 엔진 헤더\Logic gate Component</Filter>
+    </ClInclude>
+    <ClInclude Include="..\YU_JUN_lib\XORGateComponent.h">
+      <Filter>헤더 파일\라이브러리 박스 엔진 헤더\Logic gate Component</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="MFCLogicSimulator.cpp">
@@ -85,6 +154,45 @@
     </ClCompile>
     <ClCompile Include="PropertiesWnd.cpp">
       <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="..\YU_JUN_lib\LibraryBoxComponent.cpp">
+      <Filter>소스 파일\라이브러리 박스 엔진 소스</Filter>
+    </ClCompile>
+    <ClCompile Include="..\YU_JUN_lib\ComponentObject.cpp">
+      <Filter>소스 파일\라이브러리 박스 엔진 소스</Filter>
+    </ClCompile>
+    <ClCompile Include="..\YU_JUN_lib\7SegmentComponent.cpp">
+      <Filter>소스 파일\라이브러리 박스 엔진 소스\Output component</Filter>
+    </ClCompile>
+    <ClCompile Include="..\YU_JUN_lib\OneBitLampComponent.cpp">
+      <Filter>소스 파일\라이브러리 박스 엔진 소스\Output component</Filter>
+    </ClCompile>
+    <ClCompile Include="..\YU_JUN_lib\OutputPin.cpp">
+      <Filter>소스 파일\라이브러리 박스 엔진 소스\Output component</Filter>
+    </ClCompile>
+    <ClCompile Include="..\YU_JUN_lib\WireComponet.cpp">
+      <Filter>소스 파일\라이브러리 박스 엔진 소스\Wire Component</Filter>
+    </ClCompile>
+    <ClCompile Include="..\YU_JUN_lib\ANDGateComponet.cpp">
+      <Filter>소스 파일\라이브러리 박스 엔진 소스\Logic Gate Component</Filter>
+    </ClCompile>
+    <ClCompile Include="..\YU_JUN_lib\NOTGateComponent.cpp">
+      <Filter>소스 파일\라이브러리 박스 엔진 소스\Logic Gate Component</Filter>
+    </ClCompile>
+    <ClCompile Include="..\YU_JUN_lib\ORGateComponent.cpp">
+      <Filter>소스 파일\라이브러리 박스 엔진 소스\Logic Gate Component</Filter>
+    </ClCompile>
+    <ClCompile Include="..\YU_JUN_lib\XORGateComponent.cpp">
+      <Filter>소스 파일\라이브러리 박스 엔진 소스\Logic Gate Component</Filter>
+    </ClCompile>
+    <ClCompile Include="..\YU_JUN_lib\ClockComponent.cpp">
+      <Filter>소스 파일\라이브러리 박스 엔진 소스\Input Component</Filter>
+    </ClCompile>
+    <ClCompile Include="..\YU_JUN_lib\InputPinComponent.cpp">
+      <Filter>소스 파일\라이브러리 박스 엔진 소스\Input Component</Filter>
+    </ClCompile>
+    <ClCompile Include="..\YU_JUN_lib\OneBitSwitch.cpp">
+      <Filter>소스 파일\라이브러리 박스 엔진 소스\Input Component</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
