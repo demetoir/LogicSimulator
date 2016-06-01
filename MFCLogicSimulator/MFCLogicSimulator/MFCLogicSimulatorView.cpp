@@ -192,8 +192,11 @@ void CMFCLogicSimulatorView::OnLButtonDown(UINT nFlags, CPoint point)
 
 	//지금 부품 선택 모드이면
 	if (pDoc->currentSelectedItem > 0) {
+		//보정할 좌표를 가져온다
+		int nVertScroll = GetScrollPos(SB_VERT);
+		int nHorzScroll = GetScrollPos(SB_HORZ);
 		//선택한 부품을 도큐에 추가한다
-		pDoc->addComponentToEngine(point.x, point.y);
+		pDoc->addComponentToEngine(point.x + nHorzScroll, point.y + nVertScroll);
 		
 		//tree view 부품 선택모드를 해제하는 메세지를 날린다		
 		((pFrame->getCFileView())->getCFileViewTree())->SendMessage(UM_UNSELECT_ITEM);
@@ -267,22 +270,11 @@ void CMFCLogicSimulatorView::OnPaint()
 
 	//부품 추가 모드일때
 	//추가하는 부품을 그려준다
-	for (int i = 0; i < pDoc->engineComponentData.size(); i++) {
-		//존재하지 않는것은 넘어간다
-		if (pDoc->engineComponentData[i].id <=0) {
-			continue;
-		}
-		//해당 부품을 그려준다
-		//지금은 더미 이다
-		CString str;
-		str.Format(_T("componentID: %d (x,y) = (%d,%d) type : %d"), pDoc->engineComponentData[i].id
-			, pDoc->engineComponentData[i].x, pDoc->engineComponentData[i].y, pDoc->engineComponentData[i].type);
-		pDC->TextOutW(pDoc->engineComponentData[i].x - nHorzScroll,
-			pDoc->engineComponentData[i].y - nVertScroll, str);
-		
+	
 
-	}
 	//도큐먼트 부품데이터에 있는 부품들을 그린다 들을 그린다
+	drawComponent(dc, MemDC, pDC);
+
 
 	//부품들의 단자들을 그린다
 
@@ -326,4 +318,38 @@ void CMFCLogicSimulatorView::OnVScroll(UINT nSBCode, UINT nPos, CScrollBar* pScr
 
 	CScrollView::OnVScroll(nSBCode, nPos, pScrollBar);
 	Invalidate();
+}
+
+void CMFCLogicSimulatorView::drawComponent(CPaintDC &dc, CDC &MemDC,CDC *pDC)
+{
+
+	CMFCLogicSimulatorDoc* pDoc = GetDocument();
+	int nVertScroll = GetScrollPos(SB_VERT);
+	int nHorzScroll = GetScrollPos(SB_HORZ);
+
+	CPoint scrollpos = GetScrollPosition();
+	dc.BitBlt(-scrollpos.x, -scrollpos.y, rlClientRect.right, rlClientRect.bottom,
+		&MemDC, 0, 0, SRCCOPY);
+	/* 스크롤바 컨트롤 끝 */
+
+	// 더블 버퍼링 해결 관련
+	// goo.gl/CucRl6
+
+	//부품 추가 모드일때
+	//추가하는 부품을 그려준다
+	for (int i = 0; i < pDoc->engineComponentData.size(); i++) {
+		//존재하지 않는것은 넘어간다
+		if (pDoc->engineComponentData[i].id <= 0) {
+			continue;
+		}
+		//해당 부품을 그려준다
+		//지금은 더미 이다
+		CString str;
+		str.Format(_T("componentID: %d (x,y) = (%d,%d) type : %d"), pDoc->engineComponentData[i].id
+			, pDoc->engineComponentData[i].x, pDoc->engineComponentData[i].y, pDoc->engineComponentData[i].type);
+		pDC->TextOutW(pDoc->engineComponentData[i].x - nHorzScroll,
+			pDoc->engineComponentData[i].y - nVertScroll, str);
+
+
+	}
 }

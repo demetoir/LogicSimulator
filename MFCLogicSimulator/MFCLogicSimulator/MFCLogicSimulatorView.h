@@ -88,7 +88,12 @@ public:
 	afx_msg void OnVScroll(UINT nSBCode, UINT nPos, CScrollBar* pScrollBar);
 
 protected:
-	void printComponent();
+	//모든 컴포넌트 를 그림
+	void drawComponent(CPaintDC &dc, CDC &MemDC, CDC *pDC);
+	//터미널 단자를 그림
+	void drawComponentTerminal();
+	//와이어들을 그림
+	void drawComponentWire();
 
 };
 
