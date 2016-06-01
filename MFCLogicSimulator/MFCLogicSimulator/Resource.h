@@ -90,6 +90,20 @@
 #define IDS_EXPLORER                    305
 #define IDS_EDIT_MENU                   306
 #define IDR_RIBBON                      307
+/* LOGIC SIMULATOR 府家胶 */
+#define IDB_IN_OFF                      325
+#define IDB_IN_ON                       326
+#define IDB_FF_DFF                      333
+#define IDB_FF_JKFF                     334
+#define IDB_FF_TFF                      335
+#define IDB_GATE_AND                    336
+#define IDB_GATE_INVERTOR               337
+#define IDB_BITMAP9                     338
+#define IDB_GATE_NAND                   338
+#define IDB_GATE_NOR                    339
+#define IDB_GATE_OR                     340
+#define IDB_GATE_XOR                    341
+/* LOGIC SIMULATOR 府家胶 */
 #define ID_WRITE_PASTEASHYPERLINK       32770
 #define ID_CHECKTOOLBOX                 32771
 #define ID_CHECKOUTPUT                  32772
@@ -111,7 +125,7 @@
 // 
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
-#define _APS_NEXT_RESOURCE_VALUE        321
+#define _APS_NEXT_RESOURCE_VALUE        342
 #define _APS_NEXT_COMMAND_VALUE         32797
 #define _APS_NEXT_CONTROL_VALUE         1000
 #define _APS_NEXT_SYMED_VALUE           310
