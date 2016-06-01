@@ -251,6 +251,7 @@
     <ResourceCompile Include="MFCLogicSimulator.rc" />
   </ItemGroup>
   <ItemGroup>
+    <Image Include="res\bitmap1.bmp" />
     <Image Include="res\buttons.bmp" />
     <Image Include="res\classview.bmp" />
     <Image Include="res\classview_hc.bmp" />
@@ -275,20 +276,20 @@
     <Image Include="res\properties_hc.bmp" />
     <Image Include="res\properties_wnd.ico" />
     <Image Include="res\properties_wnd_hc.ico" />
-    <Image Include="res\root\FF\D-FF.png" />
-    <Image Include="res\root\FF\JK-FF.png" />
-    <Image Include="res\root\FF\T-FF.png" />
-    <Image Include="res\root\gate\AND.png" />
-    <Image Include="res\root\gate\INVERTOR.png" />
-    <Image Include="res\root\gate\NAND.png" />
-    <Image Include="res\root\gate\NOR.png" />
-    <Image Include="res\root\gate\OR.png" />
-    <Image Include="res\root\gate\XOR.png" />
+    <Image Include="res\root\FF\D-FF.bmp" />
+    <Image Include="res\root\FF\JK-FF.bmp" />
+    <Image Include="res\root\FF\T-FF.bmp" />
+    <Image Include="res\root\gate\AND.bmp" />
+    <Image Include="res\root\gate\INVERTOR.bmp" />
+    <Image Include="res\root\gate\NAND.bmp" />
+    <Image Include="res\root\gate\NOR.bmp" />
+    <Image Include="res\root\gate\OR.bmp" />
+    <Image Include="res\root\gate\XOR.bmp" />
     <Image Include="res\root\in\OFF.bmp" />
     <Image Include="res\root\in\ON.bmp" />
     <Image Include="res\root\out\OFF_LAMP.bmp" />
     <Image Include="res\root\out\ON_LAMP.bmp" />
-    <Image Include="res\root\wire\copper wire.jpg" />
+    <Image Include="res\root\wire\copper wire.bmp" />
     <Image Include="res\root\wire\PIN.bmp" />
     <Image Include="res\root\wire\PROBE.bmp" />
     <Image Include="res\sort.bmp" />
