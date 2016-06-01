@@ -91,23 +91,25 @@ protected:
 
 	//모드 그리는 함수들
 	//모든 컴포넌트 를 그림
-	void drawComponent(CPaintDC &dc, CDC &MemDC, CDC *pDC);
+	void drawComponent(CDC &MemDC);
 
 	//터미널 단자를 그림
-	void drawComponentTerminal(CPaintDC &dc, CDC &MemDC, CDC *pDC);
+	void drawComponentTerminal(CDC &MemDC);
 
 	//와이어들을 그림
-	void drawComponentWire(CPaintDC &dc, CDC &MemDC, CDC *pDC);
+	void drawComponentWire(CDC &MemDC);
 	
 	//부품 추가 모드일떄 움직이면서 보여주는거
-	void drawAddingComponent(CPaintDC &dc, CDC &MemDC, CDC *pDC);
+	void drawAddingComponent(CDC &MemDC);
 
 	//화면에 있는 선택 한부품을 강조하는거
-	void drawHighlightSelectedComponent(CPaintDC &dc, CDC &MemDC, CDC *pDC);
+	void drawHighlightSelectedComponent(CDC &MemDC);
 
 	//화면에 있는 선택 한부품을 강조하는거
-	void drawMassage(CPaintDC &dc, CDC &MemDC, CDC *pDC);
+	void drawMassage( CDC &MemDC);
 
+public:
+	afx_msg BOOL OnEraseBkgnd(CDC* pDC);
 };
 
 #ifndef _DEBUG  // MFCLogicSimulatorView.cpp의 디버그 버전

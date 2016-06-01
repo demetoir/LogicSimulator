@@ -53,6 +53,7 @@ BEGIN_MESSAGE_MAP(CMFCLogicSimulatorView, CScrollView)
 	ON_WM_MOUSEMOVE()
 	ON_WM_HSCROLL()
 	ON_WM_VSCROLL()
+	ON_WM_ERASEBKGND()
 END_MESSAGE_MAP()
 
 // CMFCLogicSimulatorView 생성/소멸
@@ -85,6 +86,7 @@ void CMFCLogicSimulatorView::OnDraw(CDC* /*pDC*/)
 		return;
 
 	// TODO: 여기에 원시 데이터에 대한 그리기 코드를 추가합니다.
+	
 
 }
 
@@ -166,7 +168,7 @@ CMFCLogicSimulatorDoc* CMFCLogicSimulatorView::GetDocument() const // 디버그되지
 
 
 void CMFCLogicSimulatorView::OnLButtonDown(UINT nFlags, CPoint point)
-{	
+{
 	// logic doc 포인터 가져옴
 	CMainFrame* pFrame = (CMainFrame*)AfxGetMainWnd();
 	CMFCLogicSimulatorDoc* pDoc = GetDocument();
@@ -197,7 +199,7 @@ void CMFCLogicSimulatorView::OnLButtonDown(UINT nFlags, CPoint point)
 		int nHorzScroll = GetScrollPos(SB_HORZ);
 		//선택한 부품을 도큐에 추가한다
 		pDoc->addComponentToEngine(point.x + nHorzScroll, point.y + nVertScroll);
-		
+
 		//tree view 부품 선택모드를 해제하는 메세지를 날린다		
 		((pFrame->getCFileView())->getCFileViewTree())->SendMessage(UM_UNSELECT_ITEM);
 
@@ -238,80 +240,79 @@ void CMFCLogicSimulatorView::OnLButtonUp(UINT nFlags, CPoint point)
 	CScrollView::OnLButtonUp(nFlags, point);
 }
 
-
+//이것을 해야한다 참고자료
+//http://adnoctum.tistory.com/149
 void CMFCLogicSimulatorView::OnPaint()
 {
 	CPaintDC dc(this); // device context for painting
 					   // TODO: 여기에 메시지 처리기 코드를 추가합니다.
 					   // 그리기 메시지에 대해서는 CScrollView::OnPaint()을(를) 호출하지 마십시오.
-	
-	CDC MemDC;
-	CDC *pDC = GetDC();
+
 	CMFCLogicSimulatorDoc* pDoc = GetDocument();
-
-	CBitmap buffer;
-	CRect bufferRect;
-	GetClientRect(&bufferRect);
-
-	MemDC.CreateCompatibleDC(pDC);
-	buffer.CreateCompatibleBitmap(pDC, bufferRect.Width(), bufferRect.Height());
-	MemDC.SelectObject(&buffer);
-
-	//힌색으로 초기화
-	MemDC.PatBlt(0, 0, bufferRect.Width(), bufferRect.Height(), WHITENESS);
-
-
-
-	// 뷰 스크롤 및 크기 조정
-	// https://msdn.microsoft.com/ko-kr/library/cc468151(v=vs.71).aspx
-	// http://eachan.tistory.com/3
-	/* 스크롤바 컨트롤 */
-
-	int nVertScroll = GetScrollPos(SB_VERT);
-	int nHorzScroll = GetScrollPos(SB_HORZ);
-
-	CPoint scrollpos = GetScrollPosition();
-	dc.BitBlt(-scrollpos.x, -scrollpos.y, rlClientRect.right, rlClientRect.bottom,
-		&MemDC, 0, 0, SRCCOPY);
-	/* 스크롤바 컨트롤 끝 */
-
-
-
-
-	// 더블 버퍼링 해결 관련
-	// goo.gl/CucRl6
-
+	CRect rect;
+	GetClientRect(&rect);
 	
+	CDC memDC;
+	CBitmap newBitmap;
+	CBitmap *pOldBitmap;
 
+	//더블버퍼링을 하기 위해 버퍼역할을 할 비트맵을 지정한다
+	memDC.CreateCompatibleDC(&dc);
+	newBitmap.CreateCompatibleBitmap(&dc, rect.Width(), rect.Height());
+	pOldBitmap = memDC.SelectObject(&newBitmap);
+	memDC.PatBlt(0, 0, rect.Width(), rect.Height(), WHITENESS);
 
-	//그리기 시작
+		
+	//메모리에다가 그리기시작
+	{
+		// 뷰 스크롤 및 크기 조정
+		// https://msdn.microsoft.com/ko-kr/library/cc468151(v=vs.71).aspx
+		// http://eachan.tistory.com/3
+		/* 스크롤바 컨트롤 */ {
+			int nVertScroll = GetScrollPos(SB_VERT);
+			int nHorzScroll = GetScrollPos(SB_HORZ);
 
-	//부품들을 그린다
-	drawComponent(dc, MemDC, pDC);
+			CPoint scrollpos = GetScrollPosition();
+			//memDC.BitBlt(-scrollpos.x, -scrollpos.y, rlClientRect.right, rlClientRect.bottom,&memDC, 0, 0, SRCCOPY);
+		}
+		/* 스크롤바 컨트롤 끝 */
 
-	//터미널 단자를 그림
-	drawComponentTerminal(dc, MemDC, pDC);
+		{
+			//그리기 시작
 
-	//와이어들을 그림
-	drawComponentWire(dc, MemDC, pDC);
+			//부품들을 그린다
+			drawComponent(memDC);
 
-	//추가 모드일때만 한다
-	//부품 추가 모드일떄 움직이면서 보여주는거
-	 drawAddingComponent(dc, MemDC, pDC);
+			//터미널 단자를 그림
+			drawComponentTerminal(memDC);
 
-	//화면에 있는 선택 한부품을 강조하는거
-	 drawHighlightSelectedComponent(dc, MemDC, pDC);
+			//와이어들을 그림
+			drawComponentWire(memDC);
 
-	//화면에 메세지를 띄어주는것
-	 drawMassage(dc, MemDC, pDC);
+			//추가 모드일때만 한다
+			//부품 추가 모드일떄 움직이면서 보여주는거
+			drawAddingComponent(memDC);
 
+			//화면에 있는 선택 한부품을 강조하는거
+			drawHighlightSelectedComponent(memDC);
 
+			//화면에 메세지를 띄어주는것
+			drawMassage(memDC);
+		}
+	}
 
-	 //그리기끝
-
-	 MemDC.SelectObject(&pDC);
-	 pDC->BitBlt(0, 0, bufferRect.Width(), bufferRect.Height(), &MemDC, 0, 0, SRCCOPY);
+	//그리기 종료
 	
+	//버퍼 역할을 하는 비트맵을 화면으로 출력한다
+	dc.BitBlt(0, 0, rect.Width(), rect.Height(), &memDC, 0, 0, SRCCOPY);
+	dc.SelectObject(pOldBitmap);
+	newBitmap.DeleteObject();
+	ReleaseDC(&memDC);
+	DeleteDC(memDC);
+
+
+
+
 }
 
 void CMFCLogicSimulatorView::OnMouseMove(UINT nFlags, CPoint point)
@@ -347,20 +348,17 @@ void CMFCLogicSimulatorView::OnVScroll(UINT nSBCode, UINT nPos, CScrollBar* pScr
 	Invalidate();
 }
 
-void CMFCLogicSimulatorView::drawComponent(CPaintDC &dc, CDC &MemDC,CDC *pDC)
+
+
+
+
+void CMFCLogicSimulatorView::drawComponent(CDC &MemDC)
 {
 
 	CMFCLogicSimulatorDoc* pDoc = GetDocument();
 	int nVertScroll = GetScrollPos(SB_VERT);
 	int nHorzScroll = GetScrollPos(SB_HORZ);
 
-	CPoint scrollpos = GetScrollPosition();
-	MemDC.BitBlt(-scrollpos.x, -scrollpos.y, rlClientRect.right, rlClientRect.bottom,
-		&MemDC, 0, 0, SRCCOPY);
-	/* 스크롤바 컨트롤 끝 */
-
-	// 더블 버퍼링 해결 관련
-	// goo.gl/CucRl6
 
 	//부품 추가 모드일때
 	//추가하는 부품을 그려준다
@@ -381,22 +379,30 @@ void CMFCLogicSimulatorView::drawComponent(CPaintDC &dc, CDC &MemDC,CDC *pDC)
 	}
 }
 
-void CMFCLogicSimulatorView::drawComponentTerminal(CPaintDC & dc, CDC & MemDC, CDC * pDC)
+void CMFCLogicSimulatorView::drawComponentTerminal(CDC & MemDC)
 {
 }
 
-void CMFCLogicSimulatorView::drawComponentWire(CPaintDC & dc, CDC & MemDC, CDC * pDC)
+void CMFCLogicSimulatorView::drawComponentWire(CDC & MemDC)
 {
 }
 
-void CMFCLogicSimulatorView::drawAddingComponent(CPaintDC & dc, CDC & MemDC, CDC * pDC)
+void CMFCLogicSimulatorView::drawAddingComponent(CDC & MemDC)
 {
 }
 
-void CMFCLogicSimulatorView::drawHighlightSelectedComponent(CPaintDC & dc, CDC & MemDC, CDC * pDC)
+void CMFCLogicSimulatorView::drawHighlightSelectedComponent(CDC & MemDC)
 {
 }
 
-void CMFCLogicSimulatorView::drawMassage(CPaintDC & dc, CDC & MemDC, CDC * pDC)
+void CMFCLogicSimulatorView::drawMassage( CDC & MemDC)
 {
+}
+
+//이것을 해야한다
+//http://adnoctum.tistory.com/149
+BOOL CMFCLogicSimulatorView::OnEraseBkgnd(CDC* pDC)
+{
+	// TODO: 여기에 메시지 처리기 코드를 추가 및/또는 기본값을 호출합니다.
+	return true;
 }
