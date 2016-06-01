@@ -276,14 +276,23 @@ void CMFCLogicSimulatorView::OnPaint()
 	drawComponent(dc, MemDC, pDC);
 
 
-	//부품들의 단자들을 그린다
 
-	//부품들의 연결 줄을 그린다
-	
+	//터미널 단자를 그림
+	drawComponentTerminal(dc, MemDC, pDC);
 
-	//에러 메세지를 그린다
+	//와이어들을 그림
+	drawComponentWire(dc, MemDC, pDC);
 
-	//선택된 부품을  하이타이트 한다
+	//부품 추가 모드일떄 움직이면서 보여주는거
+	 drawAddingComponent(dc, MemDC, pDC);
+
+	//화면에 있는 선택 한부품을 강조하는거
+	 drawHighlightSelectedComponent(dc, MemDC, pDC);
+
+	//화면에 메세지를 띄어주는것
+	 drawMassage(dc, MemDC, pDC);
+
+
 	
 }
 
@@ -352,4 +361,24 @@ void CMFCLogicSimulatorView::drawComponent(CPaintDC &dc, CDC &MemDC,CDC *pDC)
 
 
 	}
+}
+
+void CMFCLogicSimulatorView::drawComponentTerminal(CPaintDC & dc, CDC & MemDC, CDC * pDC)
+{
+}
+
+void CMFCLogicSimulatorView::drawComponentWire(CPaintDC & dc, CDC & MemDC, CDC * pDC)
+{
+}
+
+void CMFCLogicSimulatorView::drawAddingComponent(CPaintDC & dc, CDC & MemDC, CDC * pDC)
+{
+}
+
+void CMFCLogicSimulatorView::drawHighlightSelectedComponent(CPaintDC & dc, CDC & MemDC, CDC * pDC)
+{
+}
+
+void CMFCLogicSimulatorView::drawMassage(CPaintDC & dc, CDC & MemDC, CDC * pDC)
+{
 }

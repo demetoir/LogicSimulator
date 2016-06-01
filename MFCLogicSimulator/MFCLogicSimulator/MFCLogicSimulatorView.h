@@ -90,10 +90,21 @@ public:
 protected:
 	//모든 컴포넌트 를 그림
 	void drawComponent(CPaintDC &dc, CDC &MemDC, CDC *pDC);
+
 	//터미널 단자를 그림
-	void drawComponentTerminal();
+	void drawComponentTerminal(CPaintDC &dc, CDC &MemDC, CDC *pDC);
+
 	//와이어들을 그림
-	void drawComponentWire();
+	void drawComponentWire(CPaintDC &dc, CDC &MemDC, CDC *pDC);
+	
+	//부품 추가 모드일떄 움직이면서 보여주는거
+	void drawAddingComponent(CPaintDC &dc, CDC &MemDC, CDC *pDC);
+
+	//화면에 있는 선택 한부품을 강조하는거
+	void drawHighlightSelectedComponent(CPaintDC &dc, CDC &MemDC, CDC *pDC);
+
+	//화면에 있는 선택 한부품을 강조하는거
+	void drawMassage(CPaintDC &dc, CDC &MemDC, CDC *pDC);
 
 };
 
