@@ -25,6 +25,10 @@
 #include "FileView.h" // tree item 관련하여 추가
 #include "PropertiesWnd.h" // 속성창 옵션 수정 관련하여 추가
 
+#include "ViewTree.h"
+#include "ChildFrm.h"
+
+
 #ifdef _DEBUG
 #define new DEBUG_NEW
 #endif
@@ -43,6 +47,7 @@ BEGIN_MESSAGE_MAP(CMFCLogicSimulatorView, CScrollView)
 	ON_WM_LBUTTONDOWN()
 	ON_WM_LBUTTONUP()
 	ON_WM_PAINT()
+	ON_WM_MOUSEMOVE()
 END_MESSAGE_MAP()
 
 // CMFCLogicSimulatorView 생성/소멸
@@ -159,7 +164,7 @@ void CMFCLogicSimulatorView::OnLButtonDown(UINT nFlags, CPoint point)
 {	
 	// logic doc 포인터 가져옴
 	CMainFrame* pFrame = (CMainFrame*)AfxGetMainWnd();
-	CMFCLogicSimulatorDoc* pDoc = (CMFCLogicSimulatorDoc*)pFrame->GetActiveDocument();
+	CMFCLogicSimulatorDoc* pDoc = GetDocument();
 
 	// TODO: 여기에 메시지 처리기 코드를 추가 및/또는 기본값을 호출합니다.
 	CDC* pDC = GetDC();
@@ -178,7 +183,42 @@ void CMFCLogicSimulatorView::OnLButtonDown(UINT nFlags, CPoint point)
 		pDC->TextOutW(point.x, point.y, str);
 		break;
 	}
+
+
+	//지금 부품 선택 모드이면
+	if (pDoc->currentSelectedItem > 0) {
+		//선택한 부품을 도큐에 추가한다
+		pDoc->addComponentToEngine(point.x, point.y);
+		
+		//tree view 부품 선택모드를 해제하는 메세지를 날린다
+
+		CChildFrame *pChild = (CChildFrame *)pFrame->GetActiveFrame();
+		
+	}
+	//지금 부품 선택 아니면
+	else {
+		//만약 부품을 선택하면 부품 선택 모드로 변경한다
+		//선택한 부품을 하이라이트 한다
+
+		//만약 부품의 단자를 선택하면 단자를 하이라이트 한다
+
+
+
+
+	}
+
+
+
+
+
+
 	ReleaseDC(pDC); //사용이 끝나고 디바이스 컨텍스트를 운영체제에게 반납한다.
+
+
+	Invalidate();
+
+
+
 
 	CScrollView::OnLButtonDown(nFlags, point);
 }
@@ -209,7 +249,7 @@ void CMFCLogicSimulatorView::OnPaint()
 	/* 스크롤바 컨트롤 */
 	CDC MemDC;
 	CDC *pDC = GetDC();
-
+	CMFCLogicSimulatorDoc* pDoc = GetDocument();
 	int nVertScroll = GetScrollPos(SB_VERT);
 	int nHorzScroll = GetScrollPos(SB_HORZ);
 
@@ -220,5 +260,46 @@ void CMFCLogicSimulatorView::OnPaint()
 
 	// 더블 버퍼링 해결 관련
 	// goo.gl/CucRl6
+
+	//부품 추가 모드일때
+	//추가하는 부품을 그려준다
+	for (int i = 0; i < pDoc->engineComponentData.size(); i++) {
+		//존재하지 않는것은 넘어간다
+		if (pDoc->engineComponentData[i].id <=0) {
+			continue;
+		}
+		//해당 부품을 그려준다
+		//지금은 더미 이다
+		CString str;
+		str.Format(_T("componentID: %d (x,y) = (%d,%d) type : %d"), pDoc->engineComponentData[i].id
+			, pDoc->engineComponentData[i].x, pDoc->engineComponentData[i].y, pDoc->engineComponentData[i].type);
+		pDC->TextOutW(pDoc->engineComponentData[i].x, pDoc->engineComponentData[i].y, str);
+		
+
+	}
+	//도큐먼트 부품데이터에 있는 부품들을 그린다 들을 그린다
+
+	//부품들의 단자들을 그린다
+
+	//부품들의 연결 줄을 그린다
 	
+
+	//에러 메세지를 그린다
+
+	//선택된 부품을  하이타이트 한다
+	
+}
+
+void CMFCLogicSimulatorView::OnMouseMove(UINT nFlags, CPoint point)
+{
+	// TODO: 여기에 메시지 처리기 코드를 추가 및/또는 기본값을 호출합니다.
+
+	CScrollView::OnMouseMove(nFlags, point);
+
+	//부품 추가 모드 일때 선택한 부품의 좌표를 갱신한다
+
+	//마우스가 부품위에 있는경우 부품을 강조한다
+
+	//마우스가부품의 단자 위에 있으면  단자를 강조한다
+
 }

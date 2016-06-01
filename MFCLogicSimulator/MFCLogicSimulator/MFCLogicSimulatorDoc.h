@@ -32,13 +32,15 @@ struct COMPONENT_DATA {
 		y = 0;
 		id = -1;
 		type = COMPONENT_TYPE_NONE;
-		direction = EAST;		
+		direction = EAST;	
+		label = "";
 	}
 	//가장 왼쪽 위 의 기준 좌표
 	int x,y;
 	COMPONENT_ID id;
 	COMPONENT_TYPE type;
 	COMPONENT_DIRECTION direction;
+	CString label;
 	
 };
 
@@ -105,13 +107,15 @@ public :
 	//엔진을 저장할 변수
 	CLibraryBox logicSimulatorEngine;
 	//엔진 데이터들
-	LIBRARY_BOX_DATA engineData;
+	LIBRARY_BOX_DATA engineDumpData;
 
 
 	//뷰에서 사용되어질 정보들
-	vector <COMPONENT_DATA> component_data;
+	vector <COMPONENT_DATA> engineComponentData;
 
 	//트리뷰에서 선택한 부품정보
 	int currentSelectedItem;
-	
+
+	//부품을 추가한다
+	bool addComponentToEngine(int _x,int _y);
 };

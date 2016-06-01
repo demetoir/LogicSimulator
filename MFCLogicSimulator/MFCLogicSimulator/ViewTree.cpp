@@ -49,6 +49,8 @@ ON_WM_LBUTTONDOWN()
 //	ON_NOTIFY_REFLECT(TVN_ITEMCHANGED, &CViewTree::OnTvnItemChanged)
 ON_NOTIFY_REFLECT(TVN_SELCHANGED, &CViewTree::OnTvnSelchanged)
 //	ON_NOTIFY_REFLECT(TVN_SELCHANGING, &CViewTree::OnTvnSelchanging)
+ON_MESSAGE(UM_UNSELECT_ITEM, &CViewTree::OnUnselectItem)
+ON_MESSAGE(UM_RESELECT_ITEM, &CViewTree::OnReselectItem)
 END_MESSAGE_MAP()
 
 /////////////////////////////////////////////////////////////////////////////
@@ -103,22 +105,17 @@ void CViewTree::OnLButtonDown(UINT nFlags, CPoint point)
 	//선택한 것의 상자 안에 들어 가있음
 	if (rect.left <= point.x && point.x <= rect.right
 		&&rect.top <= point.y && point.y <= rect.bottom) {
+		//폴더를 또 선택하면 아무일도 안일어난다
 
+		//이전의 선택 한것을 다시 선택 하려 할때
 		if (pDoc->currentSelectedItem == -1) {
-			CString str;
-			str.Format(_T("in tree view : item %d selected\n"), itemIndex);
-			pOutput->addBuildWindowString(str);
-			pDoc->currentSelectedItem = itemIndex;
-			this->SetItemState(hItem, TVIS_SELECTED, TVIS_SELECTED);
+			SendMessage(UM_RESELECT_ITEM, 100, 100);
 		}
+		//현재 선택된것을 해제하려 할때
 		else if (itemIndex == pDoc->currentSelectedItem) {
-			CString str;
-			str.Format(_T("in tree view : item %d unselected\n"), itemIndex);
-			pOutput->addBuildWindowString(str);
-			pDoc->currentSelectedItem = -1;
-			this->SetItemState(hItem, ~TVIS_SELECTED, TVIS_SELECTED);
-		}
 
+			SendMessage(UM_UNSELECT_ITEM, 100, 100);
+		}
 	}
 	CTreeCtrl::OnLButtonDown(nFlags, point);
 }
@@ -132,7 +129,6 @@ void CViewTree::OnTvnSelchanged(NMHDR *pNMHDR, LRESULT *pResult)
 	*pResult = 0;
 
 	// TODO: Add your specialized code here and/or call the base class
-
 	CMainFrame* p_MainFrm = (CMainFrame*)AfxGetMainWnd();
 	CFileView* p_FileView = p_MainFrm->getCFileView();
 	CViewTree* p_Toolbox = p_FileView->getCFileViewTree();
@@ -148,19 +144,118 @@ void CViewTree::OnTvnSelchanged(NMHDR *pNMHDR, LRESULT *pResult)
 	HTREEITEM hItem = p_Toolbox->GetSelectedItem();
 	int itemIndex = pDoc->itemSelectedInDoc();
 
-	int state;
-	state = this->GetItemState(hItem, TVIS_SELECTED);
-
 	CString str;
-	str.Format(_T("in tree view : item %d selected\n"), itemIndex);
-	pOutput->addBuildWindowString(str);
-	if (itemIndex == 0) {
+
+
+	//폴더를 처음 선택 하면 아무것도 안한다
+	if (isSelectedItemFolder(itemIndex)) {
 		pDoc->currentSelectedItem = -1;
+		str.Format(_T("in tree view : select item is folder\n"));
+		pOutput->addBuildWindowString(str);
 	}
 	else {
 		pDoc->currentSelectedItem = itemIndex;
+		str.Format(_T("in tree view : item %d selected\n"), itemIndex);
+		pOutput->addBuildWindowString(str);
+
 	}
+}
+
+void CViewTree::unseletectItem()
+{
+
+
 }
 
 
 
+
+//선택 해제 메세지를 처리한다
+afx_msg LRESULT CViewTree::OnUnselectItem(WPARAM wParam, LPARAM lParam)
+{
+
+	// TODO: 여기에 메시지 처리기 코드를 추가 및/또는 기본값을 호출합니다.
+	CMainFrame* p_MainFrm = (CMainFrame*)AfxGetMainWnd();
+	//
+	CFileView* p_FileView = p_MainFrm->getCFileView();
+	CViewTree* p_Toolbox = p_FileView->getCFileViewTree();
+	CMainFrame *pFrame = (CMainFrame*)AfxGetMainWnd();
+	CChildFrame *pChild = (CChildFrame *)pFrame->GetActiveFrame();
+	CMFCLogicSimulatorDoc *pDoc = (CMFCLogicSimulatorDoc *)pChild->GetActiveDocument();
+	COutputWnd* pOutput = pFrame->getCOutputWnd();
+
+	// 트리 컨트롤 아이템 인덱스
+	// goo.gl/mdFKLz
+
+
+	HTREEITEM hItem = p_Toolbox->GetSelectedItem();
+	int itemIndex = pDoc->itemSelectedInDoc();
+
+	pDoc->currentSelectedItem = -1;
+	this->SetItemState(hItem, ~TVIS_SELECTED, TVIS_SELECTED);
+
+	CString str;
+	if (isSelectedItemFolder(pDoc->currentSelectedItem)) {
+		pDoc->currentSelectedItem = -1;
+		str.Format(_T("in tree view : select item is folder\n"));
+		pOutput->addBuildWindowString(str);
+		return 0;
+	}
+
+	str.Format(_T("in tree view : item %d unselected\n"), itemIndex);
+	pOutput->addBuildWindowString(str);
+
+	return 0;
+}
+
+//재선택 메세지를 처리한다
+afx_msg LRESULT CViewTree::OnReselectItem(WPARAM wParam, LPARAM lParam)
+{
+	// TODO: 여기에 메시지 처리기 코드를 추가 및/또는 기본값을 호출합니다.
+	CMainFrame* p_MainFrm = (CMainFrame*)AfxGetMainWnd();
+	//
+	CFileView* p_FileView = p_MainFrm->getCFileView();
+	CViewTree* p_Toolbox = p_FileView->getCFileViewTree();
+	CMainFrame *pFrame = (CMainFrame*)AfxGetMainWnd();
+	CChildFrame *pChild = (CChildFrame *)pFrame->GetActiveFrame();
+	CMFCLogicSimulatorDoc *pDoc = (CMFCLogicSimulatorDoc *)pChild->GetActiveDocument();
+	COutputWnd* pOutput = pFrame->getCOutputWnd();
+
+	// 트리 컨트롤 아이템 인덱스
+	// goo.gl/mdFKLz
+
+
+	HTREEITEM hItem = p_Toolbox->GetSelectedItem();
+	int itemIndex = pDoc->itemSelectedInDoc();
+
+	pDoc->currentSelectedItem = itemIndex;
+	this->SetItemState(hItem, TVIS_SELECTED, TVIS_SELECTED);
+
+	CString str;
+
+	if (isSelectedItemFolder(pDoc->currentSelectedItem)) {
+		pDoc->currentSelectedItem = -1;
+		str.Format(_T("in tree view : select item is folder\n"));
+		pOutput->addBuildWindowString(str);
+		return 0;
+	}
+	
+	str.Format(_T("in tree view : item %d reselected\n"), itemIndex);
+	pOutput->addBuildWindowString(str);
+
+	return 0;
+}
+
+//선택한 아이템이 폴더인지 확인한다
+bool CViewTree::isSelectedItemFolder(int selecteItem)
+{
+	if (selecteItem == FOLDER_ROOT || selecteItem == FOLDER_FF || selecteItem == FOLDER_GATE
+		|| selecteItem == FOLDER_INPUT || selecteItem == FOLDER_OUTPUT || selecteItem == FOLDER_WIRE
+		) {
+		return true;
+	}
+
+
+
+	return false;
+}

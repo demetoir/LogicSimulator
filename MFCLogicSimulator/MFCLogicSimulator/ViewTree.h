@@ -44,4 +44,11 @@ public:
 //	afx_msg void OnTvnItemChanged(NMHDR *pNMHDR, LRESULT *pResult);
 	afx_msg void OnTvnSelchanged(NMHDR *pNMHDR, LRESULT *pResult);
 //	afx_msg void OnTvnSelchanging(NMHDR *pNMHDR, LRESULT *pResult);
+
+	void unseletectItem();
+protected:
+	afx_msg LRESULT OnUnselectItem(WPARAM wParam, LPARAM lParam);
+	afx_msg LRESULT OnReselectItem(WPARAM wParam, LPARAM lParam);
+
+	bool isSelectedItemFolder(int selecteItem);
 };

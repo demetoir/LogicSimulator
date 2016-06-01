@@ -45,7 +45,7 @@ END_MESSAGE_MAP()
 CMFCLogicSimulatorDoc::CMFCLogicSimulatorDoc()
 {
 	// TODO: 여기에 일회성 생성 코드를 추가합니다.
-	component_data.resize(10);
+	engineComponentData.resize(10);
 	currentSelectedItem = -1;
 }
 
@@ -164,7 +164,117 @@ void CMFCLogicSimulatorDoc::SetSearchContent(const CString& value)
 	}
 }
 
+
 #endif // SHARED_HANDLERS
+
+
+bool CMFCLogicSimulatorDoc::addComponentToEngine(int _x, int _y)
+{
+	//부품 선택 모드가 아니면 거짓을 반환함
+	if (currentSelectedItem < 1 ) {
+		return false;
+	}
+
+	//부품선택 모드를 해제한다
+	
+
+	currentSelectedItem;
+	engineComponentData;
+	COMPONENT_TYPE selectedType; 
+
+	//부품 타입을 알아낸다
+	switch (currentSelectedItem ) {
+
+		//wire
+	case  ITEM_WIRE:
+		selectedType = COMPONENT_TYPE_WIRE;
+		break;
+	case  ITEM_PIN:
+		selectedType = COMPONENT_TYPE_INPUT_PIN;
+		break;
+	case  ITEM_PROBE:
+		selectedType = COMPONENT_TYPE_OUTPUT_PIN;
+		break;
+
+		//gate
+	case  ITEM_AND:
+		selectedType = COMPONENT_TYPE_AND_GATE;
+		break;
+	case  ITEM_NAND:
+		selectedType = COMPONENT_TYPE_NAND_GATE;
+		break;
+	case  ITEM_OR:
+		selectedType = COMPONENT_TYPE_OR_GATE;
+		break;
+	case  ITEM_NOR:
+		selectedType = COMPONENT_TYPE_NOR_GATE;
+		break;
+	case  ITEM_XOR:
+		selectedType = COMPONENT_TYPE_XOR_GATE;
+		break;
+	case  ITEM_NOT:
+		selectedType = COMPONENT_TYPE_NOT_GATE;
+		break;
+
+		//flipflop
+	case  ITEM_DFF:
+		selectedType = COMPONENT_TYPE_WIRE;
+		break;
+	case  ITEM_JKFF:
+		selectedType = COMPONENT_TYPE_WIRE;
+		break;
+	case  ITEM_TFF:
+		selectedType = COMPONENT_TYPE_WIRE;
+		break;
+
+		//input
+	case  ITEM_1BITBUTIN:
+		break;
+	case  ITEM_CLOCK:
+		selectedType = COMPONENT_TYPE_WIRE;
+		break;
+
+		//output
+	case  ITEM_1BITBUTOUT:
+		selectedType = COMPONENT_TYPE_WIRE;
+		break;
+	case  ITEM_7SEGMENT:
+		selectedType = COMPONENT_TYPE_WIRE;
+		break;
+
+
+	case  ITEM_ETC:
+		break;
+
+	//만들수 없는 타입은 만들지 않고 거짓을 반환한다
+	default :
+		return false;
+		break;
+	}
+	
+	// 테스트 용
+	COMPONENT_INFO addComponent;
+	addComponent.componentType = selectedType;
+	
+	logicSimulatorEngine.addComponent(addComponent);
+	
+	//사이즈가 모자르면 확장한다
+	if (addComponent.componentID > engineComponentData.size()) {
+		engineComponentData.resize(engineComponentData.size() + 10);
+	}
+	//도큐먼트 데이터에 집어넣는다
+	engineComponentData[addComponent.componentID].id = addComponent.componentID;
+	engineComponentData[addComponent.componentID].type = selectedType;
+	engineComponentData[addComponent.componentID].x = _x;
+	engineComponentData[addComponent.componentID].y = _y;
+	engineComponentData[addComponent.componentID].direction = EAST;
+	engineComponentData[addComponent.componentID].label = "";
+	
+
+	return true;
+	
+
+}
 
 // CMFCLogicSimulatorDoc 진단
 
