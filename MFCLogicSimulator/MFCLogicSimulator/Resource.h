@@ -105,13 +105,14 @@
 #define ID_SAVE_LIBRARYBOX              32793
 #define ID_LOAD_LIBRARYBOX              32794
 #define ID_CLEAN_LOG                    32795
+#define ID_BUTTON2                      32796
 
 // Next default values for new objects
 // 
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
 #define _APS_NEXT_RESOURCE_VALUE        321
-#define _APS_NEXT_COMMAND_VALUE         32796
+#define _APS_NEXT_COMMAND_VALUE         32797
 #define _APS_NEXT_CONTROL_VALUE         1000
 #define _APS_NEXT_SYMED_VALUE           310
 #endif

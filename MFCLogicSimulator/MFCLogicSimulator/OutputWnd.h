@@ -72,5 +72,6 @@ public :
 	void addBuildWindowString(CString& str);
 	void resetBuildWindowString();
 	afx_msg void OnPaint();
+	afx_msg void OnCleanLog();
 };
 

@@ -39,18 +39,14 @@ CViewTree::~CViewTree()
 BEGIN_MESSAGE_MAP(CViewTree, CTreeCtrl)
 	//	ON_WM_LBUTTONDOWN()
 	ON_WM_CREATE()
-
+	ON_MESSAGE(UM_UNSELECT_ITEM, &CViewTree::OnUnselectItem)
+	ON_MESSAGE(UM_RESELECT_ITEM, &CViewTree::OnReselectItem)
 	ON_WM_CONTEXTMENU()
-	//	ON_WM_LBUTTONUP()
-//	ON_WM_LBUTTONDBLCLK()
-ON_WM_LBUTTONDOWN()
-//	ON_NOTIFY_REFLECT(TVN_ITEMCHANGED, &CViewTree::OnTvnItemChanged)
-//	ON_NOTIFY_REFLECT(TVN_ITEMCHANGING, &CViewTree::OnTvnItemChanging)
-//	ON_NOTIFY_REFLECT(TVN_ITEMCHANGED, &CViewTree::OnTvnItemChanged)
-ON_NOTIFY_REFLECT(TVN_SELCHANGED, &CViewTree::OnTvnSelchanged)
-//	ON_NOTIFY_REFLECT(TVN_SELCHANGING, &CViewTree::OnTvnSelchanging)
-ON_MESSAGE(UM_UNSELECT_ITEM, &CViewTree::OnUnselectItem)
-ON_MESSAGE(UM_RESELECT_ITEM, &CViewTree::OnReselectItem)
+
+	ON_WM_LBUTTONDOWN()
+
+	ON_NOTIFY_REFLECT(TVN_SELCHANGED, &CViewTree::OnTvnSelchanged)
+
 END_MESSAGE_MAP()
 
 /////////////////////////////////////////////////////////////////////////////
@@ -173,6 +169,7 @@ void CViewTree::unseletectItem()
 //선택 해제 메세지를 처리한다
 afx_msg LRESULT CViewTree::OnUnselectItem(WPARAM wParam, LPARAM lParam)
 {
+	
 
 	// TODO: 여기에 메시지 처리기 코드를 추가 및/또는 기본값을 호출합니다.
 	CMainFrame* p_MainFrm = (CMainFrame*)AfxGetMainWnd();
@@ -239,7 +236,7 @@ afx_msg LRESULT CViewTree::OnReselectItem(WPARAM wParam, LPARAM lParam)
 		pOutput->addBuildWindowString(str);
 		return 0;
 	}
-	
+
 	str.Format(_T("in tree view : item %d reselected\n"), itemIndex);
 	pOutput->addBuildWindowString(str);
 
@@ -259,3 +256,5 @@ bool CViewTree::isSelectedItemFolder(int selecteItem)
 
 	return false;
 }
+
+

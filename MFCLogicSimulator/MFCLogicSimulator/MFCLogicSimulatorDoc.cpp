@@ -229,17 +229,18 @@ bool CMFCLogicSimulatorDoc::addComponentToEngine(int _x, int _y)
 
 		//input
 	case  ITEM_1BITBUTIN:
+		selectedType = COMPONENT_TYPE_ONE_BIT_SWITCH;
 		break;
 	case  ITEM_CLOCK:
-		selectedType = COMPONENT_TYPE_WIRE;
+		selectedType = COMPONENT_TYPE_CLOCK;
 		break;
 
 		//output
 	case  ITEM_1BITBUTOUT:
-		selectedType = COMPONENT_TYPE_WIRE;
+		selectedType = COMPONENT_TYPE_ONE_BIT_LAMP;
 		break;
 	case  ITEM_7SEGMENT:
-		selectedType = COMPONENT_TYPE_WIRE;
+		selectedType = COMPONENT_TYPE_7SEGMENT;
 		break;
 
 
@@ -256,10 +257,19 @@ bool CMFCLogicSimulatorDoc::addComponentToEngine(int _x, int _y)
 	COMPONENT_INFO addComponent;
 	addComponent.componentType = selectedType;
 	
-	logicSimulatorEngine.addComponent(addComponent);
+	//지원하지 않는 목록일떼
+	if (logicSimulatorEngine.addComponent(addComponent) == false) {
+		CMainFrame *pFrame = (CMainFrame*)AfxGetMainWnd();
+		COutputWnd* pOutput = pFrame->getCOutputWnd();
+		CString str;
+		str.Format(_T("in mfc logicsimulator doc : add component fail -> not support component\n"),
+			addComponent.componentID, selectedType, _x, _y);
+		pOutput->addBuildWindowString(str);
+		return false;
+	}
 	
 	//사이즈가 모자르면 확장한다
-	if (addComponent.componentID > engineComponentData.size()) {
+	if (addComponent.componentID >= engineComponentData.size()) {
 		engineComponentData.resize(engineComponentData.size() + 10);
 	}
 	//도큐먼트 데이터에 집어넣는다
@@ -270,7 +280,12 @@ bool CMFCLogicSimulatorDoc::addComponentToEngine(int _x, int _y)
 	engineComponentData[addComponent.componentID].direction = EAST;
 	engineComponentData[addComponent.componentID].label = "";
 	
-
+	CMainFrame *pFrame = (CMainFrame*)AfxGetMainWnd();
+	COutputWnd* pOutput = pFrame->getCOutputWnd();
+	CString str;
+	str.Format(_T("in mfc logicsimulator doc : add component, ID : %d\n, type : %d (x,y) = (%d,%d),"), 
+		addComponent.componentID, selectedType,_x,_y);
+	pOutput->addBuildWindowString(str);
 	return true;
 	
 

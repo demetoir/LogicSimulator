@@ -36,6 +36,7 @@ BEGIN_MESSAGE_MAP(COutputWnd, CDockablePane)
 	ON_WM_CREATE()
 	ON_WM_SIZE()
 	ON_WM_PAINT()
+	ON_COMMAND(ID_CLEAN_LOG, &COutputWnd::OnCleanLog)
 END_MESSAGE_MAP()
 
 int COutputWnd::OnCreate(LPCREATESTRUCT lpCreateStruct)
@@ -224,4 +225,11 @@ void COutputWnd::OnPaint()
 	CPaintDC dc(this); // device context for painting
 					   // TODO: 여기에 메시지 처리기 코드를 추가합니다.
 					   // 그리기 메시지에 대해서는 CDockablePane::OnPaint()을(를) 호출하지 마십시오.
+}
+
+
+void COutputWnd::OnCleanLog()
+{
+	// TODO: 여기에 명령 처리기 코드를 추가합니다.
+	m_wndOutputBuild.DeleteString(0);
 }

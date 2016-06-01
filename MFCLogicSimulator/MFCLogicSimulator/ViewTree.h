@@ -22,33 +22,34 @@ public:
 
 // 재정의입니다.
 protected:
-//	virtual BOOL OnNotify(WPARAM wParam, LPARAM lParam, LRESULT* pResult);
+
 
 // 구현입니다.
 public:
 	virtual ~CViewTree();
 
-protected:
-	DECLARE_MESSAGE_MAP()
+
 public:
 
 //	afx_msg void OnLButtonDown(UINT nFlags, CPoint point);
 	afx_msg int OnCreate(LPCREATESTRUCT lpCreateStruct);
 
 	afx_msg void OnContextMenu(CWnd* /*pWnd*/, CPoint /*point*/);
-//	afx_msg void OnLButtonUp(UINT nFlags, CPoint point);
-//	afx_msg void OnLButtonDblClk(UINT nFlags, CPoint point);
+
 	afx_msg void OnLButtonDown(UINT nFlags, CPoint point);
-//	afx_msg void OnTvnItemChanged(NMHDR *pNMHDR, LRESULT *pResult);
-//	afx_msg void OnTvnItemChanging(NMHDR *pNMHDR, LRESULT *pResult);
-//	afx_msg void OnTvnItemChanged(NMHDR *pNMHDR, LRESULT *pResult);
+
 	afx_msg void OnTvnSelchanged(NMHDR *pNMHDR, LRESULT *pResult);
-//	afx_msg void OnTvnSelchanging(NMHDR *pNMHDR, LRESULT *pResult);
+
 
 	void unseletectItem();
-protected:
-	afx_msg LRESULT OnUnselectItem(WPARAM wParam, LPARAM lParam);
+
+	LRESULT OnUnselectItem(WPARAM wParam, LPARAM lParam);
 	afx_msg LRESULT OnReselectItem(WPARAM wParam, LPARAM lParam);
 
+protected:
+protected:
+	DECLARE_MESSAGE_MAP()
+
 	bool isSelectedItemFolder(int selecteItem);
+	afx_msg LRESULT OnUmUnselectItem(WPARAM wParam, LPARAM lParam);
 };

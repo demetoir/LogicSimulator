@@ -27,6 +27,9 @@
 
 #include "ViewTree.h"
 #include "ChildFrm.h"
+#include "MainFrm.h"
+#include"OutputPin.h"
+#include "PropertiesWnd.h"
 
 
 #ifdef _DEBUG
@@ -190,10 +193,9 @@ void CMFCLogicSimulatorView::OnLButtonDown(UINT nFlags, CPoint point)
 		//선택한 부품을 도큐에 추가한다
 		pDoc->addComponentToEngine(point.x, point.y);
 		
-		//tree view 부품 선택모드를 해제하는 메세지를 날린다
+		//tree view 부품 선택모드를 해제하는 메세지를 날린다		
+		((pFrame->getCFileView())->getCFileViewTree())->SendMessage(UM_UNSELECT_ITEM);
 
-		CChildFrame *pChild = (CChildFrame *)pFrame->GetActiveFrame();
-		
 	}
 	//지금 부품 선택 아니면
 	else {
