@@ -136,7 +136,8 @@ void CMFCLogicSimulatorView::OnRButtonUp(UINT /* nFlags */, CPoint point)
 void CMFCLogicSimulatorView::OnContextMenu(CWnd* /* pWnd */, CPoint point)
 {
 #ifndef SHARED_HANDLERS
-	theApp.GetContextMenuManager()->ShowPopupMenu(IDR_POPUP_EDIT, point.x, point.y, this, TRUE);
+	// popup menu 비활성화 상태
+	//theApp.GetContextMenuManager()->ShowPopupMenu(IDR_POPUP_EDIT, point.x, point.y, this, TRUE);
 #endif
 }
 
