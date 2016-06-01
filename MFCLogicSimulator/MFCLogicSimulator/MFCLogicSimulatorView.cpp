@@ -51,6 +51,8 @@ BEGIN_MESSAGE_MAP(CMFCLogicSimulatorView, CScrollView)
 	ON_WM_LBUTTONUP()
 	ON_WM_PAINT()
 	ON_WM_MOUSEMOVE()
+	ON_WM_HSCROLL()
+	ON_WM_VSCROLL()
 END_MESSAGE_MAP()
 
 // CMFCLogicSimulatorView 생성/소멸
@@ -275,7 +277,8 @@ void CMFCLogicSimulatorView::OnPaint()
 		CString str;
 		str.Format(_T("componentID: %d (x,y) = (%d,%d) type : %d"), pDoc->engineComponentData[i].id
 			, pDoc->engineComponentData[i].x, pDoc->engineComponentData[i].y, pDoc->engineComponentData[i].type);
-		pDC->TextOutW(pDoc->engineComponentData[i].x, pDoc->engineComponentData[i].y, str);
+		pDC->TextOutW(pDoc->engineComponentData[i].x - nHorzScroll,
+			pDoc->engineComponentData[i].y - nVertScroll, str);
 		
 
 	}
@@ -304,4 +307,23 @@ void CMFCLogicSimulatorView::OnMouseMove(UINT nFlags, CPoint point)
 
 	//마우스가부품의 단자 위에 있으면  단자를 강조한다
 
+}
+
+
+
+void CMFCLogicSimulatorView::OnHScroll(UINT nSBCode, UINT nPos, CScrollBar* pScrollBar)
+{
+	// TODO: 여기에 메시지 처리기 코드를 추가 및/또는 기본값을 호출합니다.
+
+	CScrollView::OnHScroll(nSBCode, nPos, pScrollBar);
+	Invalidate();
+}
+
+
+void CMFCLogicSimulatorView::OnVScroll(UINT nSBCode, UINT nPos, CScrollBar* pScrollBar)
+{
+	// TODO: 여기에 메시지 처리기 코드를 추가 및/또는 기본값을 호출합니다.
+
+	CScrollView::OnVScroll(nSBCode, nPos, pScrollBar);
+	Invalidate();
 }
