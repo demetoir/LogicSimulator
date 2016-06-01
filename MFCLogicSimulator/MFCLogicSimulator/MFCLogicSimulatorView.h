@@ -88,6 +88,8 @@ public:
 	afx_msg void OnVScroll(UINT nSBCode, UINT nPos, CScrollBar* pScrollBar);
 
 protected:
+
+	//모드 그리는 함수들
 	//모든 컴포넌트 를 그림
 	void drawComponent(CPaintDC &dc, CDC &MemDC, CDC *pDC);
 

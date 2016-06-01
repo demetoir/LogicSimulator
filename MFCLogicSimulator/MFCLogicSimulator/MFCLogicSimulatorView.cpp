@@ -245,18 +245,28 @@ void CMFCLogicSimulatorView::OnPaint()
 					   // TODO: 여기에 메시지 처리기 코드를 추가합니다.
 					   // 그리기 메시지에 대해서는 CScrollView::OnPaint()을(를) 호출하지 마십시오.
 	
-	//AfxMessageBox(_T("onpaint"));
-	//CDC *pDC = GetDC();
-	//pDC->TextOutW(100, 50, _T("paint test"));
-	//ReleaseDC(pDC); //사용이 끝나고 디바이스 컨텍스트를 운영체제에게 반답한다.
+	CDC MemDC;
+	CDC *pDC = GetDC();
+	CMFCLogicSimulatorDoc* pDoc = GetDocument();
+
+	CBitmap buffer;
+	CRect bufferRect;
+	GetClientRect(&bufferRect);
+
+	MemDC.CreateCompatibleDC(pDC);
+	buffer.CreateCompatibleBitmap(pDC, bufferRect.Width(), bufferRect.Height());
+	MemDC.SelectObject(&buffer);
+
+	//힌색으로 초기화
+	MemDC.PatBlt(0, 0, bufferRect.Width(), bufferRect.Height(), WHITENESS);
+
+
 
 	// 뷰 스크롤 및 크기 조정
 	// https://msdn.microsoft.com/ko-kr/library/cc468151(v=vs.71).aspx
 	// http://eachan.tistory.com/3
 	/* 스크롤바 컨트롤 */
-	CDC MemDC;
-	CDC *pDC = GetDC();
-	CMFCLogicSimulatorDoc* pDoc = GetDocument();
+
 	int nVertScroll = GetScrollPos(SB_VERT);
 	int nHorzScroll = GetScrollPos(SB_HORZ);
 
@@ -265,17 +275,19 @@ void CMFCLogicSimulatorView::OnPaint()
 		&MemDC, 0, 0, SRCCOPY);
 	/* 스크롤바 컨트롤 끝 */
 
+
+
+
 	// 더블 버퍼링 해결 관련
 	// goo.gl/CucRl6
 
-	//부품 추가 모드일때
-	//추가하는 부품을 그려준다
 	
 
-	//도큐먼트 부품데이터에 있는 부품들을 그린다 들을 그린다
+
+	//그리기 시작
+
+	//부품들을 그린다
 	drawComponent(dc, MemDC, pDC);
-
-
 
 	//터미널 단자를 그림
 	drawComponentTerminal(dc, MemDC, pDC);
@@ -283,6 +295,7 @@ void CMFCLogicSimulatorView::OnPaint()
 	//와이어들을 그림
 	drawComponentWire(dc, MemDC, pDC);
 
+	//추가 모드일때만 한다
 	//부품 추가 모드일떄 움직이면서 보여주는거
 	 drawAddingComponent(dc, MemDC, pDC);
 
@@ -293,6 +306,11 @@ void CMFCLogicSimulatorView::OnPaint()
 	 drawMassage(dc, MemDC, pDC);
 
 
+
+	 //그리기끝
+
+	 MemDC.SelectObject(&pDC);
+	 pDC->BitBlt(0, 0, bufferRect.Width(), bufferRect.Height(), &MemDC, 0, 0, SRCCOPY);
 	
 }
 
@@ -337,7 +355,7 @@ void CMFCLogicSimulatorView::drawComponent(CPaintDC &dc, CDC &MemDC,CDC *pDC)
 	int nHorzScroll = GetScrollPos(SB_HORZ);
 
 	CPoint scrollpos = GetScrollPosition();
-	dc.BitBlt(-scrollpos.x, -scrollpos.y, rlClientRect.right, rlClientRect.bottom,
+	MemDC.BitBlt(-scrollpos.x, -scrollpos.y, rlClientRect.right, rlClientRect.bottom,
 		&MemDC, 0, 0, SRCCOPY);
 	/* 스크롤바 컨트롤 끝 */
 
@@ -356,7 +374,7 @@ void CMFCLogicSimulatorView::drawComponent(CPaintDC &dc, CDC &MemDC,CDC *pDC)
 		CString str;
 		str.Format(_T("componentID: %d (x,y) = (%d,%d) type : %d"), pDoc->engineComponentData[i].id
 			, pDoc->engineComponentData[i].x, pDoc->engineComponentData[i].y, pDoc->engineComponentData[i].type);
-		pDC->TextOutW(pDoc->engineComponentData[i].x - nHorzScroll,
+		MemDC.TextOutW(pDoc->engineComponentData[i].x - nHorzScroll,
 			pDoc->engineComponentData[i].y - nVertScroll, str);
 
 
