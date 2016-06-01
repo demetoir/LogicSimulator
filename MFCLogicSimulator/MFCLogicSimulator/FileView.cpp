@@ -37,12 +37,12 @@ BEGIN_MESSAGE_MAP(CFileView, CDockablePane)
 	ON_WM_SIZE()
 	ON_WM_CONTEXTMENU()
 	//ON_COMMAND(ID_PROPERTIES, OnProperties)
-	//ON_COMMAND(ID_OPEN, OnFileOpen)
-	//ON_COMMAND(ID_OPEN_WITH, OnFileOpenWith)
-	//ON_COMMAND(ID_DUMMY_COMPILE, OnDummyCompile)
-	//ON_COMMAND(ID_EDIT_CUT, OnEditCut)
-	//ON_COMMAND(ID_EDIT_COPY, OnEditCopy)
-	//ON_COMMAND(ID_EDIT_CLEAR, OnEditClear)
+	ON_COMMAND(ID_OPEN, OnFileOpen)
+	ON_COMMAND(ID_OPEN_WITH, OnFileOpenWith)
+	ON_COMMAND(ID_DUMMY_COMPILE, OnDummyCompile)
+	ON_COMMAND(ID_EDIT_CUT, OnEditCut)
+	ON_COMMAND(ID_EDIT_COPY, OnEditCopy)
+	ON_COMMAND(ID_EDIT_CLEAR, OnEditClear)
 	ON_WM_PAINT()
 	ON_WM_SETFOCUS()
 END_MESSAGE_MAP()
@@ -174,8 +174,8 @@ void CFileView::OnContextMenu(CWnd* pWnd, CPoint point)
 		}
 	}
 
-	//pWndTree->SetFocus();
-	//theApp.GetContextMenuManager()->ShowPopupMenu(IDR_POPUP_EXPLORER, point.x, point.y, this, TRUE);
+	pWndTree->SetFocus();
+	theApp.GetContextMenuManager()->ShowPopupMenu(IDR_POPUP_EXPLORER, point.x, point.y, this, TRUE);
 }
 
 void CFileView::AdjustLayout()
@@ -200,35 +200,35 @@ void CFileView::AdjustLayout()
 //
 //}
 
-//void CFileView::OnFileOpen()
-//{
-//	// TODO: 여기에 명령 처리기 코드를 추가합니다.
-//}
+void CFileView::OnFileOpen()
+{
+	// TODO: 여기에 명령 처리기 코드를 추가합니다.
+}
 
-//void CFileView::OnFileOpenWith()
-//{
-//	// TODO: 여기에 명령 처리기 코드를 추가합니다.
-//}
+void CFileView::OnFileOpenWith()
+{
+	// TODO: 여기에 명령 처리기 코드를 추가합니다.
+}
 
-//void CFileView::OnDummyCompile()
-//{
-//	// TODO: 여기에 명령 처리기 코드를 추가합니다.
-//}
+void CFileView::OnDummyCompile()
+{
+	// TODO: 여기에 명령 처리기 코드를 추가합니다.
+}
 
-//void CFileView::OnEditCut()
-//{
-//	// TODO: 여기에 명령 처리기 코드를 추가합니다.
-//}
+void CFileView::OnEditCut()
+{
+	// TODO: 여기에 명령 처리기 코드를 추가합니다.
+}
 
-//void CFileView::OnEditCopy()
-//{
-//	// TODO: 여기에 명령 처리기 코드를 추가합니다.
-//}
+void CFileView::OnEditCopy()
+{
+	// TODO: 여기에 명령 처리기 코드를 추가합니다.
+}
 
-//void CFileView::OnEditClear()
-//{
-//	// TODO: 여기에 명령 처리기 코드를 추가합니다.
-//}
+void CFileView::OnEditClear()
+{
+	// TODO: 여기에 명령 처리기 코드를 추가합니다.
+}
 
 void CFileView::OnPaint()
 {
