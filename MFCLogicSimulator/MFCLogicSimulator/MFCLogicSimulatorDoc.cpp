@@ -59,7 +59,7 @@ int CMFCLogicSimulatorDoc::itemSelectedInDoc()
 	CFileView* p_FileViewInDoc = p_MainFrm->getCFileView();
 
 	CViewTree* p_ToolboxInDoc = p_FileViewInDoc->getCFileViewTree();
-
+	
 	// 트리 컨트롤 아이템 인덱스
 	// goo.gl/mdFKLz
 	int indexOfItem = 0;
@@ -175,6 +175,9 @@ bool CMFCLogicSimulatorDoc::addComponentToEngine(int _x, int _y)
 		return false;
 	}
 
+	//부품선택 모드를 해제한다
+	
+
 	currentSelectedItem;
 	engineComponentData;
 	COMPONENT_TYPE selectedType; 
@@ -197,14 +200,31 @@ bool CMFCLogicSimulatorDoc::addComponentToEngine(int _x, int _y)
 	case  ITEM_AND:
 		selectedType = COMPONENT_TYPE_AND_GATE;
 		break;
+	case  ITEM_NAND:
+		selectedType = COMPONENT_TYPE_NAND_GATE;
+		break;
 	case  ITEM_OR:
 		selectedType = COMPONENT_TYPE_OR_GATE;
+		break;
+	case  ITEM_NOR:
+		selectedType = COMPONENT_TYPE_NOR_GATE;
 		break;
 	case  ITEM_XOR:
 		selectedType = COMPONENT_TYPE_XOR_GATE;
 		break;
 	case  ITEM_NOT:
 		selectedType = COMPONENT_TYPE_NOT_GATE;
+		break;
+
+		//flipflop
+	case  ITEM_DFF:
+		selectedType = COMPONENT_TYPE_WIRE;
+		break;
+	case  ITEM_JKFF:
+		selectedType = COMPONENT_TYPE_WIRE;
+		break;
+	case  ITEM_TFF:
+		selectedType = COMPONENT_TYPE_WIRE;
 		break;
 
 		//input
@@ -225,17 +245,17 @@ bool CMFCLogicSimulatorDoc::addComponentToEngine(int _x, int _y)
 
 
 	case  ITEM_ETC:
-		selectedType = COMPONENT_TYPE_NONE;
 		break;
 
-	default:
-		selectedType = COMPONENT_TYPE_NONE;
+	//만들수 없는 타입은 만들지 않고 거짓을 반환한다
+	default :
+		return false;
 		break;
 	}
 	
 	// 테스트 용
-	COMPONENT_INFO addComponent(selectedType);
-
+	COMPONENT_INFO addComponent;
+	addComponent.componentType = selectedType;
 	
 	//지원하지 않는 목록일떼
 	if (logicSimulatorEngine.addComponent(addComponent) == false) {

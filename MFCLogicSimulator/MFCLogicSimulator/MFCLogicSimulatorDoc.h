@@ -60,6 +60,19 @@ enum ToolBoxItemFlag {
 	ITEM_ETC
 };
 
+/* 비트맵 리소스 상대 좌표 */
+#define _ZERO_POINT_X 0 // 비트맵 원점 x
+#define _ZERO_POINT_Y 0 // 비트맵 원점 y
+#define _REF_POINT_X 75 // 마우스 클릭시 출력 기준(x)
+#define _REF_POINT_Y 32 // 마우스 클릭시 출력 기준(y)
+
+#define _IN_POINT_X 0 // input a, b(x)
+#define _IN_POINT_AY 25 // input a(y)
+#define _IN_POINT_BY 51 // input b(y)
+#define _IN_POINT_OX 75 // output (x)
+#define _IN_POINT_OY 32 // output (y)
+
+
 class CMFCLogicSimulatorDoc : public CDocument
 {
 protected: // serialization에서만 만들어집니다.

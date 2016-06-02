@@ -387,18 +387,16 @@ void CMFCLogicSimulatorView::drawComponent(CDC &DC)
 		y = pDoc->engineComponentData[i].y - nVertScroll;
 		type = pDoc->engineComponentData[i].type;
 
-		//타입에 맞는 부품의 비트맵 아이디를 가져오고 로드한다
-		//getBitmapIDByComponentType(type)//사용한다
-		componentBitmap.LoadBitmapW(IDB_LIBRARY_BOX);
+		componentBitmap.LoadBitmapW(IDB_IN_OFF);
 		componentBitmap.GetBitmap(&bitmapInfo);
 
-		//부품을 그린다
+		//타입에 맞는 부품을 그린다
 		oldBitmap = memDC.SelectObject(&componentBitmap);
 		DC.BitBlt(x, y, bitmapInfo.bmWidth, bitmapInfo.bmHeight, &memDC, 0, 0, SRCCOPY);
 		memDC.SelectObject(oldBitmap);
 
-		//가져온 비트맵을 제거한다
 		componentBitmap.DeleteObject();
+		count++;
 	}
 }
 
@@ -458,83 +456,51 @@ void CMFCLogicSimulatorView::drawMassage(CDC & DC)
 
 int CMFCLogicSimulatorView::getBitmapIDByComponentType(COMPONENT_TYPE _type)
 {
-	////엔진에서 사용하는 부품 타입 열거형
+	//엔진에서 사용하는 부품 타입 열거형
 	//enum COMPONENT_TYPE {
 	//	COMPONENT_TYPE_NONE,
 	//	COMPONENT_TYPE_INPUT_PIN, COMPONENT_TYPE_CLOCK, COMPONENT_TYPE_ONE_BIT_SWITCH,
-	//	COMPONENT_TYPE_AND_GATE, COMPONENT_TYPE_OR_GATE, COMPONENT_TYPE_NOT_GATE, COMPONENT_TYPE_XOR_GATE,
+	//	COMPONENT_TYPE_AND_GATE, COMPONENT_TYPE_OR_GATE, COMPONENT_TYPE_NOT_GATE,
+	//	COMPONENT_TYPE_NAND_GATE, COMPONENT_TYPE_NOR_GATE, COMPONENT_TYPE_XOR_GATE,
 	//	COMPONENT_TYPE_WIRE,
 	//	COMPONENT_TYPE_7SEGMENT, COMPONENT_TYPE_OUTPUT_PIN, COMPONENT_TYPE_ONE_BIT_LAMP,
 	//	COMPONENT_TYPE_LIBRARY_BOX
 	//};
-//리소스에서 사용되는 비트맵 아이디
-	switch (_type) {
 
-	case COMPONENT_TYPE_ONE_BIT_SWITCH:
-		return IDB_ONE_BIT_SWITCH_OFF;
-		break;
+	//switch (_type) {
+	//case COMPONENT_TYPE_NONE:
+	//	break;
+	//case COMPONENT_TYPE_INPUT_PIN:
+
+	//case COMPONENT_TYPE_CLOCK:
+
+	//casen COMPONENT_TYPE_ONE_BIT_SWITCH:
+
+	//case COMPONENT_TYPE_AND_GATE:
+
+	//case COMPONENT_TYPE_OR_GATE:
+
+	//case COMPONENT_TYPE_NOT_GATE:
+
+	//case COMPONENT_TYPE_NAND_GATE:
+
+	//case COMPONENT_TYPE_NOR_GATE:
+
+	//case COMPONENT_TYPE_XOR_GATE:
+
+	//case COMPONENT_TYPE_WIRE:
+
+	//case COMPONENT_TYPE_7SEGMENT:
+
+	//case COMPONENT_TYPE_OUTPUT_PIN:
 
 	//case COMPONENT_TYPE_ONE_BIT_LAMP:
-	//	return IDB_ONE_BIT_SWITCH_OFF;
-	//	break;
-	//case COMPONENT_TYPE_7SEGMENT:
-	//	return IDB_ONE_BIT_SWITCH_OFF;
-	//	break;
+
+	//case COMPONENT_TYPE_LIBRARY_BOX:
 
 
+	//}
 
-
-	case COMPONENT_TYPE_AND_GATE:
-		return IDB_GATE_AND;
-		break;
-	case COMPONENT_TYPE_OR_GATE:
-		return IDB_GATE_OR;
-		break;
-	case COMPONENT_TYPE_NOT_GATE:
-		return IDB_GATE_INVERTOR;
-		break;
-	case COMPONENT_TYPE_XOR_GATE:
-		return IDB_GATE_XOR;
-		break;
-
-	case COMPONENT_TYPE_INPUT_PIN:
-		return IDB_INPUT_PIN_OFF;
-		break;
-	case COMPONENT_TYPE_OUTPUT_PIN:
-		return IDB_PROBE_OFF;
-		break;
-
-	case COMPONENT_TYPE_WIRE:
-		return IDB_WIRE;
-		break;
-
-
-
-	case COMPONENT_TYPE_LIBRARY_BOX:
-		return IDB_LIBRARY_BOX;
-		break;
-
-
-//
-//
-//	case COMPONENT_TYPE_LIBRARY_BOX:
-//		return IDB_FF_DFF;
-//		break;
-//	case COMPONENT_TYPE_LIBRARY_BOX:
-//		return IDB_FF_JKFF;
-//		break;
-//	case COMPONENT_TYPE_LIBRARY_BOX:
-//		return IDB_FF_TFF;
-//		break;
-//#define IDB_FF_DFF                      327
-//#define IDB_FF_JKFF                     328
-//#define IDB_FF_TFF                      329
-//
-//#define IDB_GATE_NAND                   332
-//#define IDB_GATE_NOR                    333
-	default :
-		return -1;
-	}
 	return 0;
 }
 
