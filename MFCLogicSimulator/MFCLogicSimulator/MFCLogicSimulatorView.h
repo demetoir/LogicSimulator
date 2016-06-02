@@ -91,23 +91,29 @@ protected:
 
 	//모드 그리는 함수들
 	//모든 컴포넌트 를 그림
-	void drawComponent(CDC &MemDC);
+	void drawComponent(CDC &DC);
 
 	//터미널 단자를 그림
-	void drawComponentTerminal(CDC &MemDC);
+	void drawComponentTerminal(CDC &DC);
 
 	//와이어들을 그림
-	void drawComponentWire(CDC &MemDC);
+	void drawComponentWire(CDC &DC);
 	
 	//부품 추가 모드일떄 움직이면서 보여주는거
-	void drawAddingComponent(CDC &MemDC);
+	void drawAddingComponent(CDC &DC);
 
 	//화면에 있는 선택 한부품을 강조하는거
-	void drawHighlightSelectedComponent(CDC &MemDC);
+	void drawHighlightSelectedComponent(CDC &DC);
 
 	//화면에 있는 선택 한부품을 강조하는거
-	void drawMassage( CDC &MemDC);
+	void drawMassage( CDC &DC);
 
+	//부품의 비트맵 아이디를 가져온다
+	int getBitmapIDByComponentType(COMPONENT_TYPE _type);
+#define SIZE_OF_COMPONENT_BITMAP 20
+	CBitmap componentBitmap[SIZE_OF_COMPONENT_BITMAP];
+
+	int count = 0; 
 public:
 	afx_msg BOOL OnEraseBkgnd(CDC* pDC);
 };

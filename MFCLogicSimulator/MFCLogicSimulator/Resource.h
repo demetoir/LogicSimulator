@@ -8,6 +8,7 @@
 #define IDB_WRITELARGE                  111
 #define IDB_MAIN                        112
 #define IDB_BUTTONS                     113
+
 #define IDB_FILELARGE                   114
 #define IDB_FILESMALL                   115
 #define IDR_POPUP_EDIT                  119
@@ -90,20 +91,23 @@
 #define IDS_EXPLORER                    305
 #define IDS_EDIT_MENU                   306
 #define IDR_RIBBON                      307
-/* LOGIC SIMULATOR 府家胶 */
+
 #define IDB_IN_OFF                      325
 #define IDB_IN_ON                       326
-#define IDB_FF_DFF                      333
-#define IDB_FF_JKFF                     334
-#define IDB_FF_TFF                      335
-#define IDB_GATE_AND                    336
-#define IDB_GATE_INVERTOR               337
-#define IDB_BITMAP9                     338
-#define IDB_GATE_NAND                   338
-#define IDB_GATE_NOR                    339
-#define IDB_GATE_OR                     340
-#define IDB_GATE_XOR                    341
-/* LOGIC SIMULATOR 府家胶 */
+#define IDB_FF_DFF                      327
+#define IDB_FF_JKFF                     328
+#define IDB_FF_TFF                      329
+#define IDB_GATE_AND                    330
+#define IDB_GATE_INVERTOR               331
+#define IDB_GATE_NAND                   332
+#define IDB_GATE_NOR                    333
+#define IDB_GATE_OR                     334
+#define IDB_GATE_XOR                    335
+
+
+
+
+
 #define ID_WRITE_PASTEASHYPERLINK       32770
 #define ID_CHECKTOOLBOX                 32771
 #define ID_CHECKOUTPUT                  32772

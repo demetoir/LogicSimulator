@@ -58,9 +58,12 @@ END_MESSAGE_MAP()
 
 // CMFCLogicSimulatorView 생성/소멸
 
+
+
 CMFCLogicSimulatorView::CMFCLogicSimulatorView()
 {
 	// TODO: 여기에 생성 코드를 추가합니다.
+
 
 }
 
@@ -86,7 +89,7 @@ void CMFCLogicSimulatorView::OnDraw(CDC* /*pDC*/)
 		return;
 
 	// TODO: 여기에 원시 데이터에 대한 그리기 코드를 추가합니다.
-	
+
 
 }
 
@@ -252,7 +255,7 @@ void CMFCLogicSimulatorView::OnPaint()
 	CMFCLogicSimulatorDoc* pDoc = GetDocument();
 	CRect rect;
 	GetClientRect(&rect);
-	
+
 	CDC memDC;
 	CBitmap newBitmap;
 	CBitmap *pOldBitmap;
@@ -263,7 +266,7 @@ void CMFCLogicSimulatorView::OnPaint()
 	pOldBitmap = memDC.SelectObject(&newBitmap);
 	memDC.PatBlt(0, 0, rect.Width(), rect.Height(), WHITENESS);
 
-		
+
 	//메모리에다가 그리기시작
 	{
 		// 뷰 스크롤 및 크기 조정
@@ -274,7 +277,7 @@ void CMFCLogicSimulatorView::OnPaint()
 			int nHorzScroll = GetScrollPos(SB_HORZ);
 
 			CPoint scrollpos = GetScrollPosition();
-			//memDC.BitBlt(-scrollpos.x, -scrollpos.y, rlClientRect.right, rlClientRect.bottom,&memDC, 0, 0, SRCCOPY);
+			memDC.BitBlt(-scrollpos.x, -scrollpos.y, rlClientRect.right, rlClientRect.bottom,&memDC, 0, 0, SRCCOPY);
 		}
 		/* 스크롤바 컨트롤 끝 */
 
@@ -303,7 +306,7 @@ void CMFCLogicSimulatorView::OnPaint()
 	}
 
 	//그리기 종료
-	
+
 	//버퍼 역할을 하는 비트맵을 화면으로 출력한다
 	dc.BitBlt(0, 0, rect.Width(), rect.Height(), &memDC, 0, 0, SRCCOPY);
 	dc.SelectObject(pOldBitmap);
@@ -353,13 +356,24 @@ void CMFCLogicSimulatorView::OnVScroll(UINT nSBCode, UINT nPos, CScrollBar* pScr
 
 
 
-void CMFCLogicSimulatorView::drawComponent(CDC &MemDC)
+void CMFCLogicSimulatorView::drawComponent(CDC &DC)
 {
-
+	//공통적으로 들어갈 변수들
+	CDC memDC;
+	memDC.CreateCompatibleDC(&DC);
 	CMFCLogicSimulatorDoc* pDoc = GetDocument();
 	int nVertScroll = GetScrollPos(SB_VERT);
 	int nHorzScroll = GetScrollPos(SB_HORZ);
+	int x, y;
 
+
+	COMPONENT_TYPE type;
+
+	CBitmap componentBitmap;
+	CBitmap *oldBitmap;
+	BITMAP bitmapInfo;
+
+	
 
 	//부품 추가 모드일때
 	//추가하는 부품을 그려준다
@@ -368,36 +382,125 @@ void CMFCLogicSimulatorView::drawComponent(CDC &MemDC)
 		if (pDoc->engineComponentData[i].id <= 0) {
 			continue;
 		}
-		//해당 부품을 그려준다
-		//지금은 더미 이다
-		CString str;
-		str.Format(_T("componentID: %d (x,y) = (%d,%d) type : %d"), pDoc->engineComponentData[i].id
-			, pDoc->engineComponentData[i].x, pDoc->engineComponentData[i].y, pDoc->engineComponentData[i].type);
-		MemDC.TextOutW(pDoc->engineComponentData[i].x - nHorzScroll,
-			pDoc->engineComponentData[i].y - nVertScroll, str);
+		//그려줄 좌표를 보정한다
+		x = pDoc->engineComponentData[i].x - nHorzScroll;
+		y = pDoc->engineComponentData[i].y - nVertScroll;
+		type = pDoc->engineComponentData[i].type;
 
+		componentBitmap.LoadBitmapW(IDB_IN_OFF);
+		componentBitmap.GetBitmap(&bitmapInfo);
 
+		//타입에 맞는 부품을 그린다
+		oldBitmap = memDC.SelectObject(&componentBitmap);
+		DC.BitBlt(x, y, bitmapInfo.bmWidth, bitmapInfo.bmHeight, &memDC, 0, 0, SRCCOPY);
+		memDC.SelectObject(oldBitmap);
+
+		componentBitmap.DeleteObject();
+		count++;
 	}
 }
 
-void CMFCLogicSimulatorView::drawComponentTerminal(CDC & MemDC)
+void CMFCLogicSimulatorView::drawComponentTerminal(CDC & DC)
 {
+	//공통적으로 들어갈 변수들
+	CDC memDC;
+	memDC.CreateCompatibleDC(&DC);
+	CMFCLogicSimulatorDoc* pDoc = GetDocument();
+	int nVertScroll = GetScrollPos(SB_VERT);
+	int nHorzScroll = GetScrollPos(SB_HORZ);
+	int x, y;
 }
 
-void CMFCLogicSimulatorView::drawComponentWire(CDC & MemDC)
+void CMFCLogicSimulatorView::drawComponentWire(CDC & DC)
 {
+	CDC memDC;
+	memDC.CreateCompatibleDC(&DC);
+	CMFCLogicSimulatorDoc* pDoc = GetDocument();
+	int nVertScroll = GetScrollPos(SB_VERT);
+	int nHorzScroll = GetScrollPos(SB_HORZ);
+	int x, y;
 }
 
-void CMFCLogicSimulatorView::drawAddingComponent(CDC & MemDC)
+void CMFCLogicSimulatorView::drawAddingComponent(CDC & DC)
 {
+	//공통적으로 들어갈 변수들
+	CDC memDC;
+	memDC.CreateCompatibleDC(&DC);
+	CMFCLogicSimulatorDoc* pDoc = GetDocument();
+	int nVertScroll = GetScrollPos(SB_VERT);
+	int nHorzScroll = GetScrollPos(SB_HORZ);
+	int x, y;
 }
 
-void CMFCLogicSimulatorView::drawHighlightSelectedComponent(CDC & MemDC)
+void CMFCLogicSimulatorView::drawHighlightSelectedComponent(CDC & DC)
 {
+	//공통적으로 들어갈 변수들
+	CDC memDC;
+	memDC.CreateCompatibleDC(&DC);
+	CMFCLogicSimulatorDoc* pDoc = GetDocument();
+	int nVertScroll = GetScrollPos(SB_VERT);
+	int nHorzScroll = GetScrollPos(SB_HORZ);
+	int x, y;
 }
 
-void CMFCLogicSimulatorView::drawMassage( CDC & MemDC)
+void CMFCLogicSimulatorView::drawMassage(CDC & DC)
 {
+	//공통적으로 들어갈 변수들
+	CDC memDC;
+	memDC.CreateCompatibleDC(&DC);
+	CMFCLogicSimulatorDoc* pDoc = GetDocument();
+	int nVertScroll = GetScrollPos(SB_VERT);
+	int nHorzScroll = GetScrollPos(SB_HORZ);
+	int x, y;
+}
+
+int CMFCLogicSimulatorView::getBitmapIDByComponentType(COMPONENT_TYPE _type)
+{
+	//enum COMPONENT_TYPE {
+	//	COMPONENT_TYPE_NONE,
+	//	COMPONENT_TYPE_INPUT_PIN, COMPONENT_TYPE_CLOCK, COMPONENT_TYPE_ONE_BIT_SWITCH,
+	//	COMPONENT_TYPE_AND_GATE, COMPONENT_TYPE_OR_GATE, COMPONENT_TYPE_NOT_GATE,
+	//	COMPONENT_TYPE_NAND_GATE, COMPONENT_TYPE_NOR_GATE, COMPONENT_TYPE_XOR_GATE,
+	//	COMPONENT_TYPE_WIRE,
+	//	COMPONENT_TYPE_7SEGMENT, COMPONENT_TYPE_OUTPUT_PIN, COMPONENT_TYPE_ONE_BIT_LAMP,
+	//	COMPONENT_TYPE_LIBRARY_BOX
+	//};
+
+	//switch (_type) {
+	//case COMPONENT_TYPE_NONE:
+	//	break;
+	//case COMPONENT_TYPE_INPUT_PIN:
+
+	//case COMPONENT_TYPE_CLOCK:
+
+	//casen COMPONENT_TYPE_ONE_BIT_SWITCH:
+
+	//case COMPONENT_TYPE_AND_GATE:
+
+	//case COMPONENT_TYPE_OR_GATE:
+
+	//case COMPONENT_TYPE_NOT_GATE:
+
+	//case COMPONENT_TYPE_NAND_GATE:
+
+	//case COMPONENT_TYPE_NOR_GATE:
+
+	//case COMPONENT_TYPE_XOR_GATE:
+
+	//case COMPONENT_TYPE_WIRE:
+
+	//case COMPONENT_TYPE_7SEGMENT:
+
+	//case COMPONENT_TYPE_OUTPUT_PIN:
+
+	//case COMPONENT_TYPE_ONE_BIT_LAMP:
+
+	//case COMPONENT_TYPE_LIBRARY_BOX:
+
+
+	//}
+
+	return 0;
 }
 
 //이것을 해야한다

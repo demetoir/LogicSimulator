@@ -331,5 +331,23 @@
     <Image Include="res\root\FF\T-FF.bmp">
       <Filter>리소스 파일\logic_comp</Filter>
     </Image>
+    <Image Include="res\root\wire\PIN OFF.bmp">
+      <Filter>리소스 파일</Filter>
+    </Image>
+    <Image Include="res\root\wire\PIN ON.bmp">
+      <Filter>리소스 파일</Filter>
+    </Image>
+    <Image Include="res\root\wire\PROBE OFF.bmp">
+      <Filter>리소스 파일</Filter>
+    </Image>
+    <Image Include="res\root\wire\PROBE ON.bmp">
+      <Filter>리소스 파일</Filter>
+    </Image>
+    <Image Include="res\root\library box\librarybox.png">
+      <Filter>리소스 파일</Filter>
+    </Image>
+    <Image Include="res\root\library box\librarybox.bmp">
+      <Filter>리소스 파일</Filter>
+    </Image>
   </ItemGroup>
 </Project>

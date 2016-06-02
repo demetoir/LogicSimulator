@@ -287,10 +287,16 @@
     <Image Include="res\root\gate\XOR.bmp" />
     <Image Include="res\root\in\OFF.bmp" />
     <Image Include="res\root\in\ON.bmp" />
+    <Image Include="res\root\library box\librarybox.bmp" />
+    <Image Include="res\root\library box\librarybox.png" />
     <Image Include="res\root\out\OFF_LAMP.bmp" />
     <Image Include="res\root\out\ON_LAMP.bmp" />
     <Image Include="res\root\wire\copper wire.bmp" />
+    <Image Include="res\root\wire\PIN OFF.bmp" />
+    <Image Include="res\root\wire\PIN ON.bmp" />
     <Image Include="res\root\wire\PIN.bmp" />
+    <Image Include="res\root\wire\PROBE OFF.bmp" />
+    <Image Include="res\root\wire\PROBE ON.bmp" />
     <Image Include="res\root\wire\PROBE.bmp" />
     <Image Include="res\sort.bmp" />
     <Image Include="res\sort_hc.bmp" />
