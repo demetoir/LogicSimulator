@@ -90,7 +90,6 @@
 #define IDS_EXPLORER                    305
 #define IDS_EDIT_MENU                   306
 #define IDR_RIBBON                      307
-
 #define IDB_ONE_BIT_SWITCH_OFF          325
 #define IDB_ONE_BIT_SWITCH_ON           326
 #define IDB_FF_DFF                      327
@@ -109,8 +108,8 @@
 #define IDB_WIRE                        346
 #define IDB_LIBRARY_BOX                 347
 #define IDB_TERMINAL_PIN                348
-
-
+#define IDB_BITMAP1                     349
+#define IDB_CLOCK                       349
 #define ID_WRITE_PASTEASHYPERLINK       32770
 #define ID_CHECKTOOLBOX                 32771
 #define ID_CHECKOUTPUT                  32772
@@ -132,7 +131,7 @@
 // 
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
-#define _APS_NEXT_RESOURCE_VALUE        349
+#define _APS_NEXT_RESOURCE_VALUE        350
 #define _APS_NEXT_COMMAND_VALUE         32797
 #define _APS_NEXT_CONTROL_VALUE         1000
 #define _APS_NEXT_SYMED_VALUE           310

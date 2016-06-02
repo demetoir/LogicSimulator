@@ -70,4 +70,10 @@ public:
 	afx_msg void OnUpdateEditSelectAll(CCmdUI *pCmdUI);
 	afx_msg void OnEditRedo();
 	afx_msg void OnUpdateEditRedo(CCmdUI *pCmdUI);
+	afx_msg void OnSaveLibrarybox();
+	afx_msg void OnUpdateSaveLibrarybox(CCmdUI *pCmdUI);
+	afx_msg void OnLoadLibrarybox();
+	afx_msg void OnUpdateLoadLibrarybox(CCmdUI *pCmdUI);
+	afx_msg void OnCleanLog();
+	afx_msg void OnUpdateCleanLog(CCmdUI *pCmdUI);
 };

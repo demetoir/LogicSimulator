@@ -160,7 +160,7 @@ IDB_GATE_OR             BITMAP                  "res\\root\\gate\\OR.bmp"
 
 IDB_GATE_XOR            BITMAP                  "res\\root\\gate\\XOR.bmp"
 
-IDB_WIRE                BITMAP                  "C:\\github\\LogicSimulator\\MFCLogicSimulator\\MFCLogicSimulator\\res\\root\\wire\\copper wire.bmp"
+IDB_WIRE                BITMAP                  "res\\root\\wire\\copper wire.bmp"
 
 IDB_INPUT_PIN_OFF       BITMAP                  "res\\root\\wire\\PIN OFF.bmp"
 
@@ -173,6 +173,8 @@ IDB_PROBE_ON            BITMAP                  "res\\root\\wire\\PROBE ON.bmp"
 IDB_LIBRARY_BOX         BITMAP                  "res\\root\\library box\\librarybox.bmp"
 
 IDB_TERMINAL_PIN        BITMAP                  "res\\root\\terminal pin\\terminal.bmp"
+
+IDB_CLOCK               BITMAP                  "res\\root\\in\\CLOCK_FACE.bmp"
 
 
 /////////////////////////////////////////////////////////////////////////////
@@ -523,7 +525,7 @@ IDR_RIBBON              RT_RIBBON_XML           "res\\ribbon.mfcribbon-ms"
 // PNG
 //
 
-IDB_PNG1                PNG                     "C:\\github\\LogicSimulator\\MFCLogicSimulator\\MFCLogicSimulator\\res\\root\\library box\\librarybox.png"
+IDB_PNG1                PNG                     "res\\root\\library box\\librarybox.png"
 
 
 /////////////////////////////////////////////////////////////////////////////

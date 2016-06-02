@@ -56,6 +56,12 @@ BEGIN_MESSAGE_MAP(CChildFrame, CMDIChildWndEx)
 	ON_UPDATE_COMMAND_UI(ID_EDIT_SELECT_ALL, &CChildFrame::OnUpdateEditSelectAll)
 	ON_COMMAND(ID_EDIT_REDO, &CChildFrame::OnEditRedo)
 	ON_UPDATE_COMMAND_UI(ID_EDIT_REDO, &CChildFrame::OnUpdateEditRedo)
+	ON_COMMAND(ID_SAVE_LIBRARYBOX, &CChildFrame::OnSaveLibrarybox)
+	ON_UPDATE_COMMAND_UI(ID_SAVE_LIBRARYBOX, &CChildFrame::OnUpdateSaveLibrarybox)
+	ON_COMMAND(ID_LOAD_LIBRARYBOX, &CChildFrame::OnLoadLibrarybox)
+	ON_UPDATE_COMMAND_UI(ID_LOAD_LIBRARYBOX, &CChildFrame::OnUpdateLoadLibrarybox)
+	ON_COMMAND(ID_CLEAN_LOG, &CChildFrame::OnCleanLog)
+	ON_UPDATE_COMMAND_UI(ID_CLEAN_LOG, &CChildFrame::OnUpdateCleanLog)
 END_MESSAGE_MAP()
 
 // CChildFrame 생성/소멸
@@ -118,24 +124,24 @@ void CChildFrame::OnUpdateFilePrintPreview(CCmdUI* pCmdUI)
 
 
 /*************** Ribbon check box 처리기 ***************/
-/* out put wnd 처리기 */
+/* out put wnd on/off 처리기 */
 void CChildFrame::OnCheckoutput()
 {
 	// TODO: 여기에 명령 처리기 코드를 추가합니다.
 }
-
 void CChildFrame::OnUpdateCheckoutput(CCmdUI *pCmdUI)
 {
 	// TODO: 여기에 명령 업데이트 UI 처리기 코드를 추가합니다.
 	pCmdUI->Enable(TRUE);
 	//pCmdUI->SetCheck(BST_CHECKED);
 }
-/* properties wnd 처리기 */
+
+
+/* properties wnd on/off 처리기 */
 void CChildFrame::OnCheckproperties()
 {
 	// TODO: 여기에 명령 처리기 코드를 추가합니다.
 }
-
 void CChildFrame::OnUpdateCheckproperties(CCmdUI *pCmdUI)
 {
 	// TODO: 여기에 명령 업데이트 UI 처리기 코드를 추가합니다.
@@ -143,12 +149,12 @@ void CChildFrame::OnUpdateCheckproperties(CCmdUI *pCmdUI)
 	//pCmdUI->SetCheck(BST_CHECKED);
 }
 
-/* tool box wnd 처리기 */
+
+/* tool box wnd on/off 처리기 */
 void CChildFrame::OnChecktoolbox()
 {
 	// TODO: 여기에 명령 처리기 코드를 추가합니다.
 }
-
 void CChildFrame::OnUpdateChecktoolbox(CCmdUI *pCmdUI)
 {
 	// TODO: 여기에 명령 업데이트 UI 처리기 코드를 추가합니다.
@@ -167,7 +173,6 @@ void CChildFrame::OnButtonstop()
 {
 	// TODO: 여기에 명령 처리기 코드를 추가합니다.
 }
-
 void CChildFrame::OnUpdateButtonstop(CCmdUI *pCmdUI)
 {
 	// TODO: 여기에 명령 업데이트 UI 처리기 코드를 추가합니다.
@@ -175,36 +180,36 @@ void CChildFrame::OnUpdateButtonstop(CCmdUI *pCmdUI)
 
 }
 
+
 /* 계속 button 처리기 */
 void CChildFrame::OnButtoncontinue()
 {
 	// TODO: 여기에 명령 처리기 코드를 추가합니다.
 }
-
 void CChildFrame::OnUpdateButtoncontinue(CCmdUI *pCmdUI)
 {
 	// TODO: 여기에 명령 업데이트 UI 처리기 코드를 추가합니다.
 	pCmdUI->Enable(TRUE);
 }
 
+
 /* 실행모드 botton 처리기 */
 void CChildFrame::OnButtonact()
 {
 	// TODO: 여기에 명령 처리기 코드를 추가합니다.
 }
-
 void CChildFrame::OnUpdateButtonact(CCmdUI *pCmdUI)
 {
 	// TODO: 여기에 명령 업데이트 UI 처리기 코드를 추가합니다.
 	pCmdUI->Enable(TRUE);
 }
 
+
 /* 편집모드 botton 처리기 */
 void CChildFrame::OnButtonedit()
 {
 	// TODO: 여기에 명령 처리기 코드를 추가합니다.
 }
-
 void CChildFrame::OnUpdateButtonedit(CCmdUI *pCmdUI)
 {
 	// TODO: 여기에 명령 업데이트 UI 처리기 코드를 추가합니다.
@@ -238,8 +243,6 @@ void CChildFrame::OnEditCopy()
 	CloseClipboard();
 
 }
-
-
 void CChildFrame::OnUpdateEditCopy(CCmdUI *pCmdUI)
 {
 	// TODO: 여기에 명령 업데이트 UI 처리기 코드를 추가합니다.
@@ -250,19 +253,16 @@ void CChildFrame::OnEditPaste()
 {
 	// TODO: 여기에 명령 처리기 코드를 추가합니다.
 }
-
-
 void CChildFrame::OnUpdateEditPaste(CCmdUI *pCmdUI)
 {
 	// TODO: 여기에 명령 업데이트 UI 처리기 코드를 추가합니다.
 }
 
+
 void CChildFrame::OnEditCut()
 {
 	// TODO: 여기에 명령 처리기 코드를 추가합니다.
 }
-
-
 void CChildFrame::OnUpdateEditCut(CCmdUI *pCmdUI)
 {
 	// TODO: 여기에 명령 업데이트 UI 처리기 코드를 추가합니다.
@@ -273,13 +273,10 @@ void CChildFrame::OnEditSelectAll()
 {
 	// TODO: 여기에 명령 처리기 코드를 추가합니다.
 }
-
-
 void CChildFrame::OnUpdateEditSelectAll(CCmdUI *pCmdUI)
 {
 	// TODO: 여기에 명령 업데이트 UI 처리기 코드를 추가합니다.
 }
-
 /*************** Ribbon 클립보드 처리기 *****************/
 
 
@@ -291,21 +288,54 @@ void CChildFrame::OnEditUndo()
 {
 	// TODO: 여기에 명령 처리기 코드를 추가합니다.
 }
-
-
 void CChildFrame::OnUpdateEditUndo(CCmdUI *pCmdUI)
 {
 	// TODO: 여기에 명령 업데이트 UI 처리기 코드를 추가합니다.
 }
 
+
 void CChildFrame::OnEditRedo()
 {
 	// TODO: 여기에 명령 처리기 코드를 추가합니다.
 }
-
-
 void CChildFrame::OnUpdateEditRedo(CCmdUI *pCmdUI)
 {
 	// TODO: 여기에 명령 업데이트 UI 처리기 코드를 추가합니다.
 }
 /*************** Ribbon redo, undo 처리기 *****************/
+
+
+
+/*************** Ribbon library box control *****************/
+void CChildFrame::OnSaveLibrarybox()
+{
+	// TODO: 여기에 명령 처리기 코드를 추가합니다.
+}
+void CChildFrame::OnUpdateSaveLibrarybox(CCmdUI *pCmdUI)
+{
+	// TODO: 여기에 명령 업데이트 UI 처리기 코드를 추가합니다.
+}
+
+
+void CChildFrame::OnLoadLibrarybox()
+{
+	// TODO: 여기에 명령 처리기 코드를 추가합니다.
+}
+void CChildFrame::OnUpdateLoadLibrarybox(CCmdUI *pCmdUI)
+{
+	// TODO: 여기에 명령 업데이트 UI 처리기 코드를 추가합니다.
+}
+/*************** Ribbon library box control END *****************/
+
+
+
+/*************** Ribbon output wnd control *****************/
+void CChildFrame::OnCleanLog()
+{
+	// TODO: 여기에 명령 처리기 코드를 추가합니다.
+}
+void CChildFrame::OnUpdateCleanLog(CCmdUI *pCmdUI)
+{
+	// TODO: 여기에 명령 업데이트 UI 처리기 코드를 추가합니다.
+}
+/*************** Ribbon output wnd control END*****************/

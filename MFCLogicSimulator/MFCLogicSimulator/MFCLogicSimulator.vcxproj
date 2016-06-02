@@ -252,7 +252,6 @@
     <ResourceCompile Include="MFCLogicSimulator.rc" />
   </ItemGroup>
   <ItemGroup>
-    <Image Include="res\bitmap1.bmp" />
     <Image Include="res\buttons.bmp" />
     <Image Include="res\classview.bmp" />
     <Image Include="res\classview_hc.bmp" />
@@ -286,6 +285,7 @@
     <Image Include="res\root\gate\NOR.bmp" />
     <Image Include="res\root\gate\OR.bmp" />
     <Image Include="res\root\gate\XOR.bmp" />
+    <Image Include="res\root\in\CLOCK_FACE.bmp" />
     <Image Include="res\root\in\OFF.bmp" />
     <Image Include="res\root\in\ON.bmp" />
     <Image Include="res\root\library box\librarybox.bmp" />
