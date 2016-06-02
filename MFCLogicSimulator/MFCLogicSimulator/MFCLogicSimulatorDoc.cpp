@@ -46,36 +46,27 @@ CMFCLogicSimulatorDoc::CMFCLogicSimulatorDoc()
 {
 	// TODO: 여기에 일회성 생성 코드를 추가합니다.
 	engineComponentData.resize(10);
-	currentSelectedItem = -1;
+	operationMode = OPERATION_MODE_NONE;
 }
 
-int CMFCLogicSimulatorDoc::itemSelectedInDoc()
+TOOLBOX_ITEM_TYPE CMFCLogicSimulatorDoc::getSelectedItemInToolBox(HTREEITEM hItem)
 {	
 	// mainframe에서 fileview의 트리 정보 조회
 	// http://www.dreamy.pe.kr/zbxe/CodeClip/18117
 
 	CMainFrame* p_MainFrm = (CMainFrame*)AfxGetMainWnd();
-
 	CFileView* p_FileViewInDoc = p_MainFrm->getCFileView();
-
 	CViewTree* p_ToolboxInDoc = p_FileViewInDoc->getCFileViewTree();
 
-	// 트리 컨트롤 아이템 인덱스
-	// goo.gl/mdFKLz
 	int indexOfItem = 0;
-
-	HTREEITEM hItem = p_ToolboxInDoc->GetSelectedItem();
 	HTREEITEM hComp = p_ToolboxInDoc->GetChildItem(NULL);
-
 	while (hComp)
 	{
 		if (hComp == hItem) break;
 		hComp = p_ToolboxInDoc->GetNextItem(hComp, TVGN_NEXTVISIBLE);
 		++indexOfItem;
 	}
-
-
-	return indexOfItem;
+	return (TOOLBOX_ITEM_TYPE)indexOfItem;
 }
 
 CMFCLogicSimulatorDoc::~CMFCLogicSimulatorDoc()
@@ -171,67 +162,13 @@ void CMFCLogicSimulatorDoc::SetSearchContent(const CString& value)
 bool CMFCLogicSimulatorDoc::addComponentToEngine(int _x, int _y)
 {
 	//부품 선택 모드가 아니면 거짓을 반환함
-	if (currentSelectedItem < 1 ) {
+	if (operationMode != OPERATION_MODE_ADDING_COMPONENT ) {
 		return false;
 	}
 
-	currentSelectedItem;
-	engineComponentData;
 	COMPONENT_TYPE selectedType; 
 
-	//부품 타입을 알아낸다
-	switch (currentSelectedItem ) {
-
-		//wire
-	case  ITEM_WIRE:
-		selectedType = COMPONENT_TYPE_WIRE;
-		break;
-	case  ITEM_PIN:
-		selectedType = COMPONENT_TYPE_INPUT_PIN;
-		break;
-	case  ITEM_PROBE:
-		selectedType = COMPONENT_TYPE_OUTPUT_PIN;
-		break;
-
-		//gate
-	case  ITEM_AND:
-		selectedType = COMPONENT_TYPE_AND_GATE;
-		break;
-	case  ITEM_OR:
-		selectedType = COMPONENT_TYPE_OR_GATE;
-		break;
-	case  ITEM_XOR:
-		selectedType = COMPONENT_TYPE_XOR_GATE;
-		break;
-	case  ITEM_NOT:
-		selectedType = COMPONENT_TYPE_NOT_GATE;
-		break;
-
-		//input
-	case  ITEM_1BITBUTIN:
-		selectedType = COMPONENT_TYPE_ONE_BIT_SWITCH;
-		break;
-	case  ITEM_CLOCK:
-		selectedType = COMPONENT_TYPE_CLOCK;
-		break;
-
-		//output
-	case  ITEM_1BITBUTOUT:
-		selectedType = COMPONENT_TYPE_ONE_BIT_LAMP;
-		break;
-	case  ITEM_7SEGMENT:
-		selectedType = COMPONENT_TYPE_7SEGMENT;
-		break;
-
-
-	case  ITEM_ETC:
-		selectedType = COMPONENT_TYPE_NONE;
-		break;
-
-	default:
-		selectedType = COMPONENT_TYPE_NONE;
-		break;
-	}
+	selectedType = getComponentTypeByToolBoxItem(currentSelectedItem);
 	
 	// 테스트 용
 	COMPONENT_INFO addComponent(selectedType);
@@ -269,6 +206,72 @@ bool CMFCLogicSimulatorDoc::addComponentToEngine(int _x, int _y)
 	return true;
 	
 
+}
+
+COMPONENT_TYPE CMFCLogicSimulatorDoc::getComponentTypeByToolBoxItem(TOOLBOX_ITEM_TYPE type)
+{
+	COMPONENT_TYPE ret;
+	switch (type) {
+	case FOLDER_ROOT:
+		ret = COMPONENT_TYPE_NONE;
+		break;
+		//wire
+	case  ITEM_WIRE:
+		ret = COMPONENT_TYPE_WIRE;
+		break;
+	case  ITEM_PIN:
+		ret = COMPONENT_TYPE_INPUT_PIN;
+		break;
+	case  ITEM_PROBE:
+		ret = COMPONENT_TYPE_OUTPUT_PIN;
+		break;
+
+		//gate
+	case  ITEM_AND:
+		ret = COMPONENT_TYPE_AND_GATE;
+		break;
+	case  ITEM_OR:
+		ret = COMPONENT_TYPE_OR_GATE;
+		break;
+	case  ITEM_XOR:
+		ret = COMPONENT_TYPE_XOR_GATE;
+		break;
+	case  ITEM_NOT:
+		ret = COMPONENT_TYPE_NOT_GATE;
+		break;
+
+		//input
+	case  ITEM_1BITBUTIN:
+		ret = COMPONENT_TYPE_ONE_BIT_SWITCH;
+		break;
+	case  ITEM_CLOCK:
+		ret = COMPONENT_TYPE_CLOCK;
+		break;
+
+		//output
+	case  ITEM_1BITBUTOUT:
+		ret = COMPONENT_TYPE_ONE_BIT_LAMP;
+		break;
+	case  ITEM_7SEGMENT:
+		ret = COMPONENT_TYPE_7SEGMENT;
+		break;
+
+
+	case  ITEM_ETC:
+		ret = COMPONENT_TYPE_NONE;
+		break;
+
+	default:
+		ret = COMPONENT_TYPE_NONE;
+		break;
+	}
+	return ret;
+}
+
+COMPONENT_TYPE CMFCLogicSimulatorDoc::getCurrentSelectedComponentType()
+{
+
+	return getComponentTypeByToolBoxItem(currentSelectedItem);
 }
 
 // CMFCLogicSimulatorDoc 진단

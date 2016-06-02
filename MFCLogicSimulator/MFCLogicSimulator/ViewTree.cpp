@@ -39,14 +39,15 @@ CViewTree::~CViewTree()
 BEGIN_MESSAGE_MAP(CViewTree, CTreeCtrl)
 	//	ON_WM_LBUTTONDOWN()
 	ON_WM_CREATE()
-	ON_MESSAGE(UM_UNSELECT_ITEM, &CViewTree::OnUnselectItem)
-	ON_MESSAGE(UM_RESELECT_ITEM, &CViewTree::OnReselectItem)
+	ON_MESSAGE(UM_UNSELECT_ITEM_IN_TREEVIEW, &CViewTree::OnUnselectItem)
 	ON_WM_CONTEXTMENU()
 
 	ON_WM_LBUTTONDOWN()
 
-	ON_NOTIFY_REFLECT(TVN_SELCHANGED, &CViewTree::OnTvnSelchanged)
+//	ON_NOTIFY_REFLECT(TVN_SELCHANGED, &CViewTree::OnTvnSelchanged)
 
+	ON_NOTIFY_REFLECT(TVN_SELCHANGING, &CViewTree::OnTvnSelchanging)
+	ON_NOTIFY_REFLECT(TVN_SELCHANGED, &CViewTree::OnTvnSelchanged)
 END_MESSAGE_MAP()
 
 /////////////////////////////////////////////////////////////////////////////
@@ -79,169 +80,97 @@ void CViewTree::OnContextMenu(CWnd* /*pWnd*/, CPoint /*point*/)
 //선택했던거랑 같은거면 해제한다
 void CViewTree::OnLButtonDown(UINT nFlags, CPoint point)
 {
+	
 	// TODO: 여기에 메시지 처리기 코드를 추가 및/또는 기본값을 호출합니다.
 	CMainFrame* p_MainFrm = (CMainFrame*)AfxGetMainWnd();
-	//
-	CFileView* p_FileView = p_MainFrm->getCFileView();
-	CViewTree* p_Toolbox = p_FileView->getCFileViewTree();
+	
+	CFileView* pFileView = p_MainFrm->getCFileView();
+	CViewTree* pToolbox = pFileView->getCFileViewTree();
 	CMainFrame *pFrame = (CMainFrame*)AfxGetMainWnd();
 	CChildFrame *pChild = (CChildFrame *)pFrame->GetActiveFrame();
 	CMFCLogicSimulatorDoc *pDoc = (CMFCLogicSimulatorDoc *)pChild->GetActiveDocument();
 	COutputWnd* pOutput = pFrame->getCOutputWnd();
 
+	
 	// 트리 컨트롤 아이템 인덱스
 	// goo.gl/mdFKLz
+	int indexOfItem = 0;
 
 
-	HTREEITEM hItem = p_Toolbox->GetSelectedItem();
-	int itemIndex = pDoc->itemSelectedInDoc();
+	HTREEITEM hItem = pToolbox->GetChildItem(NULL);
 	RECT rect;
-	this->GetItemRect(hItem, &rect, 0);
 
-	//선택한 것의 상자 안에 들어 가있음
-	if (rect.left <= point.x && point.x <= rect.right
-		&&rect.top <= point.y && point.y <= rect.bottom) {
-		//폴더를 또 선택하면 아무일도 안일어난다
+	while (hItem)
+	{
+		this->GetItemRect(hItem, &rect, 0);
 
-		//이전의 선택 한것을 다시 선택 하려 할때
-		if (pDoc->currentSelectedItem == -1) {
-			SendMessage(UM_RESELECT_ITEM, 100, 100);
+		//선택한 것의 상자 안에 들어 가있음
+		if (rect.left <= point.x && point.x <= rect.right
+			&&rect.top <= point.y && point.y <= rect.bottom) {
+			//폴더를 또 선택하면 아무일도 안일어난다
+
+			//아무것도 아닌상태일때
+			if (pDoc->operationMode == OPERATION_MODE_NONE) {
+				setItemStateON(hItem);
+			}
+			//추가 모드일떄
+			else if (pDoc->operationMode == OPERATION_MODE_ADDING_COMPONENT) {
+				if (pDoc->currentSelectedItem == pDoc->getSelectedItemInToolBox(hItem)) {
+					//추가하는 부품을 해제 하고 
+					SendMessage(UM_UNSELECT_ITEM_IN_TREEVIEW, 100, 100);
+				}
+				else {
+					//다시 선택한다
+					SendMessage(UM_UNSELECT_ITEM_IN_TREEVIEW, 100, 100);
+					setItemStateON(hItem);
+				}
+			}
+			//연결 모드일떄
+			else if (pDoc->operationMode == OPERATION_MODE_CONNECTING_COMPONENT) {
+				//연결 모드를 취소한다
+				setItemStateON(hItem);
+			}
+			//부품 선택모드일때
+			else if (pDoc->operationMode == OPERATION_MODE_SELECT_COMPONENT) {
+				setItemStateON(hItem);
+
+			}
+			break;
 		}
-		//현재 선택된것을 해제하려 할때
-		else if (itemIndex == pDoc->currentSelectedItem) {
 
-			SendMessage(UM_UNSELECT_ITEM, 100, 100);
-		}
+		hItem = pToolbox->GetNextItem(hItem, TVGN_NEXTVISIBLE);
 	}
+	(pChild->GetActiveView())->Invalidate();
 	CTreeCtrl::OnLButtonDown(nFlags, point);
 }
-
-
-//선택된 값이 변경되면 도큐먼트의 값도 변경한다
-void CViewTree::OnTvnSelchanged(NMHDR *pNMHDR, LRESULT *pResult)
-{
-	LPNMTREEVIEW pNMTreeView = reinterpret_cast<LPNMTREEVIEW>(pNMHDR);
-	// TODO: 여기에 컨트롤 알림 처리기 코드를 추가합니다.
-	*pResult = 0;
-
-	// TODO: Add your specialized code here and/or call the base class
-	CMainFrame* p_MainFrm = (CMainFrame*)AfxGetMainWnd();
-	CFileView* p_FileView = p_MainFrm->getCFileView();
-	CViewTree* p_Toolbox = p_FileView->getCFileViewTree();
-	CMainFrame *pFrame = (CMainFrame*)AfxGetMainWnd();
-	CChildFrame *pChild = (CChildFrame *)pFrame->GetActiveFrame();
-	CMFCLogicSimulatorDoc *pDoc = (CMFCLogicSimulatorDoc *)pChild->GetActiveDocument();
-	COutputWnd* pOutput = pFrame->getCOutputWnd();
-
-	if (pDoc == NULL)return;
-	// 트리 컨트롤 아이템 인덱스
-	// goo.gl/mdFKLz
-
-	HTREEITEM hItem = p_Toolbox->GetSelectedItem();
-	int itemIndex = pDoc->itemSelectedInDoc();
-
-	CString str;
-
-
-	//폴더를 처음 선택 하면 아무것도 안한다
-	if (isSelectedItemFolder(itemIndex)) {
-		pDoc->currentSelectedItem = -1;
-		str.Format(_T("in tree view : select item is folder\n"));
-		pOutput->addBuildWindowString(str);
-	}
-	else {
-		pDoc->currentSelectedItem = itemIndex;
-		str.Format(_T("in tree view : item %d selected\n"), itemIndex);
-		pOutput->addBuildWindowString(str);
-
-	}
-}
-
-void CViewTree::unseletectItem()
-{
-
-
-}
-
-
 
 
 //선택 해제 메세지를 처리한다
 afx_msg LRESULT CViewTree::OnUnselectItem(WPARAM wParam, LPARAM lParam)
 {
-	
-
-	// TODO: 여기에 메시지 처리기 코드를 추가 및/또는 기본값을 호출합니다.
-	CMainFrame* p_MainFrm = (CMainFrame*)AfxGetMainWnd();
-	//
-	CFileView* p_FileView = p_MainFrm->getCFileView();
-	CViewTree* p_Toolbox = p_FileView->getCFileViewTree();
+	CMainFrame* pMainFrm = (CMainFrame*)AfxGetMainWnd();
+	CFileView* pFileView = pMainFrm->getCFileView();
+	CViewTree* pToolbox = pFileView->getCFileViewTree();
 	CMainFrame *pFrame = (CMainFrame*)AfxGetMainWnd();
 	CChildFrame *pChild = (CChildFrame *)pFrame->GetActiveFrame();
 	CMFCLogicSimulatorDoc *pDoc = (CMFCLogicSimulatorDoc *)pChild->GetActiveDocument();
 	COutputWnd* pOutput = pFrame->getCOutputWnd();
+	HTREEITEM treeItem = pToolbox->GetChildItem(NULL);
 
-	// 트리 컨트롤 아이템 인덱스
-	// goo.gl/mdFKLz
-
-
-	HTREEITEM hItem = p_Toolbox->GetSelectedItem();
-	int itemIndex = pDoc->itemSelectedInDoc();
-
-	pDoc->currentSelectedItem = -1;
-	this->SetItemState(hItem, ~TVIS_SELECTED, TVIS_SELECTED);
-
-	CString str;
-	if (isSelectedItemFolder(pDoc->currentSelectedItem)) {
-		pDoc->currentSelectedItem = -1;
-		str.Format(_T("in tree view : select item is folder\n"));
-		pOutput->addBuildWindowString(str);
-		return 0;
+	while (treeItem)
+	{
+		this->SetItemState(treeItem, ~TVIS_SELECTED, TVIS_SELECTED);
+		treeItem = pToolbox->GetNextItem(treeItem, TVGN_NEXTVISIBLE);
 	}
-
-	str.Format(_T("in tree view : item %d unselected\n"), itemIndex);
+	pDoc->operationMode = OPERATION_MODE_NONE;
+	pDoc->currentSelectedItem = FOLDER_ROOT;
+	CString str;
+	str.Format(_T("in tree view : unselect item\n"));
 	pOutput->addBuildWindowString(str);
-
 	return 0;
 }
 
 //재선택 메세지를 처리한다
-afx_msg LRESULT CViewTree::OnReselectItem(WPARAM wParam, LPARAM lParam)
-{
-	// TODO: 여기에 메시지 처리기 코드를 추가 및/또는 기본값을 호출합니다.
-	CMainFrame* p_MainFrm = (CMainFrame*)AfxGetMainWnd();
-	//
-	CFileView* p_FileView = p_MainFrm->getCFileView();
-	CViewTree* p_Toolbox = p_FileView->getCFileViewTree();
-	CMainFrame *pFrame = (CMainFrame*)AfxGetMainWnd();
-	CChildFrame *pChild = (CChildFrame *)pFrame->GetActiveFrame();
-	CMFCLogicSimulatorDoc *pDoc = (CMFCLogicSimulatorDoc *)pChild->GetActiveDocument();
-	COutputWnd* pOutput = pFrame->getCOutputWnd();
-
-	// 트리 컨트롤 아이템 인덱스
-	// goo.gl/mdFKLz
-
-
-	HTREEITEM hItem = p_Toolbox->GetSelectedItem();
-	int itemIndex = pDoc->itemSelectedInDoc();
-
-	pDoc->currentSelectedItem = itemIndex;
-	this->SetItemState(hItem, TVIS_SELECTED, TVIS_SELECTED);
-
-	CString str;
-
-	if (isSelectedItemFolder(pDoc->currentSelectedItem)) {
-		pDoc->currentSelectedItem = -1;
-		str.Format(_T("in tree view : select item is folder\n"));
-		pOutput->addBuildWindowString(str);
-		return 0;
-	}
-
-	str.Format(_T("in tree view : item %d reselected\n"), itemIndex);
-	pOutput->addBuildWindowString(str);
-
-	return 0;
-}
 
 //선택한 아이템이 폴더인지 확인한다
 bool CViewTree::isSelectedItemFolder(int selecteItem)
@@ -257,4 +186,42 @@ bool CViewTree::isSelectedItemFolder(int selecteItem)
 	return false;
 }
 
+
+
+
+void CViewTree::OnTvnSelchanging(NMHDR *pNMHDR, LRESULT *pResult)
+{
+	LPNMTREEVIEW pNMTreeView = reinterpret_cast<LPNMTREEVIEW>(pNMHDR);
+	// TODO: 여기에 컨트롤 알림 처리기 코드를 추가합니다.
+	//
+	//https://msdn.microsoft.com/ko-kr/library/a9a9f1t7.aspx
+	//*pResult 이거를 1로 세팅해야한다
+	*pResult = 1;
+}
+
+void CViewTree::OnTvnSelchanged(NMHDR *pNMHDR, LRESULT *pResult)
+{
+	LPNMTREEVIEW pNMTreeView = reinterpret_cast<LPNMTREEVIEW>(pNMHDR);
+	// TODO: 여기에 컨트롤 알림 처리기 코드를 추가합니다.
+	*pResult = 1;
+}
+
+void CViewTree::setItemStateON(HTREEITEM hItem)
+{
+	CMainFrame* p_MainFrm = (CMainFrame*)AfxGetMainWnd();
+	CFileView* p_FileView = p_MainFrm->getCFileView();
+	CViewTree* p_Toolbox = p_FileView->getCFileViewTree();
+	CMainFrame *pFrame = (CMainFrame*)AfxGetMainWnd();
+	CChildFrame *pChild = (CChildFrame *)pFrame->GetActiveFrame();
+	CMFCLogicSimulatorDoc *pDoc = (CMFCLogicSimulatorDoc *)pChild->GetActiveDocument();
+	COutputWnd* pOutput = pFrame->getCOutputWnd();
+
+	SetItemState(hItem, TVIS_SELECTED, TVIS_SELECTED);
+	pDoc->operationMode = OPERATION_MODE_ADDING_COMPONENT;
+	pDoc->currentSelectedItem = pDoc->getSelectedItemInToolBox(hItem);
+
+	CString str;
+	str.Format(_T("in tree view : item selected\n"));
+	pOutput->addBuildWindowString(str);
+}
 

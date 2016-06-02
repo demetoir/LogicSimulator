@@ -191,4 +191,7 @@ public:
 	bool getClockValue(int index);
 	int numberOfClock();
 
+	CComponentObject* getComponentObject(int index);
+
+
 };

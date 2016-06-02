@@ -12,11 +12,20 @@
 // MFCLogicSimulatorView.h : CMFCLogicSimulatorView 클래스의 인터페이스
 //
 
+//gdi+ 사용법
+///http://redstory2010.tistory.com/157
+
+
+
 #pragma once
 #include "ViewTree.h"
 #include "FileView.h" // tree item 관련하여 추가
 #include "PropertiesWnd.h" // 속성창 옵션 수정 관련하여 추가
 #include "MFCLogicSimulatorDoc.h"
+
+#include <gdiplus.h>
+using namespace Gdiplus;
+
 
 // 스크롤 생성
 // http://moguwai.tistory.com/entry/CView-CScrollView%EB%A1%9C-%EC%A0%84%ED%99%98
@@ -31,8 +40,6 @@ protected: // serialization에서만 만들어집니다.
 // 특성입니다.
 public:
 	CMFCLogicSimulatorDoc* GetDocument() const;
-
-	
 
 	enum MouseButtonFlag {
 		NBUTTON = NULL,							// 마우스 버튼이 눌리지 않은 상태
@@ -93,8 +100,6 @@ protected:
 	//모든 컴포넌트 를 그림
 	void drawComponent(CDC &DC);
 
-	//터미널 단자를 그림
-	void drawComponentTerminal(CDC &DC);
 
 	//와이어들을 그림
 	void drawComponentWire(CDC &DC);
@@ -111,11 +116,12 @@ protected:
 	//부품의 타입에 해당하는 부품의 비트맵 아이디를 가져온다
 	int getBitmapIDByComponentType(COMPONENT_TYPE _type);
 
+	
 
 #define SIZE_OF_COMPONENT_BITMAP 20
 	CBitmap componentBitmap[SIZE_OF_COMPONENT_BITMAP];
+	bool isHighlightComponentMode;
 
-	int count = 0; 
 public:
 	afx_msg BOOL OnEraseBkgnd(CDC* pDC);
 };

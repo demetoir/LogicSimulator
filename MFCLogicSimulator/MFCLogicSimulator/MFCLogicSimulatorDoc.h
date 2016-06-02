@@ -25,7 +25,7 @@ enum COMPONENT_DIRECTION {
 	EAST,WEST,NORTH,SOUTH
 };
 
-//도큐먼트에서 사용할 구조체
+//도큐먼트에서 사용할 부품정보 구조체
 struct COMPONENT_DATA {
 	COMPONENT_DATA() {
 		x = 0;
@@ -44,7 +44,7 @@ struct COMPONENT_DATA {
 	
 };
 
-enum ToolBoxItemFlag {
+enum TOOLBOX_ITEM_TYPE {
 	FOLDER_ROOT,
 	FOLDER_WIRE,
 	ITEM_WIRE, ITEM_PIN, ITEM_PROBE,
@@ -60,6 +60,13 @@ enum ToolBoxItemFlag {
 	ITEM_ETC
 };
 
+enum OPERATION_MODE {
+	OPERATION_MODE_NONE,
+	OPERATION_MODE_ADDING_COMPONENT,
+	OPERATION_MODE_SELECT_COMPONENT,
+	OPERATION_MODE_CONNECTING_COMPONENT
+};
+
 class CMFCLogicSimulatorDoc : public CDocument
 {
 protected: // serialization에서만 만들어집니다.
@@ -68,7 +75,7 @@ protected: // serialization에서만 만들어집니다.
 
 // 특성입니다.
 public:
-	int itemSelectedInDoc();
+
 // 작업입니다.
 public:
 	CMainFrame m_MainFrmInDoc;
@@ -114,8 +121,16 @@ public :
 	vector <COMPONENT_DATA> engineComponentData;
 
 	//트리뷰에서 선택한 부품정보
-	int currentSelectedItem;
+	TOOLBOX_ITEM_TYPE currentSelectedItem;
 
 	//부품을 추가한다
 	bool addComponentToEngine(int _x,int _y);
+
+	TOOLBOX_ITEM_TYPE getSelectedItemInToolBox(HTREEITEM hItem);
+
+	//트리뷰에서 선택한 부품의 플래그로  COMPONENT_TYPE를 알아낸다
+	COMPONENT_TYPE getComponentTypeByToolBoxItem(TOOLBOX_ITEM_TYPE type);
+	COMPONENT_TYPE getCurrentSelectedComponentType();
+
+	OPERATION_MODE operationMode;
 };

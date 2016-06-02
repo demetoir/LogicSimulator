@@ -734,3 +734,8 @@ int CLibraryBox::numberOfClock()
 {
 	return (int)inputClockVector.size();
 }
+
+CComponentObject * CLibraryBox::getComponentObject(int index)
+{
+	return componentVector[index];
+}

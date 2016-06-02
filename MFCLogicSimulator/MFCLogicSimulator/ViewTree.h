@@ -38,18 +38,18 @@ public:
 
 	afx_msg void OnLButtonDown(UINT nFlags, CPoint point);
 
-	afx_msg void OnTvnSelchanged(NMHDR *pNMHDR, LRESULT *pResult);
 
 
-	void unseletectItem();
+	afx_msg LRESULT OnUnselectItem(WPARAM wParam, LPARAM lParam);
 
-	LRESULT OnUnselectItem(WPARAM wParam, LPARAM lParam);
-	afx_msg LRESULT OnReselectItem(WPARAM wParam, LPARAM lParam);
 
 protected:
 protected:
 	DECLARE_MESSAGE_MAP()
 
 	bool isSelectedItemFolder(int selecteItem);
-	afx_msg LRESULT OnUmUnselectItem(WPARAM wParam, LPARAM lParam);
+public:
+	afx_msg void OnTvnSelchanging(NMHDR *pNMHDR, LRESULT *pResult);
+	afx_msg void OnTvnSelchanged(NMHDR *pNMHDR, LRESULT *pResult);
+	void setItemStateON(HTREEITEM hItem);
 };

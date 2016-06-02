@@ -63,12 +63,13 @@ END_MESSAGE_MAP()
 CMFCLogicSimulatorView::CMFCLogicSimulatorView()
 {
 	// TODO: 여기에 생성 코드를 추가합니다.
-
-
+	isHighlightComponentMode = false;
+	
 }
 
 CMFCLogicSimulatorView::~CMFCLogicSimulatorView()
 {
+
 }
 
 BOOL CMFCLogicSimulatorView::PreCreateWindow(CREATESTRUCT& cs)
@@ -178,38 +179,22 @@ void CMFCLogicSimulatorView::OnLButtonDown(UINT nFlags, CPoint point)
 	CMFCLogicSimulatorDoc* pDoc = GetDocument();
 
 	// TODO: 여기에 메시지 처리기 코드를 추가 및/또는 기본값을 호출합니다.
-	CDC* pDC = GetDC();
-	CString str;
-
-	int itemIndex = GetDocument()->itemSelectedInDoc();
-	str.Format(_T("%d"), itemIndex);
-
-	// 스크롤바 컨트롤시 지워지는 문제있음
-	switch (itemIndex) { // 사용자 설정 따로 빼둘 것
-	case FOLDER_ROOT: // root
-		pDC->TextOutW(point.x, point.y, str);
-		break;
-	default:
-		//AfxMessageBox(_T("item ??"));
-		pDC->TextOutW(point.x, point.y, str);
-		break;
-	}
-
 
 	//지금 부품 선택 모드이면
-	if (pDoc->currentSelectedItem > 0) {
+	if (pDoc->operationMode == OPERATION_MODE_ADDING_COMPONENT) {
 		//보정할 좌표를 가져온다
 		int nVertScroll = GetScrollPos(SB_VERT);
 		int nHorzScroll = GetScrollPos(SB_HORZ);
 		//선택한 부품을 도큐에 추가한다
 		pDoc->addComponentToEngine(point.x + nHorzScroll, point.y + nVertScroll);
-
+		pDoc->operationMode = OPERATION_MODE_NONE;
 		//tree view 부품 선택모드를 해제하는 메세지를 날린다		
-		((pFrame->getCFileView())->getCFileViewTree())->SendMessage(UM_UNSELECT_ITEM);
+		((pFrame->getCFileView())->getCFileViewTree())->SendMessage(UM_UNSELECT_ITEM_IN_TREEVIEW);
 
 	}
-	//지금 부품 선택 아니면
-	else {
+	//지금 부품 선택 모드라면
+	//부품을 
+	else if(pDoc->operationMode == OPERATION_MODE_SELECT_COMPONENT){
 		//만약 부품을 선택하면 부품 선택 모드로 변경한다
 		//선택한 부품을 하이라이트 한다
 
@@ -219,19 +204,7 @@ void CMFCLogicSimulatorView::OnLButtonDown(UINT nFlags, CPoint point)
 
 
 	}
-
-
-
-
-
-
-	ReleaseDC(pDC); //사용이 끝나고 디바이스 컨텍스트를 운영체제에게 반납한다.
-
-
 	Invalidate();
-
-
-
 
 	CScrollView::OnLButtonDown(nFlags, point);
 }
@@ -281,25 +254,23 @@ void CMFCLogicSimulatorView::OnPaint()
 		}
 		/* 스크롤바 컨트롤 끝 */
 
-		{
 			//그리기 시작
-
+		{
 			//부품들을 그린다
 			drawComponent(memDC);
-
-			//터미널 단자를 그림
-			drawComponentTerminal(memDC);
 
 			//와이어들을 그림
 			drawComponentWire(memDC);
 
 			//추가 모드일때만 한다
 			//부품 추가 모드일떄 움직이면서 보여주는거
-			drawAddingComponent(memDC);
-
-			//화면에 있는 선택 한부품을 강조하는거
-			drawHighlightSelectedComponent(memDC);
-
+			if (pDoc->operationMode == OPERATION_MODE_ADDING_COMPONENT) {
+				drawAddingComponent(memDC);
+			}
+			if (isHighlightComponentMode == true) {
+				//화면에 있는 선택 한부품을 강조하는거
+				drawHighlightSelectedComponent(memDC);
+			}
 			//화면에 메세지를 띄어주는것
 			drawMassage(memDC);
 		}
@@ -330,32 +301,27 @@ void CMFCLogicSimulatorView::OnMouseMove(UINT nFlags, CPoint point)
 	//마우스가 부품위에 있는경우 부품을 강조한다
 
 	//마우스가부품의 단자 위에 있으면  단자를 강조한다
-
+	CMFCLogicSimulatorDoc* pDoc = GetDocument();
+	if (pDoc->getCurrentSelectedComponentType() != COMPONENT_TYPE_NONE) {
+		Invalidate();
+	}
 }
 
 
 
 void CMFCLogicSimulatorView::OnHScroll(UINT nSBCode, UINT nPos, CScrollBar* pScrollBar)
 {
-	// TODO: 여기에 메시지 처리기 코드를 추가 및/또는 기본값을 호출합니다.
-
 	CScrollView::OnHScroll(nSBCode, nPos, pScrollBar);
 	Invalidate();
 }
-
-
 void CMFCLogicSimulatorView::OnVScroll(UINT nSBCode, UINT nPos, CScrollBar* pScrollBar)
 {
-	// TODO: 여기에 메시지 처리기 코드를 추가 및/또는 기본값을 호출합니다.
-
 	CScrollView::OnVScroll(nSBCode, nPos, pScrollBar);
 	Invalidate();
 }
 
 
-
-
-
+//각부품을 그릴때에 방향추가가 필요하다
 void CMFCLogicSimulatorView::drawComponent(CDC &DC)
 {
 	//공통적으로 들어갈 변수들
@@ -365,31 +331,47 @@ void CMFCLogicSimulatorView::drawComponent(CDC &DC)
 	int nVertScroll = GetScrollPos(SB_VERT);
 	int nHorzScroll = GetScrollPos(SB_HORZ);
 	int x, y;
-
-
 	COMPONENT_TYPE type;
-
 	CBitmap componentBitmap;
 	CBitmap *oldBitmap;
 	BITMAP bitmapInfo;
+	CComponentObject* currentObject;
 
-	
+	CBitmap terminalPin;
+	BITMAP terminalPinInfo;
 
-	//부품 추가 모드일때
-	//추가하는 부품을 그려준다
-	for (int i = 0; i < pDoc->engineComponentData.size(); i++) {
+	for (int i = 0; i < pDoc->engineComponentData.size(); i++) {		
 		//존재하지 않는것은 넘어간다
 		if (pDoc->engineComponentData[i].id <= 0) {
 			continue;
 		}
+
+		//그릴 부품의 객체를 가져온다
+		currentObject = pDoc->logicSimulatorEngine.getComponentObject(i);
 		//그려줄 좌표를 보정한다
 		x = pDoc->engineComponentData[i].x - nHorzScroll;
 		y = pDoc->engineComponentData[i].y - nVertScroll;
-		type = pDoc->engineComponentData[i].type;
+		type = pDoc->engineComponentData[i].type;		
+
+		//세븐 세그먼트는 따로 구현한다
+
+
+		// 터미널 핀을 추가한다
+		terminalPin.LoadBitmapW(IDB_TERMINAL_PIN);
+		terminalPin.GetBitmap(&terminalPinInfo);
+		memDC.SelectObject(&terminalPin);
+		//부품의 인풋 핀을 그린다
+		for (int j = 0; j < currentObject->numberOfInput(); j++) {
+			DC.BitBlt(x - 30, y + 20 * j, terminalPinInfo.bmWidth, terminalPinInfo.bmHeight, &memDC, 0, 0, SRCCOPY);
+		}
+		//부품의 아웃풋 핀을 그린다
+		for (int j = 0; j < currentObject->numberOfOutput(); j++) {
+			DC.BitBlt(x + 75, y + 20 * j, terminalPinInfo.bmWidth, terminalPinInfo.bmHeight, &memDC, 0, 0, SRCCOPY);
+		}
+		terminalPin.DeleteObject();
 
 		//타입에 맞는 부품의 비트맵 아이디를 가져오고 로드한다
-		//getBitmapIDByComponentType(type)//사용한다
-		componentBitmap.LoadBitmapW(IDB_LIBRARY_BOX);
+		componentBitmap.LoadBitmapW(getBitmapIDByComponentType(type));
 		componentBitmap.GetBitmap(&bitmapInfo);
 
 		//부품을 그린다
@@ -400,17 +382,6 @@ void CMFCLogicSimulatorView::drawComponent(CDC &DC)
 		//가져온 비트맵을 제거한다
 		componentBitmap.DeleteObject();
 	}
-}
-
-void CMFCLogicSimulatorView::drawComponentTerminal(CDC & DC)
-{
-	//공통적으로 들어갈 변수들
-	CDC memDC;
-	memDC.CreateCompatibleDC(&DC);
-	CMFCLogicSimulatorDoc* pDoc = GetDocument();
-	int nVertScroll = GetScrollPos(SB_VERT);
-	int nHorzScroll = GetScrollPos(SB_HORZ);
-	int x, y;
 }
 
 void CMFCLogicSimulatorView::drawComponentWire(CDC & DC)
@@ -432,6 +403,34 @@ void CMFCLogicSimulatorView::drawAddingComponent(CDC & DC)
 	int nVertScroll = GetScrollPos(SB_VERT);
 	int nHorzScroll = GetScrollPos(SB_HORZ);
 	int x, y;
+	COMPONENT_TYPE type;
+	CBitmap componentBitmap;
+	CBitmap *oldBitmap;
+	BITMAP bitmapInfo;
+	CComponentObject* currentObject;
+
+	//마우스의좌표를 가져온다
+	CPoint point;
+	GetCursorPos(&point);
+	ScreenToClient(&point);
+	//그려줄 좌표를 보정한다
+
+	x = point.x ;
+	y = point.y;
+
+	type = pDoc->getCurrentSelectedComponentType();
+	//타입에 맞는 부품의 비트맵 아이디를 가져오고 로드한다
+	componentBitmap.LoadBitmapW(getBitmapIDByComponentType(type));
+	componentBitmap.GetBitmap(&bitmapInfo);
+
+	//부품을 그린다
+	oldBitmap = memDC.SelectObject(&componentBitmap);
+	DC.BitBlt(x, y, bitmapInfo.bmWidth, bitmapInfo.bmHeight, &memDC, 0, 0, SRCCOPY);
+	memDC.SelectObject(oldBitmap);
+
+	//가져온 비트맵을 제거한다
+	componentBitmap.DeleteObject();
+
 }
 
 void CMFCLogicSimulatorView::drawHighlightSelectedComponent(CDC & DC)
