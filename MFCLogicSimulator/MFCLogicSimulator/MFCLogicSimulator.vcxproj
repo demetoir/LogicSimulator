@@ -291,6 +291,7 @@
     <Image Include="res\root\library box\librarybox.png" />
     <Image Include="res\root\out\OFF_LAMP.bmp" />
     <Image Include="res\root\out\ON_LAMP.bmp" />
+    <Image Include="res\root\terminal pin\terminal.bmp" />
     <Image Include="res\root\wire\copper wire.bmp" />
     <Image Include="res\root\wire\PIN OFF.bmp" />
     <Image Include="res\root\wire\PIN ON.bmp" />

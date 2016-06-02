@@ -170,6 +170,10 @@ IDB_PROBE_OFF           BITMAP                  "res\\root\\wire\\PROBE OFF.bmp"
 
 IDB_PROBE_ON            BITMAP                  "res\\root\\wire\\PROBE ON.bmp"
 
+IDB_LIBRARY_BOX         BITMAP                  "res\\root\\library box\\librarybox.bmp"
+
+IDB_TERMINAL_PIN        BITMAP                  "res\\root\\terminal pin\\terminal.bmp"
+
 
 /////////////////////////////////////////////////////////////////////////////
 //

@@ -349,5 +349,8 @@
     <Image Include="res\root\library box\librarybox.bmp">
       <Filter>리소스 파일</Filter>
     </Image>
+    <Image Include="res\root\terminal pin\terminal.bmp">
+      <Filter>리소스 파일</Filter>
+    </Image>
   </ItemGroup>
 </Project>

@@ -8,7 +8,6 @@
 #define IDB_WRITELARGE                  111
 #define IDB_MAIN                        112
 #define IDB_BUTTONS                     113
-
 #define IDB_FILELARGE                   114
 #define IDB_FILESMALL                   115
 #define IDR_POPUP_EDIT                  119
@@ -103,9 +102,13 @@
 #define IDB_GATE_NOR                    333
 #define IDB_GATE_OR                     334
 #define IDB_GATE_XOR                    335
-
-
-
+#define IDB_INPUT_PIN_OFF               342
+#define IDB_INPUT_PIN_ON                343
+#define IDB_PROBE_OFF                   344
+#define IDB_PROBE_ON                    345
+#define IDB_WIRE                        346
+#define IDB_LIBRARY_BOX                 347
+#define IDB_TERMINAL_PIN                348
 
 
 #define ID_WRITE_PASTEASHYPERLINK       32770
@@ -129,7 +132,7 @@
 // 
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
-#define _APS_NEXT_RESOURCE_VALUE        342
+#define _APS_NEXT_RESOURCE_VALUE        349
 #define _APS_NEXT_COMMAND_VALUE         32797
 #define _APS_NEXT_CONTROL_VALUE         1000
 #define _APS_NEXT_SYMED_VALUE           310

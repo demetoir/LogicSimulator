@@ -456,6 +456,7 @@ void CMFCLogicSimulatorView::drawMassage(CDC & DC)
 
 int CMFCLogicSimulatorView::getBitmapIDByComponentType(COMPONENT_TYPE _type)
 {
+	//엔진에서 사용하는 부품 타입 열거형
 	//enum COMPONENT_TYPE {
 	//	COMPONENT_TYPE_NONE,
 	//	COMPONENT_TYPE_INPUT_PIN, COMPONENT_TYPE_CLOCK, COMPONENT_TYPE_ONE_BIT_SWITCH,
