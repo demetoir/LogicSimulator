@@ -108,8 +108,10 @@ protected:
 	//화면에 있는 선택 한부품을 강조하는거
 	void drawMassage( CDC &DC);
 
-	//부품의 비트맵 아이디를 가져온다
+	//부품의 타입에 해당하는 부품의 비트맵 아이디를 가져온다
 	int getBitmapIDByComponentType(COMPONENT_TYPE _type);
+
+
 #define SIZE_OF_COMPONENT_BITMAP 20
 	CBitmap componentBitmap[SIZE_OF_COMPONENT_BITMAP];
 
