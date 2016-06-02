@@ -91,8 +91,8 @@
 #define IDS_EDIT_MENU                   306
 #define IDR_RIBBON                      307
 
-#define IDB_IN_OFF                      325
-#define IDB_IN_ON                       326
+#define IDB_ONE_BIT_SWITCH_OFF          325
+#define IDB_ONE_BIT_SWITCH_ON           326
 #define IDB_FF_DFF                      327
 #define IDB_FF_JKFF                     328
 #define IDB_FF_TFF                      329

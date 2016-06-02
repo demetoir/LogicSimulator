@@ -64,7 +64,7 @@ CMFCLogicSimulatorView::CMFCLogicSimulatorView()
 {
 	// TODO: 여기에 생성 코드를 추가합니다.
 	isHighlightComponentMode = false;
-	
+
 }
 
 CMFCLogicSimulatorView::~CMFCLogicSimulatorView()
@@ -180,8 +180,9 @@ void CMFCLogicSimulatorView::OnLButtonDown(UINT nFlags, CPoint point)
 
 	// TODO: 여기에 메시지 처리기 코드를 추가 및/또는 기본값을 호출합니다.
 
-	//지금 부품 선택 모드이면
-	if (pDoc->operationMode == OPERATION_MODE_ADDING_COMPONENT) {
+	//지금 부품 추가 모드이면
+	switch (pDoc->operationMode) {
+	case OPERATION_MODE_ADDING_COMPONENT: {
 		//보정할 좌표를 가져온다
 		int nVertScroll = GetScrollPos(SB_VERT);
 		int nHorzScroll = GetScrollPos(SB_HORZ);
@@ -190,21 +191,54 @@ void CMFCLogicSimulatorView::OnLButtonDown(UINT nFlags, CPoint point)
 		pDoc->operationMode = OPERATION_MODE_NONE;
 		//tree view 부품 선택모드를 해제하는 메세지를 날린다		
 		((pFrame->getCFileView())->getCFileViewTree())->SendMessage(UM_UNSELECT_ITEM_IN_TREEVIEW);
+		
+		Invalidate();
+		break;}
 
-	}
-	//지금 부품 선택 모드라면
-	//부품을 
-	else if(pDoc->operationMode == OPERATION_MODE_SELECT_COMPONENT){
+		//지금 부품 선택 모드라면
+		//부품을 
+	case OPERATION_MODE_SELECT_COMPONENT: {
+		int newIndex;
+		newIndex = checkMouesPointOnComponent();
+		//선택이 취소됨
+		if (newIndex <=0) {
+			selectedComponentIndex = 0;
+			pDoc->operationMode = OPERATION_MODE_NONE;
+
+		}
+		// 다른 부품을 선택함
+		else if (newIndex != selectedComponentIndex) {
+			selectedComponentIndex = newIndex;
+		}
+		
 		//만약 부품을 선택하면 부품 선택 모드로 변경한다
 		//선택한 부품을 하이라이트 한다
 
 		//만약 부품의 단자를 선택하면 단자를 하이라이트 한다
 
+		Invalidate();
+		break;}
+	case OPERATION_MODE_CONNECTING_COMPONENT: {
+
+		Invalidate();
+		break;}
+
+	case OPERATION_MODE_NONE: {
+		//마우스가 화면의 부품을 선택함
+
+		selectedComponentIndex = checkMouesPointOnComponent();
+		if (selectedComponentIndex > 0) {
+			pDoc->operationMode = OPERATION_MODE_SELECT_COMPONENT;
+			Invalidate();
+		}
+
+		break; }
+	default: {
 
 
-
+		break;}
 	}
-	Invalidate();
+	
 
 	CScrollView::OnLButtonDown(nFlags, point);
 }
@@ -250,7 +284,7 @@ void CMFCLogicSimulatorView::OnPaint()
 			int nHorzScroll = GetScrollPos(SB_HORZ);
 
 			CPoint scrollpos = GetScrollPosition();
-			memDC.BitBlt(-scrollpos.x, -scrollpos.y, rlClientRect.right, rlClientRect.bottom,&memDC, 0, 0, SRCCOPY);
+			memDC.BitBlt(-scrollpos.x, -scrollpos.y, rlClientRect.right, rlClientRect.bottom, &memDC, 0, 0, SRCCOPY);
 		}
 		/* 스크롤바 컨트롤 끝 */
 
@@ -258,7 +292,6 @@ void CMFCLogicSimulatorView::OnPaint()
 		{
 			//부품들을 그린다
 			drawComponent(memDC);
-
 			//와이어들을 그림
 			drawComponentWire(memDC);
 
@@ -267,7 +300,7 @@ void CMFCLogicSimulatorView::OnPaint()
 			if (pDoc->operationMode == OPERATION_MODE_ADDING_COMPONENT) {
 				drawAddingComponent(memDC);
 			}
-			if (isHighlightComponentMode == true) {
+			if (pDoc->operationMode == OPERATION_MODE_SELECT_COMPONENT) {
 				//화면에 있는 선택 한부품을 강조하는거
 				drawHighlightSelectedComponent(memDC);
 			}
@@ -302,8 +335,11 @@ void CMFCLogicSimulatorView::OnMouseMove(UINT nFlags, CPoint point)
 
 	//마우스가부품의 단자 위에 있으면  단자를 강조한다
 	CMFCLogicSimulatorDoc* pDoc = GetDocument();
-	if (pDoc->getCurrentSelectedComponentType() != COMPONENT_TYPE_NONE) {
+	if (pDoc->operationMode == OPERATION_MODE_ADDING_COMPONENT) {
 		Invalidate();
+	}
+	if (pDoc->operationMode == OPERATION_MODE_SELECT_COMPONENT) {
+
 	}
 }
 
@@ -340,7 +376,7 @@ void CMFCLogicSimulatorView::drawComponent(CDC &DC)
 	CBitmap terminalPin;
 	BITMAP terminalPinInfo;
 
-	for (int i = 0; i < pDoc->engineComponentData.size(); i++) {		
+	for (int i = 0; i < pDoc->engineComponentData.size(); i++) {
 		//존재하지 않는것은 넘어간다
 		if (pDoc->engineComponentData[i].id <= 0) {
 			continue;
@@ -351,7 +387,7 @@ void CMFCLogicSimulatorView::drawComponent(CDC &DC)
 		//그려줄 좌표를 보정한다
 		x = pDoc->engineComponentData[i].x - nHorzScroll;
 		y = pDoc->engineComponentData[i].y - nVertScroll;
-		type = pDoc->engineComponentData[i].type;		
+		type = pDoc->engineComponentData[i].type;
 
 		//세븐 세그먼트는 따로 구현한다
 
@@ -415,10 +451,14 @@ void CMFCLogicSimulatorView::drawAddingComponent(CDC & DC)
 	ScreenToClient(&point);
 	//그려줄 좌표를 보정한다
 
-	x = point.x ;
+	x = point.x;
 	y = point.y;
 
+
 	type = pDoc->getCurrentSelectedComponentType();
+	if (type == COMPONENT_TYPE_NONE)
+		return;
+
 	//타입에 맞는 부품의 비트맵 아이디를 가져오고 로드한다
 	componentBitmap.LoadBitmapW(getBitmapIDByComponentType(type));
 	componentBitmap.GetBitmap(&bitmapInfo);
@@ -442,6 +482,24 @@ void CMFCLogicSimulatorView::drawHighlightSelectedComponent(CDC & DC)
 	int nVertScroll = GetScrollPos(SB_VERT);
 	int nHorzScroll = GetScrollPos(SB_HORZ);
 	int x, y;
+
+	COMPONENT_DATA* currentComponent;
+	currentComponent = &pDoc->engineComponentData[selectedComponentIndex];
+	x = currentComponent->x;
+	y = currentComponent->y;
+
+
+	if (currentComponent->type == COMPONENT_TYPE_LIBRARY_BOX) {
+
+	}
+	else if (currentComponent->type == COMPONENT_TYPE_7SEGMENT) {
+
+	}
+	else {
+		drawHighlight(DC, x, y, 75, 75);
+	}
+
+
 }
 
 void CMFCLogicSimulatorView::drawMassage(CDC & DC)
@@ -514,27 +572,87 @@ int CMFCLogicSimulatorView::getBitmapIDByComponentType(COMPONENT_TYPE _type)
 		break;
 
 
-//
-//
-//	case COMPONENT_TYPE_LIBRARY_BOX:
-//		return IDB_FF_DFF;
-//		break;
-//	case COMPONENT_TYPE_LIBRARY_BOX:
-//		return IDB_FF_JKFF;
-//		break;
-//	case COMPONENT_TYPE_LIBRARY_BOX:
-//		return IDB_FF_TFF;
-//		break;
-//#define IDB_FF_DFF                      327
-//#define IDB_FF_JKFF                     328
-//#define IDB_FF_TFF                      329
-//
-//#define IDB_GATE_NAND                   332
-//#define IDB_GATE_NOR                    333
-	default :
+	//
+	//
+	//	case COMPONENT_TYPE_LIBRARY_BOX:
+	//		return IDB_FF_DFF;
+	//		break;
+	//	case COMPONENT_TYPE_LIBRARY_BOX:
+	//		return IDB_FF_JKFF;
+	//		break;
+	//	case COMPONENT_TYPE_LIBRARY_BOX:
+	//		return IDB_FF_TFF;
+	//		break;
+
+
+
+		//#define IDB_FF_DFF                      327
+		//#define IDB_FF_JKFF                     328
+		//#define IDB_FF_TFF                      329
+		//
+		//#define IDB_GATE_NAND                   332
+		//#define IDB_GATE_NOR                    333
+	default:
 		return -1;
 	}
 	return 0;
+}
+
+int CMFCLogicSimulatorView::checkMouesPointOnComponent()
+{
+	CMFCLogicSimulatorDoc* pDoc = GetDocument();
+	int mouseX, mouseY;
+	CPoint point;
+	GetCursorPos(&point);
+	ScreenToClient(&point);
+	//그려줄 좌표를 보정한다
+	mouseX = point.x;
+	mouseY = point.y;
+
+	int endX, endY;
+	int startX, startY;
+	COMPONENT_DATA* currentComponent;
+	for (int i = 0; i < pDoc->engineComponentData.size(); i++) {
+		currentComponent = &pDoc->engineComponentData[i];
+		//존재하지 않는것은 넘어간다
+		if (currentComponent->id <= 0) { continue; }
+
+		startX = currentComponent->x;
+		startY = currentComponent->y;
+		if (currentComponent->type == COMPONENT_TYPE_LIBRARY_BOX) {
+			endX = currentComponent->x + 75;
+			endY = currentComponent->y + 120;
+		}
+		else if (currentComponent->type == COMPONENT_TYPE_7SEGMENT) {
+			endX = currentComponent->x + 75;
+			endY = currentComponent->y + 120;
+		}
+		else {
+			endX = currentComponent->x + 75;
+			endY = currentComponent->y + 75;
+		}
+
+		//마우스가 해당 부품위에있는지 검사한다
+		if (startX <= mouseX && mouseX <= endX &&
+			startY <= mouseY && mouseY <= endY) {
+			return i;
+		}
+	}
+
+	return 0;
+}
+
+void CMFCLogicSimulatorView::drawHighlight(CDC& DC, int x, int y, int bitmapWidth, int bitmapHeight)
+{
+	CPen pen;
+	pen.CreatePen(PS_DOT, 1, RGB(255, 0, 0));    // 빨간색 펜 생성
+	CPen* oldPen = DC.SelectObject(&pen);
+	DC.MoveTo(x - HIGHLIGHT_EDGE_GAP, y - HIGHLIGHT_EDGE_GAP);
+	DC.LineTo(x + HIGHLIGHT_EDGE_GAP + bitmapWidth, y - HIGHLIGHT_EDGE_GAP);
+	DC.LineTo(x + HIGHLIGHT_EDGE_GAP + bitmapWidth, y + HIGHLIGHT_EDGE_GAP + bitmapHeight);
+	DC.LineTo(x - HIGHLIGHT_EDGE_GAP, y + HIGHLIGHT_EDGE_GAP + bitmapHeight);
+	DC.LineTo(x - HIGHLIGHT_EDGE_GAP, y - HIGHLIGHT_EDGE_GAP);
+	DC.SelectObject(oldPen);
 }
 
 //이것을 해야한다

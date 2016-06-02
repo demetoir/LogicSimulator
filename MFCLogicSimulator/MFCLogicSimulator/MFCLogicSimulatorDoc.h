@@ -130,7 +130,10 @@ public :
 
 	//트리뷰에서 선택한 부품의 플래그로  COMPONENT_TYPE를 알아낸다
 	COMPONENT_TYPE getComponentTypeByToolBoxItem(TOOLBOX_ITEM_TYPE type);
+
 	COMPONENT_TYPE getCurrentSelectedComponentType();
 
 	OPERATION_MODE operationMode;
+
+
 };

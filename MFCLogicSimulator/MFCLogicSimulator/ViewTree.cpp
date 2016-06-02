@@ -111,7 +111,9 @@ void CViewTree::OnLButtonDown(UINT nFlags, CPoint point)
 
 			//아무것도 아닌상태일때
 			if (pDoc->operationMode == OPERATION_MODE_NONE) {
-				setItemStateON(hItem);
+				if (isSelectedItemFolder(pDoc->getSelectedItemInToolBox(hItem)) == false) {
+					setItemStateON(hItem);
+				}
 			}
 			//추가 모드일떄
 			else if (pDoc->operationMode == OPERATION_MODE_ADDING_COMPONENT) {
@@ -122,7 +124,9 @@ void CViewTree::OnLButtonDown(UINT nFlags, CPoint point)
 				else {
 					//다시 선택한다
 					SendMessage(UM_UNSELECT_ITEM_IN_TREEVIEW, 100, 100);
-					setItemStateON(hItem);
+					if (isSelectedItemFolder(pDoc->getSelectedItemInToolBox(hItem)) == false) {
+						setItemStateON(hItem);
+					}
 				}
 			}
 			//연결 모드일떄

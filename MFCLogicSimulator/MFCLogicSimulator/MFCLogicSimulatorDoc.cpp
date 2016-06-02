@@ -274,6 +274,7 @@ COMPONENT_TYPE CMFCLogicSimulatorDoc::getCurrentSelectedComponentType()
 	return getComponentTypeByToolBoxItem(currentSelectedItem);
 }
 
+
 // CMFCLogicSimulatorDoc Áø´Ü
 
 #ifdef _DEBUG

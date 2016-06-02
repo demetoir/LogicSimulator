@@ -30,7 +30,7 @@ using namespace Gdiplus;
 // 스크롤 생성
 // http://moguwai.tistory.com/entry/CView-CScrollView%EB%A1%9C-%EC%A0%84%ED%99%98
 
-
+#define HIGHLIGHT_EDGE_GAP 5
 class CMFCLogicSimulatorView : public CScrollView
 {
 protected: // serialization에서만 만들어집니다.
@@ -116,11 +116,16 @@ protected:
 	//부품의 타입에 해당하는 부품의 비트맵 아이디를 가져온다
 	int getBitmapIDByComponentType(COMPONENT_TYPE _type);
 
-	
+	//현재 마우스가 부품위에 있는지 검사한다
+	int checkMouesPointOnComponent();
+
+	void drawHighlight(CDC& DC, int x, int y, int bitmapWidth, int bitmapHeight);
+
 
 #define SIZE_OF_COMPONENT_BITMAP 20
 	CBitmap componentBitmap[SIZE_OF_COMPONENT_BITMAP];
 	bool isHighlightComponentMode;
+	int selectedComponentIndex;
 
 public:
 	afx_msg BOOL OnEraseBkgnd(CDC* pDC);
