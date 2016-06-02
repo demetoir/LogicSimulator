@@ -300,6 +300,10 @@
     <Image Include="res\root\wire\PROBE OFF.bmp" />
     <Image Include="res\root\wire\PROBE ON.bmp" />
     <Image Include="res\root\wire\PROBE.bmp" />
+    <Image Include="res\SEGMENT_H_OFF.bmp" />
+    <Image Include="res\SEGMENT_H_ON.bmp" />
+    <Image Include="res\SEGMENT_V_OFF.bmp" />
+    <Image Include="res\SEGMENT_V_ON.bmp" />
     <Image Include="res\sort.bmp" />
     <Image Include="res\sort_hc.bmp" />
     <Image Include="res\Toolbar.bmp" />

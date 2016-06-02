@@ -176,6 +176,14 @@ IDB_TERMINAL_PIN        BITMAP                  "res\\root\\terminal pin\\termin
 
 IDB_CLOCK               BITMAP                  "res\\root\\in\\CLOCK_FACE.bmp"
 
+IDB_SEGMENT_H_OFF       BITMAP                  "res\\SEGMENT_H_OFF.bmp"
+
+IDB_SEGMENT_H_ON        BITMAP                  "res\\SEGMENT_H_ON.bmp"
+
+IDB_SEGMENT_V_OFF       BITMAP                  "res\\SEGMENT_V_OFF.bmp"
+
+IDB_SEGMENT_V_ON        BITMAP                  "res\\SEGMENT_V_ON.bmp"
+
 
 /////////////////////////////////////////////////////////////////////////////
 //

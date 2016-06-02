@@ -172,6 +172,7 @@ void CChildFrame::OnUpdateChecktoolbox(CCmdUI *pCmdUI)
 void CChildFrame::OnButtonstop()
 {
 	// TODO: 여기에 명령 처리기 코드를 추가합니다.
+	AfxMessageBox(_T("stop"));
 }
 void CChildFrame::OnUpdateButtonstop(CCmdUI *pCmdUI)
 {
@@ -185,6 +186,7 @@ void CChildFrame::OnUpdateButtonstop(CCmdUI *pCmdUI)
 void CChildFrame::OnButtoncontinue()
 {
 	// TODO: 여기에 명령 처리기 코드를 추가합니다.
+	AfxMessageBox(_T("continue"));
 }
 void CChildFrame::OnUpdateButtoncontinue(CCmdUI *pCmdUI)
 {
@@ -197,6 +199,7 @@ void CChildFrame::OnUpdateButtoncontinue(CCmdUI *pCmdUI)
 void CChildFrame::OnButtonact()
 {
 	// TODO: 여기에 명령 처리기 코드를 추가합니다.
+	AfxMessageBox(_T("mode: active"));
 }
 void CChildFrame::OnUpdateButtonact(CCmdUI *pCmdUI)
 {
@@ -209,6 +212,7 @@ void CChildFrame::OnUpdateButtonact(CCmdUI *pCmdUI)
 void CChildFrame::OnButtonedit()
 {
 	// TODO: 여기에 명령 처리기 코드를 추가합니다.
+	AfxMessageBox(_T("mode: edit"));
 }
 void CChildFrame::OnUpdateButtonedit(CCmdUI *pCmdUI)
 {
@@ -225,7 +229,7 @@ void CChildFrame::OnUpdateButtonedit(CCmdUI *pCmdUI)
 void CChildFrame::OnEditCopy()
 {
 	// TODO: 여기에 명령 처리기 코드를 추가합니다.
-
+	AfxMessageBox(_T("copy"));
 	if (!OpenClipboard())
 	{
 		AfxMessageBox(_T("Cannot open the Clipboard"));
@@ -252,6 +256,7 @@ void CChildFrame::OnUpdateEditCopy(CCmdUI *pCmdUI)
 void CChildFrame::OnEditPaste()
 {
 	// TODO: 여기에 명령 처리기 코드를 추가합니다.
+	AfxMessageBox(_T("paste"));
 }
 void CChildFrame::OnUpdateEditPaste(CCmdUI *pCmdUI)
 {
@@ -262,6 +267,7 @@ void CChildFrame::OnUpdateEditPaste(CCmdUI *pCmdUI)
 void CChildFrame::OnEditCut()
 {
 	// TODO: 여기에 명령 처리기 코드를 추가합니다.
+	AfxMessageBox(_T("cut"));
 }
 void CChildFrame::OnUpdateEditCut(CCmdUI *pCmdUI)
 {
@@ -272,6 +278,7 @@ void CChildFrame::OnUpdateEditCut(CCmdUI *pCmdUI)
 void CChildFrame::OnEditSelectAll()
 {
 	// TODO: 여기에 명령 처리기 코드를 추가합니다.
+	AfxMessageBox(_T("select all"));
 }
 void CChildFrame::OnUpdateEditSelectAll(CCmdUI *pCmdUI)
 {
@@ -287,6 +294,7 @@ void CChildFrame::OnUpdateEditSelectAll(CCmdUI *pCmdUI)
 void CChildFrame::OnEditUndo()
 {
 	// TODO: 여기에 명령 처리기 코드를 추가합니다.
+	AfxMessageBox(_T("undo"));
 }
 void CChildFrame::OnUpdateEditUndo(CCmdUI *pCmdUI)
 {
@@ -297,6 +305,7 @@ void CChildFrame::OnUpdateEditUndo(CCmdUI *pCmdUI)
 void CChildFrame::OnEditRedo()
 {
 	// TODO: 여기에 명령 처리기 코드를 추가합니다.
+	AfxMessageBox(_T("redo"));
 }
 void CChildFrame::OnUpdateEditRedo(CCmdUI *pCmdUI)
 {
@@ -310,6 +319,7 @@ void CChildFrame::OnUpdateEditRedo(CCmdUI *pCmdUI)
 void CChildFrame::OnSaveLibrarybox()
 {
 	// TODO: 여기에 명령 처리기 코드를 추가합니다.
+	AfxMessageBox(_T("save lib box"));
 }
 void CChildFrame::OnUpdateSaveLibrarybox(CCmdUI *pCmdUI)
 {
@@ -320,6 +330,7 @@ void CChildFrame::OnUpdateSaveLibrarybox(CCmdUI *pCmdUI)
 void CChildFrame::OnLoadLibrarybox()
 {
 	// TODO: 여기에 명령 처리기 코드를 추가합니다.
+	AfxMessageBox(_T("load lib box"));
 }
 void CChildFrame::OnUpdateLoadLibrarybox(CCmdUI *pCmdUI)
 {
@@ -333,6 +344,7 @@ void CChildFrame::OnUpdateLoadLibrarybox(CCmdUI *pCmdUI)
 void CChildFrame::OnCleanLog()
 {
 	// TODO: 여기에 명령 처리기 코드를 추가합니다.
+	AfxMessageBox(_T("clean log"));
 }
 void CChildFrame::OnUpdateCleanLog(CCmdUI *pCmdUI)
 {

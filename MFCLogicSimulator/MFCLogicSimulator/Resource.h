@@ -110,6 +110,11 @@
 #define IDB_TERMINAL_PIN                348
 #define IDB_BITMAP1                     349
 #define IDB_CLOCK                       349
+#define IDB_SEGMENT_H_OFF               350
+#define IDB_SEGMENT_H_ON                351
+#define IDB_SEGMENT_V_OFF               352
+#define IDB_BITMAP5                     353
+#define IDB_SEGMENT_V_ON                353
 #define ID_WRITE_PASTEASHYPERLINK       32770
 #define ID_CHECKTOOLBOX                 32771
 #define ID_CHECKOUTPUT                  32772
@@ -131,7 +136,7 @@
 // 
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
-#define _APS_NEXT_RESOURCE_VALUE        350
+#define _APS_NEXT_RESOURCE_VALUE        354
 #define _APS_NEXT_COMMAND_VALUE         32797
 #define _APS_NEXT_CONTROL_VALUE         1000
 #define _APS_NEXT_SYMED_VALUE           310

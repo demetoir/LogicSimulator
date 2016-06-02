@@ -359,5 +359,17 @@
     <Image Include="res\root\in\CLOCK_FACE.bmp">
       <Filter>리소스 파일\logic_comp</Filter>
     </Image>
+    <Image Include="res\SEGMENT_H_OFF.bmp">
+      <Filter>리소스 파일\logic_comp</Filter>
+    </Image>
+    <Image Include="res\SEGMENT_H_ON.bmp">
+      <Filter>리소스 파일\logic_comp</Filter>
+    </Image>
+    <Image Include="res\SEGMENT_V_OFF.bmp">
+      <Filter>리소스 파일\logic_comp</Filter>
+    </Image>
+    <Image Include="res\SEGMENT_V_ON.bmp">
+      <Filter>리소스 파일\logic_comp</Filter>
+    </Image>
   </ItemGroup>
 </Project>
