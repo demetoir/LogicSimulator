@@ -144,6 +144,9 @@
     <ClCompile Include="LibraryBoxComponent.cpp">
       <Filter>소스 파일\라이브러리 엔진 소스</Filter>
     </ClCompile>
+    <ClCompile Include="ViewTree.cpp">
+      <Filter>헤더 파일</Filter>
+    </ClCompile>
     <ClCompile Include="7SegmentComponent.cpp">
       <Filter>소스 파일\라이브러리 엔진 소스\부품 클래스 소스</Filter>
     </ClCompile>
@@ -176,9 +179,6 @@
     </ClCompile>
     <ClCompile Include="XORGateComponent.cpp">
       <Filter>소스 파일\라이브러리 엔진 소스\부품 클래스 소스</Filter>
-    </ClCompile>
-    <ClCompile Include="ViewTree.cpp">
-      <Filter>소스 파일</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -338,18 +338,6 @@
     <Image Include="res\root\FF\T-FF.bmp">
       <Filter>리소스 파일\logic_comp</Filter>
     </Image>
-    <Image Include="res\root\wire\PIN OFF.bmp">
-      <Filter>리소스 파일</Filter>
-    </Image>
-    <Image Include="res\root\wire\PIN ON.bmp">
-      <Filter>리소스 파일</Filter>
-    </Image>
-    <Image Include="res\root\wire\PROBE OFF.bmp">
-      <Filter>리소스 파일</Filter>
-    </Image>
-    <Image Include="res\root\wire\PROBE ON.bmp">
-      <Filter>리소스 파일</Filter>
-    </Image>
     <Image Include="res\root\library box\librarybox.png">
       <Filter>리소스 파일</Filter>
     </Image>
@@ -357,7 +345,19 @@
       <Filter>리소스 파일</Filter>
     </Image>
     <Image Include="res\root\terminal pin\terminal.bmp">
-      <Filter>리소스 파일</Filter>
+      <Filter>리소스 파일\logic_comp</Filter>
+    </Image>
+    <Image Include="res\root\wire\PROBE ON.bmp">
+      <Filter>리소스 파일\logic_comp</Filter>
+    </Image>
+    <Image Include="res\root\wire\PROBE OFF.bmp">
+      <Filter>리소스 파일\logic_comp</Filter>
+    </Image>
+    <Image Include="res\root\wire\PIN ON.bmp">
+      <Filter>리소스 파일\logic_comp</Filter>
+    </Image>
+    <Image Include="res\root\wire\PIN OFF.bmp">
+      <Filter>리소스 파일\logic_comp</Filter>
     </Image>
   </ItemGroup>
 </Project>

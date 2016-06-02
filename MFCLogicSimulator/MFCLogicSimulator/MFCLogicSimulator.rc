@@ -138,9 +138,9 @@ IDR_PROPERTIES          BITMAP                  "res\\properties.bmp"
 
 IDB_PROPERTIES_HC       BITMAP                  "res\\properties_hc.bmp"
 
-IDB_ONE_BIT_SWITCH_OFF  BITMAP                  "res\\root\\in\\OFF.bmp"
+IDB_IN_OFF              BITMAP                  "res\\root\\in\\OFF.bmp"
 
-IDB_ONE_BIT_SWITCH_ON   BITMAP                  "res\\root\\in\\ON.bmp"
+IDB_IN_ON               BITMAP                  "res\\root\\in\\ON.bmp"
 
 IDB_FF_DFF              BITMAP                  "res\\root\\FF\\D-FF.bmp"
 
