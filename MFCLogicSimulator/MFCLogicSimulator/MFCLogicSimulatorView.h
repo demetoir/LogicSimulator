@@ -125,7 +125,7 @@ protected:
 #define SIZE_OF_COMPONENT_BITMAP 20
 	CBitmap componentBitmap[SIZE_OF_COMPONENT_BITMAP];
 	bool isHighlightComponentMode;
-	int selectedComponentIndex;
+	int highlightComponentIndex;
 
 public:
 	afx_msg BOOL OnEraseBkgnd(CDC* pDC);
