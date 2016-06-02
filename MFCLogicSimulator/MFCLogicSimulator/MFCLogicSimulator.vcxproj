@@ -183,6 +183,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
+    <Text Include="레지스트리 관련 정보.txt" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="7SegmentComponent.h" />
