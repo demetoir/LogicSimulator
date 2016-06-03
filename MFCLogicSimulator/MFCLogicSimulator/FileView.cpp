@@ -140,12 +140,17 @@ void CFileView::FillFileView()
 	m_wndFileView.InsertItem(_T("1 Bit out put lamp"), 1, 2, hOut);
 	m_wndFileView.InsertItem(_T("7-segment"), 1, 2, hOut);
 
+	HTREEITEM hLib = m_wndFileView.InsertItem(_T("Library Box"), 0, 0, hRoot);
+	m_wndFileView.InsertItem(_T("lib box test"), 1, 2, hLib);
+
+
 	m_wndFileView.Expand(hRoot, TVE_EXPAND);
 	m_wndFileView.Expand(hWire, TVE_EXPAND);
 	m_wndFileView.Expand(hLog, TVE_EXPAND);
 	m_wndFileView.Expand(hFlip, TVE_EXPAND);
 	m_wndFileView.Expand(hInp, TVE_EXPAND);
 	m_wndFileView.Expand(hOut, TVE_EXPAND);
+	m_wndFileView.Expand(hLib, TVE_EXPAND);
 
 }
 
