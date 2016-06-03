@@ -64,7 +64,7 @@ CMFCLogicSimulatorView::CMFCLogicSimulatorView()
 {
 	// TODO: 여기에 생성 코드를 추가합니다.
 	isHighlightComponentMode = false;
-
+	isHighlightTerminalPin = false;
 }
 
 CMFCLogicSimulatorView::~CMFCLogicSimulatorView()
@@ -266,6 +266,8 @@ void CMFCLogicSimulatorView::OnPaint()
 	CDC memDC;
 	CBitmap newBitmap;
 	CBitmap *pOldBitmap;
+	SELECTED_TERMINAL_INFO dummyInfo;
+
 
 	//더블버퍼링을 하기 위해 버퍼역할을 할 비트맵을 지정한다
 	memDC.CreateCompatibleDC(&dc);
@@ -304,6 +306,13 @@ void CMFCLogicSimulatorView::OnPaint()
 				//화면에 있는 선택 한부품을 강조하는거
 				drawHighlightSelectedComponent(memDC);
 			}
+			
+			if (isHighlightTerminalPin == true) {
+				drawHighlightComponentTerminalPin(memDC);
+			}
+
+
+
 			//화면에 메세지를 띄어주는것
 			drawMassage(memDC);
 		}
@@ -360,6 +369,14 @@ void CMFCLogicSimulatorView::OnMouseMove(UINT nFlags, CPoint point)
 
 
 	}
+	SELECTED_TERMINAL_INFO dummyInfo;
+
+	bool oldval = isHighlightTerminalPin;
+	isHighlightTerminalPin = checkMouesPointOnTerminalPin(dummyInfo);
+	if (oldval != isHighlightTerminalPin) {
+		Invalidate();
+	}
+
 }
 
 
@@ -387,6 +404,7 @@ void CMFCLogicSimulatorView::drawComponent(CDC &DC)
 	int nHorzScroll = GetScrollPos(SB_HORZ);
 	int x, y;
 	COMPONENT_TYPE type;
+	COMPONENT_DIRECTION direction;
 	CBitmap componentBitmap;
 	CBitmap *oldBitmap;
 	BITMAP bitmapInfo;
@@ -407,16 +425,16 @@ void CMFCLogicSimulatorView::drawComponent(CDC &DC)
 		x = pDoc->engineComponentData[i].x - nHorzScroll;
 		y = pDoc->engineComponentData[i].y - nVertScroll;
 		type = pDoc->engineComponentData[i].type;
-
+		direction = pDoc->engineComponentData[i].direction;
 		//세븐 세그먼트는 따로 구현한다
 		
 
 		//타입에 맞는 부품의 비트맵 아이디를 가져오고 로드한다
-		componentBitmap.LoadBitmapW(getBitmapIDByComponentType(type));
+		componentBitmap.LoadBitmapW(getBitmapIDByComponentType(type, direction));
 		componentBitmap.GetBitmap(&bitmapInfo);
 
 		// 터미널 핀을 그린다
-		drawComponentTermial(DC, x, y, EAST, bitmapInfo.bmWidth, bitmapInfo.bmHeight,
+		drawComponentTermialPin(DC, x, y, EAST, bitmapInfo.bmWidth, bitmapInfo.bmHeight,
 			currentObject->numberOfInput(), currentObject->numberOfOutput());
 
 		//부품을 그린다
@@ -471,7 +489,7 @@ void CMFCLogicSimulatorView::drawAddingComponent(CDC & DC)
 		return;
 
 	//타입에 맞는 부품의 비트맵 아이디를 가져오고 로드한다
-	componentBitmap.LoadBitmapW(getBitmapIDByComponentType(type));
+	componentBitmap.LoadBitmapW(getBitmapIDByComponentType(type,EAST));
 	componentBitmap.GetBitmap(&bitmapInfo);
 
 	//부품을 그린다
@@ -509,7 +527,7 @@ void CMFCLogicSimulatorView::drawHighlightSelectedComponent(CDC & DC)
 
 	}
 	else {
-		drawHighlight(DC, x, y, 75, 75);
+		drawHighlightComponentBody(DC, x, y, 75, 75);
 	}
 
 
@@ -526,7 +544,7 @@ void CMFCLogicSimulatorView::drawMassage(CDC & DC)
 	int x, y;
 }
 
-int CMFCLogicSimulatorView::getBitmapIDByComponentType(COMPONENT_TYPE _type)
+int CMFCLogicSimulatorView::getBitmapIDByComponentType(COMPONENT_TYPE _type, COMPONENT_DIRECTION direction)
 {
 	////엔진에서 사용하는 부품 타입 열거형
 	//enum COMPONENT_TYPE {
@@ -541,12 +559,16 @@ int CMFCLogicSimulatorView::getBitmapIDByComponentType(COMPONENT_TYPE _type)
 	switch (_type) {
 
 	case COMPONENT_TYPE_ONE_BIT_SWITCH:
-		return IDB_ONE_BIT_SWITCH_OFF;
+		return IDB_SWITCH_OFF_E;
 		break;
 
-	//case COMPONENT_TYPE_ONE_BIT_LAMP:
-	//	return IDB_ONE_BIT_SWITCH_OFF;
-	//	break;
+	case COMPONENT_TYPE_ONE_BIT_LAMP:
+		return IDB_LAMP_OFF_E;
+		break;
+	case COMPONENT_TYPE_CLOCK:
+		return IDB_CLOCK_E;
+		break ;
+		 
 	//case COMPONENT_TYPE_7SEGMENT:
 	//	return IDB_ONE_BIT_SWITCH_OFF;
 	//	break;
@@ -555,33 +577,32 @@ int CMFCLogicSimulatorView::getBitmapIDByComponentType(COMPONENT_TYPE _type)
 
 
 	case COMPONENT_TYPE_AND_GATE:
-		return IDB_GATE_AND;
+		return IDB_GATE_AND_E+ direction;
 		break;
-	case COMPONENT_TYPE_OR_GATE:
-		return IDB_GATE_OR;
+	case COMPONENT_TYPE_OR_GATE :
+		return IDB_GATE_OR_E + direction;
 		break;
 	case COMPONENT_TYPE_NOT_GATE:
-		return IDB_GATE_INVERTOR;
+		return IDB_INVERTOR_E + direction;
 		break;
 	case COMPONENT_TYPE_XOR_GATE:
-		return IDB_GATE_XOR;
+		return IDB_GATE_XOR_E + direction;
 		break;
 
 	case COMPONENT_TYPE_INPUT_PIN:
-		return IDB_INPUT_PIN_OFF;
+		return IDB_PIN_ON_E;
 		break;
 	case COMPONENT_TYPE_OUTPUT_PIN:
-		return IDB_PROBE_OFF;
+		return IDB_PROBE_OFF_E ;
 		break;
 
 	case COMPONENT_TYPE_WIRE:
-		return IDB_WIRE;
+		return IDB_COPPER_WIRE;
 		break;
-
-
+		
 
 	case COMPONENT_TYPE_LIBRARY_BOX:
-		return IDB_LIBRARY_BOX;
+		return IDB_LIBBOX_E + direction;
 		break;
 
 
@@ -657,7 +678,209 @@ int CMFCLogicSimulatorView::checkMouesPointOnComponent()
 	return 0;
 }
 
-void CMFCLogicSimulatorView::drawHighlight(CDC& DC, int x, int y, int bitmapWidth, int bitmapHeight)
+bool CMFCLogicSimulatorView::checkMouesPointOnTerminalPin(SELECTED_TERMINAL_INFO& selectedTerminalInfo)
+{
+	CMFCLogicSimulatorDoc* pDoc = GetDocument();
+	CComponentObject* currentObject;
+	int inputTerminalGap;
+	int outputTerminalGap;
+	CBitmap componentBitmap;
+	CBitmap* oldBitmap;
+	BITMAP bitmapInfo;
+	COMPONENT_DATA* currentData;
+	BOOL isInTerminalPin = false;
+	CRgn terminalPinRgn;
+	CPoint point;
+	GetCursorPos(&point);
+	ScreenToClient(&point);
+	int nVertScroll = GetScrollPos(SB_VERT);
+	int nHorzScroll = GetScrollPos(SB_HORZ);
+	point.x += nHorzScroll;
+	point.y += nVertScroll;
+
+
+	for (int i = 0; i < pDoc->engineComponentData.size(); i++) {
+		currentData = &pDoc->engineComponentData[i];
+		//존재하지 않는것은 넘어간다
+		if (currentData->id <= 0) {continue;}
+
+		//현재 부품의 객체를 가져온다
+		currentObject = pDoc->logicSimulatorEngine.getComponentObject(i);
+
+		//비트맵 정보를 로드한다
+		componentBitmap.LoadBitmapW(getBitmapIDByComponentType(currentData->type, currentData->direction));
+		componentBitmap.GetBitmap(&bitmapInfo);		
+		int bmWidth = bitmapInfo.bmWidth;
+		int bmHeight = bitmapInfo.bmHeight;
+
+		int numberOfInputTerminal = currentObject->numberOfInput();
+		int numberOfOutputTerminal = currentObject->numberOfOutput();
+		int x = currentData->x;
+		int y = currentData->y;
+		int a, b;
+		
+		switch (currentData->direction) {
+		case EAST: {
+			inputTerminalGap = bmHeight / (numberOfInputTerminal + 1);
+			outputTerminalGap = bmHeight / (numberOfOutputTerminal + 1);
+			//인풋을 검사한다
+			for (int curI = 1; curI < numberOfInputTerminal + 1; curI++) {
+				a = x - 10;
+				b = y + inputTerminalGap * curI;
+				terminalPinRgn.CreateEllipticRgn(a - TERMINAL_PIN_HALF_SIZE, b - TERMINAL_PIN_HALF_SIZE,
+					a + TERMINAL_PIN_HALF_SIZE, b + TERMINAL_PIN_HALF_SIZE);
+				if (terminalPinRgn.PtInRegion(point)) {
+					isInTerminalPin = true;
+					selectedTerminalInfo.componentID = i;
+					selectedTerminalInfo.terminalNumber = curI-1;
+					selectedTerminalInfo.terminalType = TERMINAL_TYPE_INPUT;
+					selectedTerminalPinX = a;
+					selectedTerminalPinY = b;
+				};
+				terminalPinRgn.DeleteObject();
+			}
+			//아웃풋을 검사한다
+			for (int curI = 1; curI < numberOfOutputTerminal + 1; curI++) {
+				a = x + bmWidth + 10;
+				b = y + outputTerminalGap * curI;
+				terminalPinRgn.CreateEllipticRgn(a - TERMINAL_PIN_HALF_SIZE, b - TERMINAL_PIN_HALF_SIZE,
+					a + TERMINAL_PIN_HALF_SIZE, b + TERMINAL_PIN_HALF_SIZE);
+				if (terminalPinRgn.PtInRegion(point)) {
+					isInTerminalPin = true;
+					selectedTerminalInfo.componentID = i;
+					selectedTerminalInfo.terminalNumber = curI - 1;
+					selectedTerminalInfo.terminalType = TERMINAL_TYPE_INPUT;
+					selectedTerminalPinX = a;
+					selectedTerminalPinY = b;
+				};
+				terminalPinRgn.DeleteObject();
+			}
+			
+			break;
+		}
+		case SOUTH: {
+			inputTerminalGap = bmWidth / (numberOfInputTerminal + 1);
+			outputTerminalGap = bmWidth / (numberOfOutputTerminal + 1);
+			//인풋핀
+			for (int curI = 1; curI < numberOfInputTerminal + 1; curI++) {
+				a = x + inputTerminalGap * curI;
+				b = y + -10;
+				terminalPinRgn.CreateEllipticRgn(a - TERMINAL_PIN_HALF_SIZE, b - TERMINAL_PIN_HALF_SIZE,
+					a + TERMINAL_PIN_HALF_SIZE, b + TERMINAL_PIN_HALF_SIZE);
+				if (terminalPinRgn.PtInRegion(point)) {
+					isInTerminalPin = true;
+					selectedTerminalInfo.componentID = i;
+					selectedTerminalInfo.terminalNumber = curI - 1;
+					selectedTerminalInfo.terminalType = TERMINAL_TYPE_INPUT;
+					selectedTerminalPinX = a;
+					selectedTerminalPinY = b;
+				};
+				terminalPinRgn.DeleteObject();
+			}
+			//부품의 아웃풋 핀
+			for (int curI = 1; curI < numberOfOutputTerminal + 1; curI++) {
+				a = x + outputTerminalGap * curI;
+				b = y + bmHeight + 10;
+				terminalPinRgn.CreateEllipticRgn(a - TERMINAL_PIN_HALF_SIZE, b - TERMINAL_PIN_HALF_SIZE,
+					a + TERMINAL_PIN_HALF_SIZE, b + TERMINAL_PIN_HALF_SIZE);
+				if (terminalPinRgn.PtInRegion(point)) {
+					isInTerminalPin = true;
+					selectedTerminalInfo.componentID = i;
+					selectedTerminalInfo.terminalNumber = curI - 1;
+					selectedTerminalInfo.terminalType = TERMINAL_TYPE_INPUT;
+					selectedTerminalPinX = a;
+					selectedTerminalPinY = b;
+				};
+				terminalPinRgn.DeleteObject();
+			}
+			break;
+		}
+		case WEST: {
+			inputTerminalGap = bmHeight / (numberOfInputTerminal + 1);
+			outputTerminalGap = bmHeight / (numberOfOutputTerminal + 1);
+
+			for (int curI = 1; curI < numberOfInputTerminal + 1; curI++) {
+				a = x + bmWidth + 10;
+				b = y + inputTerminalGap * curI;
+				terminalPinRgn.CreateEllipticRgn(a - TERMINAL_PIN_HALF_SIZE, b - TERMINAL_PIN_HALF_SIZE,
+					a + TERMINAL_PIN_HALF_SIZE, b + TERMINAL_PIN_HALF_SIZE);
+				if (terminalPinRgn.PtInRegion(point)) {
+					isInTerminalPin = true;
+					selectedTerminalInfo.componentID = i;
+					selectedTerminalInfo.terminalNumber = curI - 1;
+					selectedTerminalInfo.terminalType = TERMINAL_TYPE_INPUT;
+					selectedTerminalPinX = a;
+					selectedTerminalPinY = b;
+				};
+				terminalPinRgn.DeleteObject();
+			}
+			//부품의 아웃풋 핀을 그린다
+			for (int curI = 1; curI < numberOfOutputTerminal + 1; curI++) {
+				a = x - 10;
+				b = y + outputTerminalGap * curI;
+				terminalPinRgn.CreateEllipticRgn(a - TERMINAL_PIN_HALF_SIZE, b - TERMINAL_PIN_HALF_SIZE,
+					a + TERMINAL_PIN_HALF_SIZE, b + TERMINAL_PIN_HALF_SIZE);
+				if (terminalPinRgn.PtInRegion(point)) {
+					isInTerminalPin = true;
+					selectedTerminalInfo.componentID = i;
+					selectedTerminalInfo.terminalNumber = curI - 1;
+					selectedTerminalInfo.terminalType = TERMINAL_TYPE_INPUT;
+					selectedTerminalPinX = a;
+					selectedTerminalPinY = b;
+				};
+				terminalPinRgn.DeleteObject();
+			}
+			break;
+		}
+		case NORTH: {
+			inputTerminalGap = bmWidth / (numberOfInputTerminal + 1);
+			outputTerminalGap = bmWidth / (numberOfOutputTerminal + 1);
+			for (int curI = 1; curI < numberOfInputTerminal + 1; curI++) {
+				a = x + inputTerminalGap * curI;
+				b = y + bmWidth + 10;
+				terminalPinRgn.CreateEllipticRgn(a - TERMINAL_PIN_HALF_SIZE, b - TERMINAL_PIN_HALF_SIZE,
+					a + TERMINAL_PIN_HALF_SIZE, b + TERMINAL_PIN_HALF_SIZE);
+				if (terminalPinRgn.PtInRegion(point)) {
+					isInTerminalPin = true;
+					selectedTerminalInfo.componentID = i;
+					selectedTerminalInfo.terminalNumber = curI - 1;
+					selectedTerminalInfo.terminalType = TERMINAL_TYPE_INPUT;
+					selectedTerminalPinX = a;
+					selectedTerminalPinY = b;
+				};
+				terminalPinRgn.DeleteObject();
+			}
+
+			//부품의 아웃풋 핀을 그린다
+			for (int curI = 1; curI < numberOfOutputTerminal + 1; curI++) {
+				a = x + outputTerminalGap * curI;
+				b = y - 10;
+				terminalPinRgn.CreateEllipticRgn(a - TERMINAL_PIN_HALF_SIZE, b - TERMINAL_PIN_HALF_SIZE,
+					a + TERMINAL_PIN_HALF_SIZE, b + TERMINAL_PIN_HALF_SIZE);
+				if (terminalPinRgn.PtInRegion(point)) {
+					isInTerminalPin = true;
+					selectedTerminalInfo.componentID = i;
+					selectedTerminalInfo.terminalNumber = curI - 1;
+					selectedTerminalInfo.terminalType = TERMINAL_TYPE_INPUT;
+					selectedTerminalPinX = a;
+					selectedTerminalPinY = b;
+				};
+				terminalPinRgn.DeleteObject();
+			}
+			break;
+		}
+		default:
+			break;
+		}
+
+		//로드한 비트맵을 제거한다
+		componentBitmap.DeleteObject();
+
+	}
+	return isInTerminalPin;
+}
+
+void CMFCLogicSimulatorView::drawHighlightComponentBody(CDC& DC, int x, int y, int bitmapWidth, int bitmapHeight)
 {
 	CPen pen;
 	pen.CreatePen(PS_DOT, 1, RGB(255, 0, 0));    // 빨간색 펜 생성
@@ -671,7 +894,25 @@ void CMFCLogicSimulatorView::drawHighlight(CDC& DC, int x, int y, int bitmapWidt
 	DC.SelectObject(oldPen);
 }
 
-void CMFCLogicSimulatorView::drawComponentTermial(CDC & DC, int x, int y, COMPONENT_DIRECTION direction, 
+void CMFCLogicSimulatorView::drawHighlightComponentTerminalPin(CDC & DC)
+{
+	int nVertScroll = GetScrollPos(SB_VERT);
+	int nHorzScroll = GetScrollPos(SB_HORZ);
+	int x = selectedTerminalPinX + nHorzScroll;
+	int y = selectedTerminalPinY - nVertScroll;
+
+	CPen pen;
+	CPen* oldPen;
+	//인풋핀을 그린다
+	pen.CreatePen(PS_SOLID, 2, RGB(153, 0, 0255));    // 펜 생성
+	oldPen = DC.SelectObject(&pen);
+	DC.Ellipse(x - HIGHLIGHIT_TERMINAL_PIN_HALF_SIZE, y - HIGHLIGHIT_TERMINAL_PIN_HALF_SIZE,
+		x + HIGHLIGHIT_TERMINAL_PIN_HALF_SIZE, y + HIGHLIGHIT_TERMINAL_PIN_HALF_SIZE);
+	DC.SelectObject(oldPen);
+	pen.DeleteObject();
+}
+
+void CMFCLogicSimulatorView::drawComponentTermialPin(CDC & DC, int x, int y, COMPONENT_DIRECTION direction, 
 	int componentWidth, int componentHeight, int numberOfInputTerminal, int numberOfOutputTerminal)
 {
 	CPen pen;
@@ -687,9 +928,9 @@ void CMFCLogicSimulatorView::drawComponentTermial(CDC & DC, int x, int y, COMPON
 		//인풋핀을 그린다
 		pen.CreatePen(PS_SOLID, 2, RGB(255, 0, 0));    // 빨간색 펜 생성
 		oldPen = DC.SelectObject(&pen);
-		for (int i = 1; i < numberOfInputTerminal + 1; i++) {
+		for (int curI = 1; curI < numberOfInputTerminal + 1; curI++) {
 			a = x - 10;
-			b = y + inputTerminalGap * i;
+			b = y + inputTerminalGap * curI;
 			DC.MoveTo(a, b);
 			DC.LineTo(a + 30, b);
 			DC.Ellipse(a - TERMINAL_PIN_HALF_SIZE, b - TERMINAL_PIN_HALF_SIZE,
@@ -701,9 +942,9 @@ void CMFCLogicSimulatorView::drawComponentTermial(CDC & DC, int x, int y, COMPON
 		pen.CreatePen(PS_SOLID, 2, RGB(0, 0, 255));    // 빨간색 펜 생성
 		oldPen = DC.SelectObject(&pen);
 		//부품의 아웃풋 핀을 그린다
-		for (int i = 1; i < numberOfOutputTerminal + 1; i++) {
+		for (int curI = 1; curI < numberOfOutputTerminal + 1; curI++) {
 			a = x + componentWidth + 10;
-			b = y + outputTerminalGap * i;
+			b = y + outputTerminalGap * curI;
 			DC.MoveTo(a, b);
 			DC.LineTo(a - 30, b);
 			DC.Ellipse(a - TERMINAL_PIN_HALF_SIZE, b - TERMINAL_PIN_HALF_SIZE,
@@ -720,8 +961,8 @@ void CMFCLogicSimulatorView::drawComponentTermial(CDC & DC, int x, int y, COMPON
 		//인풋핀을 그린다
 		pen.CreatePen(PS_SOLID, 2, RGB(255, 0, 0));    // 빨간색 펜 생성
 		oldPen = DC.SelectObject(&pen);
-		for (int i = 1; i < numberOfInputTerminal + 1; i++) {
-			a = x + inputTerminalGap * i;
+		for (int curI = 1; curI < numberOfInputTerminal + 1; curI++) {
+			a = x + inputTerminalGap * curI;
 			b = y + -10;
 			DC.MoveTo(a, b);
 			DC.LineTo(a , b+30);
@@ -734,8 +975,8 @@ void CMFCLogicSimulatorView::drawComponentTermial(CDC & DC, int x, int y, COMPON
 		pen.CreatePen(PS_SOLID, 2, RGB(0, 0, 255));    // 빨간색 펜 생성
 		oldPen = DC.SelectObject(&pen);
 		//부품의 아웃풋 핀을 그린다
-		for (int i = 1; i < numberOfOutputTerminal + 1; i++) {
-			a = x + outputTerminalGap * i;
+		for (int curI = 1; curI < numberOfOutputTerminal + 1; curI++) {
+			a = x + outputTerminalGap * curI;
 			b = y + componentHeight+10;
 			DC.MoveTo(a, b);
 			DC.LineTo(a , b-30);
@@ -753,9 +994,9 @@ void CMFCLogicSimulatorView::drawComponentTermial(CDC & DC, int x, int y, COMPON
 		//인풋핀을 그린다
 		pen.CreatePen(PS_SOLID, 2, RGB(255, 0, 0));    // 빨간색 펜 생성
 		oldPen = DC.SelectObject(&pen);
-		for (int i = 1; i < numberOfInputTerminal + 1; i++) {
+		for (int curI = 1; curI < numberOfInputTerminal + 1; curI++) {
 			a = x + componentWidth + 10;
-			b = y + inputTerminalGap * i;
+			b = y + inputTerminalGap * curI;
 			DC.MoveTo(a, b);
 			DC.LineTo(a - 30, b);
 			DC.Ellipse(a - TERMINAL_PIN_HALF_SIZE, b - TERMINAL_PIN_HALF_SIZE,
@@ -767,9 +1008,9 @@ void CMFCLogicSimulatorView::drawComponentTermial(CDC & DC, int x, int y, COMPON
 		pen.CreatePen(PS_SOLID, 2, RGB(0, 0, 255));    // 빨간색 펜 생성
 		oldPen = DC.SelectObject(&pen);
 		//부품의 아웃풋 핀을 그린다
-		for (int i = 1; i < numberOfOutputTerminal + 1; i++) {
+		for (int curI = 1; curI < numberOfOutputTerminal + 1; curI++) {
 			a = x - 10;
-			b = y + outputTerminalGap * i;
+			b = y + outputTerminalGap * curI;
 			DC.MoveTo(a, b);
 			DC.LineTo(a + 30, b);
 			DC.Ellipse(a - TERMINAL_PIN_HALF_SIZE, b - TERMINAL_PIN_HALF_SIZE,
@@ -788,8 +1029,8 @@ void CMFCLogicSimulatorView::drawComponentTermial(CDC & DC, int x, int y, COMPON
 		//인풋핀을 그린다
 		pen.CreatePen(PS_SOLID, 2, RGB(255, 0, 0));    // 빨간색 펜 생성
 		oldPen = DC.SelectObject(&pen);
-		for (int i = 1; i < numberOfInputTerminal + 1; i++) {
-			a = x + inputTerminalGap * i;
+		for (int curI = 1; curI < numberOfInputTerminal + 1; curI++) {
+			a = x + inputTerminalGap * curI;
 			b = y + componentHeight + 10;
 			DC.MoveTo(a, b);
 			DC.LineTo(a, b - 30);
@@ -802,8 +1043,8 @@ void CMFCLogicSimulatorView::drawComponentTermial(CDC & DC, int x, int y, COMPON
 		pen.CreatePen(PS_SOLID, 2, RGB(0, 0, 255));    // 빨간색 펜 생성
 		oldPen = DC.SelectObject(&pen);
 		//부품의 아웃풋 핀을 그린다
-		for (int i = 1; i < numberOfOutputTerminal + 1; i++) {
-			a = x + outputTerminalGap * i;
+		for (int curI = 1; curI < numberOfOutputTerminal + 1; curI++) {
+			a = x + outputTerminalGap * curI;
 			b = y - 10;
 			DC.MoveTo(a, b);
 			DC.LineTo(a, b + 30);

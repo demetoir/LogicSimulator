@@ -61,7 +61,7 @@ int CMainFrame::OnCreate(LPCREATESTRUCT lpCreateStruct)
 	EnableMDITabbedGroups(TRUE, mdiTabParams);
 
 	m_wndRibbonBar.Create(this);
-	m_wndRibbonBar.LoadFromResource(IDR_RIBBON);
+	m_wndRibbonBar.LoadFromResource(IDR_RIBBON1);
 
 	if (!m_wndStatusBar.Create(this))
 	{
