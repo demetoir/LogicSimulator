@@ -28,6 +28,8 @@
 // http://moguwai.tistory.com/entry/CView-CScrollView%EB%A1%9C-%EC%A0%84%ED%99%98
 
 #define HIGHLIGHT_EDGE_GAP 5
+#define	SELECTED_TERMINAL_INFO COMPONENT_CONENTION_INFO
+
 class CMFCLogicSimulatorView : public CScrollView
 {
 protected: // serialization에서만 만들어집니다.
@@ -115,12 +117,19 @@ protected:
 
 	//현재 마우스가 부품위에 있는지 검사한다
 	int checkMouesPointOnComponent();
-	int checkMouesPointOnTerminalPin();
+	int selectedTerminalPinX;
+	int selectedTerminalPinY;
+	bool checkMouesPointOnTerminalPin(SELECTED_TERMINAL_INFO& selectedTerminalInfo);
 
-	void drawHighlight(CDC& DC, int x, int y, int bitmapWidth, int bitmapHeight);
+	//부품 몸체를 강조하는 부분을 그린다
+	void drawHighlightComponentBody(CDC& DC, int x, int y, int bitmapWidth, int bitmapHeight);
 
+	//부품의  단자를 강조하는 부분을 그린다
+	void drawHighlightComponentTerminalPin(CDC& DC);
+	
+	
 	//단자를 그린다
-	void drawComponentTermial(CDC& DC, int x, int y, COMPONENT_DIRECTION direction, 
+	void drawComponentTermialPin(CDC& DC, int x, int y, COMPONENT_DIRECTION direction, 
 		int componentWidth, int componentHeight, int numberOfInputTerminal, int numberOfOutputTerminal);
 	//부품의 몸체를 그린다
 	void drawComponentBody(CDC& DC, int x, int y, COMPONENT_DIRECTION direction, 
@@ -130,9 +139,11 @@ protected:
 #define SIZE_OF_COMPONENT_BITMAP 20
 	CBitmap componentBitmap[SIZE_OF_COMPONENT_BITMAP];
 #define TERMINAL_PIN_HALF_SIZE  7
+#define HIGHLIGHIT_TERMINAL_PIN_HALF_SIZE  15
+
 	bool isHighlightComponentMode;
 	int highlightComponentIndex;
-
+	bool isHighlightTerminalPin;
 public:
 	afx_msg BOOL OnEraseBkgnd(CDC* pDC);
 };

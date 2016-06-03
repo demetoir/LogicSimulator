@@ -64,7 +64,7 @@ CMFCLogicSimulatorView::CMFCLogicSimulatorView()
 {
 	// TODO: ¿©±â¿¡ »ý¼º ÄÚµå¸¦ Ãß°¡ÇÕ´Ï´Ù.
 	isHighlightComponentMode = false;
-
+	isHighlightTerminalPin = false;
 }
 
 CMFCLogicSimulatorView::~CMFCLogicSimulatorView()
@@ -266,6 +266,8 @@ void CMFCLogicSimulatorView::OnPaint()
 	CDC memDC;
 	CBitmap newBitmap;
 	CBitmap *pOldBitmap;
+	SELECTED_TERMINAL_INFO dummyInfo;
+
 
 	//´õºí¹öÆÛ¸µÀ» ÇÏ±â À§ÇØ ¹öÆÛ¿ªÇÒÀ» ÇÒ ºñÆ®¸ÊÀ» ÁöÁ¤ÇÑ´Ù
 	memDC.CreateCompatibleDC(&dc);
@@ -304,6 +306,13 @@ void CMFCLogicSimulatorView::OnPaint()
 				//È­¸é¿¡ ÀÖ´Â ¼±ÅÃ ÇÑºÎÇ°À» °­Á¶ÇÏ´Â°Å
 				drawHighlightSelectedComponent(memDC);
 			}
+			
+			if (isHighlightTerminalPin == true) {
+				drawHighlightComponentTerminalPin(memDC);
+			}
+
+
+
 			//È­¸é¿¡ ¸Þ¼¼Áö¸¦ ¶ç¾îÁÖ´Â°Í
 			drawMassage(memDC);
 		}
@@ -360,6 +369,14 @@ void CMFCLogicSimulatorView::OnMouseMove(UINT nFlags, CPoint point)
 
 
 	}
+	SELECTED_TERMINAL_INFO dummyInfo;
+
+	bool oldval = isHighlightTerminalPin;
+	isHighlightTerminalPin = checkMouesPointOnTerminalPin(dummyInfo);
+	if (oldval != isHighlightTerminalPin) {
+		Invalidate();
+	}
+
 }
 
 
@@ -416,7 +433,7 @@ void CMFCLogicSimulatorView::drawComponent(CDC &DC)
 		componentBitmap.GetBitmap(&bitmapInfo);
 
 		// ÅÍ¹Ì³Î ÇÉÀ» ±×¸°´Ù
-		drawComponentTermial(DC, x, y, EAST, bitmapInfo.bmWidth, bitmapInfo.bmHeight,
+		drawComponentTermialPin(DC, x, y, EAST, bitmapInfo.bmWidth, bitmapInfo.bmHeight,
 			currentObject->numberOfInput(), currentObject->numberOfOutput());
 
 		//ºÎÇ°À» ±×¸°´Ù
@@ -509,7 +526,7 @@ void CMFCLogicSimulatorView::drawHighlightSelectedComponent(CDC & DC)
 
 	}
 	else {
-		drawHighlight(DC, x, y, 75, 75);
+		drawHighlightComponentBody(DC, x, y, 75, 75);
 	}
 
 
@@ -657,7 +674,209 @@ int CMFCLogicSimulatorView::checkMouesPointOnComponent()
 	return 0;
 }
 
-void CMFCLogicSimulatorView::drawHighlight(CDC& DC, int x, int y, int bitmapWidth, int bitmapHeight)
+bool CMFCLogicSimulatorView::checkMouesPointOnTerminalPin(SELECTED_TERMINAL_INFO& selectedTerminalInfo)
+{
+	CMFCLogicSimulatorDoc* pDoc = GetDocument();
+	CComponentObject* currentObject;
+	int inputTerminalGap;
+	int outputTerminalGap;
+	CBitmap componentBitmap;
+	CBitmap* oldBitmap;
+	BITMAP bitmapInfo;
+	COMPONENT_DATA* currentData;
+	BOOL isInTerminalPin = false;
+	CRgn terminalPinRgn;
+	CPoint point;
+	GetCursorPos(&point);
+	ScreenToClient(&point);
+	int nVertScroll = GetScrollPos(SB_VERT);
+	int nHorzScroll = GetScrollPos(SB_HORZ);
+	point.x += nHorzScroll;
+	point.y += nVertScroll;
+
+
+	for (int i = 0; i < pDoc->engineComponentData.size(); i++) {
+		currentData = &pDoc->engineComponentData[i];
+		//Á¸ÀçÇÏÁö ¾Ê´Â°ÍÀº ³Ñ¾î°£´Ù
+		if (currentData->id <= 0) {continue;}
+
+		//ÇöÀç ºÎÇ°ÀÇ °´Ã¼¸¦ °¡Á®¿Â´Ù
+		currentObject = pDoc->logicSimulatorEngine.getComponentObject(i);
+
+		//ºñÆ®¸Ê Á¤º¸¸¦ ·ÎµåÇÑ´Ù
+		componentBitmap.LoadBitmapW(getBitmapIDByComponentType(pDoc->engineComponentData[i].type));
+		componentBitmap.GetBitmap(&bitmapInfo);		
+		int bmWidth = bitmapInfo.bmWidth;
+		int bmHeight = bitmapInfo.bmHeight;
+
+		int numberOfInputTerminal = currentObject->numberOfInput();
+		int numberOfOutputTerminal = currentObject->numberOfOutput();
+		int x = currentData->x;
+		int y = currentData->y;
+		int a, b;
+		
+		switch (currentData->direction) {
+		case EAST: {
+			inputTerminalGap = bmHeight / (numberOfInputTerminal + 1);
+			outputTerminalGap = bmHeight / (numberOfOutputTerminal + 1);
+			//ÀÎÇ²À» °Ë»çÇÑ´Ù
+			for (int curI = 1; curI < numberOfInputTerminal + 1; curI++) {
+				a = x - 10;
+				b = y + inputTerminalGap * curI;
+				terminalPinRgn.CreateEllipticRgn(a - TERMINAL_PIN_HALF_SIZE, b - TERMINAL_PIN_HALF_SIZE,
+					a + TERMINAL_PIN_HALF_SIZE, b + TERMINAL_PIN_HALF_SIZE);
+				if (terminalPinRgn.PtInRegion(point)) {
+					isInTerminalPin = true;
+					selectedTerminalInfo.componentID = i;
+					selectedTerminalInfo.terminalNumber = curI-1;
+					selectedTerminalInfo.terminalType = TERMINAL_TYPE_INPUT;
+					selectedTerminalPinX = a;
+					selectedTerminalPinY = b;
+				};
+				terminalPinRgn.DeleteObject();
+			}
+			//¾Æ¿ôÇ²À» °Ë»çÇÑ´Ù
+			for (int curI = 1; curI < numberOfOutputTerminal + 1; curI++) {
+				a = x + bmWidth + 10;
+				b = y + outputTerminalGap * curI;
+				terminalPinRgn.CreateEllipticRgn(a - TERMINAL_PIN_HALF_SIZE, b - TERMINAL_PIN_HALF_SIZE,
+					a + TERMINAL_PIN_HALF_SIZE, b + TERMINAL_PIN_HALF_SIZE);
+				if (terminalPinRgn.PtInRegion(point)) {
+					isInTerminalPin = true;
+					selectedTerminalInfo.componentID = i;
+					selectedTerminalInfo.terminalNumber = curI - 1;
+					selectedTerminalInfo.terminalType = TERMINAL_TYPE_INPUT;
+					selectedTerminalPinX = a;
+					selectedTerminalPinY = b;
+				};
+				terminalPinRgn.DeleteObject();
+			}
+			
+			break;
+		}
+		case SOUTH: {
+			inputTerminalGap = bmWidth / (numberOfInputTerminal + 1);
+			outputTerminalGap = bmWidth / (numberOfOutputTerminal + 1);
+			//ÀÎÇ²ÇÉ
+			for (int curI = 1; curI < numberOfInputTerminal + 1; curI++) {
+				a = x + inputTerminalGap * curI;
+				b = y + -10;
+				terminalPinRgn.CreateEllipticRgn(a - TERMINAL_PIN_HALF_SIZE, b - TERMINAL_PIN_HALF_SIZE,
+					a + TERMINAL_PIN_HALF_SIZE, b + TERMINAL_PIN_HALF_SIZE);
+				if (terminalPinRgn.PtInRegion(point)) {
+					isInTerminalPin = true;
+					selectedTerminalInfo.componentID = i;
+					selectedTerminalInfo.terminalNumber = curI - 1;
+					selectedTerminalInfo.terminalType = TERMINAL_TYPE_INPUT;
+					selectedTerminalPinX = a;
+					selectedTerminalPinY = b;
+				};
+				terminalPinRgn.DeleteObject();
+			}
+			//ºÎÇ°ÀÇ ¾Æ¿ôÇ² ÇÉ
+			for (int curI = 1; curI < numberOfOutputTerminal + 1; curI++) {
+				a = x + outputTerminalGap * curI;
+				b = y + bmHeight + 10;
+				terminalPinRgn.CreateEllipticRgn(a - TERMINAL_PIN_HALF_SIZE, b - TERMINAL_PIN_HALF_SIZE,
+					a + TERMINAL_PIN_HALF_SIZE, b + TERMINAL_PIN_HALF_SIZE);
+				if (terminalPinRgn.PtInRegion(point)) {
+					isInTerminalPin = true;
+					selectedTerminalInfo.componentID = i;
+					selectedTerminalInfo.terminalNumber = curI - 1;
+					selectedTerminalInfo.terminalType = TERMINAL_TYPE_INPUT;
+					selectedTerminalPinX = a;
+					selectedTerminalPinY = b;
+				};
+				terminalPinRgn.DeleteObject();
+			}
+			break;
+		}
+		case WEST: {
+			inputTerminalGap = bmHeight / (numberOfInputTerminal + 1);
+			outputTerminalGap = bmHeight / (numberOfOutputTerminal + 1);
+
+			for (int curI = 1; curI < numberOfInputTerminal + 1; curI++) {
+				a = x + bmWidth + 10;
+				b = y + inputTerminalGap * curI;
+				terminalPinRgn.CreateEllipticRgn(a - TERMINAL_PIN_HALF_SIZE, b - TERMINAL_PIN_HALF_SIZE,
+					a + TERMINAL_PIN_HALF_SIZE, b + TERMINAL_PIN_HALF_SIZE);
+				if (terminalPinRgn.PtInRegion(point)) {
+					isInTerminalPin = true;
+					selectedTerminalInfo.componentID = i;
+					selectedTerminalInfo.terminalNumber = curI - 1;
+					selectedTerminalInfo.terminalType = TERMINAL_TYPE_INPUT;
+					selectedTerminalPinX = a;
+					selectedTerminalPinY = b;
+				};
+				terminalPinRgn.DeleteObject();
+			}
+			//ºÎÇ°ÀÇ ¾Æ¿ôÇ² ÇÉÀ» ±×¸°´Ù
+			for (int curI = 1; curI < numberOfOutputTerminal + 1; curI++) {
+				a = x - 10;
+				b = y + outputTerminalGap * curI;
+				terminalPinRgn.CreateEllipticRgn(a - TERMINAL_PIN_HALF_SIZE, b - TERMINAL_PIN_HALF_SIZE,
+					a + TERMINAL_PIN_HALF_SIZE, b + TERMINAL_PIN_HALF_SIZE);
+				if (terminalPinRgn.PtInRegion(point)) {
+					isInTerminalPin = true;
+					selectedTerminalInfo.componentID = i;
+					selectedTerminalInfo.terminalNumber = curI - 1;
+					selectedTerminalInfo.terminalType = TERMINAL_TYPE_INPUT;
+					selectedTerminalPinX = a;
+					selectedTerminalPinY = b;
+				};
+				terminalPinRgn.DeleteObject();
+			}
+			break;
+		}
+		case NORTH: {
+			inputTerminalGap = bmWidth / (numberOfInputTerminal + 1);
+			outputTerminalGap = bmWidth / (numberOfOutputTerminal + 1);
+			for (int curI = 1; curI < numberOfInputTerminal + 1; curI++) {
+				a = x + inputTerminalGap * curI;
+				b = y + bmWidth + 10;
+				terminalPinRgn.CreateEllipticRgn(a - TERMINAL_PIN_HALF_SIZE, b - TERMINAL_PIN_HALF_SIZE,
+					a + TERMINAL_PIN_HALF_SIZE, b + TERMINAL_PIN_HALF_SIZE);
+				if (terminalPinRgn.PtInRegion(point)) {
+					isInTerminalPin = true;
+					selectedTerminalInfo.componentID = i;
+					selectedTerminalInfo.terminalNumber = curI - 1;
+					selectedTerminalInfo.terminalType = TERMINAL_TYPE_INPUT;
+					selectedTerminalPinX = a;
+					selectedTerminalPinY = b;
+				};
+				terminalPinRgn.DeleteObject();
+			}
+
+			//ºÎÇ°ÀÇ ¾Æ¿ôÇ² ÇÉÀ» ±×¸°´Ù
+			for (int curI = 1; curI < numberOfOutputTerminal + 1; curI++) {
+				a = x + outputTerminalGap * curI;
+				b = y - 10;
+				terminalPinRgn.CreateEllipticRgn(a - TERMINAL_PIN_HALF_SIZE, b - TERMINAL_PIN_HALF_SIZE,
+					a + TERMINAL_PIN_HALF_SIZE, b + TERMINAL_PIN_HALF_SIZE);
+				if (terminalPinRgn.PtInRegion(point)) {
+					isInTerminalPin = true;
+					selectedTerminalInfo.componentID = i;
+					selectedTerminalInfo.terminalNumber = curI - 1;
+					selectedTerminalInfo.terminalType = TERMINAL_TYPE_INPUT;
+					selectedTerminalPinX = a;
+					selectedTerminalPinY = b;
+				};
+				terminalPinRgn.DeleteObject();
+			}
+			break;
+		}
+		default:
+			break;
+		}
+
+		//·ÎµåÇÑ ºñÆ®¸ÊÀ» Á¦°ÅÇÑ´Ù
+		componentBitmap.DeleteObject();
+
+	}
+	return isInTerminalPin;
+}
+
+void CMFCLogicSimulatorView::drawHighlightComponentBody(CDC& DC, int x, int y, int bitmapWidth, int bitmapHeight)
 {
 	CPen pen;
 	pen.CreatePen(PS_DOT, 1, RGB(255, 0, 0));    // »¡°£»ö Ææ »ý¼º
@@ -671,7 +890,25 @@ void CMFCLogicSimulatorView::drawHighlight(CDC& DC, int x, int y, int bitmapWidt
 	DC.SelectObject(oldPen);
 }
 
-void CMFCLogicSimulatorView::drawComponentTermial(CDC & DC, int x, int y, COMPONENT_DIRECTION direction, 
+void CMFCLogicSimulatorView::drawHighlightComponentTerminalPin(CDC & DC)
+{
+	int nVertScroll = GetScrollPos(SB_VERT);
+	int nHorzScroll = GetScrollPos(SB_HORZ);
+	int x = selectedTerminalPinX + nHorzScroll;
+	int y = selectedTerminalPinY - nVertScroll;
+
+	CPen pen;
+	CPen* oldPen;
+	//ÀÎÇ²ÇÉÀ» ±×¸°´Ù
+	pen.CreatePen(PS_SOLID, 2, RGB(153, 0, 0255));    // Ææ »ý¼º
+	oldPen = DC.SelectObject(&pen);
+	DC.Ellipse(x - HIGHLIGHIT_TERMINAL_PIN_HALF_SIZE, y - HIGHLIGHIT_TERMINAL_PIN_HALF_SIZE,
+		x + HIGHLIGHIT_TERMINAL_PIN_HALF_SIZE, y + HIGHLIGHIT_TERMINAL_PIN_HALF_SIZE);
+	DC.SelectObject(oldPen);
+	pen.DeleteObject();
+}
+
+void CMFCLogicSimulatorView::drawComponentTermialPin(CDC & DC, int x, int y, COMPONENT_DIRECTION direction, 
 	int componentWidth, int componentHeight, int numberOfInputTerminal, int numberOfOutputTerminal)
 {
 	CPen pen;
@@ -687,9 +924,9 @@ void CMFCLogicSimulatorView::drawComponentTermial(CDC & DC, int x, int y, COMPON
 		//ÀÎÇ²ÇÉÀ» ±×¸°´Ù
 		pen.CreatePen(PS_SOLID, 2, RGB(255, 0, 0));    // »¡°£»ö Ææ »ý¼º
 		oldPen = DC.SelectObject(&pen);
-		for (int i = 1; i < numberOfInputTerminal + 1; i++) {
+		for (int curI = 1; curI < numberOfInputTerminal + 1; curI++) {
 			a = x - 10;
-			b = y + inputTerminalGap * i;
+			b = y + inputTerminalGap * curI;
 			DC.MoveTo(a, b);
 			DC.LineTo(a + 30, b);
 			DC.Ellipse(a - TERMINAL_PIN_HALF_SIZE, b - TERMINAL_PIN_HALF_SIZE,
@@ -701,9 +938,9 @@ void CMFCLogicSimulatorView::drawComponentTermial(CDC & DC, int x, int y, COMPON
 		pen.CreatePen(PS_SOLID, 2, RGB(0, 0, 255));    // »¡°£»ö Ææ »ý¼º
 		oldPen = DC.SelectObject(&pen);
 		//ºÎÇ°ÀÇ ¾Æ¿ôÇ² ÇÉÀ» ±×¸°´Ù
-		for (int i = 1; i < numberOfOutputTerminal + 1; i++) {
+		for (int curI = 1; curI < numberOfOutputTerminal + 1; curI++) {
 			a = x + componentWidth + 10;
-			b = y + outputTerminalGap * i;
+			b = y + outputTerminalGap * curI;
 			DC.MoveTo(a, b);
 			DC.LineTo(a - 30, b);
 			DC.Ellipse(a - TERMINAL_PIN_HALF_SIZE, b - TERMINAL_PIN_HALF_SIZE,
@@ -720,8 +957,8 @@ void CMFCLogicSimulatorView::drawComponentTermial(CDC & DC, int x, int y, COMPON
 		//ÀÎÇ²ÇÉÀ» ±×¸°´Ù
 		pen.CreatePen(PS_SOLID, 2, RGB(255, 0, 0));    // »¡°£»ö Ææ »ý¼º
 		oldPen = DC.SelectObject(&pen);
-		for (int i = 1; i < numberOfInputTerminal + 1; i++) {
-			a = x + inputTerminalGap * i;
+		for (int curI = 1; curI < numberOfInputTerminal + 1; curI++) {
+			a = x + inputTerminalGap * curI;
 			b = y + -10;
 			DC.MoveTo(a, b);
 			DC.LineTo(a , b+30);
@@ -734,8 +971,8 @@ void CMFCLogicSimulatorView::drawComponentTermial(CDC & DC, int x, int y, COMPON
 		pen.CreatePen(PS_SOLID, 2, RGB(0, 0, 255));    // »¡°£»ö Ææ »ý¼º
 		oldPen = DC.SelectObject(&pen);
 		//ºÎÇ°ÀÇ ¾Æ¿ôÇ² ÇÉÀ» ±×¸°´Ù
-		for (int i = 1; i < numberOfOutputTerminal + 1; i++) {
-			a = x + outputTerminalGap * i;
+		for (int curI = 1; curI < numberOfOutputTerminal + 1; curI++) {
+			a = x + outputTerminalGap * curI;
 			b = y + componentHeight+10;
 			DC.MoveTo(a, b);
 			DC.LineTo(a , b-30);
@@ -753,9 +990,9 @@ void CMFCLogicSimulatorView::drawComponentTermial(CDC & DC, int x, int y, COMPON
 		//ÀÎÇ²ÇÉÀ» ±×¸°´Ù
 		pen.CreatePen(PS_SOLID, 2, RGB(255, 0, 0));    // »¡°£»ö Ææ »ý¼º
 		oldPen = DC.SelectObject(&pen);
-		for (int i = 1; i < numberOfInputTerminal + 1; i++) {
+		for (int curI = 1; curI < numberOfInputTerminal + 1; curI++) {
 			a = x + componentWidth + 10;
-			b = y + inputTerminalGap * i;
+			b = y + inputTerminalGap * curI;
 			DC.MoveTo(a, b);
 			DC.LineTo(a - 30, b);
 			DC.Ellipse(a - TERMINAL_PIN_HALF_SIZE, b - TERMINAL_PIN_HALF_SIZE,
@@ -767,9 +1004,9 @@ void CMFCLogicSimulatorView::drawComponentTermial(CDC & DC, int x, int y, COMPON
 		pen.CreatePen(PS_SOLID, 2, RGB(0, 0, 255));    // »¡°£»ö Ææ »ý¼º
 		oldPen = DC.SelectObject(&pen);
 		//ºÎÇ°ÀÇ ¾Æ¿ôÇ² ÇÉÀ» ±×¸°´Ù
-		for (int i = 1; i < numberOfOutputTerminal + 1; i++) {
+		for (int curI = 1; curI < numberOfOutputTerminal + 1; curI++) {
 			a = x - 10;
-			b = y + outputTerminalGap * i;
+			b = y + outputTerminalGap * curI;
 			DC.MoveTo(a, b);
 			DC.LineTo(a + 30, b);
 			DC.Ellipse(a - TERMINAL_PIN_HALF_SIZE, b - TERMINAL_PIN_HALF_SIZE,
@@ -788,8 +1025,8 @@ void CMFCLogicSimulatorView::drawComponentTermial(CDC & DC, int x, int y, COMPON
 		//ÀÎÇ²ÇÉÀ» ±×¸°´Ù
 		pen.CreatePen(PS_SOLID, 2, RGB(255, 0, 0));    // »¡°£»ö Ææ »ý¼º
 		oldPen = DC.SelectObject(&pen);
-		for (int i = 1; i < numberOfInputTerminal + 1; i++) {
-			a = x + inputTerminalGap * i;
+		for (int curI = 1; curI < numberOfInputTerminal + 1; curI++) {
+			a = x + inputTerminalGap * curI;
 			b = y + componentHeight + 10;
 			DC.MoveTo(a, b);
 			DC.LineTo(a, b - 30);
@@ -802,8 +1039,8 @@ void CMFCLogicSimulatorView::drawComponentTermial(CDC & DC, int x, int y, COMPON
 		pen.CreatePen(PS_SOLID, 2, RGB(0, 0, 255));    // »¡°£»ö Ææ »ý¼º
 		oldPen = DC.SelectObject(&pen);
 		//ºÎÇ°ÀÇ ¾Æ¿ôÇ² ÇÉÀ» ±×¸°´Ù
-		for (int i = 1; i < numberOfOutputTerminal + 1; i++) {
-			a = x + outputTerminalGap * i;
+		for (int curI = 1; curI < numberOfOutputTerminal + 1; curI++) {
+			a = x + outputTerminalGap * curI;
 			b = y - 10;
 			DC.MoveTo(a, b);
 			DC.LineTo(a, b + 30);
