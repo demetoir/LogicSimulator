@@ -404,6 +404,7 @@ void CMFCLogicSimulatorView::drawComponent(CDC &DC)
 	int nHorzScroll = GetScrollPos(SB_HORZ);
 	int x, y;
 	COMPONENT_TYPE type;
+	COMPONENT_DIRECTION direction;
 	CBitmap componentBitmap;
 	CBitmap *oldBitmap;
 	BITMAP bitmapInfo;
@@ -424,12 +425,12 @@ void CMFCLogicSimulatorView::drawComponent(CDC &DC)
 		x = pDoc->engineComponentData[i].x - nHorzScroll;
 		y = pDoc->engineComponentData[i].y - nVertScroll;
 		type = pDoc->engineComponentData[i].type;
-
+		direction = pDoc->engineComponentData[i].direction;
 		//세븐 세그먼트는 따로 구현한다
 		
 
 		//타입에 맞는 부품의 비트맵 아이디를 가져오고 로드한다
-		componentBitmap.LoadBitmapW(getBitmapIDByComponentType(type));
+		componentBitmap.LoadBitmapW(getBitmapIDByComponentType(type, direction));
 		componentBitmap.GetBitmap(&bitmapInfo);
 
 		// 터미널 핀을 그린다
@@ -488,7 +489,7 @@ void CMFCLogicSimulatorView::drawAddingComponent(CDC & DC)
 		return;
 
 	//타입에 맞는 부품의 비트맵 아이디를 가져오고 로드한다
-	componentBitmap.LoadBitmapW(getBitmapIDByComponentType(type));
+	componentBitmap.LoadBitmapW(getBitmapIDByComponentType(type,EAST));
 	componentBitmap.GetBitmap(&bitmapInfo);
 
 	//부품을 그린다
@@ -543,7 +544,7 @@ void CMFCLogicSimulatorView::drawMassage(CDC & DC)
 	int x, y;
 }
 
-int CMFCLogicSimulatorView::getBitmapIDByComponentType(COMPONENT_TYPE _type)
+int CMFCLogicSimulatorView::getBitmapIDByComponentType(COMPONENT_TYPE _type, COMPONENT_DIRECTION direction)
 {
 	////엔진에서 사용하는 부품 타입 열거형
 	//enum COMPONENT_TYPE {
@@ -558,12 +559,16 @@ int CMFCLogicSimulatorView::getBitmapIDByComponentType(COMPONENT_TYPE _type)
 	switch (_type) {
 
 	case COMPONENT_TYPE_ONE_BIT_SWITCH:
-		return IDB_ONE_BIT_SWITCH_OFF;
+		return IDB_SWITCH_OFF_E;
 		break;
 
-	//case COMPONENT_TYPE_ONE_BIT_LAMP:
-	//	return IDB_ONE_BIT_SWITCH_OFF;
-	//	break;
+	case COMPONENT_TYPE_ONE_BIT_LAMP:
+		return IDB_LAMP_OFF_E;
+		break;
+	case COMPONENT_TYPE_CLOCK:
+		return IDB_CLOCK_E;
+		break ;
+		 
 	//case COMPONENT_TYPE_7SEGMENT:
 	//	return IDB_ONE_BIT_SWITCH_OFF;
 	//	break;
@@ -572,33 +577,32 @@ int CMFCLogicSimulatorView::getBitmapIDByComponentType(COMPONENT_TYPE _type)
 
 
 	case COMPONENT_TYPE_AND_GATE:
-		return IDB_GATE_AND;
+		return IDB_GATE_AND_E+ direction;
 		break;
-	case COMPONENT_TYPE_OR_GATE:
-		return IDB_GATE_OR;
+	case COMPONENT_TYPE_OR_GATE :
+		return IDB_GATE_OR_E + direction;
 		break;
 	case COMPONENT_TYPE_NOT_GATE:
-		return IDB_GATE_INVERTOR;
+		return IDB_INVERTOR_E + direction;
 		break;
 	case COMPONENT_TYPE_XOR_GATE:
-		return IDB_GATE_XOR;
+		return IDB_GATE_XOR_E + direction;
 		break;
 
 	case COMPONENT_TYPE_INPUT_PIN:
-		return IDB_INPUT_PIN_OFF;
+		return IDB_PIN_ON_E;
 		break;
 	case COMPONENT_TYPE_OUTPUT_PIN:
-		return IDB_PROBE_OFF;
+		return IDB_PROBE_OFF_E ;
 		break;
 
 	case COMPONENT_TYPE_WIRE:
-		return IDB_WIRE;
+		return IDB_COPPER_WIRE;
 		break;
-
-
+		
 
 	case COMPONENT_TYPE_LIBRARY_BOX:
-		return IDB_LIBRARY_BOX;
+		return IDB_LIBBOX_E + direction;
 		break;
 
 
@@ -704,7 +708,7 @@ bool CMFCLogicSimulatorView::checkMouesPointOnTerminalPin(SELECTED_TERMINAL_INFO
 		currentObject = pDoc->logicSimulatorEngine.getComponentObject(i);
 
 		//비트맵 정보를 로드한다
-		componentBitmap.LoadBitmapW(getBitmapIDByComponentType(pDoc->engineComponentData[i].type));
+		componentBitmap.LoadBitmapW(getBitmapIDByComponentType(currentData->type, currentData->direction));
 		componentBitmap.GetBitmap(&bitmapInfo);		
 		int bmWidth = bitmapInfo.bmWidth;
 		int bmHeight = bitmapInfo.bmHeight;

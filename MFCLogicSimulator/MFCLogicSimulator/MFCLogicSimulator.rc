@@ -268,13 +268,13 @@ IDB_GATE_OR_W           BITMAP                  "res\\root\\OR_3W.bmp"
 
 IDB_GATE_OR_N           BITMAP                  "res\\root\\OR_4N.bmp"
 
-IDB_PIN_OFF             BITMAP                  "res\\root\\PIN OFF.bmp"
+IDB_PIN_OFF_E           BITMAP                  "res\\root\\PIN OFF.bmp"
 
-IDB_PIN_ON              BITMAP                  "res\\root\\PIN ON.bmp"
+IDB_PIN_ON_E            BITMAP                  "res\\root\\PIN ON.bmp"
 
-IDB_PROBE_OFF           BITMAP                  "res\\root\\PROBE OFF.bmp"
+IDB_PROBE_OFF_E         BITMAP                  "res\\root\\PROBE OFF.bmp"
 
-IDB_PROBE_ON            BITMAP                  "res\\root\\PROBE ON.bmp"
+IDB_PROBE_ON_E          BITMAP                  "res\\root\\PROBE ON.bmp"
 
 IDB_TERMINAL            BITMAP                  "res\\root\\terminal.bmp"
 
