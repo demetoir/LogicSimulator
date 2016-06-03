@@ -19,14 +19,14 @@
     <Filter Include="헤더 파일\라이브러리 엔진 헤더">
       <UniqueIdentifier>{d91b447a-19a9-4071-afe1-7c86dcc6f2fb}</UniqueIdentifier>
     </Filter>
-    <Filter Include="리소스 파일\logic_comp">
-      <UniqueIdentifier>{6099763f-bd17-4cd4-ba04-f8aec21c888b}</UniqueIdentifier>
-    </Filter>
     <Filter Include="소스 파일\라이브러리 엔진 소스\부품 클래스 소스">
       <UniqueIdentifier>{c98e5d0c-7e62-4f41-89f7-d396b7ecd8cb}</UniqueIdentifier>
     </Filter>
     <Filter Include="헤더 파일\라이브러리 엔진 헤더\부품 클래스 헤더">
       <UniqueIdentifier>{c9ce8336-30b2-4f6f-9d4a-a89132f810f7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="리소스 파일\logic comp">
+      <UniqueIdentifier>{6230ad99-44f2-48e8-b7c4-0964d30a2599}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -287,89 +287,275 @@
     <Image Include="res\classview_hc.bmp">
       <Filter>리소스 파일</Filter>
     </Image>
-    <Image Include="res\root\in\OFF.bmp">
-      <Filter>리소스 파일\logic_comp</Filter>
-    </Image>
-    <Image Include="res\root\out\OFF_LAMP.bmp">
-      <Filter>리소스 파일\logic_comp</Filter>
-    </Image>
-    <Image Include="res\root\in\ON.bmp">
-      <Filter>리소스 파일\logic_comp</Filter>
-    </Image>
-    <Image Include="res\root\out\ON_LAMP.bmp">
-      <Filter>리소스 파일\logic_comp</Filter>
-    </Image>
-    <Image Include="res\root\wire\PIN.bmp">
-      <Filter>리소스 파일\logic_comp</Filter>
-    </Image>
-    <Image Include="res\root\wire\PROBE.bmp">
-      <Filter>리소스 파일\logic_comp</Filter>
-    </Image>
     <Image Include="res\root\wire\copper wire.bmp">
-      <Filter>리소스 파일\logic_comp</Filter>
-    </Image>
-    <Image Include="res\root\gate\AND.bmp">
-      <Filter>리소스 파일\logic_comp</Filter>
-    </Image>
-    <Image Include="res\root\gate\INVERTOR.bmp">
-      <Filter>리소스 파일\logic_comp</Filter>
-    </Image>
-    <Image Include="res\root\gate\NAND.bmp">
-      <Filter>리소스 파일\logic_comp</Filter>
-    </Image>
-    <Image Include="res\root\gate\NOR.bmp">
-      <Filter>리소스 파일\logic_comp</Filter>
-    </Image>
-    <Image Include="res\root\gate\OR.bmp">
-      <Filter>리소스 파일\logic_comp</Filter>
-    </Image>
-    <Image Include="res\root\gate\XOR.bmp">
-      <Filter>리소스 파일\logic_comp</Filter>
-    </Image>
-    <Image Include="res\root\FF\D-FF.bmp">
-      <Filter>리소스 파일\logic_comp</Filter>
-    </Image>
-    <Image Include="res\root\FF\JK-FF.bmp">
-      <Filter>리소스 파일\logic_comp</Filter>
-    </Image>
-    <Image Include="res\root\FF\T-FF.bmp">
-      <Filter>리소스 파일\logic_comp</Filter>
-    </Image>
-    <Image Include="res\root\library box\librarybox.png">
-      <Filter>리소스 파일</Filter>
-    </Image>
-    <Image Include="res\root\library box\librarybox.bmp">
       <Filter>리소스 파일</Filter>
     </Image>
     <Image Include="res\root\terminal pin\terminal.bmp">
-      <Filter>리소스 파일\logic_comp</Filter>
+      <Filter>리소스 파일</Filter>
     </Image>
-    <Image Include="res\root\wire\PROBE ON.bmp">
-      <Filter>리소스 파일\logic_comp</Filter>
+    <Image Include="res\root\AND.bmp">
+      <Filter>리소스 파일\logic comp</Filter>
     </Image>
-    <Image Include="res\root\wire\PROBE OFF.bmp">
-      <Filter>리소스 파일\logic_comp</Filter>
+    <Image Include="res\root\AND_1E.bmp">
+      <Filter>리소스 파일\logic comp</Filter>
     </Image>
-    <Image Include="res\root\wire\PIN ON.bmp">
-      <Filter>리소스 파일\logic_comp</Filter>
+    <Image Include="res\root\AND_2S.bmp">
+      <Filter>리소스 파일\logic comp</Filter>
     </Image>
-    <Image Include="res\root\wire\PIN OFF.bmp">
-      <Filter>리소스 파일\logic_comp</Filter>
+    <Image Include="res\root\AND_3W.bmp">
+      <Filter>리소스 파일\logic comp</Filter>
     </Image>
-    <Image Include="res\root\in\CLOCK_FACE.bmp">
-      <Filter>리소스 파일\logic_comp</Filter>
+    <Image Include="res\root\AND_4N.bmp">
+      <Filter>리소스 파일\logic comp</Filter>
     </Image>
-    <Image Include="res\SEGMENT_H_OFF.bmp">
-      <Filter>리소스 파일\logic_comp</Filter>
+    <Image Include="res\root\CLOCK_FACE.bmp">
+      <Filter>리소스 파일\logic comp</Filter>
     </Image>
-    <Image Include="res\SEGMENT_H_ON.bmp">
-      <Filter>리소스 파일\logic_comp</Filter>
+    <Image Include="res\root\CLOCK_FACE_1E.bmp">
+      <Filter>리소스 파일\logic comp</Filter>
     </Image>
-    <Image Include="res\SEGMENT_V_OFF.bmp">
-      <Filter>리소스 파일\logic_comp</Filter>
+    <Image Include="res\root\CLOCK_FACE_2S.bmp">
+      <Filter>리소스 파일\logic comp</Filter>
+    </Image>
+    <Image Include="res\root\CLOCK_FACE_3W.bmp">
+      <Filter>리소스 파일\logic comp</Filter>
+    </Image>
+    <Image Include="res\root\CLOCK_FACE_4N.bmp">
+      <Filter>리소스 파일\logic comp</Filter>
+    </Image>
+    <Image Include="res\root\copper wire.bmp">
+      <Filter>리소스 파일\logic comp</Filter>
+    </Image>
+    <Image Include="res\root\D-FF.bmp">
+      <Filter>리소스 파일\logic comp</Filter>
+    </Image>
+    <Image Include="res\root\D-FF_1E.bmp">
+      <Filter>리소스 파일\logic comp</Filter>
+    </Image>
+    <Image Include="res\root\D-FF_2S.bmp">
+      <Filter>리소스 파일\logic comp</Filter>
+    </Image>
+    <Image Include="res\root\D-FF_3W.bmp">
+      <Filter>리소스 파일\logic comp</Filter>
+    </Image>
+    <Image Include="res\root\D-FF_4N.bmp">
+      <Filter>리소스 파일\logic comp</Filter>
+    </Image>
+    <Image Include="res\root\INVERTOR.bmp">
+      <Filter>리소스 파일\logic comp</Filter>
+    </Image>
+    <Image Include="res\root\INVERTOR_1E.bmp">
+      <Filter>리소스 파일\logic comp</Filter>
+    </Image>
+    <Image Include="res\root\INVERTOR_2S.bmp">
+      <Filter>리소스 파일\logic comp</Filter>
+    </Image>
+    <Image Include="res\root\INVERTOR_3W.bmp">
+      <Filter>리소스 파일\logic comp</Filter>
+    </Image>
+    <Image Include="res\root\INVERTOR_4N.bmp">
+      <Filter>리소스 파일\logic comp</Filter>
+    </Image>
+    <Image Include="res\root\JK-FF.bmp">
+      <Filter>리소스 파일\logic comp</Filter>
+    </Image>
+    <Image Include="res\root\JK-FF_1E.bmp">
+      <Filter>리소스 파일\logic comp</Filter>
+    </Image>
+    <Image Include="res\root\JK-FF_2S.bmp">
+      <Filter>리소스 파일\logic comp</Filter>
+    </Image>
+    <Image Include="res\root\JK-FF_3W.bmp">
+      <Filter>리소스 파일\logic comp</Filter>
+    </Image>
+    <Image Include="res\root\JK-FF_4N.bmp">
+      <Filter>리소스 파일\logic comp</Filter>
+    </Image>
+    <Image Include="res\root\librarybox.bmp">
+      <Filter>리소스 파일\logic comp</Filter>
+    </Image>
+    <Image Include="res\root\librarybox.png">
+      <Filter>리소스 파일\logic comp</Filter>
+    </Image>
+    <Image Include="res\root\librarybox_1E.bmp">
+      <Filter>리소스 파일\logic comp</Filter>
+    </Image>
+    <Image Include="res\root\librarybox_2S.bmp">
+      <Filter>리소스 파일\logic comp</Filter>
+    </Image>
+    <Image Include="res\root\librarybox_3W.bmp">
+      <Filter>리소스 파일\logic comp</Filter>
+    </Image>
+    <Image Include="res\root\librarybox_4N.bmp">
+      <Filter>리소스 파일\logic comp</Filter>
+    </Image>
+    <Image Include="res\root\NAND.bmp">
+      <Filter>리소스 파일\logic comp</Filter>
+    </Image>
+    <Image Include="res\root\NAND_1E.bmp">
+      <Filter>리소스 파일\logic comp</Filter>
+    </Image>
+    <Image Include="res\root\NAND_2S.bmp">
+      <Filter>리소스 파일\logic comp</Filter>
+    </Image>
+    <Image Include="res\root\NAND_3W.bmp">
+      <Filter>리소스 파일\logic comp</Filter>
+    </Image>
+    <Image Include="res\root\NAND_4N.bmp">
+      <Filter>리소스 파일\logic comp</Filter>
+    </Image>
+    <Image Include="res\root\NOR.bmp">
+      <Filter>리소스 파일\logic comp</Filter>
+    </Image>
+    <Image Include="res\root\NOR_1E.bmp">
+      <Filter>리소스 파일\logic comp</Filter>
+    </Image>
+    <Image Include="res\root\NOR_2S.bmp">
+      <Filter>리소스 파일\logic comp</Filter>
+    </Image>
+    <Image Include="res\root\NOR_3W.bmp">
+      <Filter>리소스 파일\logic comp</Filter>
+    </Image>
+    <Image Include="res\root\NOR_4N.bmp">
+      <Filter>리소스 파일\logic comp</Filter>
+    </Image>
+    <Image Include="res\root\OFF.bmp">
+      <Filter>리소스 파일\logic comp</Filter>
+    </Image>
+    <Image Include="res\root\OFF_1E.bmp">
+      <Filter>리소스 파일\logic comp</Filter>
+    </Image>
+    <Image Include="res\root\OFF_2S.bmp">
+      <Filter>리소스 파일\logic comp</Filter>
+    </Image>
+    <Image Include="res\root\OFF_3W.bmp">
+      <Filter>리소스 파일\logic comp</Filter>
+    </Image>
+    <Image Include="res\root\OFF_4N.bmp">
+      <Filter>리소스 파일\logic comp</Filter>
+    </Image>
+    <Image Include="res\root\OFF_LAMP.bmp">
+      <Filter>리소스 파일\logic comp</Filter>
+    </Image>
+    <Image Include="res\root\OFF_LAMP_1E.bmp">
+      <Filter>리소스 파일\logic comp</Filter>
+    </Image>
+    <Image Include="res\root\OFF_LAMP_2S.bmp">
+      <Filter>리소스 파일\logic comp</Filter>
+    </Image>
+    <Image Include="res\root\OFF_LAMP_3W.bmp">
+      <Filter>리소스 파일\logic comp</Filter>
+    </Image>
+    <Image Include="res\root\OFF_LAMP_4N.bmp">
+      <Filter>리소스 파일\logic comp</Filter>
+    </Image>
+    <Image Include="res\root\ON.bmp">
+      <Filter>리소스 파일\logic comp</Filter>
+    </Image>
+    <Image Include="res\root\ON_1E.bmp">
+      <Filter>리소스 파일\logic comp</Filter>
+    </Image>
+    <Image Include="res\root\ON_2S.bmp">
+      <Filter>리소스 파일\logic comp</Filter>
+    </Image>
+    <Image Include="res\root\ON_3W.bmp">
+      <Filter>리소스 파일\logic comp</Filter>
+    </Image>
+    <Image Include="res\root\ON_4N.bmp">
+      <Filter>리소스 파일\logic comp</Filter>
+    </Image>
+    <Image Include="res\root\ON_LAMP.bmp">
+      <Filter>리소스 파일\logic comp</Filter>
+    </Image>
+    <Image Include="res\root\ON_LAMP_1E.bmp">
+      <Filter>리소스 파일\logic comp</Filter>
+    </Image>
+    <Image Include="res\root\ON_LAMP_2S.bmp">
+      <Filter>리소스 파일\logic comp</Filter>
+    </Image>
+    <Image Include="res\root\ON_LAMP_3W.bmp">
+      <Filter>리소스 파일\logic comp</Filter>
+    </Image>
+    <Image Include="res\root\ON_LAMP_4N.bmp">
+      <Filter>리소스 파일\logic comp</Filter>
+    </Image>
+    <Image Include="res\root\OR.bmp">
+      <Filter>리소스 파일\logic comp</Filter>
+    </Image>
+    <Image Include="res\root\OR_1E.bmp">
+      <Filter>리소스 파일\logic comp</Filter>
+    </Image>
+    <Image Include="res\root\OR_2S.bmp">
+      <Filter>리소스 파일\logic comp</Filter>
+    </Image>
+    <Image Include="res\root\OR_3W.bmp">
+      <Filter>리소스 파일\logic comp</Filter>
+    </Image>
+    <Image Include="res\root\OR_4N.bmp">
+      <Filter>리소스 파일\logic comp</Filter>
+    </Image>
+    <Image Include="res\root\PIN OFF.bmp">
+      <Filter>리소스 파일\logic comp</Filter>
+    </Image>
+    <Image Include="res\root\PIN ON.bmp">
+      <Filter>리소스 파일\logic comp</Filter>
+    </Image>
+    <Image Include="res\root\PROBE OFF.bmp">
+      <Filter>리소스 파일\logic comp</Filter>
+    </Image>
+    <Image Include="res\root\PROBE ON.bmp">
+      <Filter>리소스 파일\logic comp</Filter>
+    </Image>
+    <Image Include="res\root\terminal.bmp">
+      <Filter>리소스 파일\logic comp</Filter>
+    </Image>
+    <Image Include="res\root\T-FF.bmp">
+      <Filter>리소스 파일\logic comp</Filter>
+    </Image>
+    <Image Include="res\root\T-FF_1E.bmp">
+      <Filter>리소스 파일\logic comp</Filter>
+    </Image>
+    <Image Include="res\root\T-FF_2S.bmp">
+      <Filter>리소스 파일\logic comp</Filter>
+    </Image>
+    <Image Include="res\root\T-FF_3W.bmp">
+      <Filter>리소스 파일\logic comp</Filter>
+    </Image>
+    <Image Include="res\root\T-FF_4N.bmp">
+      <Filter>리소스 파일\logic comp</Filter>
+    </Image>
+    <Image Include="res\root\XOR.bmp">
+      <Filter>리소스 파일\logic comp</Filter>
+    </Image>
+    <Image Include="res\root\XOR_1E.bmp">
+      <Filter>리소스 파일\logic comp</Filter>
+    </Image>
+    <Image Include="res\root\XOR_2S.bmp">
+      <Filter>리소스 파일\logic comp</Filter>
+    </Image>
+    <Image Include="res\root\XOR_3W.bmp">
+      <Filter>리소스 파일\logic comp</Filter>
+    </Image>
+    <Image Include="res\root\XOR_4N.bmp">
+      <Filter>리소스 파일\logic comp</Filter>
     </Image>
     <Image Include="res\SEGMENT_V_ON.bmp">
-      <Filter>리소스 파일\logic_comp</Filter>
+      <Filter>리소스 파일\logic comp</Filter>
+    </Image>
+    <Image Include="res\SEGMENT_H_OFF.bmp">
+      <Filter>리소스 파일\logic comp</Filter>
+    </Image>
+    <Image Include="res\SEGMENT_H_ON.bmp">
+      <Filter>리소스 파일\logic comp</Filter>
+    </Image>
+    <Image Include="res\SEGMENT_V_OFF.bmp">
+      <Filter>리소스 파일\logic comp</Filter>
+    </Image>
+    <Image Include="res\root\in\CLOCK_FACE.bmp">
+      <Filter>리소스 파일</Filter>
+    </Image>
+    <Image Include="res\root\library box\librarybox.png">
+      <Filter>리소스 파일</Filter>
     </Image>
   </ItemGroup>
 </Project>

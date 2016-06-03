@@ -112,8 +112,6 @@ IDB_WRITELARGE          BITMAP                  "res\\writelarge.bmp"
 
 IDB_WRITESMALL          BITMAP                  "res\\writesmall.bmp"
 
-IDB_BUTTONS             BITMAP                  "res\\buttons.bmp"
-
 IDR_SORT                BITMAP                  "res\\sort.bmp"
 
 IDB_SORT_24             BITMAP                  "res\\sort_hc.bmp"
@@ -138,51 +136,167 @@ IDR_PROPERTIES          BITMAP                  "res\\properties.bmp"
 
 IDB_PROPERTIES_HC       BITMAP                  "res\\properties_hc.bmp"
 
-IDB_IN_OFF              BITMAP                  "res\\root\\in\\OFF.bmp"
+IDB_GATE_AND__          BITMAP                  "res\\root\\AND.bmp"
 
-IDB_IN_ON               BITMAP                  "res\\root\\in\\ON.bmp"
+IDB_GATE_AND_E          BITMAP                  "res\\root\\AND_1E.bmp"
 
-IDB_FF_DFF              BITMAP                  "res\\root\\FF\\D-FF.bmp"
+IDB_GATE_AND_S          BITMAP                  "res\\root\\AND_2S.bmp"
 
-IDB_FF_JKFF             BITMAP                  "res\\root\\FF\\JK-FF.bmp"
+IDB_GATE_AND_W          BITMAP                  "res\\root\\AND_3W.bmp"
 
-IDB_FF_TFF              BITMAP                  "res\\root\\FF\\T-FF.bmp"
+IDB_GATE_AND_N          BITMAP                  "res\\root\\AND_4N.bmp"
 
-IDB_GATE_AND            BITMAP                  "res\\root\\gate\\AND.bmp"
+IDB_CLOCK_              BITMAP                  "res\\root\\CLOCK_FACE.bmp"
 
-IDB_GATE_INVERTOR       BITMAP                  "res\\root\\gate\\INVERTOR.bmp"
+IDB_CLOCK_E             BITMAP                  "res\\root\\CLOCK_FACE_1E.bmp"
 
-IDB_GATE_NAND           BITMAP                  "res\\root\\gate\\NAND.bmp"
+IDB_CLOCK_S             BITMAP                  "res\\root\\CLOCK_FACE_2S.bmp"
 
-IDB_GATE_NOR            BITMAP                  "res\\root\\gate\\NOR.bmp"
+IDB_CLOCK_W             BITMAP                  "res\\root\\CLOCK_FACE_3W.bmp"
 
-IDB_GATE_OR             BITMAP                  "res\\root\\gate\\OR.bmp"
+IDB_CLOCK_N             BITMAP                  "res\\root\\CLOCK_FACE_4N.bmp"
 
-IDB_GATE_XOR            BITMAP                  "res\\root\\gate\\XOR.bmp"
+IDB_COPPER_WIRE         BITMAP                  "res\\root\\copper wire.bmp"
 
-IDB_WIRE                BITMAP                  "res\\root\\wire\\copper wire.bmp"
+IDB_FF_DFF__            BITMAP                  "res\\root\\D-FF.bmp"
 
-IDB_INPUT_PIN_OFF       BITMAP                  "res\\root\\wire\\PIN OFF.bmp"
+IDB_FF_DFF_E            BITMAP                  "res\\root\\D-FF_1E.bmp"
 
-IDB_INPUT_PIN_ON        BITMAP                  "res\\root\\wire\\PIN ON.bmp"
+IDB_FF_DFF_S            BITMAP                  "res\\root\\D-FF_2S.bmp"
 
-IDB_PROBE_OFF           BITMAP                  "res\\root\\wire\\PROBE OFF.bmp"
+IDB_FF_DFF_W            BITMAP                  "res\\root\\D-FF_3W.bmp"
 
-IDB_PROBE_ON            BITMAP                  "res\\root\\wire\\PROBE ON.bmp"
+IDB_FF_DFF_N            BITMAP                  "res\\root\\D-FF_4N.bmp"
 
-IDB_LIBRARY_BOX         BITMAP                  "res\\root\\library box\\librarybox.bmp"
+IDB_INVERTOR_           BITMAP                  "res\\root\\INVERTOR.bmp"
 
-IDB_TERMINAL_PIN        BITMAP                  "res\\root\\terminal pin\\terminal.bmp"
+IDB_INVERTOR_E          BITMAP                  "res\\root\\INVERTOR_1E.bmp"
 
-IDB_CLOCK               BITMAP                  "res\\root\\in\\CLOCK_FACE.bmp"
+IDB_INVERTOR_S          BITMAP                  "res\\root\\INVERTOR_2S.bmp"
 
-IDB_SEGMENT_H_OFF       BITMAP                  "res\\SEGMENT_H_OFF.bmp"
+IDB_INVERTOR_W          BITMAP                  "res\\root\\INVERTOR_3W.bmp"
 
-IDB_SEGMENT_H_ON        BITMAP                  "res\\SEGMENT_H_ON.bmp"
+IDB_INVERTOR_N          BITMAP                  "res\\root\\INVERTOR_4N.bmp"
 
-IDB_SEGMENT_V_OFF       BITMAP                  "res\\SEGMENT_V_OFF.bmp"
+IDB_FF_JKFF__           BITMAP                  "res\\root\\JK-FF.bmp"
 
-IDB_SEGMENT_V_ON        BITMAP                  "res\\SEGMENT_V_ON.bmp"
+IDB_FF_JKFF_E           BITMAP                  "res\\root\\JK-FF_1E.bmp"
+
+IDB_FF_JKFF_S           BITMAP                  "res\\root\\JK-FF_2S.bmp"
+
+IDB_FF_JKFF_W           BITMAP                  "res\\root\\JK-FF_3W.bmp"
+
+IDB_FF_JKFF_N           BITMAP                  "res\\root\\JK-FF_4N.bmp"
+
+IDB_LIBBOX__            BITMAP                  "res\\root\\librarybox.bmp"
+
+IDB_LIBBOX_E            BITMAP                  "res\\root\\librarybox_1E.bmp"
+
+IDB_LIBBOX_S            BITMAP                  "res\\root\\librarybox_2S.bmp"
+
+IDB_LIBBOX_W            BITMAP                  "res\\root\\librarybox_3W.bmp"
+
+IDB_LIBBOX_N            BITMAP                  "res\\root\\librarybox_4N.bmp"
+
+IDB_GATE_NAND__         BITMAP                  "res\\root\\NAND.bmp"
+
+IDB_GATE_NAND_E         BITMAP                  "res\\root\\NAND_1E.bmp"
+
+IDB_GATE_NAND_S         BITMAP                  "res\\root\\NAND_2S.bmp"
+
+IDB_GATE_NAND_W         BITMAP                  "res\\root\\NAND_3W.bmp"
+
+IDB_GATE_NAND_N         BITMAP                  "res\\root\\NAND_4N.bmp"
+
+IDB_GATE_NOR__          BITMAP                  "res\\root\\NOR.bmp"
+
+IDB_GATE_NOR_E          BITMAP                  "res\\root\\NOR_1E.bmp"
+
+IDB_GATE_NOR_S          BITMAP                  "res\\root\\NOR_2S.bmp"
+
+IDB_GATE_NOR_W          BITMAP                  "res\\root\\NOR_3W.bmp"
+
+IDB_GATE_NOR_N          BITMAP                  "res\\root\\NOR_4N.bmp"
+
+IDB_SWITCH_OFF_         BITMAP                  "res\\root\\OFF.bmp"
+
+IDB_SWITCH_OFF_E        BITMAP                  "res\\root\\OFF_1E.bmp"
+
+IDB_SWITCH_OFF_S        BITMAP                  "res\\root\\OFF_2S.bmp"
+
+IDB_SWITCH_OFF_W        BITMAP                  "res\\root\\OFF_3W.bmp"
+
+IDB_SWITCH_OFF_N        BITMAP                  "res\\root\\OFF_4N.bmp"
+
+IDB_LAMP_OFF_           BITMAP                  "res\\root\\OFF_LAMP.bmp"
+
+IDB_LAMP_OFF_E          BITMAP                  "res\\root\\OFF_LAMP_1E.bmp"
+
+IDB_LAMP_OFF_S          BITMAP                  "res\\root\\OFF_LAMP_2S.bmp"
+
+IDB_LAMP_OFF_W          BITMAP                  "res\\root\\OFF_LAMP_3W.bmp"
+
+IDB_LAMP_OFF_N          BITMAP                  "res\\root\\OFF_LAMP_4N.bmp"
+
+IDB_SWITCH_ON_          BITMAP                  "res\\root\\ON.bmp"
+
+IDB_SWITCH_ON_E         BITMAP                  "res\\root\\ON_1E.bmp"
+
+IDB_SWITCH_ON_S         BITMAP                  "res\\root\\ON_2S.bmp"
+
+IDB_SWITCH_ON_W         BITMAP                  "res\\root\\ON_3W.bmp"
+
+IDB_SWITCH_ON_N         BITMAP                  "res\\root\\ON_4N.bmp"
+
+IDB_LAMP_ON_            BITMAP                  "res\\root\\ON_LAMP.bmp"
+
+IDB_LAMP_ON_E           BITMAP                  "res\\root\\ON_LAMP_1E.bmp"
+
+IDB_LAMP_ON_S           BITMAP                  "res\\root\\ON_LAMP_2S.bmp"
+
+IDB_LAMP_ON_W           BITMAP                  "res\\root\\ON_LAMP_3W.bmp"
+
+IDB_LAMP_ON_N           BITMAP                  "res\\root\\ON_LAMP_4N.bmp"
+
+IDB_GATE_OR__           BITMAP                  "res\\root\\OR.bmp"
+
+IDB_GATE_OR_E           BITMAP                  "res\\root\\OR_1E.bmp"
+
+IDB_GATE_OR_S           BITMAP                  "res\\root\\OR_2S.bmp"
+
+IDB_GATE_OR_W           BITMAP                  "res\\root\\OR_3W.bmp"
+
+IDB_GATE_OR_N           BITMAP                  "res\\root\\OR_4N.bmp"
+
+IDB_PIN_OFF             BITMAP                  "res\\root\\PIN OFF.bmp"
+
+IDB_PIN_ON              BITMAP                  "res\\root\\PIN ON.bmp"
+
+IDB_PROBE_OFF           BITMAP                  "res\\root\\PROBE OFF.bmp"
+
+IDB_PROBE_ON            BITMAP                  "res\\root\\PROBE ON.bmp"
+
+IDB_TERMINAL            BITMAP                  "res\\root\\terminal.bmp"
+
+IDB_FF_TFF__            BITMAP                  "res\\root\\T-FF.bmp"
+
+IDB_FF_TFF_E            BITMAP                  "res\\root\\T-FF_1E.bmp"
+
+IDB_FF_TFF_S            BITMAP                  "res\\root\\T-FF_2S.bmp"
+
+IDB_FF_TFF_W            BITMAP                  "res\\root\\T-FF_3W.bmp"
+
+IDB_FF_TFF_N            BITMAP                  "res\\root\\T-FF_4N.bmp"
+
+IDB_GATE_XOR_           BITMAP                  "res\\root\\XOR.bmp"
+
+IDB_GATE_XOR_E          BITMAP                  "res\\root\\XOR_1E.bmp"
+
+IDB_GATE_XOR_S          BITMAP                  "res\\root\\XOR_2S.bmp"
+
+IDB_GATE_XOR_W          BITMAP                  "res\\root\\XOR_3W.bmp"
+
+IDB_GATE_XOR_N          BITMAP                  "res\\root\\XOR_4N.bmp"
 
 
 /////////////////////////////////////////////////////////////////////////////
@@ -533,7 +647,7 @@ IDR_RIBBON              RT_RIBBON_XML           "res\\ribbon.mfcribbon-ms"
 // PNG
 //
 
-IDB_PNG1                PNG                     "res\\root\\library box\\librarybox.png"
+IDB_LIBBOX_PNG          PNG                     "res\\root\\librarybox.png"
 
 
 /////////////////////////////////////////////////////////////////////////////
