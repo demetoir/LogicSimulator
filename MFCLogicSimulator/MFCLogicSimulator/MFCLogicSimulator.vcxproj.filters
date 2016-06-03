@@ -190,6 +190,9 @@
       <Filter>리소스 파일</Filter>
     </None>
     <None Include="ClassDiagram.cd" />
+    <None Include="res\ribbon1.mfcribbon-ms">
+      <Filter>리소스 파일</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="MFCLogicSimulator.rc">
