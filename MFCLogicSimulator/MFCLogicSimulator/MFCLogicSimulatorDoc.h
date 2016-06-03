@@ -22,7 +22,7 @@ using std::pair;
 using std::make_pair;
 
 enum COMPONENT_DIRECTION {
-	EAST,WEST,NORTH,SOUTH
+	EAST,SOUTH,WEST,NORTH
 };
 
 //도큐먼트에서 사용할 부품정보 구조체

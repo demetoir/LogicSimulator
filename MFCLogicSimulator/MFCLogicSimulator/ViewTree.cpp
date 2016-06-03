@@ -169,7 +169,7 @@ afx_msg LRESULT CViewTree::OnUnselectItem(WPARAM wParam, LPARAM lParam)
 	pDoc->operationMode = OPERATION_MODE_NONE;
 	pDoc->currentSelectedItem = FOLDER_ROOT;
 	CString str;
-	str.Format(_T("in tree view : unselect item\n"));
+	str.Format(_T("in tree view : unselect adding item\n"));
 	pOutput->addBuildWindowString(str);
 	return 0;
 }
@@ -225,7 +225,7 @@ void CViewTree::setItemStateON(HTREEITEM hItem)
 	pDoc->currentSelectedItem = pDoc->getSelectedItemInToolBox(hItem);
 
 	CString str;
-	str.Format(_T("in tree view : item selected\n"));
+	str.Format(_T("in tree view : select adding item \n"));
 	pOutput->addBuildWindowString(str);
 }
 

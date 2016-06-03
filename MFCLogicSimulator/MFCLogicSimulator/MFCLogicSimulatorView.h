@@ -23,9 +23,6 @@
 #include "PropertiesWnd.h" // 속성창 옵션 수정 관련하여 추가
 #include "MFCLogicSimulatorDoc.h"
 
-#include <gdiplus.h>
-using namespace Gdiplus;
-
 
 // 스크롤 생성
 // http://moguwai.tistory.com/entry/CView-CScrollView%EB%A1%9C-%EC%A0%84%ED%99%98
@@ -118,12 +115,21 @@ protected:
 
 	//현재 마우스가 부품위에 있는지 검사한다
 	int checkMouesPointOnComponent();
+	int checkMouesPointOnTerminalPin();
 
 	void drawHighlight(CDC& DC, int x, int y, int bitmapWidth, int bitmapHeight);
+
+	//단자를 그린다
+	void drawComponentTermial(CDC& DC, int x, int y, COMPONENT_DIRECTION direction, 
+		int componentWidth, int componentHeight, int numberOfInputTerminal, int numberOfOutputTerminal);
+	//부품의 몸체를 그린다
+	void drawComponentBody(CDC& DC, int x, int y, COMPONENT_DIRECTION direction, 
+		int componentWidth, int componentHeight);
 
 
 #define SIZE_OF_COMPONENT_BITMAP 20
 	CBitmap componentBitmap[SIZE_OF_COMPONENT_BITMAP];
+#define TERMINAL_PIN_HALF_SIZE  7
 	bool isHighlightComponentMode;
 	int highlightComponentIndex;
 
