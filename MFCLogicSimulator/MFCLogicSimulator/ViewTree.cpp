@@ -111,20 +111,20 @@ void CViewTree::OnLButtonDown(UINT nFlags, CPoint point)
 
 			//아무것도 아닌상태일때
 			if (pDoc->operationMode == OPERATION_MODE_NONE) {
-				if (isSelectedItemFolder(pDoc->getSelectedItemInToolBox(hItem)) == false) {
+				if (isSelectedItemFolder(pDoc->getSelectedItemIndexInToolBox(hItem)) == false) {
 					setItemStateON(hItem);
 				}
 			}
 			//추가 모드일떄
 			else if (pDoc->operationMode == OPERATION_MODE_ADDING_COMPONENT) {
-				if (pDoc->currentSelectedItem == pDoc->getSelectedItemInToolBox(hItem)) {
+				if (pDoc->currentSelectedItemIndex == pDoc->getSelectedItemIndexInToolBox(hItem)) {
 					//추가하는 부품을 해제 하고 
 					SendMessage(UM_UNSELECT_ITEM_IN_TREEVIEW, 100, 100);
 				}
 				else {
 					//다시 선택한다
 					SendMessage(UM_UNSELECT_ITEM_IN_TREEVIEW, 100, 100);
-					if (isSelectedItemFolder(pDoc->getSelectedItemInToolBox(hItem)) == false) {
+					if (isSelectedItemFolder(pDoc->getSelectedItemIndexInToolBox(hItem)) == false) {
 						setItemStateON(hItem);
 					}
 				}
@@ -167,7 +167,7 @@ afx_msg LRESULT CViewTree::OnUnselectItem(WPARAM wParam, LPARAM lParam)
 		treeItem = pToolbox->GetNextItem(treeItem, TVGN_NEXTVISIBLE);
 	}
 	pDoc->operationMode = OPERATION_MODE_NONE;
-	pDoc->currentSelectedItem = FOLDER_ROOT;
+	pDoc->currentSelectedItemIndex = FOLDER_ROOT;
 	CString str;
 	str.Format(_T("in tree view : unselect adding item\n"));
 	pOutput->addBuildWindowString(str);
@@ -222,7 +222,7 @@ void CViewTree::setItemStateON(HTREEITEM hItem)
 
 	SetItemState(hItem, TVIS_SELECTED, TVIS_SELECTED);
 	pDoc->operationMode = OPERATION_MODE_ADDING_COMPONENT;
-	pDoc->currentSelectedItem = pDoc->getSelectedItemInToolBox(hItem);
+	pDoc->currentSelectedItemIndex = pDoc->getSelectedItemIndexInToolBox(hItem);
 
 	CString str;
 	str.Format(_T("in tree view : select adding item \n"));

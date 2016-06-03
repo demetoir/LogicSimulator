@@ -57,7 +57,7 @@ enum TOOLBOX_ITEM_TYPE {
 	ITEM_1BITBUTIN, ITEM_CLOCK,
 	FOLDER_OUTPUT,
 	ITEM_1BITBUTOUT, ITEM_7SEGMENT,
-	ITEM_ETC
+	ITEM_LIBRARYBOX
 };
 
 enum OPERATION_MODE {
@@ -121,15 +121,15 @@ public :
 	vector <COMPONENT_DATA> engineComponentData;
 
 	//트리뷰에서 선택한 부품정보
-	TOOLBOX_ITEM_TYPE currentSelectedItem;
+	int currentSelectedItemIndex;
 
 	//부품을 추가한다
 	bool addComponentToEngine(int _x,int _y);
 
-	TOOLBOX_ITEM_TYPE getSelectedItemInToolBox(HTREEITEM hItem);
+	int getSelectedItemIndexInToolBox(HTREEITEM hItem);
 
 	//트리뷰에서 선택한 부품의 플래그로  COMPONENT_TYPE를 알아낸다
-	COMPONENT_TYPE getComponentTypeByToolBoxItem(TOOLBOX_ITEM_TYPE type);
+	COMPONENT_TYPE getComponentTypeByToolBoxItemIndex(int type);
 
 	COMPONENT_TYPE getCurrentSelectedComponentType();
 

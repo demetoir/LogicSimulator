@@ -65,6 +65,8 @@ CMFCLogicSimulatorView::CMFCLogicSimulatorView()
 	// TODO: 여기에 생성 코드를 추가합니다.
 	isHighlightComponentMode = false;
 	isHighlightTerminalPin = false;
+	currentSelectedTerminalPoint.x = 0;
+	currentSelectedTerminalPoint.y = 0;
 }
 
 CMFCLogicSimulatorView::~CMFCLogicSimulatorView()
@@ -111,8 +113,8 @@ void CMFCLogicSimulatorView::OnInitialUpdate()
 
 	CSize sizeTotal;
 	// 뷰의 전체 크기 계산(정의)
-	sizeTotal.cx = 1600;
-	sizeTotal.cy = 1200;
+	sizeTotal.cx = 2000;
+	sizeTotal.cy = 4000;
 
 	SetScrollSizes(MM_TEXT, sizeTotal);
 }
@@ -177,15 +179,15 @@ void CMFCLogicSimulatorView::OnLButtonDown(UINT nFlags, CPoint point)
 	// logic doc 포인터 가져옴
 	CMainFrame* pFrame = (CMainFrame*)AfxGetMainWnd();
 	CMFCLogicSimulatorDoc* pDoc = GetDocument();
-
-	// TODO: 여기에 메시지 처리기 코드를 추가 및/또는 기본값을 호출합니다.
+	SELECTED_TERMINAL_INFO selectedTerminalInfo;
+	int nVertScroll = GetScrollPos(SB_VERT);
+	int nHorzScroll = GetScrollPos(SB_HORZ);	
 
 	//지금 부품 추가 모드이면
 	switch (pDoc->operationMode) {
 	case OPERATION_MODE_ADDING_COMPONENT: {
 		//보정할 좌표를 가져온다
-		int nVertScroll = GetScrollPos(SB_VERT);
-		int nHorzScroll = GetScrollPos(SB_HORZ);
+
 		//선택한 부품을 도큐에 추가한다
 		pDoc->addComponentToEngine(point.x + nHorzScroll, point.y + nVertScroll);
 		pDoc->operationMode = OPERATION_MODE_NONE;
@@ -218,8 +220,26 @@ void CMFCLogicSimulatorView::OnLButtonDown(UINT nFlags, CPoint point)
 
 		Invalidate();
 		break;}
+	
 	case OPERATION_MODE_CONNECTING_COMPONENT: {
 
+		bool isInTerminalPin = checkMouesPointOnTerminalPin(selectedTerminalInfo);
+		//다른곳을 클릭하였다 해제한다
+		if (isInTerminalPin == false) {
+			pDoc->operationMode = OPERATION_MODE_NONE;
+			oldSelectedTerminalPoint.x = 0;
+			oldSelectedTerminalPoint.y = 0;
+			currentSelectedTerminalPoint.x = 0;
+			currentSelectedTerminalPoint.y = 0;
+			copyTerminalInfo(dummy_SELECTED_TERMINAL_INFO, firstSelectedTerminalPin);
+			copyTerminalInfo(dummy_SELECTED_TERMINAL_INFO, secondSelectedTerminalPin);
+			Invalidate();
+		}
+		//연결한다
+		else {
+			Invalidate();
+		}
+	
 		Invalidate();
 		break;}
 
@@ -231,7 +251,16 @@ void CMFCLogicSimulatorView::OnLButtonDown(UINT nFlags, CPoint point)
 			pDoc->operationMode = OPERATION_MODE_SELECT_COMPONENT;
 			Invalidate();
 		}
-
+		
+		//핀을 클릭함 연결 모드로 전환한다
+		bool isInTerminalPin  = checkMouesPointOnTerminalPin(selectedTerminalInfo);
+		if (isInTerminalPin == true) {
+			pDoc->operationMode = OPERATION_MODE_CONNECTING_COMPONENT;
+			copyTerminalInfo(selectedTerminalInfo, firstSelectedTerminalPin);
+			oldSelectedTerminalPoint.x = currentSelectedTerminalPoint.x;
+			oldSelectedTerminalPoint.y = currentSelectedTerminalPoint.y;
+			Invalidate();
+		}
 		break; }
 	default: {
 
@@ -255,9 +284,7 @@ void CMFCLogicSimulatorView::OnLButtonUp(UINT nFlags, CPoint point)
 //http://adnoctum.tistory.com/149
 void CMFCLogicSimulatorView::OnPaint()
 {
-	CPaintDC dc(this); // device context for painting
-					   // TODO: 여기에 메시지 처리기 코드를 추가합니다.
-					   // 그리기 메시지에 대해서는 CScrollView::OnPaint()을(를) 호출하지 마십시오.
+	CPaintDC dc(this);
 
 	CMFCLogicSimulatorDoc* pDoc = GetDocument();
 	CRect rect;
@@ -311,6 +338,9 @@ void CMFCLogicSimulatorView::OnPaint()
 				drawHighlightComponentTerminalPin(memDC);
 			}
 
+			if (pDoc->operationMode == OPERATION_MODE_CONNECTING_COMPONENT) {
+				drawConnectingWire(memDC);
+			}
 
 
 			//화면에 메세지를 띄어주는것
@@ -374,6 +404,10 @@ void CMFCLogicSimulatorView::OnMouseMove(UINT nFlags, CPoint point)
 	bool oldval = isHighlightTerminalPin;
 	isHighlightTerminalPin = checkMouesPointOnTerminalPin(dummyInfo);
 	if (oldval != isHighlightTerminalPin) {
+		Invalidate();
+	}
+
+	if (pDoc->operationMode == OPERATION_MODE_CONNECTING_COMPONENT) {
 		Invalidate();
 	}
 
@@ -697,7 +731,7 @@ bool CMFCLogicSimulatorView::checkMouesPointOnTerminalPin(SELECTED_TERMINAL_INFO
 	int nHorzScroll = GetScrollPos(SB_HORZ);
 	point.x += nHorzScroll;
 	point.y += nVertScroll;
-
+	
 
 	for (int i = 0; i < pDoc->engineComponentData.size(); i++) {
 		currentData = &pDoc->engineComponentData[i];
@@ -731,11 +765,10 @@ bool CMFCLogicSimulatorView::checkMouesPointOnTerminalPin(SELECTED_TERMINAL_INFO
 					a + TERMINAL_PIN_HALF_SIZE, b + TERMINAL_PIN_HALF_SIZE);
 				if (terminalPinRgn.PtInRegion(point)) {
 					isInTerminalPin = true;
-					selectedTerminalInfo.componentID = i;
-					selectedTerminalInfo.terminalNumber = curI-1;
-					selectedTerminalInfo.terminalType = TERMINAL_TYPE_INPUT;
-					selectedTerminalPinX = a;
-					selectedTerminalPinY = b;
+					SELECTED_TERMINAL_INFO curInfo(i, TERMINAL_TYPE_INPUT,curI -1);
+					copyTerminalInfo(curInfo, selectedTerminalInfo);
+					currentSelectedTerminalPoint.x = a;
+					currentSelectedTerminalPoint.y = b;
 				};
 				terminalPinRgn.DeleteObject();
 			}
@@ -747,11 +780,10 @@ bool CMFCLogicSimulatorView::checkMouesPointOnTerminalPin(SELECTED_TERMINAL_INFO
 					a + TERMINAL_PIN_HALF_SIZE, b + TERMINAL_PIN_HALF_SIZE);
 				if (terminalPinRgn.PtInRegion(point)) {
 					isInTerminalPin = true;
-					selectedTerminalInfo.componentID = i;
-					selectedTerminalInfo.terminalNumber = curI - 1;
-					selectedTerminalInfo.terminalType = TERMINAL_TYPE_INPUT;
-					selectedTerminalPinX = a;
-					selectedTerminalPinY = b;
+					SELECTED_TERMINAL_INFO curInfo(i, TERMINAL_TYPE_INPUT, curI - 1);
+					copyTerminalInfo(curInfo, selectedTerminalInfo);
+					currentSelectedTerminalPoint.x = a;
+					currentSelectedTerminalPoint.y = b;
 				};
 				terminalPinRgn.DeleteObject();
 			}
@@ -769,11 +801,10 @@ bool CMFCLogicSimulatorView::checkMouesPointOnTerminalPin(SELECTED_TERMINAL_INFO
 					a + TERMINAL_PIN_HALF_SIZE, b + TERMINAL_PIN_HALF_SIZE);
 				if (terminalPinRgn.PtInRegion(point)) {
 					isInTerminalPin = true;
-					selectedTerminalInfo.componentID = i;
-					selectedTerminalInfo.terminalNumber = curI - 1;
-					selectedTerminalInfo.terminalType = TERMINAL_TYPE_INPUT;
-					selectedTerminalPinX = a;
-					selectedTerminalPinY = b;
+					SELECTED_TERMINAL_INFO curInfo(i, TERMINAL_TYPE_INPUT, curI - 1);
+					copyTerminalInfo(curInfo, selectedTerminalInfo);
+					currentSelectedTerminalPoint.x = a;
+					currentSelectedTerminalPoint.y = b;
 				};
 				terminalPinRgn.DeleteObject();
 			}
@@ -785,11 +816,10 @@ bool CMFCLogicSimulatorView::checkMouesPointOnTerminalPin(SELECTED_TERMINAL_INFO
 					a + TERMINAL_PIN_HALF_SIZE, b + TERMINAL_PIN_HALF_SIZE);
 				if (terminalPinRgn.PtInRegion(point)) {
 					isInTerminalPin = true;
-					selectedTerminalInfo.componentID = i;
-					selectedTerminalInfo.terminalNumber = curI - 1;
-					selectedTerminalInfo.terminalType = TERMINAL_TYPE_INPUT;
-					selectedTerminalPinX = a;
-					selectedTerminalPinY = b;
+					SELECTED_TERMINAL_INFO curInfo(i, TERMINAL_TYPE_INPUT, curI - 1);
+					copyTerminalInfo(curInfo, selectedTerminalInfo);
+					currentSelectedTerminalPoint.x = a;
+					currentSelectedTerminalPoint.y = b;
 				};
 				terminalPinRgn.DeleteObject();
 			}
@@ -806,11 +836,10 @@ bool CMFCLogicSimulatorView::checkMouesPointOnTerminalPin(SELECTED_TERMINAL_INFO
 					a + TERMINAL_PIN_HALF_SIZE, b + TERMINAL_PIN_HALF_SIZE);
 				if (terminalPinRgn.PtInRegion(point)) {
 					isInTerminalPin = true;
-					selectedTerminalInfo.componentID = i;
-					selectedTerminalInfo.terminalNumber = curI - 1;
-					selectedTerminalInfo.terminalType = TERMINAL_TYPE_INPUT;
-					selectedTerminalPinX = a;
-					selectedTerminalPinY = b;
+					SELECTED_TERMINAL_INFO curInfo(i, TERMINAL_TYPE_INPUT, curI - 1);
+					copyTerminalInfo(curInfo, selectedTerminalInfo);
+					currentSelectedTerminalPoint.x = a;
+					currentSelectedTerminalPoint.y = b;
 				};
 				terminalPinRgn.DeleteObject();
 			}
@@ -822,11 +851,10 @@ bool CMFCLogicSimulatorView::checkMouesPointOnTerminalPin(SELECTED_TERMINAL_INFO
 					a + TERMINAL_PIN_HALF_SIZE, b + TERMINAL_PIN_HALF_SIZE);
 				if (terminalPinRgn.PtInRegion(point)) {
 					isInTerminalPin = true;
-					selectedTerminalInfo.componentID = i;
-					selectedTerminalInfo.terminalNumber = curI - 1;
-					selectedTerminalInfo.terminalType = TERMINAL_TYPE_INPUT;
-					selectedTerminalPinX = a;
-					selectedTerminalPinY = b;
+					SELECTED_TERMINAL_INFO curInfo(i, TERMINAL_TYPE_INPUT, curI - 1);
+					copyTerminalInfo(curInfo, selectedTerminalInfo);
+					currentSelectedTerminalPoint.x = a;
+					currentSelectedTerminalPoint.y = b;
 				};
 				terminalPinRgn.DeleteObject();
 			}
@@ -842,11 +870,10 @@ bool CMFCLogicSimulatorView::checkMouesPointOnTerminalPin(SELECTED_TERMINAL_INFO
 					a + TERMINAL_PIN_HALF_SIZE, b + TERMINAL_PIN_HALF_SIZE);
 				if (terminalPinRgn.PtInRegion(point)) {
 					isInTerminalPin = true;
-					selectedTerminalInfo.componentID = i;
-					selectedTerminalInfo.terminalNumber = curI - 1;
-					selectedTerminalInfo.terminalType = TERMINAL_TYPE_INPUT;
-					selectedTerminalPinX = a;
-					selectedTerminalPinY = b;
+					SELECTED_TERMINAL_INFO curInfo(i, TERMINAL_TYPE_INPUT, curI - 1);
+					copyTerminalInfo(curInfo, selectedTerminalInfo);
+					currentSelectedTerminalPoint.x = a;
+					currentSelectedTerminalPoint.y = b;
 				};
 				terminalPinRgn.DeleteObject();
 			}
@@ -859,11 +886,10 @@ bool CMFCLogicSimulatorView::checkMouesPointOnTerminalPin(SELECTED_TERMINAL_INFO
 					a + TERMINAL_PIN_HALF_SIZE, b + TERMINAL_PIN_HALF_SIZE);
 				if (terminalPinRgn.PtInRegion(point)) {
 					isInTerminalPin = true;
-					selectedTerminalInfo.componentID = i;
-					selectedTerminalInfo.terminalNumber = curI - 1;
-					selectedTerminalInfo.terminalType = TERMINAL_TYPE_INPUT;
-					selectedTerminalPinX = a;
-					selectedTerminalPinY = b;
+					SELECTED_TERMINAL_INFO curInfo(i, TERMINAL_TYPE_INPUT, curI - 1);
+					copyTerminalInfo(curInfo, selectedTerminalInfo);
+					currentSelectedTerminalPoint.x = a;
+					currentSelectedTerminalPoint.y = b;
 				};
 				terminalPinRgn.DeleteObject();
 			}
@@ -876,6 +902,10 @@ bool CMFCLogicSimulatorView::checkMouesPointOnTerminalPin(SELECTED_TERMINAL_INFO
 		//로드한 비트맵을 제거한다
 		componentBitmap.DeleteObject();
 
+	}
+	if (isInTerminalPin == false){
+		currentSelectedTerminalPoint.x = 0;
+		currentSelectedTerminalPoint.y = 0;
 	}
 	return isInTerminalPin;
 }
@@ -898,8 +928,8 @@ void CMFCLogicSimulatorView::drawHighlightComponentTerminalPin(CDC & DC)
 {
 	int nVertScroll = GetScrollPos(SB_VERT);
 	int nHorzScroll = GetScrollPos(SB_HORZ);
-	int x = selectedTerminalPinX + nHorzScroll;
-	int y = selectedTerminalPinY - nVertScroll;
+	int x = currentSelectedTerminalPoint.x - nHorzScroll;
+	int y = currentSelectedTerminalPoint.y - nVertScroll;
 
 	CPen pen;
 	CPen* oldPen;
@@ -1074,6 +1104,48 @@ void CMFCLogicSimulatorView::drawComponentBody(CDC & DC, int x, int y, COMPONENT
 	default:
 		break;
 	}
+
+}
+
+void CMFCLogicSimulatorView::copyTerminalInfo(SELECTED_TERMINAL_INFO & source, SELECTED_TERMINAL_INFO & destination)
+{
+	destination.componentID = source.componentID;
+	destination.terminalType = source.terminalType;
+	destination.terminalNumber = source.terminalNumber;
+}
+
+void CMFCLogicSimulatorView::drawConnectingWire(CDC & DC)
+{
+	int nVertScroll = GetScrollPos(SB_VERT);
+	int nHorzScroll = GetScrollPos(SB_HORZ);
+	CPoint point;
+	GetCursorPos(&point);
+	ScreenToClient(&point);
+	point.x ;
+	point.y ;
+
+	CPen pen;
+	pen.CreatePen(PS_DOT, 5, RGB(0, 0, 0));    
+	CPen* oldPen = DC.SelectObject(&pen);
+
+	CBrush brush;
+	brush.CreateSolidBrush(RGB(0, 0, 0));
+	CBrush* oldBrush = DC.SelectObject(&brush);
+
+	int x = oldSelectedTerminalPoint.x - nHorzScroll;
+	int y = oldSelectedTerminalPoint.y - nVertScroll;
+	//원을그린다
+	DC.Ellipse(x- CONNECTING_WIRE_ELLIPSE_HALF_SIZE, 
+		y - CONNECTING_WIRE_ELLIPSE_HALF_SIZE,
+		x + CONNECTING_WIRE_ELLIPSE_HALF_SIZE,
+		y + CONNECTING_WIRE_ELLIPSE_HALF_SIZE);	
+
+	DC.SelectObject(oldBrush);
+	DC.MoveTo(x,y);
+	DC.LineTo(point.x, point.y);
+
+
+	DC.SelectObject(oldPen);
 
 }
 

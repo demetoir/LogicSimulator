@@ -49,7 +49,7 @@ CMFCLogicSimulatorDoc::CMFCLogicSimulatorDoc()
 	operationMode = OPERATION_MODE_NONE;
 }
 
-TOOLBOX_ITEM_TYPE CMFCLogicSimulatorDoc::getSelectedItemInToolBox(HTREEITEM hItem)
+int CMFCLogicSimulatorDoc::getSelectedItemIndexInToolBox(HTREEITEM hItem)
 {	
 	// mainframe에서 fileview의 트리 정보 조회
 	// http://www.dreamy.pe.kr/zbxe/CodeClip/18117
@@ -66,7 +66,7 @@ TOOLBOX_ITEM_TYPE CMFCLogicSimulatorDoc::getSelectedItemInToolBox(HTREEITEM hIte
 		hComp = p_ToolboxInDoc->GetNextItem(hComp, TVGN_NEXTVISIBLE);
 		++indexOfItem;
 	}
-	return (TOOLBOX_ITEM_TYPE)indexOfItem;
+	return indexOfItem;
 }
 
 CMFCLogicSimulatorDoc::~CMFCLogicSimulatorDoc()
@@ -168,7 +168,7 @@ bool CMFCLogicSimulatorDoc::addComponentToEngine(int _x, int _y)
 
 	COMPONENT_TYPE selectedType; 
 
-	selectedType = getComponentTypeByToolBoxItem(currentSelectedItem);
+	selectedType = getComponentTypeByToolBoxItemIndex(currentSelectedItemIndex);
 	
 	// 테스트 용
 	COMPONENT_INFO addComponent(selectedType);
@@ -208,9 +208,9 @@ bool CMFCLogicSimulatorDoc::addComponentToEngine(int _x, int _y)
 
 }
 
-COMPONENT_TYPE CMFCLogicSimulatorDoc::getComponentTypeByToolBoxItem(TOOLBOX_ITEM_TYPE type)
+COMPONENT_TYPE CMFCLogicSimulatorDoc::getComponentTypeByToolBoxItemIndex(int type)
 {
-	COMPONENT_TYPE ret;
+	COMPONENT_TYPE ret = COMPONENT_TYPE_NONE;
 	switch (type) {
 	case FOLDER_ROOT:
 		ret = COMPONENT_TYPE_NONE;
@@ -253,17 +253,11 @@ COMPONENT_TYPE CMFCLogicSimulatorDoc::getComponentTypeByToolBoxItem(TOOLBOX_ITEM
 		ret = COMPONENT_TYPE_ONE_BIT_LAMP;
 		break;
 	case  ITEM_7SEGMENT:
-		ret = COMPONENT_TYPE_7SEGMENT;
-		break;
-
-
-	case  ITEM_ETC:
 		ret = COMPONENT_TYPE_NONE;
 		break;
-
-	default:
-		ret = COMPONENT_TYPE_NONE;
-		break;
+	}
+	if (type >= ITEM_LIBRARYBOX) {
+		ret = COMPONENT_TYPE_LIBRARY_BOX;
 	}
 	return ret;
 }
@@ -271,7 +265,7 @@ COMPONENT_TYPE CMFCLogicSimulatorDoc::getComponentTypeByToolBoxItem(TOOLBOX_ITEM
 COMPONENT_TYPE CMFCLogicSimulatorDoc::getCurrentSelectedComponentType()
 {
 
-	return getComponentTypeByToolBoxItem(currentSelectedItem);
+	return getComponentTypeByToolBoxItemIndex(currentSelectedItemIndex);
 }
 
 

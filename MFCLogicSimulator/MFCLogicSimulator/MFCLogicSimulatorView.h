@@ -29,6 +29,11 @@
 
 #define HIGHLIGHT_EDGE_GAP 5
 #define	SELECTED_TERMINAL_INFO COMPONENT_CONENTION_INFO
+#define CONNECTING_WIRE_ELLIPSE_HALF_SIZE 3
+#define TERMINAL_PIN_HALF_SIZE  8
+#define HIGHLIGHIT_TERMINAL_PIN_HALF_SIZE  15
+#define SIZE_OF_COMPONENT_BITMAP 20
+
 
 class CMFCLogicSimulatorView : public CScrollView
 {
@@ -117,8 +122,8 @@ protected:
 
 	//현재 마우스가 부품위에 있는지 검사한다
 	int checkMouesPointOnComponent();
-	int selectedTerminalPinX;
-	int selectedTerminalPinY;
+	CPoint currentSelectedTerminalPoint;
+	CPoint oldSelectedTerminalPoint;
 	bool checkMouesPointOnTerminalPin(SELECTED_TERMINAL_INFO& selectedTerminalInfo);
 
 	//부품 몸체를 강조하는 부분을 그린다
@@ -136,14 +141,21 @@ protected:
 		int componentWidth, int componentHeight);
 
 
-#define SIZE_OF_COMPONENT_BITMAP 20
 	CBitmap componentBitmap[SIZE_OF_COMPONENT_BITMAP];
-#define TERMINAL_PIN_HALF_SIZE  7
-#define HIGHLIGHIT_TERMINAL_PIN_HALF_SIZE  15
+
 
 	bool isHighlightComponentMode;
 	int highlightComponentIndex;
 	bool isHighlightTerminalPin;
+
+	SELECTED_TERMINAL_INFO firstSelectedTerminalPin;
+	SELECTED_TERMINAL_INFO secondSelectedTerminalPin;
+	SELECTED_TERMINAL_INFO dummy_SELECTED_TERMINAL_INFO;
+	
+	void copyTerminalInfo(SELECTED_TERMINAL_INFO& source, SELECTED_TERMINAL_INFO& destination);
+
+	void drawConnectingWire(CDC& DC);
+
 public:
 	afx_msg BOOL OnEraseBkgnd(CDC* pDC);
 };
