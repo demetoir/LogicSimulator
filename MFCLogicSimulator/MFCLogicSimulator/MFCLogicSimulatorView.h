@@ -113,7 +113,7 @@ protected:
 	void drawMassage( CDC &DC);
 
 	//부품의 타입에 해당하는 부품의 비트맵 아이디를 가져온다
-	int getBitmapIDByComponentType(COMPONENT_TYPE _type);
+	int getBitmapIDByComponentType(COMPONENT_TYPE _type, COMPONENT_DIRECTION direction);
 
 	//현재 마우스가 부품위에 있는지 검사한다
 	int checkMouesPointOnComponent();
