@@ -215,11 +215,13 @@ void CMFCLogicSimulatorView::OnLButtonDown(UINT nFlags, CPoint point)
 		//마우스가 화면의 부품을 선택함
 
 		highlightComponentIndex = checkMouesPointOnComponent();
+		pDoc->selectedComponentID = highlightComponentIndex;
 		if (highlightComponentIndex > 0) {
 			pDoc->operationMode = OPERATION_MODE_SELECT_COMPONENT;
-			pDoc->selectedComponentID = highlightComponentIndex;
 			Invalidate();
 		}
+
+
 		
 		//핀을 클릭함 연결 모드로 전환한다
 		bool isInTerminalPin  = checkMouesPointOnTerminalPin(selectedTerminalInfo);
@@ -234,8 +236,12 @@ void CMFCLogicSimulatorView::OnLButtonDown(UINT nFlags, CPoint point)
 	
 	case OPERATION_MODE_VAlUE_CHANGE: {
 
+		//선택한 부품이 
 		int selectedComponentID = checkMouesPointOnComponent();
-		if (selectedComponentID == )
+		if (selectedComponentID >0) {
+			changeComponentValue(selectedComponentID);
+		}
+		
 
 		break;
 	}
@@ -282,6 +288,16 @@ void CMFCLogicSimulatorView::OnPaint()
 
 	//메모리에다가 그리기시작
 	{
+		CPoint point;
+		GetCursorPos(&point);
+		ScreenToClient(&point);
+		int nVertScroll = GetScrollPos(SB_VERT);
+		int nHorzScroll = GetScrollPos(SB_HORZ);
+		//그려줄 좌표를 보정한다
+		point.x + nHorzScroll;
+		point.y + nVertScroll;
+		CString str;
+		
 		// 뷰 스크롤 및 크기 조정
 		// https://msdn.microsoft.com/ko-kr/library/cc468151(v=vs.71).aspx
 		// http://eachan.tistory.com/3
@@ -1235,7 +1251,7 @@ int CMFCLogicSimulatorView::checkMouesPointOnComponent()
 	for (int i = 0; i < pDoc->engineComponentData.size(); i++) {
 		currentComponent = &pDoc->engineComponentData[i];
 		//존재하지 않는것은 넘어간다
-		if (currentComponent->id <= 0) { continue; }
+ 		if (currentComponent->id <= 0) { continue; }
 
 		startX = currentComponent->x;
 		startY = currentComponent->y;
@@ -1404,5 +1420,22 @@ void CMFCLogicSimulatorView::copyPoints(CPoint * source, CPoint * destination,in
 		destination[i].x = source[i].x;
 		destination[i].y = source[i].y;
  	}
+}
+
+void CMFCLogicSimulatorView::changeComponentValue(int id)
+{
+	CMainFrame* pFrame = (CMainFrame*)AfxGetMainWnd();
+	CMFCLogicSimulatorDoc* pDoc = GetDocument();
+	COMPONENT_DATA* data = &pDoc->engineComponentData[id];
+	CComponentObject * object= pDoc->logicSimulatorEngine.getComponentObject(id);
+	
+	if (data->type == COMPONENT_TYPE_INPUT_PIN||
+		data->type == COMPONENT_TYPE_ONE_BIT_SWITCH||
+		data->type == COMPONENT_TYPE_OUTPUT_PIN) {
+
+	//값을 변경한다
+	bool val = object->getInputValue(0);
+	object->setInputValue(0, ~val);
+	}
 }
 

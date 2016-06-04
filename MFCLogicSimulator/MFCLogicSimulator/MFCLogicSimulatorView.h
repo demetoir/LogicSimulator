@@ -172,6 +172,7 @@ protected:
 	void copyTerminalInfo(SELECTED_TERMINAL_INFO& source, SELECTED_TERMINAL_INFO& destination);
 	void copyPoints(CPoint* source, CPoint* destination,int size);
 	
+	void changeComponentValue(int id);
 
 };
 
