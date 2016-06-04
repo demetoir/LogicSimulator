@@ -37,6 +37,7 @@ public:
 		m_wndPropList.SetVSDotNetLook(bSet);
 		m_wndPropList.SetGroupNameFullWidth(bSet);
 	}
+	CPropertiesToolBar* getProperties();
 
 protected:
 	CFont m_fntPropList;
@@ -63,6 +64,9 @@ protected:
 	afx_msg void OnSettingChange(UINT uFlags, LPCTSTR lpszSection);
 
 	DECLARE_MESSAGE_MAP()
+
+	void setPropertiesWindowGate(CString& str);
+	//void resetBuildWindowString();
 
 	void InitPropList();
 	void SetPropListFont();
