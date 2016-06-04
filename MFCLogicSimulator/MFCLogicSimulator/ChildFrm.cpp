@@ -202,26 +202,70 @@ void CChildFrame::OnUpdateButtoncontinue(CCmdUI *pCmdUI)
 /* 실행모드 botton 처리기 */
 void CChildFrame::OnButtonact()
 {
+	CMainFrame *pFrame = (CMainFrame*)AfxGetMainWnd();
+	CFileView* pFileView = pFrame->getCFileView();
+	CViewTree* pToolbox = pFileView->getCFileViewTree();
+	CChildFrame *pChild = (CChildFrame *)pFrame->GetActiveFrame();
+	CMFCLogicSimulatorDoc *pDoc = (CMFCLogicSimulatorDoc *)pChild->GetActiveDocument();
+	COutputWnd* pOutput = pFrame->getCOutputWnd();
+
+	pDoc->operationMode = OPERATION_MODE_VAlUE_CHANGE;
 	// TODO: 여기에 명령 처리기 코드를 추가합니다.
-	AfxMessageBox(_T("mode: active"));
+	CString str;
+	str.Format(_T("in rebbon menu : mode change -> changing componnent value\n"));
+	pOutput->addBuildWindowString(str);
+
 }
 void CChildFrame::OnUpdateButtonact(CCmdUI *pCmdUI)
 {
 	// TODO: 여기에 명령 업데이트 UI 처리기 코드를 추가합니다.
 	pCmdUI->Enable(TRUE);
+
+
+	CMainFrame *pFrame = (CMainFrame*)AfxGetMainWnd();
+	CChildFrame *pChild = (CChildFrame *)pFrame->GetActiveFrame();
+	CMFCLogicSimulatorDoc *pDoc = (CMFCLogicSimulatorDoc *)pChild->GetActiveDocument();
+
+	if (pDoc->operationMode == OPERATION_MODE_VAlUE_CHANGE) {
+		pCmdUI->SetCheck(1);
+	}
+	else {
+		pCmdUI->SetCheck(0);
+	}
 }
 
 
 /* 편집모드 botton 처리기 */
 void CChildFrame::OnButtonedit()
 {
+	CMainFrame *pFrame = (CMainFrame*)AfxGetMainWnd();
+	CFileView* pFileView = pFrame->getCFileView();
+	CViewTree* pToolbox = pFileView->getCFileViewTree();
+	CChildFrame *pChild = (CChildFrame *)pFrame->GetActiveFrame();
+	CMFCLogicSimulatorDoc *pDoc = (CMFCLogicSimulatorDoc *)pChild->GetActiveDocument();
+	COutputWnd* pOutput = pFrame->getCOutputWnd();
+
+	pDoc->operationMode = OPERATION_MODE_NONE;
 	// TODO: 여기에 명령 처리기 코드를 추가합니다.
-	AfxMessageBox(_T("mode: edit"));
+	CString str;
+	str.Format(_T("in rebbon menu : mode change -> edit mode\n"));
+	pOutput->addBuildWindowString(str);
 }
 void CChildFrame::OnUpdateButtonedit(CCmdUI *pCmdUI)
 {
 	// TODO: 여기에 명령 업데이트 UI 처리기 코드를 추가합니다.
 	pCmdUI->Enable(TRUE);
+
+	CMainFrame *pFrame = (CMainFrame*)AfxGetMainWnd();
+	CChildFrame *pChild = (CChildFrame *)pFrame->GetActiveFrame();
+	CMFCLogicSimulatorDoc *pDoc = (CMFCLogicSimulatorDoc *)pChild->GetActiveDocument();
+
+	if (pDoc->operationMode == OPERATION_MODE_NONE) {
+		pCmdUI->SetCheck(1);
+	}
+	else {
+		pCmdUI->SetCheck(0);
+	}
 }
 /*************** Ribbon button 처리기 *****************/
 

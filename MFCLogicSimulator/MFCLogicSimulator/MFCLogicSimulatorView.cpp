@@ -439,61 +439,19 @@ CMFCLogicSimulatorDoc* CMFCLogicSimulatorView::GetDocument() const // 디버그되지
 //각부품을 그릴때에 방향추가가 필요하다
 void CMFCLogicSimulatorView::drawComponent(CDC &DC)
 {
-	//공통적으로 들어갈 변수들
-	CDC memDC;
-	memDC.CreateCompatibleDC(&DC);
 	CMFCLogicSimulatorDoc* pDoc = GetDocument();
-	int nVertScroll = GetScrollPos(SB_VERT);
-	int nHorzScroll = GetScrollPos(SB_HORZ);
-	int x, y;
-	COMPONENT_TYPE type;
-	COMPONENT_DIRECTION direction;
-	CBitmap componentBitmap;
-	CBitmap *oldBitmap;
-	BITMAP bitmapInfo;
-	CComponentObject* currentObject;
-
-	CBitmap terminalPin;
-	BITMAP terminalPinInfo;
 
 	for (int ID = 0; ID < pDoc->engineComponentData.size(); ID++) {
 		//존재하지 않는것은 넘어간다
 		if (pDoc->engineComponentData[ID].id <= 0) {
 			continue;
 		}
-
-		//그릴 부품의 객체를 가져온다
-		currentObject = pDoc->logicSimulatorEngine.getComponentObject(ID);
-		//그려줄 좌표를 보정한다
-		x = pDoc->engineComponentData[ID].x - nHorzScroll;
-		y = pDoc->engineComponentData[ID].y - nVertScroll;
-		type = pDoc->engineComponentData[ID].type;
-		direction = pDoc->engineComponentData[ID].direction;
-		//세븐 세그먼트는 따로 구현한다
 		
-
-		//타입에 맞는 부품의 비트맵 아이디를 가져오고 로드한다
-		componentBitmap.LoadBitmapW(getBitmapIDByComponentType(type, direction));
-		componentBitmap.GetBitmap(&bitmapInfo);
-
 		// 터미널 핀을 그린다
 		drawComponentTermialPin(DC, ID);
 
-
-
-		//부품을 그린다
-		oldBitmap = memDC.SelectObject(&componentBitmap);
-		DC.BitBlt(x, y, bitmapInfo.bmWidth, bitmapInfo.bmHeight, &memDC, 0, 0, SRCCOPY);
-		memDC.SelectObject(oldBitmap);
-
-		if (type == COMPONENT_TYPE_7SEGMENT) {
-			draw7SegmentInputBar(DC, CPoint(x, y), direction);
-		}
-
-
-		//가져온 비트맵을 제거한다
-		componentBitmap.DeleteObject();
-		
+		//부품의 몸체를 그린다
+		drawComponentBody(DC, ID);		
 	}
 }
 
@@ -504,48 +462,75 @@ void CMFCLogicSimulatorView::drawConnectedWire(CDC & DC)
 	CMFCLogicSimulatorDoc* pDoc = GetDocument();
 	int nVertScroll = GetScrollPos(SB_VERT);
 	int nHorzScroll = GetScrollPos(SB_HORZ);
-	int x, y;
-	ADJ_LIST* Grahp;
-	Grahp = pDoc->logicSimulatorEngine.getConnectionGrahp();
+	ADJ_LIST* OutputGrahp;
+	ADJ_LIST* inputGrahp;
+	OutputGrahp = pDoc->logicSimulatorEngine.getOutputGrahp();
+	inputGrahp = pDoc->logicSimulatorEngine.getInputGrahp();
 	COMPONENT_DATA* pCurrentComponent;
 
-	CPen pen;
-	pen.CreatePen(PS_DOT, 5, RGB(0, 0, 0));
-	CPen* oldPen = DC.SelectObject(&pen);
+	CPen penOff,penOn;
+	penOff.CreatePen(PS_SOLID, 5, RGB(0, 0, 0));
+	penOn.CreatePen(PS_SOLID, 5, RGB(0, 255, 0));
+	CPen* oldPen =NULL;
 
-	CBrush brush;
-	brush.CreateSolidBrush(RGB(0, 0, 0));
-	CBrush* oldBrush = DC.SelectObject(&brush);
 	int curID;
 	int nextID;
 	CPoint A, B;
+	CComponentObject* pCurrentObject;
+	
 	for (int i = 0; i < pDoc->engineComponentData.size(); i++) {
 		if (pDoc->engineComponentData[i].id <= 0) { continue; }
 		pCurrentComponent = &pDoc->engineComponentData[i];
 		curID = pCurrentComponent->id;
-		
-		for (int j = 0; j<(*Grahp)[i].size(); j++) {
-			nextID = (*Grahp)[i][j].componentID;
+
+		//wire 가 아니면 스킵한다
+		if (pCurrentComponent->type != COMPONENT_TYPE_WIRE) { continue; }
+
+		pCurrentObject = pDoc->logicSimulatorEngine.getComponentObject(curID);
+		//연결할 선을 그린다		
+		if (pCurrentObject->getOutputValue(0) == true) {
+			oldPen = DC.SelectObject(&penOn);
+		}
+		else {
+			oldPen = DC.SelectObject(&penOff);
+		}
+		for (int j = 0; j<(*OutputGrahp)[i].size(); j++) {
+			nextID = (*OutputGrahp)[i][j].componentID;
 			if (nextID <= 0) { continue; }
-			
 			//output 단자의 좌표를 가져온다
 			getOutputTerminalPoint(curID,A, j);
-
 			//input 단자의 좌표를 가져온다
-			getInputTerminalPoint(nextID, B, (*Grahp)[i][j].terminalNumber);
-
+			getInputTerminalPoint(nextID, B, (*OutputGrahp)[i][j].terminalNumber);
 			//좌표를 보정한다
 			A.x -= nHorzScroll;
 			A.y -= nVertScroll;
 			B.x -= nHorzScroll;
 			B.y -= nVertScroll;
-			//연결할 선을 그린다			
+			DC.MoveTo(A);
+			DC.LineTo(B);		
+		}
+		for (int j = 0; j<(*inputGrahp)[i].size(); j++) {
+			nextID = (*inputGrahp)[i][j].componentID;
+			if (nextID <= 0) { continue; }
+			//output 단자의 좌표를 가져온다
+			getInputTerminalPoint(curID, A, j);
+			//input 단자의 좌표를 가져온다
+			getOutputTerminalPoint(nextID, B, (*inputGrahp)[i][j].terminalNumber);
+			//좌표를 보정한다
+			A.x -= nHorzScroll;
+			A.y -= nVertScroll;
+			B.x -= nHorzScroll;
+			B.y -= nVertScroll;
 			DC.MoveTo(A);
 			DC.LineTo(B);
 		}
+		
+
 	}
-	DC.SelectObject(oldBrush);
-	DC.SelectObject(oldPen);
+	if (oldPen != NULL) {
+		DC.SelectObject(oldPen);
+	}
+
 }
 
 void CMFCLogicSimulatorView::drawAddingComponent(CDC & DC)
@@ -834,21 +819,50 @@ void CMFCLogicSimulatorView::drawComponentTermialPin(CDC & DC, int ID)
 	
 }
 
-void CMFCLogicSimulatorView::drawComponentBody(CDC & DC, int x, int y, COMPONENT_DIRECTION direction,
-	int componentWidth, int componentHeight)
+void CMFCLogicSimulatorView::drawComponentBody(CDC & DC, int ID)
 {
-	switch (direction) {
-	case EAST:
-		break;
-	case SOUTH:
-		break;
-	case WEST:
-		break;
-	case NORTH:
-		break;
-	default:
-		break;
+	CDC memDC;
+	memDC.CreateCompatibleDC(&DC);
+	CMFCLogicSimulatorDoc* pDoc = GetDocument();
+	int nVertScroll = GetScrollPos(SB_VERT);
+	int nHorzScroll = GetScrollPos(SB_HORZ);
+	int x, y;
+	COMPONENT_TYPE type;
+	COMPONENT_DIRECTION direction;
+	CBitmap componentBitmap;
+	CBitmap *oldBitmap;
+	BITMAP bitmapInfo;
+	CComponentObject* pCurrentObject;
+
+
+	//그릴 부품의 객체를 가져온다
+	pCurrentObject = pDoc->logicSimulatorEngine.getComponentObject(ID);
+	//그려줄 좌표를 보정한다
+	x = pDoc->engineComponentData[ID].x - nHorzScroll;
+	y = pDoc->engineComponentData[ID].y - nVertScroll;
+	type = pDoc->engineComponentData[ID].type;
+	direction = pDoc->engineComponentData[ID].direction;
+
+	int bitmapID = getBitmapIDByComponentType(type, direction);
+
+	adjustBitmapID( type , bitmapID , pCurrentObject);
+
+	//타입에 맞는 부품의 비트맵 아이디를 가져오고 로드한다		
+	componentBitmap.LoadBitmapW(bitmapID);
+	componentBitmap.GetBitmap(&bitmapInfo);
+
+	//부품을 그린다
+	oldBitmap = memDC.SelectObject(&componentBitmap);
+	DC.BitBlt(x, y, bitmapInfo.bmWidth, bitmapInfo.bmHeight, &memDC, 0, 0, SRCCOPY);
+	memDC.SelectObject(oldBitmap);
+
+	if (type == COMPONENT_TYPE_7SEGMENT) {
+		draw7SegmentInputBar(DC, CPoint(x, y), direction);
 	}
+
+
+	//가져온 비트맵을 제거한다
+	componentBitmap.DeleteObject();
 
 }
 
@@ -1040,6 +1054,28 @@ COMPONENT_DIRECTION CMFCLogicSimulatorView::adjustDirection(COMPONENT_TYPE _type
 	return (COMPONENT_DIRECTION)dir;
 }
 
+int CMFCLogicSimulatorView::adjustBitmapID(COMPONENT_TYPE type, int& bitmapID, CComponentObject* pCurrentObject)
+{
+	
+	if (type == COMPONENT_TYPE_INPUT_PIN ||
+		type == COMPONENT_TYPE_ONE_BIT_LAMP ||
+		type == COMPONENT_TYPE_ONE_BIT_SWITCH ||
+		type == COMPONENT_TYPE_OUTPUT_PIN) {
+		bitmapID += pCurrentObject->getOutputValue(0);
+	}
+	else if (type == COMPONENT_TYPE_7SEGMENT) {
+		int segmentValue = 0;
+		for (int i = 0; i < 7; i++) {
+			segmentValue << 1;
+			segmentValue += pCurrentObject->getOutputValue(i);
+		}
+		bitmapID += segmentValue;
+
+	}
+
+	return bitmapID;
+}
+
 int CMFCLogicSimulatorView::getComponentHeight(COMPONENT_TYPE type)
 {
 	//세그먼트일때
@@ -1216,11 +1252,9 @@ bool CMFCLogicSimulatorView::checkMouesPointOnTerminalPin(SELECTED_TERMINAL_INFO
 {
 	CMFCLogicSimulatorDoc* pDoc = GetDocument();
 	CComponentObject* currentObject;
-	int inputTerminalGap;
-	int outputTerminalGap;
+
 	CBitmap componentBitmap;
-	CBitmap* oldBitmap;
-	BITMAP bitmapInfo;
+
 	COMPONENT_DATA* currentData;
 	BOOL isInTerminalPin = false;
 	CRgn terminalPinRgn;
@@ -1288,8 +1322,6 @@ bool CMFCLogicSimulatorView::checkMouesPointOnTerminalPin(SELECTED_TERMINAL_INFO
 bool CMFCLogicSimulatorView::checkMousePointOnConnectedWire()
 {
 	CMFCLogicSimulatorDoc* pDoc = GetDocument();
-	CComponentObject* currentObject;
-
 	COMPONENT_DATA* pCurrentData;
 	CRgn connectedWireRgn;
 	CPoint mousePoint;
@@ -1300,7 +1332,7 @@ bool CMFCLogicSimulatorView::checkMousePointOnConnectedWire()
 	int nHorzScroll = GetScrollPos(SB_HORZ);
 	mousePoint.x += nHorzScroll;
 	mousePoint.y += nVertScroll;
-	ADJ_LIST* pGraph  = pDoc->logicSimulatorEngine.getConnectionGrahp();;
+	ADJ_LIST* pGraph  = pDoc->logicSimulatorEngine.getOutputGrahp();;
 	int curID,nextID;
 	CPoint A, B;
 	bool ret = false;

@@ -778,8 +778,13 @@ void CLibraryBox::copyCOMPONENT_CONENTION_INFO(COMPONENT_CONENTION_INFO & source
 	destination.terminalNumber = source.terminalNumber;
 }
 
-ADJ_LIST* CLibraryBox::getConnectionGrahp()
+ADJ_LIST* CLibraryBox::getOutputGrahp()
 {
 	// TODO: 여기에 반환 구문을 삽입합니다.
 	return &outputGraph;
+}
+
+ADJ_LIST * CLibraryBox::getInputGrahp()
+{
+	return &inputGraph;
 }

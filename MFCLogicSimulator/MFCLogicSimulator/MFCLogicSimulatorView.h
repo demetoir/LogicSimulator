@@ -125,8 +125,7 @@ protected:
 	void drawComponentTermialPin(CDC& DC, int ID);
 
 	//부품의 몸체를 그린다
-	void drawComponentBody(CDC& DC, int x, int y, COMPONENT_DIRECTION direction, 
-		int componentWidth, int componentHeight);
+	void drawComponentBody(CDC & DC, int ID);
 	//연결하는중일때의 선을 그린다
 	void drawConnectingWire(CDC& DC);
 	//부품 몸체를 강조하는 부분을 그린다
@@ -153,12 +152,17 @@ protected:
 	void getOutputTerminalPoint(int id, CPoint &point,int index);
 	//부품의 타입에 해당하는 부품의 비트맵 아이디를 가져온다
 	int getBitmapIDByComponentType(COMPONENT_TYPE _type, COMPONENT_DIRECTION direction);
-
+	//연결할 줄의 좌표를 구한다
 	void getConnnectedWirePoints(CPoint* points,CPoint A ,CPoint B);
-
+	//세그먼트의 인풋핀 좌표를 구한다
 	void get7SegmentInputTerminalPinPoint(CPoint &point, int id ,int index);
 
+
+
 	COMPONENT_DIRECTION adjustDirection(COMPONENT_TYPE _type, COMPONENT_DIRECTION direction);
+	int adjustBitmapID(COMPONENT_TYPE type, int& bitmapID, CComponentObject* pCurrentObject);
+
+
 
 	//현재 마우스가 부품위에 있는지 검사한다
 	int checkMouesPointOnComponent();

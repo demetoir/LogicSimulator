@@ -14,12 +14,22 @@
 
 #pragma once
 
+#include "stdafx.h"
+#include "ViewTree.h"
+#include "MFCLogicSimulatorDoc.h"
+#include "MainFrm.h"
+#include "MFCLogicSimulatorView.h"
+#include "MFCLogicSimulator.h"
+#include "ChildFrm.h"
+#include "FileView.h"
+
 class CChildFrame : public CMDIChildWndEx
 {
 	DECLARE_DYNCREATE(CChildFrame)
 public:
 	CChildFrame();
 
+	
 // 특성입니다.
 public:
 	/* check box, button 이벤트 처리 변수 추가 요망 */
