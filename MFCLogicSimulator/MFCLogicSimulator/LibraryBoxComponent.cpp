@@ -721,7 +721,7 @@ bool CLibraryBox::isPossibleConnection(COMPONENT_CONENTION_INFO & componentA, CO
 	////A->B 로가는거
 	//output -> input
 	if (A.terminalType == TERMINAL_TYPE_INPUT &&
-		A.terminalType == TERMINAL_TYPE_OUTPUT) {
+		B.terminalType == TERMINAL_TYPE_OUTPUT) {
 		swapCOMPONENT_CONENTION_INFO(A, B);
 	}
 
