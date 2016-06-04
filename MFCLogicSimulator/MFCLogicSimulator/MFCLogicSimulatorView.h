@@ -29,13 +29,16 @@
 #define HIGHLIGHT_EDGE_GAP 5
 #define	SELECTED_TERMINAL_INFO COMPONENT_CONENTION_INFO
 #define CONNECTING_WIRE_ELLIPSE_HALF_SIZE 3
-#define TERMINAL_PIN_HALF_SIZE 10
-#define HIGHLIGHIT_TERMINAL_PIN_HALF_SIZE  15
+#define TERMINAL_PIN_HALF_SIZE 8
+#define HIGHLIGHIT_TERMINAL_PIN_HALF_SIZE  13
 #define SIZE_OF_COMPONENT_BITMAP 20
 #define SIZE_OF_VIEW_X 4000
 #define SIZE_OF_VIEW_Y 2000
 #define PI 	3.14159265358979323846
 #define HIGHLIGHT_CONNECTED_WIRE_LINE_WIDTH 10
+#define SEVEN_SEGMENT_INPUT_BAR_WIDTH 30
+#define SEVEN_SEGMENT_INPUT_BAR_HIGHT 160
+
 
 class CMFCLogicSimulatorView : public CScrollView
 {
@@ -117,9 +120,10 @@ protected:
 	void drawAddingComponent(CDC &DC);
 	//화면에 있는 선택 한부품을 강조하는거
 	void drawMassage( CDC &DC);
+
 	//부품의 단자를 그린다
-	void drawComponentTermialPin(CDC& DC, int x, int y, COMPONENT_DIRECTION direction, 
-		int componentWidth, int componentHeight, int numberOfInputTerminal, int numberOfOutputTerminal);
+	void drawComponentTermialPin(CDC& DC, int ID);
+
 	//부품의 몸체를 그린다
 	void drawComponentBody(CDC& DC, int x, int y, COMPONENT_DIRECTION direction, 
 		int componentWidth, int componentHeight);
@@ -134,6 +138,12 @@ protected:
 	//연결된선을 강조하는 부분을 그린다
 	void drawHighlightSelectedconnectedWire(CDC &DC);
 
+	void draw7SegmentInputBar(CDC &DC,CPoint point , COMPONENT_DIRECTION direction);
+
+	void drawInputTerminalPinLine(CDC &DC, int x, int y, COMPONENT_DIRECTION direction);
+	void drawOutputTerminalPinLine(CDC &DC, int x, int y, COMPONENT_DIRECTION direction);
+
+
 	//타입으로 부품의 높이를 구한다
 	int getComponentHeight(COMPONENT_TYPE type);
 	int getComponentWidth(COMPONENT_TYPE type);
@@ -146,6 +156,9 @@ protected:
 
 	void getConnnectedWirePoints(CPoint* points,CPoint A ,CPoint B);
 
+	void get7SegmentInputTerminalPinPoint(CPoint &point, int id ,int index);
+
+	COMPONENT_DIRECTION adjustDirection(COMPONENT_TYPE _type, COMPONENT_DIRECTION direction);
 
 	//현재 마우스가 부품위에 있는지 검사한다
 	int checkMouesPointOnComponent();

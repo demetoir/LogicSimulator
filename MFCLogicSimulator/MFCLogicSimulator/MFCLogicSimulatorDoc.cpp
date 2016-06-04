@@ -295,7 +295,7 @@ COMPONENT_TYPE CMFCLogicSimulatorDoc::getComponentTypeByToolBoxItemIndex(int typ
 		ret = COMPONENT_TYPE_ONE_BIT_LAMP;
 		break;
 	case  ITEM_7SEGMENT:
-		ret = COMPONENT_TYPE_NONE;
+		ret = COMPONENT_TYPE_7SEGMENT;
 		break;
 	}
 	if (type >= ITEM_LIBRARYBOX) {
