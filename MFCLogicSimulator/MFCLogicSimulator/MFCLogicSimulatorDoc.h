@@ -147,6 +147,8 @@ public :
 	OPERATION_MODE operationMode;
 
 	void make_NORGATE(CLibraryBox& box);
+	void getStringByCOMPONENT_DIRECTION(COMPONENT_DIRECTION direct, CString & CS);
+	void getStringByCOMPONENT_TYPE(COMPONENT_TYPE compType, CString & CS);
 	void make_NANDGATE(CLibraryBox& box);
 
 	
