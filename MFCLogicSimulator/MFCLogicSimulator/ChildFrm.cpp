@@ -175,27 +175,73 @@ void CChildFrame::OnUpdateChecktoolbox(CCmdUI *pCmdUI)
 /* 멈춤 button 처리기 */
 void CChildFrame::OnButtonstop()
 {
+	CMainFrame *pFrame = (CMainFrame*)AfxGetMainWnd();
+	CFileView* pFileView = pFrame->getCFileView();
+	CViewTree* pToolbox = pFileView->getCFileViewTree();
+	CChildFrame *pChild = (CChildFrame *)pFrame->GetActiveFrame();
+	CMFCLogicSimulatorDoc *pDoc = (CMFCLogicSimulatorDoc *)pChild->GetActiveDocument();
+	COutputWnd* pOutput = pFrame->getCOutputWnd();
+
+	pDoc->isRunningMode = false;
+
+	CMFCLogicSimulatorView* pView = (CMFCLogicSimulatorView*)pChild->GetActiveView();
+	pView->stopUpdating();
 	// TODO: 여기에 명령 처리기 코드를 추가합니다.
-	AfxMessageBox(_T("stop"));
+	CString str;
+	str.Format(_T("in rebbon menu : stop updating curcuit \n"));
+	pOutput->addBuildWindowString(str);
+
 }
 void CChildFrame::OnUpdateButtonstop(CCmdUI *pCmdUI)
 {
 	// TODO: 여기에 명령 업데이트 UI 처리기 코드를 추가합니다.
 	pCmdUI->Enable(TRUE);
+	CMainFrame *pFrame = (CMainFrame*)AfxGetMainWnd();
+	CChildFrame *pChild = (CChildFrame *)pFrame->GetActiveFrame();
+	CMFCLogicSimulatorDoc *pDoc = (CMFCLogicSimulatorDoc *)pChild->GetActiveDocument();
 
+	if (pDoc->isRunningMode == false) {
+		pCmdUI->SetCheck(1);
+	}
+	else {
+		pCmdUI->SetCheck(0);
+	}
 }
 
 
 /* 계속 button 처리기 */
 void CChildFrame::OnButtoncontinue()
 {
+	CMainFrame *pFrame = (CMainFrame*)AfxGetMainWnd();
+	CFileView* pFileView = pFrame->getCFileView();
+	CViewTree* pToolbox = pFileView->getCFileViewTree();
+	CChildFrame *pChild = (CChildFrame *)pFrame->GetActiveFrame();
+	CMFCLogicSimulatorDoc *pDoc = (CMFCLogicSimulatorDoc *)pChild->GetActiveDocument();
+	COutputWnd* pOutput = pFrame->getCOutputWnd();
+	CMFCLogicSimulatorView* pView = (CMFCLogicSimulatorView*)pChild->GetActiveView();
+	
+	pView->startUpdating();
+	pDoc->isRunningMode = true;
 	// TODO: 여기에 명령 처리기 코드를 추가합니다.
-	AfxMessageBox(_T("continue"));
+	CString str;
+	str.Format(_T("in rebbon menu : updating curcuit \n"));
+	pOutput->addBuildWindowString(str);
 }
 void CChildFrame::OnUpdateButtoncontinue(CCmdUI *pCmdUI)
 {
 	// TODO: 여기에 명령 업데이트 UI 처리기 코드를 추가합니다.
 	pCmdUI->Enable(TRUE);
+
+	CMainFrame *pFrame = (CMainFrame*)AfxGetMainWnd();
+	CChildFrame *pChild = (CChildFrame *)pFrame->GetActiveFrame();
+	CMFCLogicSimulatorDoc *pDoc = (CMFCLogicSimulatorDoc *)pChild->GetActiveDocument();
+
+	if (pDoc->isRunningMode == true) {
+		pCmdUI->SetCheck(1);
+	}
+	else {
+		pCmdUI->SetCheck(0);
+	}
 }
 
 
