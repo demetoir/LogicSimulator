@@ -82,7 +82,7 @@ BOOL CMFCLogicSimulatorView::PreCreateWindow(CREATESTRUCT& cs)
 	return CScrollView::PreCreateWindow(cs);
 }
 
-// CMFCLogicSimulatorView 그리기
+
 
 void CMFCLogicSimulatorView::OnDraw(CDC* /*pDC*/)
 {
@@ -95,10 +95,6 @@ void CMFCLogicSimulatorView::OnDraw(CDC* /*pDC*/)
 
 
 }
-
-
-// CMFCLogicSimulatorView 인쇄
-
 
 void CMFCLogicSimulatorView::OnFilePrintPreview()
 {
@@ -146,31 +142,6 @@ void CMFCLogicSimulatorView::OnContextMenu(CWnd* /* pWnd */, CPoint point)
 	//theApp.GetContextMenuManager()->ShowPopupMenu(IDR_POPUP_EDIT, point.x, point.y, this, TRUE);
 #endif
 }
-
-
-// CMFCLogicSimulatorView 진단
-
-#ifdef _DEBUG
-void CMFCLogicSimulatorView::AssertValid() const
-{
-	CScrollView::AssertValid();
-}
-
-void CMFCLogicSimulatorView::Dump(CDumpContext& dc) const
-{
-	CScrollView::Dump(dc);
-}
-
-CMFCLogicSimulatorDoc* CMFCLogicSimulatorView::GetDocument() const // 디버그되지 않은 버전은 인라인으로 지정됩니다.
-{
-	ASSERT(m_pDocument->IsKindOf(RUNTIME_CLASS(CMFCLogicSimulatorDoc)));
-	return (CMFCLogicSimulatorDoc*)m_pDocument;
-}
-#endif //_DEBUG
-
-
-// CMFCLogicSimulatorView 메시지 처리기
-
 
 void CMFCLogicSimulatorView::OnLButtonDown(UINT nFlags, CPoint point)
 {
@@ -223,9 +194,9 @@ void CMFCLogicSimulatorView::OnLButtonDown(UINT nFlags, CPoint point)
 		bool isInTerminalPin = checkMouesPointOnTerminalPin(selectedTerminalInfo);
 		//다른곳을 클릭하였다 해제한다
 		if (isInTerminalPin == true) {
-			checkMouesPointOnTerminalPin(secondSelectedTerminalPin);
+			checkMouesPointOnTerminalPin(selectedTerminalInfo);
 			//연결가능하면
-			pDoc->connectComponent(secondSelectedTerminalPin,
+			pDoc->connectComponent(selectedTerminalInfo,
 				firstSelectedTerminalPin);
 		}
 		//정리한다
@@ -268,7 +239,6 @@ void CMFCLogicSimulatorView::OnLButtonDown(UINT nFlags, CPoint point)
 
 	CScrollView::OnLButtonDown(nFlags, point);
 }
-
 
 void CMFCLogicSimulatorView::OnLButtonUp(UINT nFlags, CPoint point)
 {
@@ -333,6 +303,10 @@ void CMFCLogicSimulatorView::OnPaint()
 			
 			if (isHighlightTerminalPin == true) {
 				drawHighlightComponentTerminalPin(memDC);
+			}
+
+			if (ishighlightConnectedWire == true) {
+				drawHighlightSelectedconnectedWire(memDC);
 			}
 
 			if (pDoc->operationMode == OPERATION_MODE_CONNECTING_COMPONENT) {
@@ -404,13 +378,17 @@ void CMFCLogicSimulatorView::OnMouseMove(UINT nFlags, CPoint point)
 		Invalidate();
 	}
 
+	oldval = ishighlightConnectedWire;
+	ishighlightConnectedWire=checkMousePointOnConnectedWire();
+	if (oldval != ishighlightConnectedWire) {
+		Invalidate();
+	}
+
 	if (pDoc->operationMode == OPERATION_MODE_CONNECTING_COMPONENT) {
 		Invalidate();
 	}
 
 }
-
-
 
 void CMFCLogicSimulatorView::OnHScroll(UINT nSBCode, UINT nPos, CScrollBar* pScrollBar)
 {
@@ -422,6 +400,39 @@ void CMFCLogicSimulatorView::OnVScroll(UINT nSBCode, UINT nPos, CScrollBar* pScr
 	CScrollView::OnVScroll(nSBCode, nPos, pScrollBar);
 	Invalidate();
 }
+
+//이것을 해야한다
+//http://adnoctum.tistory.com/149
+BOOL CMFCLogicSimulatorView::OnEraseBkgnd(CDC* pDC)
+{
+	// TODO: 여기에 메시지 처리기 코드를 추가 및/또는 기본값을 호출합니다.
+	return true;
+}
+
+// CMFCLogicSimulatorView 진단
+
+#ifdef _DEBUG
+void CMFCLogicSimulatorView::AssertValid() const
+{
+	CScrollView::AssertValid();
+}
+
+void CMFCLogicSimulatorView::Dump(CDumpContext& dc) const
+{
+	CScrollView::Dump(dc);
+}
+
+CMFCLogicSimulatorDoc* CMFCLogicSimulatorView::GetDocument() const // 디버그되지 않은 버전은 인라인으로 지정됩니다.
+{
+	ASSERT(m_pDocument->IsKindOf(RUNTIME_CLASS(CMFCLogicSimulatorDoc)));
+	return (CMFCLogicSimulatorDoc*)m_pDocument;
+}
+#endif //_DEBUG
+
+
+// CMFCLogicSimulatorView 메시지 처리기
+
+
 
 
 //각부품을 그릴때에 방향추가가 필요하다
@@ -479,8 +490,6 @@ void CMFCLogicSimulatorView::drawComponent(CDC &DC)
 	}
 }
 
-
-
 void CMFCLogicSimulatorView::drawConnectedWire(CDC & DC)
 {
 	CDC memDC;
@@ -531,7 +540,6 @@ void CMFCLogicSimulatorView::drawConnectedWire(CDC & DC)
 	DC.SelectObject(oldBrush);
 	DC.SelectObject(oldPen);
 }
-
 
 void CMFCLogicSimulatorView::drawAddingComponent(CDC & DC)
 {
@@ -607,6 +615,18 @@ void CMFCLogicSimulatorView::drawHighlightSelectedComponent(CDC & DC)
 
 }
 
+void CMFCLogicSimulatorView::drawHighlightSelectedconnectedWire(CDC & DC)
+{
+	CPen pen;
+	pen.CreatePen(PS_SOLID, 3, RGB(255, 0, 0));   //빨간색 팬생성
+	CPen* oldPen = DC.SelectObject(&pen); 
+
+	DC.Polyline(selectedConnectedWirePoints,4);
+	DC.MoveTo(selectedConnectedWirePoints[3]);
+	DC.LineTo(selectedConnectedWirePoints[0]);
+	DC.SelectObject(oldPen);
+}
+
 void CMFCLogicSimulatorView::drawMassage(CDC & DC)
 {
 	//공통적으로 들어갈 변수들
@@ -618,217 +638,10 @@ void CMFCLogicSimulatorView::drawMassage(CDC & DC)
 	int x, y;
 }
 
-int CMFCLogicSimulatorView::getBitmapIDByComponentType(COMPONENT_TYPE _type, COMPONENT_DIRECTION direction)
-{
-	////엔진에서 사용하는 부품 타입 열거형
-	//enum COMPONENT_TYPE {
-	//	COMPONENT_TYPE_NONE,
-	//	COMPONENT_TYPE_INPUT_PIN, COMPONENT_TYPE_CLOCK, COMPONENT_TYPE_ONE_BIT_SWITCH,
-	//	COMPONENT_TYPE_AND_GATE, COMPONENT_TYPE_OR_GATE, COMPONENT_TYPE_NOT_GATE, COMPONENT_TYPE_XOR_GATE,
-	//	COMPONENT_TYPE_WIRE,
-	//	COMPONENT_TYPE_7SEGMENT, COMPONENT_TYPE_OUTPUT_PIN, COMPONENT_TYPE_ONE_BIT_LAMP,
-	//	COMPONENT_TYPE_LIBRARY_BOX
-	//};
-//리소스에서 사용되는 비트맵 아이디
-	switch (_type) {
-
-	case COMPONENT_TYPE_ONE_BIT_SWITCH:
-		return IDB_SWITCH_OFF_E;
-		break;
-
-	case COMPONENT_TYPE_ONE_BIT_LAMP:
-		return IDB_LAMP_OFF_E;
-		break;
-	case COMPONENT_TYPE_CLOCK:
-		return IDB_CLOCK_E;
-		break ;
-		 
-	//case COMPONENT_TYPE_7SEGMENT:
-	//	return IDB_ONE_BIT_SWITCH_OFF;
-	//	break;
-
-
-
-
-	case COMPONENT_TYPE_AND_GATE:
-		return IDB_GATE_AND_E+ direction;
-		break;
-	case COMPONENT_TYPE_OR_GATE :
-		return IDB_GATE_OR_E + direction;
-		break;
-	case COMPONENT_TYPE_NOT_GATE:
-		return IDB_INVERTOR_E + direction;
-		break;
-	case COMPONENT_TYPE_XOR_GATE:
-		return IDB_GATE_XOR_E + direction;
-		break;
-
-	case COMPONENT_TYPE_INPUT_PIN:
-		return IDB_PIN_ON_E;
-		break;
-	case COMPONENT_TYPE_OUTPUT_PIN:
-		return IDB_PROBE_OFF_E ;
-		break;
-
-	case COMPONENT_TYPE_WIRE:
-		return IDB_COPPER_WIRE;
-		break;
-		
-
-	case COMPONENT_TYPE_LIBRARY_BOX:
-		return IDB_LIBBOX_E + direction;
-		break;
-
-
-	//
-	//
-	//	case COMPONENT_TYPE_LIBRARY_BOX:
-	//		return IDB_FF_DFF;
-	//		break;
-	//	case COMPONENT_TYPE_LIBRARY_BOX:
-	//		return IDB_FF_JKFF;
-	//		break;
-	//	case COMPONENT_TYPE_LIBRARY_BOX:
-	//		return IDB_FF_TFF;
-	//		break;
-
-
-
-		//#define IDB_FF_DFF                      327
-		//#define IDB_FF_JKFF                     328
-		//#define IDB_FF_TFF                      329
-		//
-		//#define IDB_GATE_NAND                   332
-		//#define IDB_GATE_NOR                    333
-	default:
-		return -1;
-	}
-	return 0;
-}
-
-int CMFCLogicSimulatorView::checkMouesPointOnComponent()
-{
-	CMFCLogicSimulatorDoc* pDoc = GetDocument();
-	int mouseX, mouseY;
-	CPoint point;
-	GetCursorPos(&point);
-	ScreenToClient(&point);
-	int nVertScroll = GetScrollPos(SB_VERT);
-	int nHorzScroll = GetScrollPos(SB_HORZ);
-	//그려줄 좌표를 보정한다
-	mouseX = point.x + nHorzScroll;
-	mouseY = point.y + nVertScroll;
-
-	int endX, endY;
-	int startX, startY;
-	COMPONENT_DATA* currentComponent;
-	for (int i = 0; i < pDoc->engineComponentData.size(); i++) {
-		currentComponent = &pDoc->engineComponentData[i];
-		//존재하지 않는것은 넘어간다
-		if (currentComponent->id <= 0) { continue; }
-
-		startX = currentComponent->x;
-		startY = currentComponent->y;
-		if (currentComponent->type == COMPONENT_TYPE_LIBRARY_BOX) {
-			endX = currentComponent->x + 75;
-			endY = currentComponent->y + 120;
-		}
-		else if (currentComponent->type == COMPONENT_TYPE_7SEGMENT) {
-			endX = currentComponent->x + 75;
-			endY = currentComponent->y + 120;
-		}
-		else {
-			endX = currentComponent->x + 75;
-			endY = currentComponent->y + 75;
-		}
-
-		//마우스가 해당 부품위에있는지 검사한다
-		if (startX <= mouseX && mouseX <= endX &&
-			startY <= mouseY && mouseY <= endY) {
-			return i;
-		}
-	}
-
-	return 0;
-}
-
-bool CMFCLogicSimulatorView::checkMouesPointOnTerminalPin(SELECTED_TERMINAL_INFO& selectedTerminalInfo)
-{
-	CMFCLogicSimulatorDoc* pDoc = GetDocument();
-	CComponentObject* currentObject;
-	int inputTerminalGap;
-	int outputTerminalGap;
-	CBitmap componentBitmap;
-	CBitmap* oldBitmap;
-	BITMAP bitmapInfo;
-	COMPONENT_DATA* currentData;
-	BOOL isInTerminalPin = false;
-	CRgn terminalPinRgn;
-	CPoint mousePoint;
-	GetCursorPos(&mousePoint);
-	ScreenToClient(&mousePoint);
-	int nVertScroll = GetScrollPos(SB_VERT);
-	int nHorzScroll = GetScrollPos(SB_HORZ);
-	mousePoint.x += nHorzScroll;
-	mousePoint.y += nVertScroll;
-	CPoint TerminalPoint;
-
-	int a, b;
-	for (int ID = 0; ID < pDoc->engineComponentData.size(); ID++) {
-		currentData = &pDoc->engineComponentData[ID];
-		//존재하지 않는것은 넘어간다
-		if (currentData->id <= 0) {continue;}
-
-		currentObject = pDoc->logicSimulatorEngine.getComponentObject(ID);
-		int numberOfInputTerminal = currentObject->numberOfInput();
-		int numberOfOuputTerminal = currentObject->numberOfOutput();
-
-		//인풋을 검사한다
-		for (int  i= 0; i < numberOfInputTerminal ; i++) {
-			getInputTerminalPoint(ID, TerminalPoint,i);
-			a = TerminalPoint.x;
-			b = TerminalPoint.y;
-			terminalPinRgn.CreateEllipticRgn(
-				a - TERMINAL_PIN_HALF_SIZE, b - TERMINAL_PIN_HALF_SIZE,
-				a + TERMINAL_PIN_HALF_SIZE, b + TERMINAL_PIN_HALF_SIZE);
-			if (terminalPinRgn.PtInRegion(mousePoint)) {
-				isInTerminalPin = true;
-				SELECTED_TERMINAL_INFO curInfo(ID, TERMINAL_TYPE_INPUT, i);
-				copyTerminalInfo(curInfo, selectedTerminalInfo);
-				currentSelectedTerminalPoint.x = a;
-				currentSelectedTerminalPoint.y = b;
-			};
-			terminalPinRgn.DeleteObject();
-		}
-		//아웃풋을 검사한다
-		for (int i = 0; i < numberOfOuputTerminal; i++) {
-			getOutputTerminalPoint(ID, TerminalPoint, i);
-			a = TerminalPoint.x;
-			b = TerminalPoint.y;
-			terminalPinRgn.CreateEllipticRgn(
-				a - TERMINAL_PIN_HALF_SIZE, b - TERMINAL_PIN_HALF_SIZE,
-				a + TERMINAL_PIN_HALF_SIZE, b + TERMINAL_PIN_HALF_SIZE);
-			if (terminalPinRgn.PtInRegion(mousePoint)) {
-				isInTerminalPin = true;
-				SELECTED_TERMINAL_INFO curInfo(ID, TERMINAL_TYPE_OUTPUT, i);
-				copyTerminalInfo(curInfo, selectedTerminalInfo);
-				currentSelectedTerminalPoint.x = a;
-				currentSelectedTerminalPoint.y = b;
-			};
-			terminalPinRgn.DeleteObject();
-		}	
-	}
-	if (isInTerminalPin == false){
-		currentSelectedTerminalPoint.x = 0;
-		currentSelectedTerminalPoint.y = 0;
-	}
-	return isInTerminalPin;
-}
-
 void CMFCLogicSimulatorView::drawHighlightComponentBody(CDC& DC, int x, int y, int bitmapWidth, int bitmapHeight)
 {
 	CPen pen;
-	pen.CreatePen(PS_DOT, 1, RGB(255, 0, 0));    // 빨간색 펜 생성
+	pen.CreatePen(PS_SOLID, 3, RGB(255, 0, 0));    // 빨간색 펜 생성
 	CPen* oldPen = DC.SelectObject(&pen);
 
 	DC.MoveTo(x - HIGHLIGHT_EDGE_GAP, y - HIGHLIGHT_EDGE_GAP);
@@ -1005,7 +818,8 @@ void CMFCLogicSimulatorView::drawComponentTermialPin(CDC & DC, int x, int y, COM
 	}
 }
 
-void CMFCLogicSimulatorView::drawComponentBody(CDC & DC, int x, int y, COMPONENT_DIRECTION direction, int componentWidth, int componentHeight)
+void CMFCLogicSimulatorView::drawComponentBody(CDC & DC, int x, int y, COMPONENT_DIRECTION direction,
+	int componentWidth, int componentHeight)
 {
 	switch (direction) {
 	case EAST:
@@ -1020,13 +834,6 @@ void CMFCLogicSimulatorView::drawComponentBody(CDC & DC, int x, int y, COMPONENT
 		break;
 	}
 
-}
-
-void CMFCLogicSimulatorView::copyTerminalInfo(SELECTED_TERMINAL_INFO & source, SELECTED_TERMINAL_INFO & destination)
-{
-	destination.componentID = source.componentID;
-	destination.terminalType = source.terminalType;
-	destination.terminalNumber = source.terminalNumber;
 }
 
 void CMFCLogicSimulatorView::drawConnectingWire(CDC & DC)
@@ -1059,6 +866,121 @@ void CMFCLogicSimulatorView::drawConnectingWire(CDC & DC)
 	DC.MoveTo(x,y);
 	DC.LineTo(point.x, point.y);
 	DC.SelectObject(oldPen);
+}
+
+
+
+
+int CMFCLogicSimulatorView::getBitmapIDByComponentType(COMPONENT_TYPE _type, COMPONENT_DIRECTION direction)
+{
+	////엔진에서 사용하는 부품 타입 열거형
+	//enum COMPONENT_TYPE {
+	//	COMPONENT_TYPE_NONE,
+	//	COMPONENT_TYPE_INPUT_PIN, COMPONENT_TYPE_CLOCK, COMPONENT_TYPE_ONE_BIT_SWITCH,
+	//	COMPONENT_TYPE_AND_GATE, COMPONENT_TYPE_OR_GATE, COMPONENT_TYPE_NOT_GATE, COMPONENT_TYPE_XOR_GATE,
+	//	COMPONENT_TYPE_WIRE,
+	//	COMPONENT_TYPE_7SEGMENT, COMPONENT_TYPE_OUTPUT_PIN, COMPONENT_TYPE_ONE_BIT_LAMP,
+	//	COMPONENT_TYPE_LIBRARY_BOX
+	//};
+//리소스에서 사용되는 비트맵 아이디
+	switch (_type) {
+
+	case COMPONENT_TYPE_ONE_BIT_SWITCH:
+		return IDB_SWITCH_OFF_E;
+		break;
+
+	case COMPONENT_TYPE_ONE_BIT_LAMP:
+		return IDB_LAMP_OFF_E;
+		break;
+	case COMPONENT_TYPE_CLOCK:
+		return IDB_CLOCK_E;
+		break ;
+		 
+	//case COMPONENT_TYPE_7SEGMENT:
+	//	return IDB_ONE_BIT_SWITCH_OFF;
+	//	break;
+
+
+
+
+	case COMPONENT_TYPE_AND_GATE:
+		return IDB_GATE_AND_E+ direction;
+		break;
+	case COMPONENT_TYPE_OR_GATE :
+		return IDB_GATE_OR_E + direction;
+		break;
+	case COMPONENT_TYPE_NOT_GATE:
+		return IDB_INVERTOR_E + direction;
+		break;
+	case COMPONENT_TYPE_XOR_GATE:
+		return IDB_GATE_XOR_E + direction;
+		break;
+
+	case COMPONENT_TYPE_INPUT_PIN:
+		return IDB_PIN_ON_E;
+		break;
+	case COMPONENT_TYPE_OUTPUT_PIN:
+		return IDB_PROBE_OFF_E ;
+		break;
+
+	case COMPONENT_TYPE_WIRE:
+		return IDB_COPPER_WIRE;
+		break;
+		
+
+	case COMPONENT_TYPE_LIBRARY_BOX:
+		return IDB_LIBBOX_E + direction;
+		break;
+
+
+	//
+	//
+	//	case COMPONENT_TYPE_LIBRARY_BOX:
+	//		return IDB_FF_DFF;
+	//		break;
+	//	case COMPONENT_TYPE_LIBRARY_BOX:
+	//		return IDB_FF_JKFF;
+	//		break;
+	//	case COMPONENT_TYPE_LIBRARY_BOX:
+	//		return IDB_FF_TFF;
+	//		break;
+
+
+
+		//#define IDB_FF_DFF                      327
+		//#define IDB_FF_JKFF                     328
+		//#define IDB_FF_TFF                      329
+		//
+		//#define IDB_GATE_NAND                   332
+		//#define IDB_GATE_NOR                    333
+	default:
+		return -1;
+	}
+	return 0;
+}
+
+void CMFCLogicSimulatorView::getConnnectedWirePoints(CPoint* points, CPoint A, CPoint B)
+{
+	int dx, dy;
+	int x = A.x;
+	int y = A.y;
+	int w = B.x - A.x;
+	int h = B.y - A.y;
+
+	double angle;
+	double theta = w ? atan(double(h) / double(w)) : sin(h)* PI / 2.0;
+
+	if (theta < 0) {
+		angle = (theta + PI / 2.0);
+	}
+	angle = (theta + PI / 2.0);
+	dx = int(HIGHLIGHT_CONNECTED_WIRE_LINE_WIDTH* cos(angle));
+	dy = int(HIGHLIGHT_CONNECTED_WIRE_LINE_WIDTH* sin(angle));
+
+	points[0] = CPoint(x + dx, y + dy);
+	points[1] = CPoint(x - dx, y - dy);
+	points[2] = CPoint(x - dx + w, y - dy +h);
+	points[3] = CPoint(x + dx + w, y + dy + h);
 }
 
 int CMFCLogicSimulatorView::getComponentHeight(COMPONENT_TYPE type)
@@ -1179,10 +1101,200 @@ void CMFCLogicSimulatorView::getOutputTerminalPoint(int id, CPoint & point, int 
 	}
 }
 
-//이것을 해야한다
-//http://adnoctum.tistory.com/149
-BOOL CMFCLogicSimulatorView::OnEraseBkgnd(CDC* pDC)
+
+
+
+int CMFCLogicSimulatorView::checkMouesPointOnComponent()
 {
-	// TODO: 여기에 메시지 처리기 코드를 추가 및/또는 기본값을 호출합니다.
-	return true;
+	CMFCLogicSimulatorDoc* pDoc = GetDocument();
+	int mouseX, mouseY;
+	CPoint point;
+	GetCursorPos(&point);
+	ScreenToClient(&point);
+	int nVertScroll = GetScrollPos(SB_VERT);
+	int nHorzScroll = GetScrollPos(SB_HORZ);
+	//그려줄 좌표를 보정한다
+	mouseX = point.x + nHorzScroll;
+	mouseY = point.y + nVertScroll;
+
+	int endX, endY;
+	int startX, startY;
+	COMPONENT_DATA* currentComponent;
+	for (int i = 0; i < pDoc->engineComponentData.size(); i++) {
+		currentComponent = &pDoc->engineComponentData[i];
+		//존재하지 않는것은 넘어간다
+		if (currentComponent->id <= 0) { continue; }
+
+		startX = currentComponent->x;
+		startY = currentComponent->y;
+		if (currentComponent->type == COMPONENT_TYPE_LIBRARY_BOX) {
+			endX = currentComponent->x + 75;
+			endY = currentComponent->y + 120;
+		}
+		else if (currentComponent->type == COMPONENT_TYPE_7SEGMENT) {
+			endX = currentComponent->x + 75;
+			endY = currentComponent->y + 120;
+		}
+		else {
+			endX = currentComponent->x + 75;
+			endY = currentComponent->y + 75;
+		}
+
+		//마우스가 해당 부품위에있는지 검사한다
+		if (startX <= mouseX && mouseX <= endX &&
+			startY <= mouseY && mouseY <= endY) {
+			return i;
+		}
+	}
+
+	return 0;
 }
+
+bool CMFCLogicSimulatorView::checkMouesPointOnTerminalPin(SELECTED_TERMINAL_INFO& selectedTerminalInfo)
+{
+	CMFCLogicSimulatorDoc* pDoc = GetDocument();
+	CComponentObject* currentObject;
+	int inputTerminalGap;
+	int outputTerminalGap;
+	CBitmap componentBitmap;
+	CBitmap* oldBitmap;
+	BITMAP bitmapInfo;
+	COMPONENT_DATA* currentData;
+	BOOL isInTerminalPin = false;
+	CRgn terminalPinRgn;
+	CPoint mousePoint;
+	GetCursorPos(&mousePoint);
+	ScreenToClient(&mousePoint);
+	int nVertScroll = GetScrollPos(SB_VERT);
+	int nHorzScroll = GetScrollPos(SB_HORZ);
+	mousePoint.x += nHorzScroll;
+	mousePoint.y += nVertScroll;
+	CPoint TerminalPoint;
+
+	int a, b;
+	for (int ID = 0; ID < pDoc->engineComponentData.size(); ID++) {
+		currentData = &pDoc->engineComponentData[ID];
+		//존재하지 않는것은 넘어간다
+		if (currentData->id <= 0) {continue;}
+
+		currentObject = pDoc->logicSimulatorEngine.getComponentObject(ID);
+		int numberOfInputTerminal = currentObject->numberOfInput();
+		int numberOfOuputTerminal = currentObject->numberOfOutput();
+
+		//인풋을 검사한다
+		for (int  i= 0; i < numberOfInputTerminal ; i++) {
+			getInputTerminalPoint(ID, TerminalPoint,i);
+			a = TerminalPoint.x;
+			b = TerminalPoint.y;
+			terminalPinRgn.CreateEllipticRgn(
+				a - TERMINAL_PIN_HALF_SIZE, b - TERMINAL_PIN_HALF_SIZE,
+				a + TERMINAL_PIN_HALF_SIZE, b + TERMINAL_PIN_HALF_SIZE);
+			if (terminalPinRgn.PtInRegion(mousePoint)) {
+				isInTerminalPin = true;
+				SELECTED_TERMINAL_INFO curInfo(ID, TERMINAL_TYPE_INPUT, i);
+				copyTerminalInfo(curInfo, selectedTerminalInfo);
+				currentSelectedTerminalPoint.x = a;
+				currentSelectedTerminalPoint.y = b;
+			};
+			terminalPinRgn.DeleteObject();
+		}
+		//아웃풋을 검사한다
+		for (int i = 0; i < numberOfOuputTerminal; i++) {
+			getOutputTerminalPoint(ID, TerminalPoint, i);
+			a = TerminalPoint.x;
+			b = TerminalPoint.y;
+			terminalPinRgn.CreateEllipticRgn(
+				a - TERMINAL_PIN_HALF_SIZE, b - TERMINAL_PIN_HALF_SIZE,
+				a + TERMINAL_PIN_HALF_SIZE, b + TERMINAL_PIN_HALF_SIZE);
+			if (terminalPinRgn.PtInRegion(mousePoint)) {
+				isInTerminalPin = true;
+				SELECTED_TERMINAL_INFO curInfo(ID, TERMINAL_TYPE_OUTPUT, i);
+				copyTerminalInfo(curInfo, selectedTerminalInfo);
+				currentSelectedTerminalPoint.x = a;
+				currentSelectedTerminalPoint.y = b;
+			};
+			terminalPinRgn.DeleteObject();
+		}	
+	}
+	if (isInTerminalPin == false){
+		currentSelectedTerminalPoint.x = 0;
+		currentSelectedTerminalPoint.y = 0;
+	}
+	return isInTerminalPin;
+}
+
+bool CMFCLogicSimulatorView::checkMousePointOnConnectedWire()
+{
+	CMFCLogicSimulatorDoc* pDoc = GetDocument();
+	CComponentObject* currentObject;
+
+	COMPONENT_DATA* pCurrentData;
+	CRgn connectedWireRgn;
+	CPoint mousePoint;
+	CPoint points[4];
+	GetCursorPos(&mousePoint);
+	ScreenToClient(&mousePoint);
+	int nVertScroll = GetScrollPos(SB_VERT);
+	int nHorzScroll = GetScrollPos(SB_HORZ);
+	mousePoint.x += nHorzScroll;
+	mousePoint.y += nVertScroll;
+	ADJ_LIST* pGraph  = pDoc->logicSimulatorEngine.getConnectionGrahp();;
+	int curID,nextID;
+	CPoint A, B;
+	bool ret = false;
+	for (int i = 0; i < pDoc->engineComponentData.size(); i++) {
+		if (pDoc->engineComponentData[i].id <= 0) { continue; }
+		pCurrentData = &pDoc->engineComponentData[i];
+		curID = pCurrentData->id;
+		
+		for (int j = 0; j<(*pGraph)[i].size(); j++) {
+			nextID = (*pGraph)[i][j].componentID;
+			if (nextID <= 0) { continue; }
+
+			//output 단자의 좌표를 가져온다
+			getOutputTerminalPoint(curID, A, j);
+			//input 단자의 좌표를 가져온다
+			getInputTerminalPoint(nextID, B, (*pGraph)[i][j].terminalNumber);
+
+			//좌표를 보정한다
+			A.x -= nHorzScroll;
+			A.y -= nVertScroll;
+			B.x -= nHorzScroll;
+			B.y -= nVertScroll;
+
+			getConnnectedWirePoints(points, A, B);
+			connectedWireRgn.CreatePolygonRgn(points,4,WINDING);
+
+			//영역안에 있는지 검사한다
+			if (connectedWireRgn.PtInRegion(mousePoint)) {
+				copyPoints(points, selectedConnectedWirePoints,4);
+				ret = true;
+				break;
+			}
+			connectedWireRgn.DeleteObject();
+
+		}
+		if (ret == true) { break; }
+	}
+
+	return ret;
+}
+
+
+
+
+void CMFCLogicSimulatorView::copyTerminalInfo(SELECTED_TERMINAL_INFO & source, SELECTED_TERMINAL_INFO & destination)
+{
+	destination.componentID = source.componentID;
+	destination.terminalType = source.terminalType;
+	destination.terminalNumber = source.terminalNumber;
+}
+
+void CMFCLogicSimulatorView::copyPoints(CPoint * source, CPoint * destination,int size)
+{
+	for (int i = 0; i < size; i++) {
+		destination[i].x = source[i].x;
+		destination[i].y = source[i].y;
+ 	}
+}
+
