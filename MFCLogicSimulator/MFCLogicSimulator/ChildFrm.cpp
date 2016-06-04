@@ -62,6 +62,10 @@ BEGIN_MESSAGE_MAP(CChildFrame, CMDIChildWndEx)
 	ON_UPDATE_COMMAND_UI(ID_LOAD_LIBRARYBOX, &CChildFrame::OnUpdateLoadLibrarybox)
 	ON_COMMAND(ID_CLEAN_LOG, &CChildFrame::OnCleanLog)
 	ON_UPDATE_COMMAND_UI(ID_CLEAN_LOG, &CChildFrame::OnUpdateCleanLog)
+	ON_COMMAND(ID_COMP_DELETE, &CChildFrame::OnCompDelete)
+	ON_UPDATE_COMMAND_UI(ID_COMP_DELETE, &CChildFrame::OnUpdateCompDelete)
+	ON_COMMAND(ID_UNCONECT, &CChildFrame::OnUnconect)
+	ON_UPDATE_COMMAND_UI(ID_UNCONECT, &CChildFrame::OnUpdateUnconect)
 END_MESSAGE_MAP()
 
 // CChildFrame 생성/소멸
@@ -351,3 +355,27 @@ void CChildFrame::OnUpdateCleanLog(CCmdUI *pCmdUI)
 	// TODO: 여기에 명령 업데이트 UI 처리기 코드를 추가합니다.
 }
 /*************** Ribbon output wnd control END*****************/
+
+
+void CChildFrame::OnCompDelete()
+{
+	// TODO: 여기에 명령 처리기 코드를 추가합니다.
+}
+
+
+void CChildFrame::OnUpdateCompDelete(CCmdUI *pCmdUI)
+{
+	// TODO: 여기에 명령 업데이트 UI 처리기 코드를 추가합니다.
+}
+
+
+void CChildFrame::OnUnconect()
+{
+	// TODO: 여기에 명령 처리기 코드를 추가합니다.
+}
+
+
+void CChildFrame::OnUpdateUnconect(CCmdUI *pCmdUI)
+{
+	// TODO: 여기에 명령 업데이트 UI 처리기 코드를 추가합니다.
+}
