@@ -11,6 +11,7 @@
 
 #pragma once
 
+
 class CPropertiesToolBar : public CMFCToolBar
 {
 public:
@@ -64,8 +65,9 @@ protected:
 	afx_msg void OnSettingChange(UINT uFlags, LPCTSTR lpszSection);
 
 	DECLARE_MESSAGE_MAP()
-
-	void setPropertiesWindowGate(CString& str);
+	// 프로퍼티 변경시 호출됨.
+	afx_msg LRESULT  OnPropertyChangeMSG(WPARAM wParam, LPARAM lParam);
+	//void setPropertiesWindowGate(CString& str);
 	//void resetBuildWindowString();
 
 	void InitPropList();

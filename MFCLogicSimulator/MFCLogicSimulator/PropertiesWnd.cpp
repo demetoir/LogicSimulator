@@ -16,6 +16,11 @@
 #include "MainFrm.h"
 #include "MFCLogicSimulator.h"
 
+#include "ViewTree.h"
+#include "MFCLogicSimulatorDoc.h"
+#include "MFCLogicSimulatorView.h"
+#include "ChildFrm.h"
+#include "FileView.h"
 #ifdef _DEBUG
 #undef THIS_FILE
 static char THIS_FILE[]=__FILE__;
@@ -47,6 +52,7 @@ BEGIN_MESSAGE_MAP(CPropertiesWnd, CDockablePane)
 	ON_UPDATE_COMMAND_UI(ID_PROPERTIES2, OnUpdateProperties2)
 	ON_WM_SETFOCUS()
 	ON_WM_SETTINGCHANGE()
+	ON_REGISTERED_MESSAGE(AFX_WM_PROPERTY_CHANGED, OnPropertyChangeMSG) // 프로퍼티 변경검색목적
 END_MESSAGE_MAP()
 
 /////////////////////////////////////////////////////////////////////////////
@@ -155,11 +161,6 @@ void CPropertiesWnd::OnUpdateProperties2(CCmdUI* /*pCmdUI*/)
 	// TODO: 여기에 명령 업데이트 UI 처리기 코드를 추가합니다.
 }
 
-void CPropertiesWnd::setPropertiesWindowGate(CString & str)
-{
-	AfxMessageBox(_T("test"));
-}
-
 void CPropertiesWnd::InitPropList()
 {
 	SetPropListFont();
@@ -229,6 +230,27 @@ void CPropertiesWnd::OnSettingChange(UINT uFlags, LPCTSTR lpszSection)
 {
 	CDockablePane::OnSettingChange(uFlags, lpszSection);
 	SetPropListFont();
+}
+/* properties 수정시 호출 */
+LRESULT CPropertiesWnd::OnPropertyChangeMSG(WPARAM wParam, LPARAM lParam)
+{
+	CMFCPropertyGridProperty * pProperty = (CMFCPropertyGridProperty *)lParam;
+
+	CMainFrame *pFrame = (CMainFrame*)AfxGetMainWnd();
+	//CFileView* pFileView = pFrame->getCFileView();
+	//CViewTree* pToolbox = pFileView->getCFileViewTree();
+	CChildFrame *pChild = (CChildFrame *)pFrame->GetActiveFrame();
+	CMFCLogicSimulatorDoc *pDoc = (CMFCLogicSimulatorDoc *)pChild->GetActiveDocument();
+	COutputWnd* pOutput = pFrame->getCOutputWnd();
+
+	pDoc->operationMode = OPERATION_MODE_SELECT_COMPONENT;
+	// TODO: 여기에 명령 처리기 코드를 추가합니다.
+	CString str;
+	str.Format(_T("in properties wnd menu : changed properties value\n"));
+	pOutput->addBuildWindowString(str);
+
+	// Note: the return value is not used.
+	return(0);
 }
 
 void CPropertiesWnd::SetPropListFont()
