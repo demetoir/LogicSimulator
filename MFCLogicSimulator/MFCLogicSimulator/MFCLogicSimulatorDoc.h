@@ -33,10 +33,14 @@ struct COMPONENT_DATA {
 		id = -1;
 		type = COMPONENT_TYPE_NONE;
 		direction = EAST;	
-		label = "";
+		label = _T("라벨명 수정해주세요.");
+		hz = 10;
+		clockEdge = true;
 	}
 	//가장 왼쪽 위 의 기준 좌표
 	int x,y;
+	int hz;
+	BOOL clockEdge;
 	COMPONENT_ID id;
 	COMPONENT_TYPE type;
 	COMPONENT_DIRECTION direction;
@@ -141,5 +145,6 @@ public :
 
 	OPERATION_MODE operationMode;
 
-
+	void getStringByCOMPONENT_TYPE(COMPONENT_TYPE compType, CString& CS);
+	void getStringByCOMPONENT_DIRECTION(COMPONENT_DIRECTION direct, CString& CS);
 };

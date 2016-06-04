@@ -197,7 +197,7 @@ bool CMFCLogicSimulatorDoc::addComponentToEngine(int _x, int _y)
 	engineComponentData[addComponent.componentID].x = _x;
 	engineComponentData[addComponent.componentID].y = _y;
 	engineComponentData[addComponent.componentID].direction = DEFAULT_VALUE_ADDING_COMPONENT_DIRECTION;
-	engineComponentData[addComponent.componentID].label = "";
+	engineComponentData[addComponent.componentID].label = _T("라벨명 수정해주세요.");
 	
 	CMainFrame *pFrame = (CMainFrame*)AfxGetMainWnd();
 	COutputWnd* pOutput = pFrame->getCOutputWnd();
@@ -309,6 +309,76 @@ COMPONENT_TYPE CMFCLogicSimulatorDoc::getCurrentSelectedComponentType()
 {
 
 	return getComponentTypeByToolBoxItemIndex(currentSelectedItemIndex);
+}
+
+void CMFCLogicSimulatorDoc::getStringByCOMPONENT_TYPE(COMPONENT_TYPE compType, CString& CS)
+{
+	switch (compType) {
+	case COMPONENT_TYPE_NONE:
+		CS = _T("none");
+		break;
+	case COMPONENT_TYPE_INPUT_PIN:
+		CS = _T("Input pin");
+		break;
+	case COMPONENT_TYPE_CLOCK:
+		CS = _T("Clock");
+		break;
+	case COMPONENT_TYPE_ONE_BIT_SWITCH:
+		CS = _T("One bit switch");
+		break;
+	case COMPONENT_TYPE_AND_GATE:
+		CS = _T("AND");
+		break;
+	case COMPONENT_TYPE_OR_GATE:
+		CS = _T("OR");
+		break;
+	case COMPONENT_TYPE_NOT_GATE:
+		CS = _T("INVERTOR");
+		break;
+	case COMPONENT_TYPE_XOR_GATE:
+		CS = _T("XOR");
+		break;
+	case COMPONENT_TYPE_WIRE:
+		CS = _T("Wire");
+		break;
+	case COMPONENT_TYPE_7SEGMENT:
+		CS = _T("7-Segment");
+		break;
+	case COMPONENT_TYPE_OUTPUT_PIN:
+		CS = _T("Output pin");
+		break;
+	case COMPONENT_TYPE_ONE_BIT_LAMP:
+		CS = _T("One bit lamp");
+		break;
+	case COMPONENT_TYPE_LIBRARY_BOX:
+		CS = _T("Lib box");
+		break;
+	default:
+		CS = _T("no exist type");
+	}
+
+}
+
+void CMFCLogicSimulatorDoc::getStringByCOMPONENT_DIRECTION(COMPONENT_DIRECTION direct, CString & CS)
+{
+	switch (direct)
+	{
+	case EAST:
+		CS = _T("East");
+		break;
+	case SOUTH:
+		CS = _T("South");
+		break;
+	case WEST:
+		CS = _T("West");
+		break;
+	case NORTH:
+		CS = _T("North");
+		break;
+	default:
+		CS = _T("No direction");
+		break;
+	}
 }
 
 

@@ -39,7 +39,8 @@ public:
 		m_wndPropList.SetGroupNameFullWidth(bSet);
 	}
 	CPropertiesToolBar* getProperties();
-
+	void addList();
+	void removeList();
 protected:
 	CFont m_fntPropList;
 	//CComboBox m_wndObjectCombo;
@@ -49,7 +50,8 @@ protected:
 // 구현입니다.
 public:
 	virtual ~CPropertiesWnd();
-
+	void setPropertiesWnd();
+	//void changePropertyValueToDirection(COleVariant CO, COMPONENT_DIRECTION &direct);
 protected:
 	afx_msg int OnCreate(LPCREATESTRUCT lpCreateStruct);
 	afx_msg void OnSize(UINT nType, int cx, int cy);
@@ -66,7 +68,7 @@ protected:
 
 	DECLARE_MESSAGE_MAP()
 	// 프로퍼티 변경시 호출됨.
-	afx_msg LRESULT  OnPropertyChangeMSG(WPARAM wParam, LPARAM lParam);
+	afx_msg LRESULT OnPropertyChanged(WPARAM wParam, LPARAM lParam);
 	//void setPropertiesWindowGate(CString& str);
 	//void resetBuildWindowString();
 
