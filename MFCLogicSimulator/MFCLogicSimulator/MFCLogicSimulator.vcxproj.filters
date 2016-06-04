@@ -28,6 +28,9 @@
     <Filter Include="리소스 파일\logic comp">
       <UniqueIdentifier>{6230ad99-44f2-48e8-b7c4-0964d30a2599}</UniqueIdentifier>
     </Filter>
+    <Filter Include="리소스 파일\logic comp\segment">
+      <UniqueIdentifier>{1dc51bae-a789-45d2-840a-04d2e8b1c795}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
@@ -559,6 +562,390 @@
     </Image>
     <Image Include="res\root\library box\librarybox.png">
       <Filter>리소스 파일</Filter>
+    </Image>
+    <Image Include="res\root\segment\segment_0000000.bmp">
+      <Filter>리소스 파일\logic comp\segment</Filter>
+    </Image>
+    <Image Include="res\root\segment\segment_0000001.bmp">
+      <Filter>리소스 파일\logic comp\segment</Filter>
+    </Image>
+    <Image Include="res\root\segment\segment_0000010.bmp">
+      <Filter>리소스 파일\logic comp\segment</Filter>
+    </Image>
+    <Image Include="res\root\segment\segment_0000011.bmp">
+      <Filter>리소스 파일\logic comp\segment</Filter>
+    </Image>
+    <Image Include="res\root\segment\segment_0000100.bmp">
+      <Filter>리소스 파일\logic comp\segment</Filter>
+    </Image>
+    <Image Include="res\root\segment\segment_0000101.bmp">
+      <Filter>리소스 파일\logic comp\segment</Filter>
+    </Image>
+    <Image Include="res\root\segment\segment_0000110.bmp">
+      <Filter>리소스 파일\logic comp\segment</Filter>
+    </Image>
+    <Image Include="res\root\segment\segment_0000111.bmp">
+      <Filter>리소스 파일\logic comp\segment</Filter>
+    </Image>
+    <Image Include="res\root\segment\segment_0001000.bmp">
+      <Filter>리소스 파일\logic comp\segment</Filter>
+    </Image>
+    <Image Include="res\root\segment\segment_0001001.bmp">
+      <Filter>리소스 파일\logic comp\segment</Filter>
+    </Image>
+    <Image Include="res\root\segment\segment_0001010.bmp">
+      <Filter>리소스 파일\logic comp\segment</Filter>
+    </Image>
+    <Image Include="res\root\segment\segment_0001011.bmp">
+      <Filter>리소스 파일\logic comp\segment</Filter>
+    </Image>
+    <Image Include="res\root\segment\segment_0001100.bmp">
+      <Filter>리소스 파일\logic comp\segment</Filter>
+    </Image>
+    <Image Include="res\root\segment\segment_0001101.bmp">
+      <Filter>리소스 파일\logic comp\segment</Filter>
+    </Image>
+    <Image Include="res\root\segment\segment_0001110.bmp">
+      <Filter>리소스 파일\logic comp\segment</Filter>
+    </Image>
+    <Image Include="res\root\segment\segment_0001111.bmp">
+      <Filter>리소스 파일\logic comp\segment</Filter>
+    </Image>
+    <Image Include="res\root\segment\segment_0010000.bmp">
+      <Filter>리소스 파일\logic comp\segment</Filter>
+    </Image>
+    <Image Include="res\root\segment\segment_0010001.bmp">
+      <Filter>리소스 파일\logic comp\segment</Filter>
+    </Image>
+    <Image Include="res\root\segment\segment_0010010.bmp">
+      <Filter>리소스 파일\logic comp\segment</Filter>
+    </Image>
+    <Image Include="res\root\segment\segment_0010011.bmp">
+      <Filter>리소스 파일\logic comp\segment</Filter>
+    </Image>
+    <Image Include="res\root\segment\segment_0010100.bmp">
+      <Filter>리소스 파일\logic comp\segment</Filter>
+    </Image>
+    <Image Include="res\root\segment\segment_0010101.bmp">
+      <Filter>리소스 파일\logic comp\segment</Filter>
+    </Image>
+    <Image Include="res\root\segment\segment_0010110.bmp">
+      <Filter>리소스 파일\logic comp\segment</Filter>
+    </Image>
+    <Image Include="res\root\segment\segment_0010111.bmp">
+      <Filter>리소스 파일\logic comp\segment</Filter>
+    </Image>
+    <Image Include="res\root\segment\segment_0011000.bmp">
+      <Filter>리소스 파일\logic comp\segment</Filter>
+    </Image>
+    <Image Include="res\root\segment\segment_0011001.bmp">
+      <Filter>리소스 파일\logic comp\segment</Filter>
+    </Image>
+    <Image Include="res\root\segment\segment_0011010.bmp">
+      <Filter>리소스 파일\logic comp\segment</Filter>
+    </Image>
+    <Image Include="res\root\segment\segment_0011011.bmp">
+      <Filter>리소스 파일\logic comp\segment</Filter>
+    </Image>
+    <Image Include="res\root\segment\segment_0011100.bmp">
+      <Filter>리소스 파일\logic comp\segment</Filter>
+    </Image>
+    <Image Include="res\root\segment\segment_0011101.bmp">
+      <Filter>리소스 파일\logic comp\segment</Filter>
+    </Image>
+    <Image Include="res\root\segment\segment_0011110.bmp">
+      <Filter>리소스 파일\logic comp\segment</Filter>
+    </Image>
+    <Image Include="res\root\segment\segment_0011111.bmp">
+      <Filter>리소스 파일\logic comp\segment</Filter>
+    </Image>
+    <Image Include="res\root\segment\segment_0100000.bmp">
+      <Filter>리소스 파일\logic comp\segment</Filter>
+    </Image>
+    <Image Include="res\root\segment\segment_0100001.bmp">
+      <Filter>리소스 파일\logic comp\segment</Filter>
+    </Image>
+    <Image Include="res\root\segment\segment_0100010.bmp">
+      <Filter>리소스 파일\logic comp\segment</Filter>
+    </Image>
+    <Image Include="res\root\segment\segment_0100011.bmp">
+      <Filter>리소스 파일\logic comp\segment</Filter>
+    </Image>
+    <Image Include="res\root\segment\segment_0100100.bmp">
+      <Filter>리소스 파일\logic comp\segment</Filter>
+    </Image>
+    <Image Include="res\root\segment\segment_0100101.bmp">
+      <Filter>리소스 파일\logic comp\segment</Filter>
+    </Image>
+    <Image Include="res\root\segment\segment_100101.bmp">
+      <Filter>리소스 파일\logic comp\segment</Filter>
+    </Image>
+    <Image Include="res\root\segment\segment_0100110.bmp">
+      <Filter>리소스 파일\logic comp\segment</Filter>
+    </Image>
+    <Image Include="res\root\segment\segment_0100111.bmp">
+      <Filter>리소스 파일\logic comp\segment</Filter>
+    </Image>
+    <Image Include="res\root\segment\segment_0101000.bmp">
+      <Filter>리소스 파일\logic comp\segment</Filter>
+    </Image>
+    <Image Include="res\root\segment\segment_0101001.bmp">
+      <Filter>리소스 파일\logic comp\segment</Filter>
+    </Image>
+    <Image Include="res\root\segment\segment_0101010.bmp">
+      <Filter>리소스 파일\logic comp\segment</Filter>
+    </Image>
+    <Image Include="res\root\segment\segment_0101011.bmp">
+      <Filter>리소스 파일\logic comp\segment</Filter>
+    </Image>
+    <Image Include="res\root\segment\segment_0101100.bmp">
+      <Filter>리소스 파일\logic comp\segment</Filter>
+    </Image>
+    <Image Include="res\root\segment\segment_0101101.bmp">
+      <Filter>리소스 파일\logic comp\segment</Filter>
+    </Image>
+    <Image Include="res\root\segment\segment_0101110.bmp">
+      <Filter>리소스 파일\logic comp\segment</Filter>
+    </Image>
+    <Image Include="res\root\segment\segment_0101111.bmp">
+      <Filter>리소스 파일\logic comp\segment</Filter>
+    </Image>
+    <Image Include="res\root\segment\segment_0110000.bmp">
+      <Filter>리소스 파일\logic comp\segment</Filter>
+    </Image>
+    <Image Include="res\root\segment\segment_0110001.bmp">
+      <Filter>리소스 파일\logic comp\segment</Filter>
+    </Image>
+    <Image Include="res\root\segment\segment_0110010.bmp">
+      <Filter>리소스 파일\logic comp\segment</Filter>
+    </Image>
+    <Image Include="res\root\segment\segment_0110011.bmp">
+      <Filter>리소스 파일\logic comp\segment</Filter>
+    </Image>
+    <Image Include="res\root\segment\segment_0110100.bmp">
+      <Filter>리소스 파일\logic comp\segment</Filter>
+    </Image>
+    <Image Include="res\root\segment\segment_0110101.bmp">
+      <Filter>리소스 파일\logic comp\segment</Filter>
+    </Image>
+    <Image Include="res\root\segment\segment_0110110.bmp">
+      <Filter>리소스 파일\logic comp\segment</Filter>
+    </Image>
+    <Image Include="res\root\segment\segment_0110111.bmp">
+      <Filter>리소스 파일\logic comp\segment</Filter>
+    </Image>
+    <Image Include="res\root\segment\segment_0111000.bmp">
+      <Filter>리소스 파일\logic comp\segment</Filter>
+    </Image>
+    <Image Include="res\root\segment\segment_0111001.bmp">
+      <Filter>리소스 파일\logic comp\segment</Filter>
+    </Image>
+    <Image Include="res\root\segment\segment_0111010.bmp">
+      <Filter>리소스 파일\logic comp\segment</Filter>
+    </Image>
+    <Image Include="res\root\segment\segment_0111011.bmp">
+      <Filter>리소스 파일\logic comp\segment</Filter>
+    </Image>
+    <Image Include="res\root\segment\segment_0111100.bmp">
+      <Filter>리소스 파일\logic comp\segment</Filter>
+    </Image>
+    <Image Include="res\root\segment\segment_0111101.bmp">
+      <Filter>리소스 파일\logic comp\segment</Filter>
+    </Image>
+    <Image Include="res\root\segment\segment_0111110.bmp">
+      <Filter>리소스 파일\logic comp\segment</Filter>
+    </Image>
+    <Image Include="res\root\segment\segment_0111111.bmp">
+      <Filter>리소스 파일\logic comp\segment</Filter>
+    </Image>
+    <Image Include="res\root\segment\segment_1000000.bmp">
+      <Filter>리소스 파일\logic comp\segment</Filter>
+    </Image>
+    <Image Include="res\root\segment\segment_1000001.bmp">
+      <Filter>리소스 파일\logic comp\segment</Filter>
+    </Image>
+    <Image Include="res\root\segment\segment_1000010.bmp">
+      <Filter>리소스 파일\logic comp\segment</Filter>
+    </Image>
+    <Image Include="res\root\segment\segment_1000011.bmp">
+      <Filter>리소스 파일\logic comp\segment</Filter>
+    </Image>
+    <Image Include="res\root\segment\segment_1000100.bmp">
+      <Filter>리소스 파일\logic comp\segment</Filter>
+    </Image>
+    <Image Include="res\root\segment\segment_1000110.bmp">
+      <Filter>리소스 파일\logic comp\segment</Filter>
+    </Image>
+    <Image Include="res\root\segment\segment_1000111.bmp">
+      <Filter>리소스 파일\logic comp\segment</Filter>
+    </Image>
+    <Image Include="res\root\segment\segment_1001000.bmp">
+      <Filter>리소스 파일\logic comp\segment</Filter>
+    </Image>
+    <Image Include="res\root\segment\segment_1001001.bmp">
+      <Filter>리소스 파일\logic comp\segment</Filter>
+    </Image>
+    <Image Include="res\root\segment\segment_1001010.bmp">
+      <Filter>리소스 파일\logic comp\segment</Filter>
+    </Image>
+    <Image Include="res\root\segment\segment_1001011.bmp">
+      <Filter>리소스 파일\logic comp\segment</Filter>
+    </Image>
+    <Image Include="res\root\segment\segment_1001100.bmp">
+      <Filter>리소스 파일\logic comp\segment</Filter>
+    </Image>
+    <Image Include="res\root\segment\segment_1001101.bmp">
+      <Filter>리소스 파일\logic comp\segment</Filter>
+    </Image>
+    <Image Include="res\root\segment\segment_1001110.bmp">
+      <Filter>리소스 파일\logic comp\segment</Filter>
+    </Image>
+    <Image Include="res\root\segment\segment_1001111.bmp">
+      <Filter>리소스 파일\logic comp\segment</Filter>
+    </Image>
+    <Image Include="res\root\segment\segment_1010000.bmp">
+      <Filter>리소스 파일\logic comp\segment</Filter>
+    </Image>
+    <Image Include="res\root\segment\segment_1010001.bmp">
+      <Filter>리소스 파일\logic comp\segment</Filter>
+    </Image>
+    <Image Include="res\root\segment\segment_1010010.bmp">
+      <Filter>리소스 파일\logic comp\segment</Filter>
+    </Image>
+    <Image Include="res\root\segment\segment_1010011.bmp">
+      <Filter>리소스 파일\logic comp\segment</Filter>
+    </Image>
+    <Image Include="res\root\segment\segment_1010100.bmp">
+      <Filter>리소스 파일\logic comp\segment</Filter>
+    </Image>
+    <Image Include="res\root\segment\segment_1010101.bmp">
+      <Filter>리소스 파일\logic comp\segment</Filter>
+    </Image>
+    <Image Include="res\root\segment\segment_1010110.bmp">
+      <Filter>리소스 파일\logic comp\segment</Filter>
+    </Image>
+    <Image Include="res\root\segment\segment_1010111.bmp">
+      <Filter>리소스 파일\logic comp\segment</Filter>
+    </Image>
+    <Image Include="res\root\segment\segment_1011000.bmp">
+      <Filter>리소스 파일\logic comp\segment</Filter>
+    </Image>
+    <Image Include="res\root\segment\segment_1011001.bmp">
+      <Filter>리소스 파일\logic comp\segment</Filter>
+    </Image>
+    <Image Include="res\root\segment\segment_1011010.bmp">
+      <Filter>리소스 파일\logic comp\segment</Filter>
+    </Image>
+    <Image Include="res\root\segment\segment_1011011.bmp">
+      <Filter>리소스 파일\logic comp\segment</Filter>
+    </Image>
+    <Image Include="res\root\segment\segment_1011100.bmp">
+      <Filter>리소스 파일\logic comp\segment</Filter>
+    </Image>
+    <Image Include="res\root\segment\segment_1011101.bmp">
+      <Filter>리소스 파일\logic comp\segment</Filter>
+    </Image>
+    <Image Include="res\root\segment\segment_1011110.bmp">
+      <Filter>리소스 파일\logic comp\segment</Filter>
+    </Image>
+    <Image Include="res\root\segment\segment_1011111.bmp">
+      <Filter>리소스 파일\logic comp\segment</Filter>
+    </Image>
+    <Image Include="res\root\segment\segment_1100000.bmp">
+      <Filter>리소스 파일\logic comp\segment</Filter>
+    </Image>
+    <Image Include="res\root\segment\segment_1100001.bmp">
+      <Filter>리소스 파일\logic comp\segment</Filter>
+    </Image>
+    <Image Include="res\root\segment\segment_1100010.bmp">
+      <Filter>리소스 파일\logic comp\segment</Filter>
+    </Image>
+    <Image Include="res\root\segment\segment_1100011.bmp">
+      <Filter>리소스 파일\logic comp\segment</Filter>
+    </Image>
+    <Image Include="res\root\segment\segment_1100100.bmp">
+      <Filter>리소스 파일\logic comp\segment</Filter>
+    </Image>
+    <Image Include="res\root\segment\segment_1100101.bmp">
+      <Filter>리소스 파일\logic comp\segment</Filter>
+    </Image>
+    <Image Include="res\root\segment\segment_1100110.bmp">
+      <Filter>리소스 파일\logic comp\segment</Filter>
+    </Image>
+    <Image Include="res\root\segment\segment_1100111.bmp">
+      <Filter>리소스 파일\logic comp\segment</Filter>
+    </Image>
+    <Image Include="res\root\segment\segment_1101000.bmp">
+      <Filter>리소스 파일\logic comp\segment</Filter>
+    </Image>
+    <Image Include="res\root\segment\segment_1101001.bmp">
+      <Filter>리소스 파일\logic comp\segment</Filter>
+    </Image>
+    <Image Include="res\root\segment\segment_1101010.bmp">
+      <Filter>리소스 파일\logic comp\segment</Filter>
+    </Image>
+    <Image Include="res\root\segment\segment_1101011.bmp">
+      <Filter>리소스 파일\logic comp\segment</Filter>
+    </Image>
+    <Image Include="res\root\segment\segment_1101100.bmp">
+      <Filter>리소스 파일\logic comp\segment</Filter>
+    </Image>
+    <Image Include="res\root\segment\segment_1101101.bmp">
+      <Filter>리소스 파일\logic comp\segment</Filter>
+    </Image>
+    <Image Include="res\root\segment\segment_1101110.bmp">
+      <Filter>리소스 파일\logic comp\segment</Filter>
+    </Image>
+    <Image Include="res\root\segment\segment_1101111.bmp">
+      <Filter>리소스 파일\logic comp\segment</Filter>
+    </Image>
+    <Image Include="res\root\segment\segment_1110000.bmp">
+      <Filter>리소스 파일\logic comp\segment</Filter>
+    </Image>
+    <Image Include="res\root\segment\segment_1110001.bmp">
+      <Filter>리소스 파일\logic comp\segment</Filter>
+    </Image>
+    <Image Include="res\root\segment\segment_1110010.bmp">
+      <Filter>리소스 파일\logic comp\segment</Filter>
+    </Image>
+    <Image Include="res\root\segment\segment_1110011.bmp">
+      <Filter>리소스 파일\logic comp\segment</Filter>
+    </Image>
+    <Image Include="res\root\segment\segment_1110100.bmp">
+      <Filter>리소스 파일\logic comp\segment</Filter>
+    </Image>
+    <Image Include="res\root\segment\segment_1110101.bmp">
+      <Filter>리소스 파일\logic comp\segment</Filter>
+    </Image>
+    <Image Include="res\root\segment\segment_1110110.bmp">
+      <Filter>리소스 파일\logic comp\segment</Filter>
+    </Image>
+    <Image Include="res\root\segment\segment_1110111.bmp">
+      <Filter>리소스 파일\logic comp\segment</Filter>
+    </Image>
+    <Image Include="res\root\segment\segment_1111000.bmp">
+      <Filter>리소스 파일\logic comp\segment</Filter>
+    </Image>
+    <Image Include="res\root\segment\segment_1111001.bmp">
+      <Filter>리소스 파일\logic comp\segment</Filter>
+    </Image>
+    <Image Include="res\root\segment\segment_1111010.bmp">
+      <Filter>리소스 파일\logic comp\segment</Filter>
+    </Image>
+    <Image Include="res\root\segment\segment_1111011.bmp">
+      <Filter>리소스 파일\logic comp\segment</Filter>
+    </Image>
+    <Image Include="res\root\segment\segment_1111100.bmp">
+      <Filter>리소스 파일\logic comp\segment</Filter>
+    </Image>
+    <Image Include="res\root\segment\segment_1111101.bmp">
+      <Filter>리소스 파일\logic comp\segment</Filter>
+    </Image>
+    <Image Include="res\root\segment\segment_1111110.bmp">
+      <Filter>리소스 파일\logic comp\segment</Filter>
+    </Image>
+    <Image Include="res\root\segment\segment_1111111.bmp">
+      <Filter>리소스 파일\logic comp\segment</Filter>
     </Image>
   </ItemGroup>
 </Project>
