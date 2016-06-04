@@ -414,13 +414,17 @@ bool CLibraryBox::deleteComponent(COMPONENT_ID _componentID)
 	return true;
 }
 
+
 bool CLibraryBox::connnectComponent(COMPONENT_CONENTION_INFO& componentA, COMPONENT_CONENTION_INFO& componentB)
 {
+	
+	//올바르지 않은 연결
+	if (isPossibleConnection(componentA, componentB) == false) {
+		return false;
+	 }
+
 	COMPONENT_CONENTION_INFO A;
 	COMPONENT_CONENTION_INFO B;
-
-	////A->B 로가는거
-	//output -> input
 	if (componentA.terminalType == TERMINAL_TYPE_INPUT &&
 		componentB.terminalType == TERMINAL_TYPE_OUTPUT) {
 		A.componentID = componentB.componentID;
@@ -438,41 +442,7 @@ bool CLibraryBox::connnectComponent(COMPONENT_CONENTION_INFO& componentA, COMPON
 		A.terminalNumber = componentA.terminalNumber;
 		A.terminalType = componentA.terminalType;;
 	}
-
-	//같은 종류의 단자를 연결하려함
-	if (A.terminalType == B.terminalType) {
-		return false;
-	}
-
-	//존재하지 않는 부품을 연결하려 할떄
-	if (A.componentID >= componentIDVector.size() ||
-		componentIDVector[A.componentID] == false ||
-		B.componentID >= componentIDVector.size() ||
-		componentIDVector[B.componentID] == false) {
-		return false;
-	}
-
-	//게이트와 게이트를 연결하려 할떄 또는
-	//줄과 줄을 연결하려 할때
-	if ((componentTypeVector[A.componentID] != COMPONENT_TYPE_WIRE &&
-		componentTypeVector[B.componentID] != COMPONENT_TYPE_WIRE) ||
-		(componentTypeVector[A.componentID] == COMPONENT_TYPE_WIRE &&
-			componentTypeVector[B.componentID] == COMPONENT_TYPE_WIRE)) {
-		return false;
-	}
-
-	//존재 하지 않는 단자에 연결하려할때
-	if (A.terminalNumber >= outputGraph[A.componentID].size() ||
-		B.terminalNumber >= inputGraph[B.componentID].size()) {
-		return false;
-	}
-
-	//이미 연결한 단자에 또 연결하려 할떄
-	if (outputGraph[A.componentID][A.terminalNumber].componentID != -1 ||
-		inputGraph[B.componentID][B.terminalNumber].componentID != -1) {
-		return false;
-	}
-
+	
 	////A->B 로가는거
 	//output -> input
 	//방향 그래프 간선을 만들어줌
@@ -738,4 +708,78 @@ int CLibraryBox::numberOfClock()
 CComponentObject * CLibraryBox::getComponentObject(int index)
 {
 	return componentVector[index];
+}
+
+bool CLibraryBox::isPossibleConnection(COMPONENT_CONENTION_INFO & componentA, COMPONENT_CONENTION_INFO & componentB)
+{
+	COMPONENT_CONENTION_INFO A;
+	COMPONENT_CONENTION_INFO B;
+
+	copyCOMPONENT_CONENTION_INFO(componentA, A);
+	copyCOMPONENT_CONENTION_INFO(componentB, B);
+
+	////A->B 로가는거
+	//output -> input
+	if (A.terminalType == TERMINAL_TYPE_INPUT &&
+		A.terminalType == TERMINAL_TYPE_OUTPUT) {
+		swapCOMPONENT_CONENTION_INFO(A, B);
+	}
+
+
+	//같은 종류의 단자를 연결하려함
+	if (A.terminalType == B.terminalType) {
+		return false;
+	}
+
+	//존재하지 않는 부품을 연결하려 할떄
+	if (A.componentID >= componentIDVector.size() ||
+		componentIDVector[A.componentID] == false ||
+		B.componentID >= componentIDVector.size() ||
+		componentIDVector[B.componentID] == false) {
+		return false;
+	}
+
+	//게이트와 게이트를 연결하려 할떄 또는
+	//줄과 줄을 연결하려 할때
+	if ((componentTypeVector[A.componentID] != COMPONENT_TYPE_WIRE &&
+		componentTypeVector[B.componentID] != COMPONENT_TYPE_WIRE) ||
+		(componentTypeVector[A.componentID] == COMPONENT_TYPE_WIRE &&
+			componentTypeVector[B.componentID] == COMPONENT_TYPE_WIRE)) {
+		return false;
+	}
+
+	//존재 하지 않는 단자에 연결하려할때
+	if (A.terminalNumber >= outputGraph[A.componentID].size() ||
+		B.terminalNumber >= inputGraph[B.componentID].size()) {
+		return false;
+	}
+
+	//이미 연결한 단자에 또 연결하려 할떄
+	if (outputGraph[A.componentID][A.terminalNumber].componentID != -1 ||
+		inputGraph[B.componentID][B.terminalNumber].componentID != -1) {
+		return false;
+	}
+
+	return true;
+}
+
+void CLibraryBox::swapCOMPONENT_CONENTION_INFO(COMPONENT_CONENTION_INFO & A, COMPONENT_CONENTION_INFO & B)
+{
+	COMPONENT_CONENTION_INFO temp;
+	copyCOMPONENT_CONENTION_INFO(A, temp);
+	copyCOMPONENT_CONENTION_INFO(B, A);
+	copyCOMPONENT_CONENTION_INFO(temp, B);
+}
+
+void CLibraryBox::copyCOMPONENT_CONENTION_INFO(COMPONENT_CONENTION_INFO & source, COMPONENT_CONENTION_INFO & destination)
+{
+	destination.componentID = source.componentID;
+	destination.terminalType = source.terminalType;
+	destination.terminalNumber = source.terminalNumber;
+}
+
+ADJ_LIST* CLibraryBox::getConnectionGrahp()
+{
+	// TODO: 여기에 반환 구문을 삽입합니다.
+	return &outputGraph;
 }

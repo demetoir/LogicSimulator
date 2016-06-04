@@ -66,7 +66,7 @@ enum OPERATION_MODE {
 	OPERATION_MODE_SELECT_COMPONENT,
 	OPERATION_MODE_CONNECTING_COMPONENT
 };
-
+#define DEFAULT_VALUE_ADDING_COMPONENT_DIRECTION EAST
 class CMFCLogicSimulatorDoc : public CDocument
 {
 protected: // serialization에서만 만들어집니다.
@@ -125,6 +125,10 @@ public :
 
 	//부품을 추가한다
 	bool addComponentToEngine(int _x,int _y);
+
+	//부품을 서로 연결한다
+	bool connectComponent(COMPONENT_CONENTION_INFO& A, COMPONENT_CONENTION_INFO& B);
+
 
 	int getSelectedItemIndexInToolBox(HTREEITEM hItem);
 

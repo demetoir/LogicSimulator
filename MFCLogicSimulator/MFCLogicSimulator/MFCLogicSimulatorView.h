@@ -33,6 +33,8 @@
 #define TERMINAL_PIN_HALF_SIZE  8
 #define HIGHLIGHIT_TERMINAL_PIN_HALF_SIZE  15
 #define SIZE_OF_COMPONENT_BITMAP 20
+#define SIZE_OF_VIEW_X 4000
+#define SIZE_OF_VIEW_Y 2000
 
 
 class CMFCLogicSimulatorView : public CScrollView
@@ -106,7 +108,7 @@ protected:
 
 
 	//와이어들을 그림
-	void drawComponentWire(CDC &DC);
+	void drawConnectedWire(CDC &DC);
 	
 	//부품 추가 모드일떄 움직이면서 보여주는거
 	void drawAddingComponent(CDC &DC);
@@ -155,6 +157,15 @@ protected:
 	void copyTerminalInfo(SELECTED_TERMINAL_INFO& source, SELECTED_TERMINAL_INFO& destination);
 
 	void drawConnectingWire(CDC& DC);
+
+	//타입으로 부품의 높이를 구한다
+	int getComponentHeight(COMPONENT_TYPE type);
+	int getComponentWidth(COMPONENT_TYPE type);
+
+	//들어온 부품의 인풋 터미널 핀좌표을 반환한다 
+	void getInputTerminalPoint(int id, CPoint &point,int index);
+	//들어온 부품의 인풋 터미널 핀을 반환한다 
+	void getOutputTerminalPoint(int id, CPoint &point,int index);
 
 public:
 	afx_msg BOOL OnEraseBkgnd(CDC* pDC);

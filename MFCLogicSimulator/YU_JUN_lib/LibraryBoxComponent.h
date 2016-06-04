@@ -114,6 +114,7 @@ struct LIBRARY_BOX_DATA {
 
 };
 
+#define ADJ_LIST vector< vector < COMPONENT_CONENTION_INFO > >
 class CLibraryBox :public CComponentObject {
 #define LOOP_LIMIT 200
 private:
@@ -127,8 +128,8 @@ private:
 	vector < COMPONENT_ID > inputClockVector;
 
 	//부품간을 연결나타내는 무방향 그래프의 인접리스트 
-	vector< vector < COMPONENT_CONENTION_INFO > > inputGraph;
-	vector< vector < COMPONENT_CONENTION_INFO > > outputGraph;
+	ADJ_LIST inputGraph;
+	ADJ_LIST outputGraph;
 	
 	//부품들이 가지는 타입을 저장하는 벡터
 	vector< COMPONENT_TYPE >  componentTypeVector;
@@ -191,4 +192,6 @@ public:
 	bool setClockValue(int index, bool  _value);
 	bool getClockValue(int index);
 	int numberOfClock();
+
+	ADJ_LIST* getConnectionGraph();
 };

@@ -733,3 +733,9 @@ int CLibraryBox::numberOfClock()
 {
 	return (int)inputClockVector.size();
 }
+
+ADJ_LIST* CLibraryBox::getConnectionGraph()
+{
+
+	return &outputGraph;
+}

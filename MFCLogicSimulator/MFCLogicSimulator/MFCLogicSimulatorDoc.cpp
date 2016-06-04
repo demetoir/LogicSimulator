@@ -189,12 +189,13 @@ bool CMFCLogicSimulatorDoc::addComponentToEngine(int _x, int _y)
 	if (addComponent.componentID >= engineComponentData.size()) {
 		engineComponentData.resize(engineComponentData.size() + 10);
 	}
+
 	//도큐먼트 데이터에 집어넣는다
 	engineComponentData[addComponent.componentID].id = addComponent.componentID;
 	engineComponentData[addComponent.componentID].type = selectedType;
 	engineComponentData[addComponent.componentID].x = _x;
 	engineComponentData[addComponent.componentID].y = _y;
-	engineComponentData[addComponent.componentID].direction = EAST;
+	engineComponentData[addComponent.componentID].direction = DEFAULT_VALUE_ADDING_COMPONENT_DIRECTION;
 	engineComponentData[addComponent.componentID].label = "";
 	
 	CMainFrame *pFrame = (CMainFrame*)AfxGetMainWnd();
@@ -206,6 +207,47 @@ bool CMFCLogicSimulatorDoc::addComponentToEngine(int _x, int _y)
 	return true;
 	
 
+}
+
+bool CMFCLogicSimulatorDoc::connectComponent(COMPONENT_CONENTION_INFO & A, COMPONENT_CONENTION_INFO & B)
+{
+	bool AToBDirection;
+	bool BToADirection;
+	CMainFrame *pFrame = (CMainFrame*)AfxGetMainWnd();
+	COutputWnd* pOutput = pFrame->getCOutputWnd();
+
+	CString str;
+	AToBDirection = logicSimulatorEngine.connnectComponent(A, B);
+	BToADirection = logicSimulatorEngine.connnectComponent(B, A);
+	bool ret = false;
+	if (AToBDirection  == true) {
+
+		str.Format(_T("in mfc logicsimulator doc : connect component ID : %d to ID: %d\n"),
+			B.componentID, A.componentID);
+		pOutput->addBuildWindowString(str);
+		str.Format(_T("ID :%d type: %d terminal number : %d -> ID : %d type : %d terminal number : %d \n"),
+			A.componentID,A.terminalType,A.terminalNumber,
+			B.componentID, B.terminalType, B.terminalNumber);
+		pOutput->addBuildWindowString(str);
+		ret =  true;
+	}
+	else if(BToADirection == true){
+		str.Format(_T("in mfc logicsimulator doc : connect component ID : %d to ID: %d\n"),
+			B.componentID, A.componentID);
+		pOutput->addBuildWindowString(str);
+		str.Format(_T("ID :%d type: %d terminal number : %d -> ID : %d type : %d terminal number : %d \n"),
+			B.componentID, B.terminalType, B.terminalNumber,
+			A.componentID, A.terminalType, A.terminalNumber);
+		pOutput->addBuildWindowString(str);
+		ret = true;
+	}
+	else {
+		str.Format(_T("in mfc logicsimulator doc : connect component fail\n"));
+		pOutput->addBuildWindowString(str);
+	
+	}
+	return ret;
+	
 }
 
 COMPONENT_TYPE CMFCLogicSimulatorDoc::getComponentTypeByToolBoxItemIndex(int type)
