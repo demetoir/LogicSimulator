@@ -38,6 +38,8 @@
 #define HIGHLIGHT_CONNECTED_WIRE_LINE_WIDTH 10
 #define SEVEN_SEGMENT_INPUT_BAR_WIDTH 30
 #define SEVEN_SEGMENT_INPUT_BAR_HIGHT 160
+#define updateTimerID 12 
+#define updateTimer_TIME 1000
 
 
 class CMFCLogicSimulatorView : public CScrollView
@@ -163,7 +165,6 @@ protected:
 	int adjustBitmapID(COMPONENT_TYPE type, int& bitmapID, CComponentObject* pCurrentObject);
 
 
-
 	//현재 마우스가 부품위에 있는지 검사한다
 	int checkMouesPointOnComponent();
 	bool checkMouesPointOnTerminalPin(SELECTED_TERMINAL_INFO& selectedTerminalInfo);
@@ -173,6 +174,13 @@ protected:
 	void copyPoints(CPoint* source, CPoint* destination,int size);
 	
 	void changeComponentValue(int id);
+
+
+
+public:
+	afx_msg void OnTimer(UINT_PTR nIDEvent);
+	void startUpdating();
+	void stopUpdating();
 
 };
 

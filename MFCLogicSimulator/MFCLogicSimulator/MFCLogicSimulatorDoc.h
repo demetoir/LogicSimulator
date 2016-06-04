@@ -127,8 +127,9 @@ public :
 
 	//트리뷰에서 선택한 부품정보
 	int currentSelectedItemIndex;
-
+	bool isRunningMode;
 	int selectedComponentID;
+	bool isCurcuitOcillate;
 	//부품을 추가한다
 	bool addComponentToEngine(int _x,int _y);
 
@@ -145,6 +146,8 @@ public :
 
 	OPERATION_MODE operationMode;
 
-	void getStringByCOMPONENT_TYPE(COMPONENT_TYPE compType, CString& CS);
-	void getStringByCOMPONENT_DIRECTION(COMPONENT_DIRECTION direct, CString& CS);
+	void make_NORGATE(CLibraryBox& box);
+	void make_NANDGATE(CLibraryBox& box);
+
+	
 };

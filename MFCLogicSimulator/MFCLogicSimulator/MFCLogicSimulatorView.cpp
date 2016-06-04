@@ -54,6 +54,7 @@ BEGIN_MESSAGE_MAP(CMFCLogicSimulatorView, CScrollView)
 	ON_WM_HSCROLL()
 	ON_WM_VSCROLL()
 	ON_WM_ERASEBKGND()
+	ON_WM_TIMER()
 END_MESSAGE_MAP()
 
 // CMFCLogicSimulatorView 생성/소멸
@@ -240,6 +241,7 @@ void CMFCLogicSimulatorView::OnLButtonDown(UINT nFlags, CPoint point)
 		int selectedComponentID = checkMouesPointOnComponent();
 		if (selectedComponentID >0) {
 			changeComponentValue(selectedComponentID);
+			Invalidate();
 		}
 		
 
@@ -290,13 +292,15 @@ void CMFCLogicSimulatorView::OnPaint()
 	{
 		CPoint point;
 		GetCursorPos(&point);
-		ScreenToClient(&point);
+		//ScreenToClient(&point);
 		int nVertScroll = GetScrollPos(SB_VERT);
 		int nHorzScroll = GetScrollPos(SB_HORZ);
 		//그려줄 좌표를 보정한다
 		point.x + nHorzScroll;
 		point.y + nVertScroll;
 		CString str;
+ 		str.Format( _T("%d, %d"), point.x + nHorzScroll, point.y + nVertScroll);
+		memDC.TextOutW(100, 100, str);
 		
 		// 뷰 스크롤 및 크기 조정
 		// https://msdn.microsoft.com/ko-kr/library/cc468151(v=vs.71).aspx
@@ -364,7 +368,7 @@ void CMFCLogicSimulatorView::OnMouseMove(UINT nFlags, CPoint point)
 	// TODO: 여기에 메시지 처리기 코드를 추가 및/또는 기본값을 호출합니다.
 
 	CScrollView::OnMouseMove(nFlags, point);
-
+	Invalidate();
 	//부품 추가 모드 일때 선택한 부품의 좌표를 갱신한다
 
 	//마우스가 부품위에 있는경우 부품을 강조한다
@@ -587,6 +591,7 @@ void CMFCLogicSimulatorView::drawAddingComponent(CDC & DC)
 	type = pDoc->getCurrentSelectedComponentType();
 	if (type == COMPONENT_TYPE_NONE)
 		return;
+
 
 	//타입에 맞는 부품의 비트맵 아이디를 가져오고 로드한다
 	componentBitmap.LoadBitmapW(getBitmapIDByComponentType(type,EAST));
@@ -935,6 +940,7 @@ void CMFCLogicSimulatorView::drawConnectingWire(CDC & DC)
 
 int CMFCLogicSimulatorView::getBitmapIDByComponentType(COMPONENT_TYPE _type, COMPONENT_DIRECTION direction)
 {
+	CMFCLogicSimulatorDoc* pDoc = GetDocument();
 	////엔진에서 사용하는 부품 타입 열거형
 	//enum COMPONENT_TYPE {
 	//	COMPONENT_TYPE_NONE,
@@ -991,32 +997,26 @@ int CMFCLogicSimulatorView::getBitmapIDByComponentType(COMPONENT_TYPE _type, COM
 		
 
 	case COMPONENT_TYPE_LIBRARY_BOX:
-		return IDB_LIBBOX_E + direction;
+		int index = pDoc->currentSelectedItemIndex;
+		if (index == ITEM_NOR) {
+			return IDB_GATE_NOR_E + direction;
+		}
+		if (index == ITEM_NAND) {
+			return IDB_GATE_NAND_E + direction;
+		}
+		if (index == ITEM_DFF) {
+			return IDB_FF_DFF_E + direction;
+		}
+		if (index == ITEM_JKFF) {
+			return IDB_FF_JKFF_E + direction;
+		}
+		if (index == ITEM_TFF) {
+			return IDB_FF_TFF_E + direction;
+		}
+		else {
+			return IDB_LIBBOX_E + direction;
+		}
 		break;
-
-
-	//
-	//
-	//	case COMPONENT_TYPE_LIBRARY_BOX:
-	//		return IDB_FF_DFF;
-	//		break;
-	//	case COMPONENT_TYPE_LIBRARY_BOX:
-	//		return IDB_FF_JKFF;
-	//		break;
-	//	case COMPONENT_TYPE_LIBRARY_BOX:
-	//		return IDB_FF_TFF;
-	//		break;
-
-
-
-		//#define IDB_FF_DFF                      327
-		//#define IDB_FF_JKFF                     328
-		//#define IDB_FF_TFF                      329
-		//
-		//#define IDB_GATE_NAND                   332
-		//#define IDB_GATE_NOR                    333
-	default:
-		return -1;
 	}
 	return 0;
 }
@@ -1096,9 +1096,10 @@ int CMFCLogicSimulatorView::adjustBitmapID(COMPONENT_TYPE type, int& bitmapID, C
 	else if (type == COMPONENT_TYPE_7SEGMENT) {
 		int segmentValue = 0;
 		for (int i = 0; i < 7; i++) {
-			segmentValue << 1;
+			segmentValue = segmentValue *2;
 			segmentValue += pCurrentObject->getOutputValue(i);
-		}
+
+ 		}
 		bitmapID += segmentValue;
 
 	}
@@ -1430,12 +1431,51 @@ void CMFCLogicSimulatorView::changeComponentValue(int id)
 	CComponentObject * object= pDoc->logicSimulatorEngine.getComponentObject(id);
 	
 	if (data->type == COMPONENT_TYPE_INPUT_PIN||
-		data->type == COMPONENT_TYPE_ONE_BIT_SWITCH||
-		data->type == COMPONENT_TYPE_OUTPUT_PIN) {
+		data->type == COMPONENT_TYPE_ONE_BIT_SWITCH) {
 
 	//값을 변경한다
 	bool val = object->getInputValue(0);
-	object->setInputValue(0, ~val);
+ 	object->setInputValue(0, !val);
 	}
 }
 
+void CMFCLogicSimulatorView::startUpdating()
+{
+	
+	CMainFrame *pFrame = (CMainFrame*)AfxGetMainWnd();
+	COutputWnd* pOutput = pFrame->getCOutputWnd();
+	CString str;
+	str.Format(_T("in mfc logicsimulator view : start updating\n"));
+	pOutput->addBuildWindowString(str);
+	SetTimer(updateTimerID, updateTimer_TIME, NULL);
+}
+
+void CMFCLogicSimulatorView::stopUpdating()
+{
+	CMainFrame *pFrame = (CMainFrame*)AfxGetMainWnd();
+	COutputWnd* pOutput = pFrame->getCOutputWnd();
+	CString str;
+	str.Format(_T("in mfc logicsimulator view : end updating\n"));
+	pOutput->addBuildWindowString(str);
+	KillTimer(updateTimerID);
+}
+
+
+
+void CMFCLogicSimulatorView::OnTimer(UINT_PTR nIDEvent)
+{
+	// TODO: 여기에 메시지 처리기 코드를 추가 및/또는 기본값을 호출합니다.
+	CMainFrame* pFrame = (CMainFrame*)AfxGetMainWnd();
+	CMFCLogicSimulatorDoc* pDoc = GetDocument();
+
+	CScrollView::OnTimer(nIDEvent);
+	switch (nIDEvent) {
+	case updateTimerID:
+		//회로가 진동한다
+		if (pDoc->logicSimulatorEngine.update() == true) {
+			KillTimer(updateTimerID);
+			pDoc->isCurcuitOcillate = true;
+		}
+		Invalidate();
+	}
+}

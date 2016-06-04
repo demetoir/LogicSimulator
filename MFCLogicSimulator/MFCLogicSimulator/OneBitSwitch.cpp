@@ -33,7 +33,7 @@ bool COneBitSwitchComponent::getInputValue(int index)
 
 bool COneBitSwitchComponent::getOutputValue(int index)
 {
-	return false;
+	return value;
 }
 
 bool COneBitSwitchComponent::update()

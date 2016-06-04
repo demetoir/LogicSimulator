@@ -136,11 +136,11 @@
 
 #define IDB_SWITCH_OFF_                 404
 #define IDB_SWITCH_OFF_E                405
-#define IDB_SWITCH_OFF_S                406
+#define IDB_SWITCH_OFF_S                409
 #define IDB_SWITCH_OFF_W                407
 #define IDB_SWITCH_OFF_N                408
 
-#define IDB_SWITCH_ON_                  409
+#define IDB_SWITCH_ON_                  406
 #define IDB_SWITCH_ON_E                 410
 #define IDB_SWITCH_ON_S                 411
 #define IDB_SWITCH_ON_W                 412
@@ -148,12 +148,12 @@
 
 #define IDB_LAMP_OFF_                   414
 #define IDB_LAMP_OFF_E                  415
-#define IDB_LAMP_OFF_S                  416
+#define IDB_LAMP_OFF_S                  420
 #define IDB_LAMP_OFF_W                  417
 #define IDB_LAMP_OFF_N                  418
 
 #define IDB_LAMP_ON_                    419
-#define IDB_LAMP_ON_E                   420
+#define IDB_LAMP_ON_E                   416
 #define IDB_LAMP_ON_S                   421
 #define IDB_LAMP_ON_W                   422
 #define IDB_LAMP_ON_N                   423
@@ -299,7 +299,6 @@
 #define IDB_7SEGMENT_1011111            546
 #define IDB_7SEGMENT_1100000            547
 #define IDB_7SEGMENT_1100001            548
-#define IDB_BITMAP99                    549
 #define IDB_7SEGMENT_1100010            549
 #define IDB_7SEGMENT_1100011            550
 #define IDB_7SEGMENT_1100100            551
