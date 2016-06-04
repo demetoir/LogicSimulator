@@ -124,6 +124,7 @@ public :
 	//트리뷰에서 선택한 부품정보
 	int currentSelectedItemIndex;
 
+	int selectedComponentID;
 	//부품을 추가한다
 	bool addComponentToEngine(int _x,int _y);
 

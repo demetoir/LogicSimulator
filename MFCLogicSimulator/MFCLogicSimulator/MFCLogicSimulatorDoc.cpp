@@ -47,6 +47,7 @@ CMFCLogicSimulatorDoc::CMFCLogicSimulatorDoc()
 	// TODO: 여기에 일회성 생성 코드를 추가합니다.
 	engineComponentData.resize(10);
 	operationMode = OPERATION_MODE_NONE;
+	selectedComponentID = 0;
 }
 
 int CMFCLogicSimulatorDoc::getSelectedItemIndexInToolBox(HTREEITEM hItem)

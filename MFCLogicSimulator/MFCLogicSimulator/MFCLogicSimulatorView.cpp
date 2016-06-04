@@ -217,6 +217,7 @@ void CMFCLogicSimulatorView::OnLButtonDown(UINT nFlags, CPoint point)
 		highlightComponentIndex = checkMouesPointOnComponent();
 		if (highlightComponentIndex > 0) {
 			pDoc->operationMode = OPERATION_MODE_SELECT_COMPONENT;
+			pDoc->selectedComponentID = highlightComponentIndex;
 			Invalidate();
 		}
 		
@@ -230,6 +231,15 @@ void CMFCLogicSimulatorView::OnLButtonDown(UINT nFlags, CPoint point)
 			Invalidate();
 		}
 		break; }
+	
+	case OPERATION_MODE_VAlUE_CHANGE: {
+
+		int selectedComponentID = checkMouesPointOnComponent();
+		if (selectedComponentID == )
+
+		break;
+	}
+	
 	default: {
 
 
@@ -734,9 +744,14 @@ void CMFCLogicSimulatorView::drawMassage(CDC & DC)
 	CDC memDC;
 	memDC.CreateCompatibleDC(&DC);
 	CMFCLogicSimulatorDoc* pDoc = GetDocument();
-	int nVertScroll = GetScrollPos(SB_VERT);
 	int nHorzScroll = GetScrollPos(SB_HORZ);
+	int nVertScroll = GetScrollPos(SB_VERT);
 	int x, y;
+	//CString str;
+	//x = 200 - nHorzScroll;
+	//y = 300 - nVertScroll;
+	//str = "this is massage\n";
+	//DC.TextOutW(x,y,str);	
 }
 
 void CMFCLogicSimulatorView::drawHighlightComponentBody(CDC& DC, int x, int y, int bitmapWidth, int bitmapHeight)
@@ -859,8 +874,7 @@ void CMFCLogicSimulatorView::drawComponentBody(CDC & DC, int ID)
 	if (type == COMPONENT_TYPE_7SEGMENT) {
 		draw7SegmentInputBar(DC, CPoint(x, y), direction);
 	}
-
-
+	
 	//가져온 비트맵을 제거한다
 	componentBitmap.DeleteObject();
 
