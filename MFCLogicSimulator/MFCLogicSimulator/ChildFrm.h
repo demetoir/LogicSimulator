@@ -87,8 +87,8 @@ public:
 	afx_msg void OnUpdateLoadLibrarybox(CCmdUI *pCmdUI);
 	afx_msg void OnCleanLog();
 	afx_msg void OnUpdateCleanLog(CCmdUI *pCmdUI);
-	afx_msg void OnCompDelete();
-	afx_msg void OnUpdateCompDelete(CCmdUI *pCmdUI);
-	afx_msg void OnUnconect();
-	afx_msg void OnUpdateUnconect(CCmdUI *pCmdUI);
+	afx_msg void OnComponentDelete();
+	afx_msg void OnUpdateComponentDelete(CCmdUI *pCmdUI);
+	afx_msg void OnUnconnect();
+	afx_msg void OnUpdateUnconnect(CCmdUI *pCmdUI);
 };

@@ -62,10 +62,10 @@ BEGIN_MESSAGE_MAP(CChildFrame, CMDIChildWndEx)
 	ON_UPDATE_COMMAND_UI(ID_LOAD_LIBRARYBOX, &CChildFrame::OnUpdateLoadLibrarybox)
 	ON_COMMAND(ID_CLEAN_LOG, &CChildFrame::OnCleanLog)
 	ON_UPDATE_COMMAND_UI(ID_CLEAN_LOG, &CChildFrame::OnUpdateCleanLog)
-	ON_COMMAND(ID_COMP_DELETE, &CChildFrame::OnCompDelete)
-	ON_UPDATE_COMMAND_UI(ID_COMP_DELETE, &CChildFrame::OnUpdateCompDelete)
-	ON_COMMAND(ID_UNCONECT, &CChildFrame::OnUnconect)
-	ON_UPDATE_COMMAND_UI(ID_UNCONECT, &CChildFrame::OnUpdateUnconect)
+	ON_COMMAND(ID_COMP_DELETE, &CChildFrame::OnComponentDelete)
+	ON_UPDATE_COMMAND_UI(ID_COMP_DELETE, &CChildFrame::OnUpdateComponentDelete)
+	ON_COMMAND(ID_UNCONECT, &CChildFrame::OnUnconnect)
+	ON_UPDATE_COMMAND_UI(ID_UNCONECT, &CChildFrame::OnUpdateUnconnect)
 END_MESSAGE_MAP()
 
 // CChildFrame 생성/소멸
@@ -444,28 +444,54 @@ void CChildFrame::OnUpdateCleanLog(CCmdUI *pCmdUI)
 {
 	// TODO: 여기에 명령 업데이트 UI 처리기 코드를 추가합니다.
 }
+
+void CChildFrame::OnComponentDelete()
+{
+	CMainFrame *pFrame = (CMainFrame*)AfxGetMainWnd();
+	CChildFrame *pChild = (CChildFrame *)pFrame->GetActiveFrame();
+	CMFCLogicSimulatorDoc *pDoc = (CMFCLogicSimulatorDoc *)pChild->GetActiveDocument();
+	COutputWnd* pOutput = pFrame->getCOutputWnd();
+	CMFCLogicSimulatorView* pView = (CMFCLogicSimulatorView*)pChild->GetActiveView();
+	CString str;
+	
+	if (pDoc->operationMode == OPERATION_MODE_SELECT_COMPONENT) {
+		pDoc->selectedComponentID;
+
+		str.Format(_T("in rebbon menu : delete component ->ID : %d \n"), pDoc->selectedComponentID);
+		pOutput->addBuildWindowString(str);
+		pView->Invalidate();
+	}
+	else {
+
+	}
+
+}
+void CChildFrame::OnUpdateComponentDelete(CCmdUI *pCmdUI)
+{
+	// TODO: 여기에 명령 업데이트 UI 처리기 코드를 추가합니다.
+}
+
+void CChildFrame::OnUnconnect()
+{
+	CMainFrame *pFrame = (CMainFrame*)AfxGetMainWnd();
+	CChildFrame *pChild = (CChildFrame *)pFrame->GetActiveFrame();
+	CMFCLogicSimulatorDoc *pDoc = (CMFCLogicSimulatorDoc *)pChild->GetActiveDocument();
+	COutputWnd* pOutput = pFrame->getCOutputWnd();
+	CMFCLogicSimulatorView* pView = (CMFCLogicSimulatorView*)pChild->GetActiveView();
+	CString str;
+
+
+	str.Format(_T("in rebbon menu : try disconnect\n"));
+	pOutput->addBuildWindowString(str);
+	pDoc->disconectComponent();
+	pView->Invalidate();
+
+
+}
+void CChildFrame::OnUpdateUnconnect(CCmdUI *pCmdUI)
+{
+	// TODO: 여기에 명령 업데이트 UI 처리기 코드를 추가합니다.
+}
 /*************** Ribbon output wnd control END*****************/
 
 
-void CChildFrame::OnCompDelete()
-{
-	// TODO: 여기에 명령 처리기 코드를 추가합니다.
-}
-
-
-void CChildFrame::OnUpdateCompDelete(CCmdUI *pCmdUI)
-{
-	// TODO: 여기에 명령 업데이트 UI 처리기 코드를 추가합니다.
-}
-
-
-void CChildFrame::OnUnconect()
-{
-	// TODO: 여기에 명령 처리기 코드를 추가합니다.
-}
-
-
-void CChildFrame::OnUpdateUnconect(CCmdUI *pCmdUI)
-{
-	// TODO: 여기에 명령 업데이트 UI 처리기 코드를 추가합니다.
-}

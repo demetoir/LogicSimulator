@@ -105,10 +105,14 @@ public :
 	COMPONENT_CONENTION_INFO selectedconnectionInfoB;
 	//부품을 추가한다
 	bool addComponentToEngine(int _x,int _y);
+	
+	bool deleteComponentToEngine(int id);
 
 	//부품을 서로 연결한다
 	bool connectComponent(COMPONENT_CONENTION_INFO& A, COMPONENT_CONENTION_INFO& B);
-	
+	//부품을 서로 연결해제한다
+	bool disconectComponent();
+
 	int getSelectedItemIndexInToolBox(HTREEITEM hItem);
 
 	//트리뷰에서 선택한 부품의 플래그로  COMPONENT_TYPE를 알아낸다

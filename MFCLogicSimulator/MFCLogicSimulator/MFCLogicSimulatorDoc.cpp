@@ -241,6 +241,33 @@ bool CMFCLogicSimulatorDoc::connectComponent(COMPONENT_CONENTION_INFO & A, COMPO
 	return ret;
 }
 
+bool CMFCLogicSimulatorDoc::disconectComponent()
+{	
+	CMainFrame *pFrame = (CMainFrame*)AfxGetMainWnd();
+	COutputWnd* pOutput = pFrame->getCOutputWnd();
+	CString str;	
+	bool ret;
+
+	if (operationMode == OPERATION_MODE_SELECTING_CONNECTING_WIRE) {
+		str.Format(_T("in rebbon menu : delete Connection \nID : %d terminal type :%d teminal number : %d <-> ID : %d terminal type :%d teminal number : %d\n"),
+			selectedconnectionInfoA.componentID, selectedconnectionInfoA.terminalType,
+			selectedconnectionInfoA.terminalNumber,
+			selectedconnectionInfoB.componentID, selectedconnectionInfoB.terminalType,
+			selectedconnectionInfoB.terminalNumber);
+		pOutput->addBuildWindowString(str);
+		ret = logicSimulatorEngine.disconnectComponent(selectedconnectionInfoA, selectedconnectionInfoB);
+		if (ret == false) { str.Format(_T("disconnection success\n")); }
+		else { str.Format(_T("disconnection fail\n")); }
+		pOutput->addBuildWindowString(str);
+		operationMode = OPERATION_MODE_NONE;
+	}
+	else {
+		str.Format(_T("in rebbon menu : disconnect fail -> wire is not selected\n"));
+		pOutput->addBuildWindowString(str);
+	}
+	return ret;
+}
+
 COMPONENT_TYPE CMFCLogicSimulatorDoc::getComponentTypeByToolBoxItemIndex(int type)
 {
 	COMPONENT_TYPE ret = COMPONENT_TYPE_LIBRARY_BOX;

@@ -962,11 +962,19 @@ void CMFCLogicSimulatorView::drawHighlightSelectedconnectedWire(CDC & DC)
 	CPen pen;
 	pen.CreatePen(PS_SOLID, 3, RGB(255, 0, 0));   //빨간색 팬생성
 	CPen* oldPen = DC.SelectObject(&pen);
+	int nHorzScroll = GetScrollPos(SB_HORZ);
+	int nVertScroll = GetScrollPos(SB_VERT);
 
-	DC.Polyline(currentConnectedWirePoints, 4);
-	DC.MoveTo(currentConnectedWirePoints[3]);
-	DC.LineTo(currentConnectedWirePoints[0]);
+	int x = currentConnectedWirePoints[0].x - nHorzScroll;
+	int y = currentConnectedWirePoints[0].y - nVertScroll;
+	DC.MoveTo(x,y);
+	for (int i = 1; i < 5; i++) {
+		x = currentConnectedWirePoints[i % 4].x - nHorzScroll;
+		y = currentConnectedWirePoints[i % 4].y - nVertScroll;
+		DC.LineTo(x,y);
+	}
 	DC.SelectObject(oldPen);
+
 }
 
 
@@ -1529,3 +1537,7 @@ void CMFCLogicSimulatorView::OnTimer(UINT_PTR nIDEvent)
 		Invalidate();
 	}
 }
+
+
+
+//  부품삭제 연결해제 라이브러리박스 로드 세이브하기  라벨 붙이기  단자 라벨 붙이기  그래프 그리기

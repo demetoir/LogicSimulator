@@ -491,14 +491,14 @@ bool CLibraryBox::disconnectComponent(COMPONENT_CONENTION_INFO& componentA, COMP
 		return false;
 	}
 
-	//게이트와 게이트를 분리하려 할떄 또는
-	//줄과 줄을 분리하려 할때
-	if ((componentTypeVector[A.componentID] != COMPONENT_TYPE_WIRE ||
-		componentTypeVector[B.componentID] != COMPONENT_TYPE_WIRE) ||
-		(componentTypeVector[A.componentID] == COMPONENT_TYPE_WIRE &&
-			componentTypeVector[B.componentID] == COMPONENT_TYPE_WIRE)) {
-		return false;
-	}
+	////게이트와 게이트를 분리하려 할떄 또는
+	////줄과 줄을 분리하려 할때
+	//if ((componentTypeVector[A.componentID] != COMPONENT_TYPE_WIRE ||
+	//	componentTypeVector[B.componentID] != COMPONENT_TYPE_WIRE) ||
+	//	(componentTypeVector[A.componentID] == COMPONENT_TYPE_WIRE &&
+	//		componentTypeVector[B.componentID] == COMPONENT_TYPE_WIRE)) {
+	//	return false;
+	//}
 
 	//존재 하지 않는 단자에 분리하려할때
 	if (A.terminalNumber >= outputGraph[A.componentID].size() ||
@@ -508,7 +508,7 @@ bool CLibraryBox::disconnectComponent(COMPONENT_CONENTION_INFO& componentA, COMP
 
 	//이미 연결한 단자에 또 분리하려 할떄
 	if (outputGraph[A.componentID][A.terminalNumber].componentID == -1 ||
-		outputGraph[B.componentID][B.terminalNumber].componentID == -1) {
+		inputGraph[B.componentID][B.terminalNumber].componentID == -1) {
 		return false;
 	}
 	//A      -> B
