@@ -174,7 +174,6 @@ bool CMFCLogicSimulatorDoc::addComponentToEngine(int _x, int _y)
 	}
 
 	if (ret == false) {
-
 		str.Format(_T("in mfc logicsimulator doc : add component fail -> not support component\n"),
 			addComponent.componentID, selectedType, _x, _y);
 		pOutput->addBuildWindowString(str);
@@ -192,9 +191,8 @@ bool CMFCLogicSimulatorDoc::addComponentToEngine(int _x, int _y)
 	engineComponentData[addComponent.componentID].x = _x;
 	engineComponentData[addComponent.componentID].y = _y;
 	engineComponentData[addComponent.componentID].direction = DEFAULT_VALUE_ADDING_COMPONENT_DIRECTION;
-	engineComponentData[addComponent.componentID].label = _T("라벨을 지정하세요.");
-
-
+	str.Format(_T("ID : %d"), addComponent);
+	engineComponentData[addComponent.componentID].label = str;
 	str.Format(_T("in mfc logicsimulator doc : add component, ID : %d\n, type : %d (x,y) = (%d,%d),"),
 		addComponent.componentID, selectedType, _x, _y);
 	pOutput->addBuildWindowString(str);
@@ -276,7 +274,7 @@ bool CMFCLogicSimulatorDoc::disconectComponent()
 	CString str;	
 	bool ret;
 
-	if (operationMode == OPERATION_MODE_SELECTING_CONNECTING_WIRE) {
+	if (operationMode == OPERATION_MODE_SELECTeE_WIRE) {
 		str.Format(_T("in CMFCLogicSimulatorDoc : delete Connection \nID : %d terminal type :%d teminal number : %d <-> ID : %d terminal type :%d teminal number : %d\n"),
 			selectedconnectionInfoA.componentID, selectedconnectionInfoA.terminalType,
 			selectedconnectionInfoA.terminalNumber,
@@ -760,10 +758,7 @@ void CMFCLogicSimulatorDoc::loadEngineDumpData(CArchive & ar, LIBRARY_BOX_DATA& 
 	for (int i = 0; i < data.internalLibraryBoxData.size(); i++) {
 		loadEngineDumpData(ar, data.internalLibraryBoxData[i]);
 	}
-
 }
-
-
 
 
 void CMFCLogicSimulatorDoc::getStringByCOMPONENT_TYPE(COMPONENT_TYPE compType, CString& CS)

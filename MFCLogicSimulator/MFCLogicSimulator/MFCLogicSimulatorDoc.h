@@ -33,7 +33,7 @@ struct COMPONENT_DATA {
 		id = -1;
 		type = COMPONENT_TYPE_NONE;
 		direction = EAST;	
-		label = "라벨명 수정해주세요.";
+		label = "";
 		hz = 10;
 		clockEdge = true;
 	}
@@ -70,7 +70,7 @@ enum OPERATION_MODE {
 	OPERATION_MODE_SELECT_COMPONENT,
 	OPERATION_MODE_CONNECTING_COMPONENT,
 	OPERATION_MODE_VAlUE_CHANGE,
-	OPERATION_MODE_SELECTING_CONNECTING_WIRE
+	OPERATION_MODE_SELECTeE_WIRE
 };
 
 

@@ -63,7 +63,6 @@ END_MESSAGE_MAP()
 
 CMFCLogicSimulatorView::CMFCLogicSimulatorView()
 {
-	// TODO: 여기에 생성 코드를 추가합니다.
 	isHighlightComponentMode = false;
 	isHighlightTerminalPin = false;
 	currentSelectedTerminalPoint.x = 0;
@@ -72,14 +71,10 @@ CMFCLogicSimulatorView::CMFCLogicSimulatorView()
 
 CMFCLogicSimulatorView::~CMFCLogicSimulatorView()
 {
-
 }
 
 BOOL CMFCLogicSimulatorView::PreCreateWindow(CREATESTRUCT& cs)
 {
-	// TODO: CREATESTRUCT cs를 수정하여 여기에서
-	//  Window 클래스 또는 스타일을 수정합니다.
-
 	return CScrollView::PreCreateWindow(cs);
 }
 
@@ -91,10 +86,6 @@ void CMFCLogicSimulatorView::OnDraw(CDC* /*pDC*/)
 	ASSERT_VALID(pDoc);
 	if (!pDoc)
 		return;
-
-	// TODO: 여기에 원시 데이터에 대한 그리기 코드를 추가합니다.
-
-
 }
 
 void CMFCLogicSimulatorView::OnFilePrintPreview()
@@ -108,7 +99,6 @@ void CMFCLogicSimulatorView::OnInitialUpdate()
 {
 	GetClientRect(&rlClientRect);
 	CSize sizeTotal;
-	// 뷰의 전체 크기 계산(정의)
 	sizeTotal.cx = SIZE_OF_VIEW_X;
 	sizeTotal.cy = SIZE_OF_VIEW_Y;
 	SetScrollSizes(MM_TEXT, sizeTotal);
@@ -158,45 +148,32 @@ void CMFCLogicSimulatorView::OnLButtonDown(UINT nFlags, CPoint point)
 	//지금 부품 추가 모드이면
 	switch (pDoc->operationMode) {
 	case OPERATION_MODE_ADDING_COMPONENT: {
-		//보정할 좌표를 가져온다
-
 		//선택한 부품을 도큐에 추가한다
 		pDoc->addComponentToEngine(point.x + nHorzScroll, point.y + nVertScroll);
 		pDoc->operationMode = OPERATION_MODE_NONE;
 		//tree view 부품 선택모드를 해제하는 메세지를 날린다		
 		((pFrame->getCFileView())->getCFileViewTree())->SendMessage(UM_UNSELECT_ITEM_IN_TREEVIEW);
-		
 		Invalidate();
-		break;}
-
-		//지금 부품 선택 모드라면
-		//부품을 
+		break;
+	}
 	case OPERATION_MODE_SELECT_COMPONENT: {
-
-		int newIndex;
-		newIndex = checkMouesPointOnComponent();
+		int newIndex = checkMouesPointOnComponent();
 		// 속성창 지움
 		pPropWnd->removePropertiesList();
 		//선택이 취소됨
 		if (newIndex <=0) {
-			highlightComponentIndex = 0;
+			highlightedComponentIndex = 0;
 			pDoc->operationMode = OPERATION_MODE_NONE;
 		}
 		// 다른 부품을 선택함
-		else if (newIndex != highlightComponentIndex) {
-			highlightComponentIndex = newIndex;
+		else if (newIndex != highlightedComponentIndex) {
+			highlightedComponentIndex = newIndex;
 			pDoc->selectedComponentID = newIndex;
 			pPropWnd->addPropertiesList();
 		}
-
-
-		//만약 부품을 선택하면 부품 선택 모드로 변경한다
-		//선택한 부품을 하이라이트 한다
-
-		//만약 부품의 단자를 선택하면 단자를 하이라이트 한다
 		Invalidate();
-		break;}
-	
+		break;
+	}	
 	case OPERATION_MODE_CONNECTING_COMPONENT: {
 		bool isInTerminalPin = checkMouesPointOnTerminalPin(selectedTerminalInfo);
 		//다른곳을 클릭하였다 해제한다
@@ -214,24 +191,18 @@ void CMFCLogicSimulatorView::OnLButtonDown(UINT nFlags, CPoint point)
 		currentSelectedTerminalPoint.y = 0;
 		copyTerminalInfo(dummy_SELECTED_TERMINAL_INFO, firstSelectedTerminalPin);
 		copyTerminalInfo(dummy_SELECTED_TERMINAL_INFO, secondSelectedTerminalPin);
-
 		Invalidate();
-		break;}
-
+		break;
+	}
 	case OPERATION_MODE_NONE: {
-		//마우스가 화면의 부품을 선택함
-
-		highlightComponentIndex = checkMouesPointOnComponent();
-		pDoc->selectedComponentID = highlightComponentIndex;
-		if (highlightComponentIndex > 0) {
+		highlightedComponentIndex = checkMouesPointOnComponent();
+		pDoc->selectedComponentID = highlightedComponentIndex;
+		if (highlightedComponentIndex > 0) {
 			pDoc->operationMode = OPERATION_MODE_SELECT_COMPONENT;
 			// 하이라이트 시 속성창 띄워줌
 			pPropWnd->addPropertiesList();
 			Invalidate();
-		}
-
-
-		
+		}		
 		//핀을 클릭함 연결 모드로 전환한다
 		bool isInTerminalPin  = checkMouesPointOnTerminalPin(selectedTerminalInfo);
 		if (isInTerminalPin == true) {
@@ -240,31 +211,27 @@ void CMFCLogicSimulatorView::OnLButtonDown(UINT nFlags, CPoint point)
 			oldSelectedTerminalPoint.x = currentSelectedTerminalPoint.x;
 			oldSelectedTerminalPoint.y = currentSelectedTerminalPoint.y;
 			Invalidate();
-		}
-		
+		}		
 		//연결선을 눌럿을때
 		ishighlightConnectedWire = checkMousePointOnConnectedWire(A,B);
 		if (ishighlightConnectedWire == true) {
-			pDoc->operationMode = OPERATION_MODE_SELECTING_CONNECTING_WIRE;
+			pDoc->operationMode = OPERATION_MODE_SELECTeE_WIRE;
 			copyConnectionInfo(A, pDoc->selectedconnectionInfoA);
 			copyConnectionInfo(B, pDoc->selectedconnectionInfoB);
 			Invalidate();
 		}	
 		break;
-	}
-	
+	}	
 	case OPERATION_MODE_VAlUE_CHANGE: {
-
 		//선택한 부품이 
 		int selectedComponentID = checkMouesPointOnComponent();
 		if (selectedComponentID >0) {
 			changeComponentValue(selectedComponentID);
 			Invalidate();
 		}
-		
-
-		break;}
-	case OPERATION_MODE_SELECTING_CONNECTING_WIRE: {
+		break;
+	}
+	case OPERATION_MODE_SELECTeE_WIRE: {
 		ishighlightConnectedWire= checkMousePointOnConnectedWire(A,B);
 		if (ishighlightConnectedWire == false) {
 			pDoc->operationMode = OPERATION_MODE_NONE;
@@ -285,14 +252,11 @@ void CMFCLogicSimulatorView::OnLButtonDown(UINT nFlags, CPoint point)
 		break;}
 	}
 	Invalidate();
-
 	CScrollView::OnLButtonDown(nFlags, point);
 }
 
 void CMFCLogicSimulatorView::OnLButtonUp(UINT nFlags, CPoint point)
 {
-	// TODO: 여기에 메시지 처리기 코드를 추가 및/또는 기본값을 호출합니다.
-
 	CScrollView::OnLButtonUp(nFlags, point);
 }
 
@@ -301,37 +265,30 @@ void CMFCLogicSimulatorView::OnLButtonUp(UINT nFlags, CPoint point)
 void CMFCLogicSimulatorView::OnPaint()
 {
 	CPaintDC dc(this);
-
 	CMFCLogicSimulatorDoc* pDoc = GetDocument();
 	CRect rect;
 	GetClientRect(&rect);
-
 	CDC memDC;
 	CBitmap newBitmap;
 	CBitmap *pOldBitmap;
-	SELECTED_TERMINAL_INFO dummyInfo;
 
 
-	//더블버퍼링을 하기 위해 버퍼역할을 할 비트맵을 지정한다
 	memDC.CreateCompatibleDC(&dc);
 	newBitmap.CreateCompatibleBitmap(&dc, rect.Width(), rect.Height());
 	pOldBitmap = memDC.SelectObject(&newBitmap);
 	memDC.PatBlt(0, 0, rect.Width(), rect.Height(), WHITENESS);
 
-
 	//메모리에다가 그리기시작
 	{
+		//좌표 출력
 		CPoint point;
 		GetCursorPos(&point);
-		//ScreenToClient(&point);
+		ScreenToClient(&point);
 		int nVertScroll = GetScrollPos(SB_VERT);
 		int nHorzScroll = GetScrollPos(SB_HORZ);
-		//그려줄 좌표를 보정한다
-		point.x + nHorzScroll;
-		point.y + nVertScroll;
 		CString str;
  		str.Format( _T("%d, %d"), point.x + nHorzScroll, point.y + nVertScroll);
-		memDC.TextOutW(100, 100, str);
+		memDC.TextOutW(100+nHorzScroll, 100+ nVertScroll, str);
 
 		// 뷰 스크롤 및 크기 조정
 		// https://msdn.microsoft.com/ko-kr/library/cc468151(v=vs.71).aspx
@@ -357,6 +314,7 @@ void CMFCLogicSimulatorView::OnPaint()
 			if (pDoc->operationMode == OPERATION_MODE_ADDING_COMPONENT) {
 				drawAddingComponent(memDC);
 			}
+			
 			if (pDoc->operationMode == OPERATION_MODE_SELECT_COMPONENT) {
 				//화면에 있는 선택 한부품을 강조하는거
 				drawHighlightSelectedComponent(memDC);
@@ -366,18 +324,13 @@ void CMFCLogicSimulatorView::OnPaint()
 				drawHighlightComponentTerminalPin(memDC);
 			}
 			
-			if (pDoc->operationMode == OPERATION_MODE_SELECTING_CONNECTING_WIRE) {
+			if (pDoc->operationMode == OPERATION_MODE_SELECTeE_WIRE) {
 				drawHighlightSelectedconnectedWire(memDC);
 			}
-
-
+			
 			if (pDoc->operationMode == OPERATION_MODE_CONNECTING_COMPONENT) {
 				drawConnectingWire(memDC);
 			}
-
-
-
-
 			//화면에 메세지를 띄어주는것
 			drawMassage(memDC);
 		}
@@ -391,23 +344,12 @@ void CMFCLogicSimulatorView::OnPaint()
 	newBitmap.DeleteObject();
 	ReleaseDC(&memDC);
 	DeleteDC(memDC);
-
-
-
-
 }
 
 void CMFCLogicSimulatorView::OnMouseMove(UINT nFlags, CPoint point)
-{
-	// TODO: 여기에 메시지 처리기 코드를 추가 및/또는 기본값을 호출합니다.
-
-	CScrollView::OnMouseMove(nFlags, point);
-	//부품 추가 모드 일때 선택한 부품의 좌표를 갱신한다
-
-	//마우스가 부품위에 있는경우 부품을 강조한다
-
-	//마우스가부품의 단자 위에 있으면  단자를 강조한다
-	CMFCLogicSimulatorDoc* pDoc = GetDocument();
+{	
+	CScrollView::OnMouseMove(nFlags, point);	
+	CMFCLogicSimulatorDoc* pDoc = GetDocument();	
 
 	if (pDoc->operationMode == OPERATION_MODE_ADDING_COMPONENT) {
 		Invalidate();
@@ -416,39 +358,19 @@ void CMFCLogicSimulatorView::OnMouseMove(UINT nFlags, CPoint point)
 	if (pDoc->operationMode == OPERATION_MODE_SELECT_COMPONENT) {
 		//마우스가 눌린 상태에서 움직이면 정보를 갱신한다
 		if ((nFlags & MK_LBUTTON) == MK_LBUTTON){
-
 			CPoint point;
 			GetCursorPos(&point);
 			ScreenToClient(&point);
-
 			int nVertScroll = GetScrollPos(SB_VERT);
 			int nHorzScroll = GetScrollPos(SB_HORZ);
 			COMPONENT_DATA* highlightComponent;
-			highlightComponent = &pDoc->engineComponentData[highlightComponentIndex];
+			highlightComponent = &pDoc->engineComponentData[highlightedComponentIndex];
 			highlightComponent->x = point.x+ nHorzScroll;
 			highlightComponent->y = point.y+ nVertScroll;
 			Invalidate();
 		}
-	}
-	
-	SELECTED_TERMINAL_INFO dummyInfo;
-	bool oldval = isHighlightTerminalPin;
-	isHighlightTerminalPin = checkMouesPointOnTerminalPin(dummyInfo);
-	if (oldval != isHighlightTerminalPin) {
-		Invalidate();
-	}
-
-	if (pDoc->operationMode == OPERATION_MODE_SELECTING_CONNECTING_WIRE) {
-
-
-		bool oldval = isHighlightTerminalPin;
-		isHighlightTerminalPin = checkMouesPointOnTerminalPin(dummyInfo);
-		if (oldval != isHighlightTerminalPin) {
-			Invalidate();
-		}
-	}
-	
-	
+	}	
+	isHighlightTerminalPin = checkMouesPointOnTerminalPin(highlightedTerminalPinInfo);	
 	Invalidate();
 }
 
@@ -467,7 +389,6 @@ void CMFCLogicSimulatorView::OnVScroll(UINT nSBCode, UINT nPos, CScrollBar* pScr
 //http://adnoctum.tistory.com/149
 BOOL CMFCLogicSimulatorView::OnEraseBkgnd(CDC* pDC)
 {
-	// TODO: 여기에 메시지 처리기 코드를 추가 및/또는 기본값을 호출합니다.
 	return true;
 }
 
@@ -506,8 +427,7 @@ void CMFCLogicSimulatorView::drawComponent(CDC &DC)
 		//존재하지 않는것은 넘어간다
 		if (pDoc->engineComponentData[ID].id <= 0) {
 			continue;
-		}
-		
+		}		
 		// 터미널 핀을 그린다
 		drawComponentTermialPin(DC, ID);
 
@@ -529,10 +449,10 @@ void CMFCLogicSimulatorView::drawConnectedWire(CDC & DC)
 	inputGrahp = pDoc->logicSimulatorEngine.getInputGrahp();
 	COMPONENT_DATA* pCurrentComponent;
 
-	CPen penOff,penOn;
+	CPen penOff, penOn;
 	penOff.CreatePen(PS_SOLID, 5, RGB(0, 0, 0));
 	penOn.CreatePen(PS_SOLID, 5, RGB(0, 255, 0));
-	CPen* oldPen =NULL;
+	CPen* oldPen = NULL;
 
 	int curID;
 	int nextID;
@@ -585,8 +505,6 @@ void CMFCLogicSimulatorView::drawConnectedWire(CDC & DC)
 			DC.MoveTo(A);
 			DC.LineTo(B);
 		}
-		
-
 	}
 	if (oldPen != NULL) {
 		DC.SelectObject(oldPen);
@@ -602,27 +520,16 @@ void CMFCLogicSimulatorView::drawAddingComponent(CDC & DC)
 	CMFCLogicSimulatorDoc* pDoc = GetDocument();
 	int nVertScroll = GetScrollPos(SB_VERT);
 	int nHorzScroll = GetScrollPos(SB_HORZ);
-	int x, y;
-	COMPONENT_TYPE type;
-	CBitmap componentBitmap;
-	CBitmap *oldBitmap;
-	BITMAP bitmapInfo;
-	CComponentObject* currentObject;
-
-	//마우스의좌표를 가져온다
 	CPoint point;
 	GetCursorPos(&point);
 	ScreenToClient(&point);
-	//그려줄 좌표를 보정한다
+	COMPONENT_TYPE type = pDoc->getCurrentSelectedComponentType();
+	CBitmap componentBitmap;
+	CBitmap *oldBitmap;
+	BITMAP bitmapInfo;
 
-	x = point.x;
-	y = point.y;
-
-
-	type = pDoc->getCurrentSelectedComponentType();
 	if (type == COMPONENT_TYPE_NONE)
 		return;
-
 
 	//타입에 맞는 부품의 비트맵 아이디를 가져오고 로드한다
 	componentBitmap.LoadBitmapW(getBitmapIDByComponentType(type,EAST));
@@ -630,24 +537,19 @@ void CMFCLogicSimulatorView::drawAddingComponent(CDC & DC)
 
 	//부품을 그린다
 	oldBitmap = memDC.SelectObject(&componentBitmap);
-	DC.BitBlt(x, y, bitmapInfo.bmWidth, bitmapInfo.bmHeight, &memDC, 0, 0, SRCCOPY);
+	DC.BitBlt(point.x, point.y, bitmapInfo.bmWidth, bitmapInfo.bmHeight, &memDC, 0, 0, SRCCOPY);
 	memDC.SelectObject(oldBitmap);
 
 	//가져온 비트맵을 제거한다
 	componentBitmap.DeleteObject();
-
 }
 
 void CMFCLogicSimulatorView::draw7SegmentInputBar(CDC &DC, CPoint point, COMPONENT_DIRECTION direction)
 {
 	int nVertScroll = GetScrollPos(SB_VERT);
 	int nHorzScroll = GetScrollPos(SB_HORZ);
-	int x, y;
-#define SEVEN_SEGMENT_INPUT_BAR_WIDTH 30
-#define SEVEN_SEGMENT_INPUT_BAR_HIGHT 160
-
-	x = point.x;
-	y = point.y;
+	int x = point.x;
+	int y = point.y;
 	
 	CPen pen;
 	pen.CreatePen(PS_DOT, 5, RGB(0, 0, 0));
@@ -669,7 +571,6 @@ void CMFCLogicSimulatorView::draw7SegmentInputBar(CDC &DC, CPoint point, COMPONE
 			x + SEVEN_SEGMENT_INPUT_BAR_HIGHT, 
 			y + SEVEN_SEGMENT_INPUT_BAR_WIDTH);
 		break;
-		break;
 	}
 	case WEST: {
 		x -= 30;
@@ -677,7 +578,6 @@ void CMFCLogicSimulatorView::draw7SegmentInputBar(CDC &DC, CPoint point, COMPONE
 		DC.Rectangle(x, y, 
 			x + SEVEN_SEGMENT_INPUT_BAR_WIDTH, 
 			y + SEVEN_SEGMENT_INPUT_BAR_HIGHT);
-		break;
 		break;
 	}
 	case NORTH: {
@@ -689,14 +589,11 @@ void CMFCLogicSimulatorView::draw7SegmentInputBar(CDC &DC, CPoint point, COMPONE
 		break;
 	}
 	}
-
 	DC.SelectObject(oldPen);
-
 }
 
 void CMFCLogicSimulatorView::drawInputTerminalPinLine(CDC & DC, int x, int y, COMPONENT_DIRECTION direction)
 {
-
 	switch (direction) {
 	case EAST: {
 		DC.MoveTo(x, y);
@@ -749,22 +646,16 @@ void CMFCLogicSimulatorView::drawOutputTerminalPinLine(CDC & DC, int x, int y, C
 
 void CMFCLogicSimulatorView::drawMassage(CDC & DC)
 {
-	//공통적으로 들어갈 변수들
-	CDC memDC;
-	memDC.CreateCompatibleDC(&DC);
 	CMFCLogicSimulatorDoc* pDoc = GetDocument();
 	int nHorzScroll = GetScrollPos(SB_HORZ);
 	int nVertScroll = GetScrollPos(SB_VERT);
-	int x, y;
 	CString str;
-	x = 200 - nHorzScroll;
-	y = 300 - nVertScroll;
+	int x = 200 - nHorzScroll;
+	int y = 300 - nVertScroll;
 	if (pDoc->isCurcuitOcillate == true) {
 		str = "curcuit is ocillate\n";
 		DC.TextOutW(x,y,str);	
 	}
-
-
 }
 
 void CMFCLogicSimulatorView::drawComponentTermialPin(CDC & DC, int ID)
@@ -809,10 +700,7 @@ void CMFCLogicSimulatorView::drawComponentTermialPin(CDC & DC, int ID)
 			a + TERMINAL_PIN_HALF_SIZE, b + TERMINAL_PIN_HALF_SIZE);
 	}
 	DC.SelectObject(oldPen);
-	pen.DeleteObject();
-
-
-	
+	pen.DeleteObject();	
 }
 
 void CMFCLogicSimulatorView::drawComponentBody(CDC & DC, int ID)
@@ -822,25 +710,15 @@ void CMFCLogicSimulatorView::drawComponentBody(CDC & DC, int ID)
 	CMFCLogicSimulatorDoc* pDoc = GetDocument();
 	int nVertScroll = GetScrollPos(SB_VERT);
 	int nHorzScroll = GetScrollPos(SB_HORZ);
-	int x, y;
-	COMPONENT_TYPE type;
-	COMPONENT_DIRECTION direction;
+	int x = pDoc->engineComponentData[ID].x - nHorzScroll;
+	int y = pDoc->engineComponentData[ID].y - nVertScroll;
+	COMPONENT_TYPE type = pDoc->engineComponentData[ID].type;
+	COMPONENT_DIRECTION direction = pDoc->engineComponentData[ID].direction;;
 	CBitmap componentBitmap;
 	CBitmap *oldBitmap;
 	BITMAP bitmapInfo;
-	CComponentObject* pCurrentObject;
-
-
-	//그릴 부품의 객체를 가져온다
-	pCurrentObject = pDoc->logicSimulatorEngine.getComponentObject(ID);
-	//그려줄 좌표를 보정한다
-	x = pDoc->engineComponentData[ID].x - nHorzScroll;
-	y = pDoc->engineComponentData[ID].y - nVertScroll;
-	type = pDoc->engineComponentData[ID].type;
-	direction = pDoc->engineComponentData[ID].direction;
-
+	CComponentObject* pCurrentObject = pDoc->logicSimulatorEngine.getComponentObject(ID);
 	int bitmapID = getBitmapIDByComponentType(type, direction);
-
 	adjustBitmapID( type , bitmapID , pCurrentObject);
 
 	//타입에 맞는 부품의 비트맵 아이디를 가져오고 로드한다		
@@ -854,11 +732,11 @@ void CMFCLogicSimulatorView::drawComponentBody(CDC & DC, int ID)
 
 	if (type == COMPONENT_TYPE_7SEGMENT) {
 		draw7SegmentInputBar(DC, CPoint(x, y), direction);
-	}
-	
+	}	
 	//가져온 비트맵을 제거한다
 	componentBitmap.DeleteObject();
 
+	DC.TextOutW(x + 15, y + 15, pDoc->engineComponentData[ID].label);
 }
 
 void CMFCLogicSimulatorView::drawConnectingWire(CDC & DC)
@@ -868,8 +746,6 @@ void CMFCLogicSimulatorView::drawConnectingWire(CDC & DC)
 	CPoint point;
 	GetCursorPos(&point);
 	ScreenToClient(&point);
-	point.x ;
-	point.y ;
 
 	CPen pen;
 	pen.CreatePen(PS_DOT, 5, RGB(0, 0, 0));    
@@ -881,6 +757,7 @@ void CMFCLogicSimulatorView::drawConnectingWire(CDC & DC)
 
 	int x = oldSelectedTerminalPoint.x - nHorzScroll;
 	int y = oldSelectedTerminalPoint.y - nVertScroll;
+
 	//원을그린다
 	DC.Ellipse(x- CONNECTING_WIRE_ELLIPSE_HALF_SIZE, 
 		y - CONNECTING_WIRE_ELLIPSE_HALF_SIZE,
@@ -918,10 +795,10 @@ void CMFCLogicSimulatorView::drawHighlightComponentTerminalPin(CDC & DC)
 	int y = currentSelectedTerminalPoint.y - nVertScroll;
 
 	CPen pen;
-	CPen* oldPen;
-	//인풋핀을 그린다
 	pen.CreatePen(PS_SOLID, 2, RGB(153, 0, 0255));    // 펜 생성
-	oldPen = DC.SelectObject(&pen);
+
+	CPen* oldPen= DC.SelectObject(&pen);
+	
 	DC.Ellipse(x - HIGHLIGHIT_TERMINAL_PIN_HALF_SIZE, y - HIGHLIGHIT_TERMINAL_PIN_HALF_SIZE,
 		x + HIGHLIGHIT_TERMINAL_PIN_HALF_SIZE, y + HIGHLIGHIT_TERMINAL_PIN_HALF_SIZE);
 	DC.SelectObject(oldPen);
@@ -930,21 +807,12 @@ void CMFCLogicSimulatorView::drawHighlightComponentTerminalPin(CDC & DC)
 
 void CMFCLogicSimulatorView::drawHighlightSelectedComponent(CDC & DC)
 {
-	//공통적으로 들어갈 변수들
-	CDC memDC;
-	memDC.CreateCompatibleDC(&DC);
 	CMFCLogicSimulatorDoc* pDoc = GetDocument();
 	int nVertScroll = GetScrollPos(SB_VERT);
 	int nHorzScroll = GetScrollPos(SB_HORZ);
-	int x, y;
-	CBitmap bitmap;
-	BITMAP bitmapInfo;
-
-	COMPONENT_DATA* currentComponent;
-	currentComponent = &pDoc->engineComponentData[highlightComponentIndex];
-	x = currentComponent->x - nHorzScroll;
-	y = currentComponent->y - nVertScroll;
-	currentComponent->type;
+	COMPONENT_DATA* currentComponent = &pDoc->engineComponentData[highlightedComponentIndex];
+	int x = currentComponent->x - nHorzScroll;
+	int y = currentComponent->y - nVertScroll;
 
 	if (currentComponent->type == COMPONENT_TYPE_LIBRARY_BOX) {
 
@@ -974,7 +842,6 @@ void CMFCLogicSimulatorView::drawHighlightSelectedconnectedWire(CDC & DC)
 		DC.LineTo(x,y);
 	}
 	DC.SelectObject(oldPen);
-
 }
 
 
@@ -1404,10 +1271,10 @@ bool CMFCLogicSimulatorView::checkMousePointOnConnectedWire(COMPONENT_CONENTION_
 	CPoint points[4];
 	GetCursorPos(&mousePoint);
 	ScreenToClient(&mousePoint);
-	int nVertScroll = GetScrollPos(SB_VERT);
 	int nHorzScroll = GetScrollPos(SB_HORZ);
-	mousePoint.x += nHorzScroll;
-	mousePoint.y += nVertScroll;
+	int nVertScroll = GetScrollPos(SB_VERT);
+	mousePoint.x ;
+	mousePoint.y ;
 	ADJ_LIST* pGraph  = pDoc->logicSimulatorEngine.getOutputGrahp();;
 	int curID,nextID;
 	CPoint A, B;
