@@ -223,7 +223,7 @@ bool CMFCLogicSimulatorDoc::addComponentToEngine(int _x, int _y)
 	engineComponentData[addComponent.componentID].x = _x;
 	engineComponentData[addComponent.componentID].y = _y;
 	engineComponentData[addComponent.componentID].direction = DEFAULT_VALUE_ADDING_COMPONENT_DIRECTION;
-	engineComponentData[addComponent.componentID].label = "";
+	engineComponentData[addComponent.componentID].label = _T("라벨을 지정하세요.");
 
 
 	str.Format(_T("in mfc logicsimulator doc : add component, ID : %d\n, type : %d (x,y) = (%d,%d),"),

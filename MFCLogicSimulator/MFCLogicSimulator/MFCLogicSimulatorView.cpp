@@ -151,7 +151,9 @@ void CMFCLogicSimulatorView::OnLButtonDown(UINT nFlags, CPoint point)
 	CMFCLogicSimulatorDoc* pDoc = GetDocument();
 	SELECTED_TERMINAL_INFO selectedTerminalInfo;
 	int nVertScroll = GetScrollPos(SB_VERT);
-	int nHorzScroll = GetScrollPos(SB_HORZ);	
+	int nHorzScroll = GetScrollPos(SB_HORZ);
+
+	CPropertiesWnd* pPropWnd = pFrame->getCPropertiesWnd();
 
 	//지금 부품 추가 모드이면
 	switch (pDoc->operationMode) {
@@ -170,24 +172,26 @@ void CMFCLogicSimulatorView::OnLButtonDown(UINT nFlags, CPoint point)
 		//지금 부품 선택 모드라면
 		//부품을 
 	case OPERATION_MODE_SELECT_COMPONENT: {
+
 		int newIndex;
 		newIndex = checkMouesPointOnComponent();
+		// 속성창 지움
+		pPropWnd->removePropertiesList();
 		//선택이 취소됨
 		if (newIndex <=0) {
 			highlightComponentIndex = 0;
 			pDoc->operationMode = OPERATION_MODE_NONE;
-
 		}
 		// 다른 부품을 선택함
 		else if (newIndex != highlightComponentIndex) {
 			highlightComponentIndex = newIndex;
 		}
-		
+
+
 		//만약 부품을 선택하면 부품 선택 모드로 변경한다
 		//선택한 부품을 하이라이트 한다
 
 		//만약 부품의 단자를 선택하면 단자를 하이라이트 한다
-
 		Invalidate();
 		break;}
 	
@@ -219,6 +223,8 @@ void CMFCLogicSimulatorView::OnLButtonDown(UINT nFlags, CPoint point)
 		pDoc->selectedComponentID = highlightComponentIndex;
 		if (highlightComponentIndex > 0) {
 			pDoc->operationMode = OPERATION_MODE_SELECT_COMPONENT;
+			// 하이라이트 시 속성창 띄워줌
+			pPropWnd->addPropertiesList();
 			Invalidate();
 		}
 
@@ -233,7 +239,7 @@ void CMFCLogicSimulatorView::OnLButtonDown(UINT nFlags, CPoint point)
 			oldSelectedTerminalPoint.y = currentSelectedTerminalPoint.y;
 			Invalidate();
 		}
-		break; }
+		break;}
 	
 	case OPERATION_MODE_VAlUE_CHANGE: {
 
@@ -245,8 +251,7 @@ void CMFCLogicSimulatorView::OnLButtonDown(UINT nFlags, CPoint point)
 		}
 		
 
-		break;
-	}
+		break;}
 	
 	default: {
 
@@ -301,7 +306,7 @@ void CMFCLogicSimulatorView::OnPaint()
 		CString str;
  		str.Format( _T("%d, %d"), point.x + nHorzScroll, point.y + nVertScroll);
 		memDC.TextOutW(100, 100, str);
-		
+
 		// 뷰 스크롤 및 크기 조정
 		// https://msdn.microsoft.com/ko-kr/library/cc468151(v=vs.71).aspx
 		// http://eachan.tistory.com/3
@@ -342,7 +347,6 @@ void CMFCLogicSimulatorView::OnPaint()
 			if (pDoc->operationMode == OPERATION_MODE_CONNECTING_COMPONENT) {
 				drawConnectingWire(memDC);
 			}
-
 
 			//화면에 메세지를 띄어주는것
 			drawMassage(memDC);
@@ -634,8 +638,6 @@ void CMFCLogicSimulatorView::drawHighlightSelectedComponent(CDC & DC)
 	else {
 		drawHighlightComponentBody(DC, x, y, 75, 75);
 	}
-
-
 }
 
 void CMFCLogicSimulatorView::drawHighlightSelectedconnectedWire(CDC & DC)

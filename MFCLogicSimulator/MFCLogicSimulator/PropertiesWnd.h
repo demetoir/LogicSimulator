@@ -39,8 +39,8 @@ public:
 		m_wndPropList.SetGroupNameFullWidth(bSet);
 	}
 	CPropertiesToolBar* getProperties();
-	void addList();
-	void removeList();
+	void addPropertiesList();
+	void removePropertiesList();
 protected:
 	CFont m_fntPropList;
 	//CComboBox m_wndObjectCombo;
@@ -50,7 +50,12 @@ protected:
 // 구현입니다.
 public:
 	virtual ~CPropertiesWnd();
-	void setPropertiesWnd();
+	void setPropertiesWnd()
+	{
+
+
+
+	}
 	//void changePropertyValueToDirection(COleVariant CO, COMPONENT_DIRECTION &direct);
 protected:
 	afx_msg int OnCreate(LPCREATESTRUCT lpCreateStruct);
