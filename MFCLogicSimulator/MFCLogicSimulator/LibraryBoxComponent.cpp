@@ -61,7 +61,7 @@ void CLibraryBox::deleteComponentID(COMPONENT_ID deleteId)
 
 bool CLibraryBox::loadLibraryBoxData(LIBRARY_BOX_DATA & libraryBoxData)
 {	
-	numberOfComponent = libraryBoxData.numberOfComponent;
+
 
 	//그래프 정보를 로드함
 	inputGraph.resize(libraryBoxData.inputGraph.size());
@@ -135,7 +135,7 @@ bool CLibraryBox::loadLibraryBoxData(LIBRARY_BOX_DATA & libraryBoxData)
 //라이브러리 박스를 저장함
 bool CLibraryBox::saveLibraryBoxData(LIBRARY_BOX_DATA& libraryBoxData)
 {
-	libraryBoxData.numberOfComponent = numberOfComponent;
+
 
 	//라이브러리 박스의 인풋핀과 아웃풋 ,clock핀을 저장
 	libraryBoxData.inputPinIDVector.resize(inputPinIDVector.size());
@@ -182,9 +182,6 @@ bool CLibraryBox::saveLibraryBoxData(LIBRARY_BOX_DATA& libraryBoxData)
 	for (int i = 0; i < componentIDVector.size(); i++) {
 		libraryBoxData.componentIDVector[i] = componentIDVector[i];
 	}
-
-	libraryBoxData.isOscillation = false;
-	libraryBoxData.isLibraryBoxOutputValueChanged = false;
 
 	//내부 라이브러리 박스 의 정보를 저장함
 	for (int i = 0; i < componentIDVector.size(); i++) {

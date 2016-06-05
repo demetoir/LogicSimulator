@@ -33,7 +33,7 @@ struct COMPONENT_DATA {
 		id = -1;
 		type = COMPONENT_TYPE_NONE;
 		direction = EAST;	
-		label = _T("라벨명 수정해주세요.");
+		label = "라벨명 수정해주세요.";
 		hz = 10;
 		clockEdge = true;
 	}

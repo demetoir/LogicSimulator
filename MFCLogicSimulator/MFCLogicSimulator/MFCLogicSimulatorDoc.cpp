@@ -105,23 +105,26 @@ void CMFCLogicSimulatorDoc::Serialize(CArchive& ar)
 
 	if (ar.IsStoring())
 	{
-		MessageBox(0, fileName, _T("store"), 0);
+		//MessageBox(0, fileName, _T("store"), 0);
 		// TODO: 여기에 저장 코드를 추가합니다.
+
 		LIBRARY_BOX_DATA data;
+		
 		//데이터의 사이즈를 가져온다
 		storeEngineComponentData(ar);
+		logicSimulatorEngine.saveLibraryBoxData(data);
 		storeEngineDumpData(ar,data);
-
 	}
 	else
 	{
-		MessageBox(0, fileName, _T("load"), 0);
+
+		//MessageBox(0, fileName, _T("load"), 0);
 		// TODO: 여기에 로딩 코드를 추가합니다.
-		CString str;
-		ar >> str;
 		LIBRARY_BOX_DATA data;
 		loadEngineComponentData(ar);
 		loadEngineDumpData(ar,data);
+		logicSimulatorEngine.loadLibraryBoxData(data);
+
 
 	}
 }
@@ -515,15 +518,17 @@ void CMFCLogicSimulatorDoc::storeEngineComponentData(CArchive & ar)
 
 	for (int i = 0; i < size; i++) {
 		pData = &engineComponentData[i];
-		ar << pData->clockEdge;
-		ar << pData->direction;
-		ar << pData->hz;
-		ar << pData->id;
+		ar << (int)(pData->x);
+		ar << (int)(pData->y);
+		ar << (int)(pData->clockEdge);
+		ar << (int)(pData->hz);
+		ar << (int)(pData->id);
 		ar << pData->label;
-		ar << pData->type;
-		ar << pData->x;
-		ar << pData->y;
+		ar << (int)(pData->type);
+		ar << (int)(pData->direction);
 	}
+	size = 0;
+	return;
 }
 
 void CMFCLogicSimulatorDoc::loadEngineComponentData(CArchive & ar)
@@ -531,22 +536,24 @@ void CMFCLogicSimulatorDoc::loadEngineComponentData(CArchive & ar)
 	COMPONENT_DATA *pData;
 	int size;
 	ar >> size;
-	//사이즈를 할당한다
 	engineComponentData.resize(size);
+
 	int enumTempValue;
 	for (int i = 0; i < size; i++) {
 		pData = &engineComponentData[i];
+		ar >> pData->x;
+		ar >> pData->y;
 		ar >> pData->clockEdge;
 		ar >> pData->hz;
 		ar >> pData->id;
-		ar >> pData->label;		
-		ar >> pData->x;
-		ar >> pData->y;
+		ar >> pData->label;
 		ar >> enumTempValue;
 		pData->type = (COMPONENT_TYPE)enumTempValue;
 		ar >> enumTempValue;
 		pData->direction = (COMPONENT_DIRECTION)enumTempValue;
 	}
+	size = 0;
+	return;
 }
 
 void CMFCLogicSimulatorDoc::storeEngineDumpData(CArchive & ar, LIBRARY_BOX_DATA& data)
@@ -554,67 +561,64 @@ void CMFCLogicSimulatorDoc::storeEngineDumpData(CArchive & ar, LIBRARY_BOX_DATA&
 	//코어 데이터를 가져온다
 	logicSimulatorEngine.saveLibraryBoxData(data);
 
-	//int numberOfComponent;
-	ar << data.numberOfComponent;
-
-	//bool isOscillation;
-	ar << data.isOscillation;
-	//bool isLibraryBoxOutputValueChanged;
-	ar << data.isLibraryBoxOutputValueChanged;
-
+	int val;
 	//vector < bool > componentIDVector;
-	ar << data.componentIDVector.size();
+	val = ((int)data.componentIDVector.size());
+	ar << val;
 	for (int i = 0; i < data.componentIDVector.size(); i++) {
-		ar << data.componentIDVector[i];	
+		val = ((int)data.componentIDVector[i]);
+		ar << val;
 	}
 
 	//vector< COMPONENT_ID > inputPinIDVector;
-	ar << data.inputPinIDVector.size();
+	val=((int)data.inputPinIDVector.size());
+	ar << val; 
 	for (int i = 0; i < data.inputPinIDVector.size(); i++) {
-		ar << data.inputPinIDVector[i];
+		val = ((int)data.inputPinIDVector[i]);
+		ar << val;
 	}
-	
+
 	//vector< COMPONENT_ID > outputPinIDVector;
-	ar << data.outputPinIDVector.size();
+	ar << (int)data.outputPinIDVector.size();
 	for (int i = 0; i < data.outputPinIDVector.size(); i++) {
-		ar << data.outputPinIDVector[i];
+		ar << (int)data.outputPinIDVector[i];
 	}
 	//vector < COMPONENT_ID > inputClockVector;
-	ar << data.inputClockVector.size();
+	ar << (int)data.inputClockVector.size();
 	for (int i = 0; i < data.inputClockVector.size(); i++) {
-		ar << data.inputClockVector[i];
-	}	
+		ar << (int)data.inputClockVector[i];
+	}
 
 	//vector< COMPONENT_TYPE >  componentTypeVector;
-	ar << data.componentTypeVector.size();
+	ar << (int)data.componentTypeVector.size();
 	for (int i = 0; i < data.componentTypeVector.size(); i++) {
-		ar << data.componentTypeVector[i];
+		ar << (int)data.componentTypeVector[i];
 	}
 
 	//vector< vector < COMPONENT_CONENTION_INFO > > inputGraph;
-	ar << data.inputGraph.size();
+	ar << (int)data.inputGraph.size();
 	for (int i = 0; i < data.inputGraph.size(); i++) {
-		ar << data.inputGraph[i].size();
+		ar << (int)data.inputGraph[i].size();
 		for (int j = 0; j < data.inputGraph[i].size(); j++) {
-			ar << data.inputGraph[i][j].componentID;
-			ar << data.inputGraph[i][j].terminalType;
-			ar << data.inputGraph[i][j].terminalNumber;
+			ar << (int)data.inputGraph[i][j].componentID;			
+			ar << (int)data.inputGraph[i][j].terminalNumber;
+			ar << (int)data.inputGraph[i][j].terminalType;
 		}
 	}
 
 	//vector< vector < COMPONENT_CONENTION_INFO > > outputGraph;
-	ar << data.outputGraph.size();
+	ar << (int)data.outputGraph.size();
 	for (int i = 0; i < data.outputGraph.size(); i++) {
-		ar << data.outputGraph[i].size();
+		ar << (int)data.outputGraph[i].size();
 		for (int j = 0; j < data.outputGraph[i].size(); j++) {
-			ar << data.outputGraph[i][j].componentID;
-			ar << data.outputGraph[i][j].terminalType;
-			ar << data.outputGraph[i][j].terminalNumber;
+			ar << (int)data.outputGraph[i][j].componentID;			
+			ar << (int)data.outputGraph[i][j].terminalNumber;
+			ar << (int)data.outputGraph[i][j].terminalType;
 		}
 	}
 
 	//vector < LIBRARY_BOX_DATA > internalLibraryBoxData;
-	ar << data.internalLibraryBoxData.size();
+	ar << (int)data.internalLibraryBoxData.size();
 	for (int i = 0; i < data.internalLibraryBoxData.size(); i++) {
 		storeEngineDumpData(ar, data.internalLibraryBoxData[i]);
 	}
@@ -624,18 +628,9 @@ void CMFCLogicSimulatorDoc::loadEngineDumpData(CArchive & ar, LIBRARY_BOX_DATA& 
 {
 	int enumTempValue;
 	int size;
-	//코어 데이터를 가져온다
-	logicSimulatorEngine.saveLibraryBoxData(data);
-
-	//int numberOfComponent;
-	ar >> data.numberOfComponent;
-
-	//bool isOscillation;
-	ar >> data.isOscillation;
-	//bool isLibraryBoxOutputValueChanged;
-	ar >> data.isLibraryBoxOutputValueChanged;
 
 	//vector < bool > componentIDVector;
+	size = 0;
 	ar >> size;
 	data.componentIDVector.resize(size);
 	for (int i = 0; i < data.componentIDVector.size(); i++) {
@@ -644,7 +639,7 @@ void CMFCLogicSimulatorDoc::loadEngineDumpData(CArchive & ar, LIBRARY_BOX_DATA& 
 	}
 
 	//vector< COMPONENT_ID > inputPinIDVector;
-
+	size = 0;
 	ar >> size;
 	data.inputPinIDVector.resize(size);
 	for (int i = 0; i < data.inputPinIDVector.size(); i++) {
@@ -708,7 +703,7 @@ void CMFCLogicSimulatorDoc::loadEngineDumpData(CArchive & ar, LIBRARY_BOX_DATA& 
 	ar >> size;
 	data.internalLibraryBoxData.resize(size);
 	for (int i = 0; i < data.internalLibraryBoxData.size(); i++) {
-		storeEngineDumpData(ar, data.internalLibraryBoxData[i]);
+		loadEngineDumpData(ar, data.internalLibraryBoxData[i]);
 	}
 
 }

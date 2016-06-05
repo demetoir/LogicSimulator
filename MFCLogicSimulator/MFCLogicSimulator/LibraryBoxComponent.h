@@ -84,7 +84,7 @@ struct COMPONENT_INFO {
 
 //라이브러리 박스를 로드,세이브할 구조체
 struct LIBRARY_BOX_DATA {
-	int numberOfComponent;
+
 
 	//라이브러리 박스의 인풋핀과 아웃풋 핀을 저장하는 벡터 리스트
 	vector< COMPONENT_ID > inputPinIDVector;
@@ -103,8 +103,8 @@ struct LIBRARY_BOX_DATA {
 	vector < bool > componentIDVector;
 
 
-	bool isOscillation;
-	bool isLibraryBoxOutputValueChanged;
+	//bool isOscillation;
+	//bool isLibraryBoxOutputValueChanged;
 
 	//중첩된 라이브러리 박스
 	vector < LIBRARY_BOX_DATA > internalLibraryBoxData;
