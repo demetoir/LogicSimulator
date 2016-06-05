@@ -788,3 +788,12 @@ ADJ_LIST * CLibraryBox::getInputGrahp()
 {
 	return &inputGraph;
 }
+
+void CLibraryBox::deleteObject()
+{
+	for (int i = 0; i < componentIDVector.size(); i++) {
+		if (componentIDVector[i] == true) {
+			deleteComponent(i);
+		}
+	}
+}

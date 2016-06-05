@@ -41,6 +41,16 @@
 #define updateTimerID 12 
 #define updateTimer_TIME 1000
 
+enum MouseButtonFlag {
+	NBUTTON = NULL,							// 마우스 버튼이 눌리지 않은 상태
+	LBUTTON = MK_LBUTTON,					// 좌클릭 상태
+	RBUTTON = MK_RBUTTON,					// 우클릭 상태
+	MBUTTON = MK_MBUTTON					// 가운데 클릭 상태
+};
+enum ModeFlag {
+	NONE = NULL,	// 모드 버튼이 눌리지 않은 상태
+					//EDIT = ID_INSERT_LINE		// 편집 모드 버튼
+};
 
 class CMFCLogicSimulatorView : public CScrollView
 {
@@ -69,18 +79,7 @@ public:
 public:
 	CMFCLogicSimulatorDoc* GetDocument() const;
 
-	enum MouseButtonFlag {
-		NBUTTON = NULL,							// 마우스 버튼이 눌리지 않은 상태
-		LBUTTON = MK_LBUTTON,					// 좌클릭 상태
-		RBUTTON = MK_RBUTTON,					// 우클릭 상태
-		MBUTTON = MK_MBUTTON					// 가운데 클릭 상태
-	};
 	MouseButtonFlag m_MouseButtonFlag;			// 마우스 버튼이 클릭되어있는 상태 플래그
-	
-	enum ModeFlag {
-		NONE = NULL,	// 모드 버튼이 눌리지 않은 상태
-		//EDIT = ID_INSERT_LINE		// 편집 모드 버튼
-	};
 	ModeFlag m_ModeFlag;
 
 	CRect rlClientRect;

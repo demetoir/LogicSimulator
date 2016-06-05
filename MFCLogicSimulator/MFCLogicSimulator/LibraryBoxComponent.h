@@ -200,4 +200,7 @@ public:
 	void copyCOMPONENT_CONENTION_INFO(COMPONENT_CONENTION_INFO& source, COMPONENT_CONENTION_INFO& destination);
 	ADJ_LIST* getOutputGrahp();
 	ADJ_LIST* getInputGrahp();
+
+	//모든 정보를 삭제한다
+	void deleteObject();
 };
