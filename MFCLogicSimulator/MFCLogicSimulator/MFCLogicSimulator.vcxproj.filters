@@ -947,5 +947,8 @@
     <Image Include="res\root\segment\segment_1111111.bmp">
       <Filter>리소스 파일\logic comp\segment</Filter>
     </Image>
+    <Image Include="res\root\segment\segment_1000101.bmp">
+      <Filter>리소스 파일\logic comp\segment</Filter>
+    </Image>
   </ItemGroup>
 </Project>

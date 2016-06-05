@@ -419,6 +419,7 @@
     <Image Include="res\root\segment\segment_1000010.bmp" />
     <Image Include="res\root\segment\segment_1000011.bmp" />
     <Image Include="res\root\segment\segment_1000100.bmp" />
+    <Image Include="res\root\segment\segment_1000101.bmp" />
     <Image Include="res\root\segment\segment_1000110.bmp" />
     <Image Include="res\root\segment\segment_1000111.bmp" />
     <Image Include="res\root\segment\segment_1001000.bmp" />

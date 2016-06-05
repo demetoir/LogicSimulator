@@ -376,8 +376,6 @@ IDB_7SEGMENT_0100100    BITMAP                  "res\\root\\segment\\segment_010
 
 IDB_7SEGMENT_0100101    BITMAP                  "res\\root\\segment\\segment_0100101.bmp"
 
-IDB_7SEGMENT_1000101    BITMAP                  "res\\root\\segment\\segment_100101.bmp"
-
 IDB_7SEGMENT_0100110    BITMAP                  "res\\root\\segment\\segment_0100110.bmp"
 
 IDB_7SEGMENT_0100111    BITMAP                  "res\\root\\segment\\segment_0100111.bmp"
@@ -439,6 +437,8 @@ IDB_7SEGMENT_1000010    BITMAP                  "res\\root\\segment\\segment_100
 IDB_7SEGMENT_1000011    BITMAP                  "res\\root\\segment\\segment_1000011.bmp"
 
 IDB_7SEGMENT_1000100    BITMAP                  "res\\root\\segment\\segment_1000100.bmp"
+
+IDB_7SEGMENT_1000101    BITMAP                  "res\\root\\segment\\segment_1000101.bmp"
 
 IDB_7SEGMENT_1000110    BITMAP                  "res\\root\\segment\\segment_1000110.bmp"
 
