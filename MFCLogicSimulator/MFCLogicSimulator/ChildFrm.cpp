@@ -183,7 +183,7 @@ void CChildFrame::OnButtonstop()
 	COutputWnd* pOutput = pFrame->getCOutputWnd();
 
 	pDoc->isRunningMode = false;
-
+	pDoc->isCurcuitOcillate = false;
 	CMFCLogicSimulatorView* pView = (CMFCLogicSimulatorView*)pChild->GetActiveView();
 	pView->stopUpdating();
 	// TODO: 여기에 명령 처리기 코드를 추가합니다.

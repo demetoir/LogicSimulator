@@ -772,11 +772,15 @@ void CMFCLogicSimulatorView::drawMassage(CDC & DC)
 	int nHorzScroll = GetScrollPos(SB_HORZ);
 	int nVertScroll = GetScrollPos(SB_VERT);
 	int x, y;
-	//CString str;
-	//x = 200 - nHorzScroll;
-	//y = 300 - nVertScroll;
-	//str = "this is massage\n";
-	//DC.TextOutW(x,y,str);	
+	CString str;
+	x = 200 - nHorzScroll;
+	y = 300 - nVertScroll;
+	if (pDoc->isCurcuitOcillate == true) {
+		str = "curcuit is ocillate\n";
+		DC.TextOutW(x,y,str);	
+	}
+
+
 }
 
 void CMFCLogicSimulatorView::drawHighlightComponentBody(CDC& DC, int x, int y, int bitmapWidth, int bitmapHeight)
@@ -1463,6 +1467,7 @@ void CMFCLogicSimulatorView::stopUpdating()
 	str.Format(_T("in mfc logicsimulator view : end updating\n"));
 	pOutput->addBuildWindowString(str);
 	KillTimer(updateTimerID);
+	Invalidate();
 }
 
 
