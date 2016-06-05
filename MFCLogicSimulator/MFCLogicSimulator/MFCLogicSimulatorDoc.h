@@ -69,7 +69,8 @@ enum OPERATION_MODE {
 	OPERATION_MODE_ADDING_COMPONENT,
 	OPERATION_MODE_SELECT_COMPONENT,
 	OPERATION_MODE_CONNECTING_COMPONENT,
-	OPERATION_MODE_VAlUE_CHANGE
+	OPERATION_MODE_VAlUE_CHANGE,
+	OPERATION_MODE_SELECTING_CONNECTING_WIRE
 };
 
 
@@ -100,8 +101,8 @@ public :
 	bool isRunningMode;
 	int selectedComponentID;
 	bool isCurcuitOcillate;
-
-
+	COMPONENT_CONENTION_INFO selectedconnectionInfoA;
+	COMPONENT_CONENTION_INFO selectedconnectionInfoB;
 	//부품을 추가한다
 	bool addComponentToEngine(int _x,int _y);
 

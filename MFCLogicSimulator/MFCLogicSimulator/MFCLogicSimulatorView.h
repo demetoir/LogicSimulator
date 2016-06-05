@@ -73,7 +73,10 @@ public:
 	SELECTED_TERMINAL_INFO dummy_SELECTED_TERMINAL_INFO;
 	CPoint currentSelectedTerminalPoint;
 	CPoint oldSelectedTerminalPoint;
-	CPoint selectedConnectedWirePoints[4];
+
+	CPoint currentConnectedWirePoints[4];
+	CPoint oldConnectedWirePoints[4];
+
 
 protected: // serialization에서만 만들어집니다.
 	CMFCLogicSimulatorView();
@@ -166,10 +169,13 @@ protected:
 	//현재 마우스가 부품위에 있는지 검사한다
 	int checkMouesPointOnComponent();
 	bool checkMouesPointOnTerminalPin(SELECTED_TERMINAL_INFO& selectedTerminalInfo);
-	bool checkMousePointOnConnectedWire();
+	bool checkMousePointOnConnectedWire(COMPONENT_CONENTION_INFO &A, COMPONENT_CONENTION_INFO &B);
 
 	void copyTerminalInfo(SELECTED_TERMINAL_INFO& source, SELECTED_TERMINAL_INFO& destination);
 	void copyPoints(CPoint* source, CPoint* destination,int size);	
+	void copyConnectionInfo(COMPONENT_CONENTION_INFO &source, COMPONENT_CONENTION_INFO &destination);
+
+
 	void changeComponentValue(int id);
 
 public:
