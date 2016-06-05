@@ -185,6 +185,8 @@ void CMFCLogicSimulatorView::OnLButtonDown(UINT nFlags, CPoint point)
 		// 다른 부품을 선택함
 		else if (newIndex != highlightComponentIndex) {
 			highlightComponentIndex = newIndex;
+			pDoc->selectedComponentID = newIndex;
+			pPropWnd->addPropertiesList();
 		}
 
 

@@ -54,6 +54,27 @@ enum ModeFlag {
 
 class CMFCLogicSimulatorView : public CScrollView
 {
+public:
+
+	MouseButtonFlag m_MouseButtonFlag;			// 마우스 버튼이 클릭되어있는 상태 플래그
+	ModeFlag m_ModeFlag;
+
+	CRect rlClientRect;
+	CFileView* p_toolbox; // tool box 포인터
+
+	CBitmap componentBitmap[SIZE_OF_COMPONENT_BITMAP];
+	bool isHighlightComponentMode;
+	int highlightComponentIndex;
+	bool isHighlightTerminalPin;
+	bool ishighlightConnectedWire;
+
+	SELECTED_TERMINAL_INFO firstSelectedTerminalPin;
+	SELECTED_TERMINAL_INFO secondSelectedTerminalPin;
+	SELECTED_TERMINAL_INFO dummy_SELECTED_TERMINAL_INFO;
+	CPoint currentSelectedTerminalPoint;
+	CPoint oldSelectedTerminalPoint;
+	CPoint selectedConnectedWirePoints[4];
+
 protected: // serialization에서만 만들어집니다.
 	CMFCLogicSimulatorView();
 	DECLARE_DYNCREATE(CMFCLogicSimulatorView)
@@ -78,26 +99,6 @@ public:
 // 특성입니다.
 public:
 	CMFCLogicSimulatorDoc* GetDocument() const;
-
-	MouseButtonFlag m_MouseButtonFlag;			// 마우스 버튼이 클릭되어있는 상태 플래그
-	ModeFlag m_ModeFlag;
-
-	CRect rlClientRect;
-	CFileView* p_toolbox; // tool box 포인터
-		
-	CBitmap componentBitmap[SIZE_OF_COMPONENT_BITMAP];
-	bool isHighlightComponentMode;
-	int highlightComponentIndex;
-	bool isHighlightTerminalPin;
-	bool ishighlightConnectedWire;
-
-	SELECTED_TERMINAL_INFO firstSelectedTerminalPin;
-	SELECTED_TERMINAL_INFO secondSelectedTerminalPin;
-	SELECTED_TERMINAL_INFO dummy_SELECTED_TERMINAL_INFO;
-	CPoint currentSelectedTerminalPoint;
-	CPoint oldSelectedTerminalPoint;
-	CPoint selectedConnectedWirePoints[4];
-
 
 // 생성된 메시지 맵 함수
 protected:
@@ -157,9 +158,7 @@ protected:
 	void getConnnectedWirePoints(CPoint* points,CPoint A ,CPoint B);
 	//세그먼트의 인풋핀 좌표를 구한다
 	void get7SegmentInputTerminalPinPoint(CPoint &point, int id ,int index);
-
-
-
+		
 	COMPONENT_DIRECTION adjustDirection(COMPONENT_TYPE _type, COMPONENT_DIRECTION direction);
 	int adjustBitmapID(COMPONENT_TYPE type, int& bitmapID, CComponentObject* pCurrentObject);
 
@@ -170,11 +169,8 @@ protected:
 	bool checkMousePointOnConnectedWire();
 
 	void copyTerminalInfo(SELECTED_TERMINAL_INFO& source, SELECTED_TERMINAL_INFO& destination);
-	void copyPoints(CPoint* source, CPoint* destination,int size);
-	
+	void copyPoints(CPoint* source, CPoint* destination,int size);	
 	void changeComponentValue(int id);
-
-
 
 public:
 	afx_msg void OnTimer(UINT_PTR nIDEvent);

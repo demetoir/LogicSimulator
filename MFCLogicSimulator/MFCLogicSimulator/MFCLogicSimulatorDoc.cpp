@@ -94,75 +94,38 @@ BOOL CMFCLogicSimulatorDoc::OnNewDocument()
 
 void CMFCLogicSimulatorDoc::Serialize(CArchive& ar)
 {
+	////엔진 데이터들
+	//LIBRARY_BOX_DATA engineDumpData;
+	////뷰에서 사용되어질 정보들
+	//vector <COMPONENT_DATA> engineComponentData;
+
+	//파일 이름을 얻는다
+	CFile* pFile = ar.GetFile();
+	CString fileName = pFile->GetFileName();
+
 	if (ar.IsStoring())
 	{
+		MessageBox(0, fileName, _T("store"), 0);
 		// TODO: 여기에 저장 코드를 추가합니다.
-		
-		
+		LIBRARY_BOX_DATA data;
+		//데이터의 사이즈를 가져온다
+		storeEngineComponentData(ar);
+		storeEngineDumpData(ar,data);
 
 	}
 	else
 	{
+		MessageBox(0, fileName, _T("load"), 0);
 		// TODO: 여기에 로딩 코드를 추가합니다.
-
+		CString str;
+		ar >> str;
+		LIBRARY_BOX_DATA data;
+		loadEngineComponentData(ar);
+		loadEngineDumpData(ar,data);
 
 	}
 }
 
-#ifdef SHARED_HANDLERS
-
-// 축소판 그림을 지원합니다.
-void CMFCLogicSimulatorDoc::OnDrawThumbnail(CDC& dc, LPRECT lprcBounds)
-{
-	// 문서의 데이터를 그리려면 이 코드를 수정하십시오.
-	dc.FillSolidRect(lprcBounds, RGB(255, 255, 255));
-
-	CString strText = _T("TODO: implement thumbnail drawing here");
-	LOGFONT lf;
-
-	CFont* pDefaultGUIFont = CFont::FromHandle((HFONT)GetStockObject(DEFAULT_GUI_FONT));
-	pDefaultGUIFont->GetLogFont(&lf);
-	lf.lfHeight = 36;
-
-	CFont fontDraw;
-	fontDraw.CreateFontIndirect(&lf);
-
-	CFont* pOldFont = dc.SelectObject(&fontDraw);
-	dc.DrawText(strText, lprcBounds, DT_CENTER | DT_WORDBREAK);
-	dc.SelectObject(pOldFont);
-}
-
-// 검색 처리기를 지원합니다.
-void CMFCLogicSimulatorDoc::InitializeSearchContent()
-{
-	CString strSearchContent;
-	// 문서의 데이터에서 검색 콘텐츠를 설정합니다.
-	// 콘텐츠 부분은 ";"로 구분되어야 합니다.
-
-	// 예: strSearchContent = _T("point;rectangle;circle;ole object;");
-	SetSearchContent(strSearchContent);
-}
-
-void CMFCLogicSimulatorDoc::SetSearchContent(const CString& value)
-{
-	if (value.IsEmpty())
-	{
-		RemoveChunk(PKEY_Search_Contents.fmtid, PKEY_Search_Contents.pid);
-	}
-	else
-	{
-		CMFCFilterChunkValueImpl *pChunk = NULL;
-		ATLTRY(pChunk = new CMFCFilterChunkValueImpl);
-		if (pChunk != NULL)
-		{
-			pChunk->SetTextValue(PKEY_Search_Contents, value, CHUNK_TEXT);
-			SetChunkValue(pChunk);
-		}
-	}
-}
-
-
-#endif // SHARED_HANDLERS
 
 
 bool CMFCLogicSimulatorDoc::addComponentToEngine(int _x, int _y)
@@ -331,6 +294,8 @@ COMPONENT_TYPE CMFCLogicSimulatorDoc::getCurrentSelectedComponentType()
 	COMPONENT_TYPE ret = getComponentTypeByToolBoxItemIndex(currentSelectedItemIndex);
 	return ret;
 }
+
+
 
 void CMFCLogicSimulatorDoc::make_NANDGATE(CLibraryBox & box)
 {
@@ -539,6 +504,218 @@ void CMFCLogicSimulatorDoc::make_NORGATE(CLibraryBox & box)
 	}
 }
 
+
+
+
+void CMFCLogicSimulatorDoc::storeEngineComponentData(CArchive & ar)
+{
+	COMPONENT_DATA *pData;
+	int size = engineComponentData.size();
+	ar << size;
+
+	for (int i = 0; i < size; i++) {
+		pData = &engineComponentData[i];
+		ar << pData->clockEdge;
+		ar << pData->direction;
+		ar << pData->hz;
+		ar << pData->id;
+		ar << pData->label;
+		ar << pData->type;
+		ar << pData->x;
+		ar << pData->y;
+	}
+}
+
+void CMFCLogicSimulatorDoc::loadEngineComponentData(CArchive & ar)
+{
+	COMPONENT_DATA *pData;
+	int size;
+	ar >> size;
+	//사이즈를 할당한다
+	engineComponentData.resize(size);
+	int enumTempValue;
+	for (int i = 0; i < size; i++) {
+		pData = &engineComponentData[i];
+		ar >> pData->clockEdge;
+		ar >> pData->hz;
+		ar >> pData->id;
+		ar >> pData->label;		
+		ar >> pData->x;
+		ar >> pData->y;
+		ar >> enumTempValue;
+		pData->type = (COMPONENT_TYPE)enumTempValue;
+		ar >> enumTempValue;
+		pData->direction = (COMPONENT_DIRECTION)enumTempValue;
+	}
+}
+
+void CMFCLogicSimulatorDoc::storeEngineDumpData(CArchive & ar, LIBRARY_BOX_DATA& data)
+{
+	//코어 데이터를 가져온다
+	logicSimulatorEngine.saveLibraryBoxData(data);
+
+	//int numberOfComponent;
+	ar << data.numberOfComponent;
+
+	//bool isOscillation;
+	ar << data.isOscillation;
+	//bool isLibraryBoxOutputValueChanged;
+	ar << data.isLibraryBoxOutputValueChanged;
+
+	//vector < bool > componentIDVector;
+	ar << data.componentIDVector.size();
+	for (int i = 0; i < data.componentIDVector.size(); i++) {
+		ar << data.componentIDVector[i];	
+	}
+
+	//vector< COMPONENT_ID > inputPinIDVector;
+	ar << data.inputPinIDVector.size();
+	for (int i = 0; i < data.inputPinIDVector.size(); i++) {
+		ar << data.inputPinIDVector[i];
+	}
+	
+	//vector< COMPONENT_ID > outputPinIDVector;
+	ar << data.outputPinIDVector.size();
+	for (int i = 0; i < data.outputPinIDVector.size(); i++) {
+		ar << data.outputPinIDVector[i];
+	}
+	//vector < COMPONENT_ID > inputClockVector;
+	ar << data.inputClockVector.size();
+	for (int i = 0; i < data.inputClockVector.size(); i++) {
+		ar << data.inputClockVector[i];
+	}	
+
+	//vector< COMPONENT_TYPE >  componentTypeVector;
+	ar << data.componentTypeVector.size();
+	for (int i = 0; i < data.componentTypeVector.size(); i++) {
+		ar << data.componentTypeVector[i];
+	}
+
+	//vector< vector < COMPONENT_CONENTION_INFO > > inputGraph;
+	ar << data.inputGraph.size();
+	for (int i = 0; i < data.inputGraph.size(); i++) {
+		ar << data.inputGraph[i].size();
+		for (int j = 0; j < data.inputGraph[i].size(); j++) {
+			ar << data.inputGraph[i][j].componentID;
+			ar << data.inputGraph[i][j].terminalType;
+			ar << data.inputGraph[i][j].terminalNumber;
+		}
+	}
+
+	//vector< vector < COMPONENT_CONENTION_INFO > > outputGraph;
+	ar << data.outputGraph.size();
+	for (int i = 0; i < data.outputGraph.size(); i++) {
+		ar << data.outputGraph[i].size();
+		for (int j = 0; j < data.outputGraph[i].size(); j++) {
+			ar << data.outputGraph[i][j].componentID;
+			ar << data.outputGraph[i][j].terminalType;
+			ar << data.outputGraph[i][j].terminalNumber;
+		}
+	}
+
+	//vector < LIBRARY_BOX_DATA > internalLibraryBoxData;
+	ar << data.internalLibraryBoxData.size();
+	for (int i = 0; i < data.internalLibraryBoxData.size(); i++) {
+		storeEngineDumpData(ar, data.internalLibraryBoxData[i]);
+	}
+}
+
+void CMFCLogicSimulatorDoc::loadEngineDumpData(CArchive & ar, LIBRARY_BOX_DATA& data)
+{
+	int enumTempValue;
+	int size;
+	//코어 데이터를 가져온다
+	logicSimulatorEngine.saveLibraryBoxData(data);
+
+	//int numberOfComponent;
+	ar >> data.numberOfComponent;
+
+	//bool isOscillation;
+	ar >> data.isOscillation;
+	//bool isLibraryBoxOutputValueChanged;
+	ar >> data.isLibraryBoxOutputValueChanged;
+
+	//vector < bool > componentIDVector;
+	ar >> size;
+	data.componentIDVector.resize(size);
+	for (int i = 0; i < data.componentIDVector.size(); i++) {
+		ar >> enumTempValue;
+		data.componentIDVector[i] = enumTempValue;
+	}
+
+	//vector< COMPONENT_ID > inputPinIDVector;
+
+	ar >> size;
+	data.inputPinIDVector.resize(size);
+	for (int i = 0; i < data.inputPinIDVector.size(); i++) {
+		ar >> enumTempValue;
+		data.inputPinIDVector[i] = (COMPONENT_ID)enumTempValue;
+	}
+
+	//vector< COMPONENT_ID > outputPinIDVector;
+	
+	ar >> size;
+	data.outputPinIDVector.resize(size);
+	for (int i = 0; i < data.outputPinIDVector.size(); i++) {
+		ar >> data.outputPinIDVector[i];
+	}
+
+	//vector < COMPONENT_ID > inputClockVector;
+	ar >> size;
+	data.inputClockVector.resize(size);
+	for (int i = 0; i < data.inputClockVector.size(); i++) {
+		ar >> data.inputClockVector[i];
+	}
+
+	//vector< COMPONENT_TYPE >  componentTypeVector;
+	ar >> size; 
+	data.componentTypeVector.resize(size);
+	for (int i = 0; i < data.componentTypeVector.size(); i++) {
+		ar >> enumTempValue;
+		data.componentTypeVector[i] = (COMPONENT_TYPE)enumTempValue;
+	}
+
+	int ASize, BSize;
+	//vector< vector < COMPONENT_CONENTION_INFO > > inputGraph;
+	ar >> ASize;
+	data.inputGraph.resize(ASize);
+	for (int i = 0; i < data.inputGraph.size(); i++) {
+		ar >> BSize;
+		data.inputGraph[i].resize(BSize);
+		for (int j = 0; j < data.inputGraph[i].size(); j++) {
+			ar >> data.inputGraph[i][j].componentID;			
+			ar >> data.inputGraph[i][j].terminalNumber;
+			ar >> enumTempValue;
+			data.inputGraph[i][j].terminalType = (TERMINAL_TYPE)enumTempValue;
+		}
+	}
+
+	//vector< vector < COMPONENT_CONENTION_INFO > > outputGraph;
+	ar >> ASize;
+	data.outputGraph.resize(ASize);
+	for (int i = 0; i < data.outputGraph.size(); i++) {
+		ar >> BSize;
+		data.outputGraph[i].resize(BSize);
+		for (int j = 0; j < data.outputGraph[i].size(); j++) {
+			ar >> data.outputGraph[i][j].componentID;
+			ar >> data.outputGraph[i][j].terminalNumber;
+			ar >> enumTempValue;
+			data.outputGraph[i][j].terminalType = (TERMINAL_TYPE)enumTempValue;
+		}
+	}
+
+	//vector < LIBRARY_BOX_DATA > internalLibraryBoxData;
+	ar >> size;
+	data.internalLibraryBoxData.resize(size);
+	for (int i = 0; i < data.internalLibraryBoxData.size(); i++) {
+		storeEngineDumpData(ar, data.internalLibraryBoxData[i]);
+	}
+
+}
+
+
+
+
 void CMFCLogicSimulatorDoc::getStringByCOMPONENT_TYPE(COMPONENT_TYPE compType, CString& CS)
 {
 	switch (compType) {
@@ -610,7 +787,9 @@ void CMFCLogicSimulatorDoc::getStringByCOMPONENT_DIRECTION(COMPONENT_DIRECTION d
 }
 
 
-// CMFCLogicSimulatorDoc 진단
+
+
+
 
 #ifdef _DEBUG
 void CMFCLogicSimulatorDoc::AssertValid() const
@@ -625,4 +804,61 @@ void CMFCLogicSimulatorDoc::Dump(CDumpContext& dc) const
 #endif //_DEBUG
 
 
-// CMFCLogicSimulatorDoc 명령
+
+#ifdef SHARED_HANDLERS
+
+// 축소판 그림을 지원합니다.
+void CMFCLogicSimulatorDoc::OnDrawThumbnail(CDC& dc, LPRECT lprcBounds)
+{
+	// 문서의 데이터를 그리려면 이 코드를 수정하십시오.
+	dc.FillSolidRect(lprcBounds, RGB(255, 255, 255));
+
+	CString strText = _T("TODO: implement thumbnail drawing here");
+	LOGFONT lf;
+
+	CFont* pDefaultGUIFont = CFont::FromHandle((HFONT)GetStockObject(DEFAULT_GUI_FONT));
+	pDefaultGUIFont->GetLogFont(&lf);
+	lf.lfHeight = 36;
+
+	CFont fontDraw;
+	fontDraw.CreateFontIndirect(&lf);
+
+	CFont* pOldFont = dc.SelectObject(&fontDraw);
+	dc.DrawText(strText, lprcBounds, DT_CENTER | DT_WORDBREAK);
+	dc.SelectObject(pOldFont);
+}
+
+// 검색 처리기를 지원합니다.
+void CMFCLogicSimulatorDoc::InitializeSearchContent()
+{
+	CString strSearchContent;
+	// 문서의 데이터에서 검색 콘텐츠를 설정합니다.
+	// 콘텐츠 부분은 ";"로 구분되어야 합니다.
+
+	// 예: strSearchContent = _T("point;rectangle;circle;ole object;");
+	SetSearchContent(strSearchContent);
+}
+
+void CMFCLogicSimulatorDoc::SetSearchContent(const CString& value)
+{
+	if (value.IsEmpty())
+	{
+		RemoveChunk(PKEY_Search_Contents.fmtid, PKEY_Search_Contents.pid);
+	}
+	else
+	{
+		CMFCFilterChunkValueImpl *pChunk = NULL;
+		ATLTRY(pChunk = new CMFCFilterChunkValueImpl);
+		if (pChunk != NULL)
+		{
+			pChunk->SetTextValue(PKEY_Search_Contents, value, CHUNK_TEXT);
+			SetChunkValue(pChunk);
+		}
+	}
+}
+
+
+#endif // SHARED_HANDLERS
+
+
+

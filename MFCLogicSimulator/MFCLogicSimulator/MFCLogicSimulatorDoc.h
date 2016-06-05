@@ -71,57 +71,27 @@ enum OPERATION_MODE {
 	OPERATION_MODE_CONNECTING_COMPONENT,
 	OPERATION_MODE_VAlUE_CHANGE
 };
+
+
 #define DEFAULT_VALUE_ADDING_COMPONENT_DIRECTION EAST
 class CMFCLogicSimulatorDoc : public CDocument
 {
-protected: // serialization에서만 만들어집니다.
+	protected: // serialization에서만 만들어집니다.
 	CMFCLogicSimulatorDoc();
 	DECLARE_DYNCREATE(CMFCLogicSimulatorDoc)
 
-// 특성입니다.
-public:
-
-// 작업입니다.
-public:
-	CMainFrame m_MainFrmInDoc;
-	CFileView m_FileViewInDoc;
-	CViewTree m_FileViewTreeInDoc;
 // 재정의입니다.
 public:
 	virtual BOOL OnNewDocument();
 	virtual void Serialize(CArchive& ar);
-#ifdef SHARED_HANDLERS
-	virtual void InitializeSearchContent();
-	virtual void OnDrawThumbnail(CDC& dc, LPRECT lprcBounds);
-#endif // SHARED_HANDLERS
-
-// 구현입니다.
-public:
 	virtual ~CMFCLogicSimulatorDoc();
-#ifdef _DEBUG
-	virtual void AssertValid() const;
-	virtual void Dump(CDumpContext& dc) const;
-#endif
-
-protected:
-
-// 생성된 메시지 맵 함수
-protected:
-	DECLARE_MESSAGE_MAP()
-
-#ifdef SHARED_HANDLERS
-	// 검색 처리기에 대한 검색 콘텐츠를 설정하는 도우미 함수
-	void SetSearchContent(const CString& value);
-#endif // SHARED_HANDLERS
 
 
 public : 
 	//엔진을 저장할 변수
 	CLibraryBox logicSimulatorEngine;
 	//엔진 데이터들
-	LIBRARY_BOX_DATA engineDumpData;
-
-
+	LIBRARY_BOX_DATA engineCoreData;
 	//뷰에서 사용되어질 정보들
 	vector <COMPONENT_DATA> engineComponentData;
 
@@ -130,13 +100,14 @@ public :
 	bool isRunningMode;
 	int selectedComponentID;
 	bool isCurcuitOcillate;
+
+
 	//부품을 추가한다
 	bool addComponentToEngine(int _x,int _y);
 
 	//부품을 서로 연결한다
 	bool connectComponent(COMPONENT_CONENTION_INFO& A, COMPONENT_CONENTION_INFO& B);
-
-
+	
 	int getSelectedItemIndexInToolBox(HTREEITEM hItem);
 
 	//트리뷰에서 선택한 부품의 플래그로  COMPONENT_TYPE를 알아낸다
@@ -147,9 +118,36 @@ public :
 	OPERATION_MODE operationMode;
 
 	void make_NORGATE(CLibraryBox& box);
+    void make_NANDGATE(CLibraryBox& box);
+
 	void getStringByCOMPONENT_DIRECTION(COMPONENT_DIRECTION direct, CString & CS);
 	void getStringByCOMPONENT_TYPE(COMPONENT_TYPE compType, CString & CS);
-	void make_NANDGATE(CLibraryBox& box);
-
 	
+	
+
+	void storeEngineComponentData(CArchive& ar);
+	void loadEngineComponentData(CArchive& ar);
+
+	void storeEngineDumpData(CArchive& ar, LIBRARY_BOX_DATA& data);
+	void loadEngineDumpData(CArchive& ar, LIBRARY_BOX_DATA& data);
+
+
+#ifdef SHARED_HANDLERS
+	virtual void InitializeSearchContent();
+	virtual void OnDrawThumbnail(CDC& dc, LPRECT lprcBounds);
+	// 검색 처리기에 대한 검색 콘텐츠를 설정하는 도우미 함수
+	void SetSearchContent(const CString& value);
+#endif // SHARED_HANDLERS
+
+#ifdef _DEBUG
+	virtual void AssertValid() const;
+	virtual void Dump(CDumpContext& dc) const;
+#endif
+
+
+	// 생성된 메시지 맵 함수
+protected:
+	DECLARE_MESSAGE_MAP()
+
+
 };
