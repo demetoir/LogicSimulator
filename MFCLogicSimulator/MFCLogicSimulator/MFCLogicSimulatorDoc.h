@@ -106,12 +106,12 @@ public :
 	//부품을 추가한다
 	bool addComponentToEngine(int _x,int _y);
 	
-	bool deleteComponentToEngine();
+	void deleteComponentToEngine();
 
 	//부품을 서로 연결한다
-	bool connectComponent(COMPONENT_CONENTION_INFO& A, COMPONENT_CONENTION_INFO& B);
+	void connectComponent(COMPONENT_CONENTION_INFO& A, COMPONENT_CONENTION_INFO& B);
 	//부품을 서로 연결해제한다
-	bool disconectComponent();
+	void disconectComponent();
 
 	int getSelectedItemIndexInToolBox(HTREEITEM hItem);
 

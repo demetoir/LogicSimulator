@@ -272,7 +272,6 @@ void CMFCLogicSimulatorView::OnPaint()
 	CBitmap newBitmap;
 	CBitmap *pOldBitmap;
 
-
 	memDC.CreateCompatibleDC(&dc);
 	newBitmap.CreateCompatibleBitmap(&dc, rect.Width(), rect.Height());
 	pOldBitmap = memDC.SelectObject(&newBitmap);
@@ -1271,10 +1270,8 @@ bool CMFCLogicSimulatorView::checkMousePointOnConnectedWire(COMPONENT_CONENTION_
 	CPoint points[4];
 	GetCursorPos(&mousePoint);
 	ScreenToClient(&mousePoint);
-	int nHorzScroll = GetScrollPos(SB_HORZ);
-	int nVertScroll = GetScrollPos(SB_VERT);
-	mousePoint.x ;
-	mousePoint.y ;
+	mousePoint.x += GetScrollPos(SB_HORZ);
+	mousePoint.y += GetScrollPos(SB_VERT);
 	ADJ_LIST* pGraph  = pDoc->logicSimulatorEngine.getOutputGrahp();;
 	int curID,nextID;
 	CPoint A, B;
@@ -1292,12 +1289,6 @@ bool CMFCLogicSimulatorView::checkMousePointOnConnectedWire(COMPONENT_CONENTION_
 			getOutputTerminalPoint(curID, A, j);
 			//input 단자의 좌표를 가져온다
 			getInputTerminalPoint(nextID, B, (*pGraph)[i][j].terminalNumber);
-
-			//좌표를 보정한다
-			A.x -= nHorzScroll;
-			A.y -= nVertScroll;
-			B.x -= nHorzScroll;
-			B.y -= nVertScroll;
 
 			getConnnectedWirePoints(points, A, B);
 			connectedWireRgn.CreatePolygonRgn(points,4,WINDING);
