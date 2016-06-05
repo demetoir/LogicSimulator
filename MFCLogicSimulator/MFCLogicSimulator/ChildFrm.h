@@ -22,7 +22,8 @@
 #include "MFCLogicSimulator.h"
 #include "ChildFrm.h"
 #include "FileView.h"
-
+// CMDIChildWndEx ¹®¼­
+// https://msdn.microsoft.com/ko-kr/library/bb984294.aspx
 class CChildFrame : public CMDIChildWndEx
 {
 	DECLARE_DYNCREATE(CChildFrame)

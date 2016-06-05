@@ -79,14 +79,14 @@ int COutputWnd::OnCreate(LPCREATESTRUCT lpCreateStruct)
 	//ASSERT(bNameValid);
 	//m_wndTabs.AddTab(&m_wndOutputDebug, strTabName, (UINT)1);
 
-	bNameValid = strTabName.LoadString(IDS_FIND_TAB);
-	ASSERT(bNameValid);
-	m_wndTabs.AddTab(&m_wndOutputFind, strTabName, (UINT)1);
+	//bNameValid = strTabName.LoadString(IDS_FIND_TAB);
+	//ASSERT(bNameValid);
+	//m_wndTabs.AddTab(&m_wndOutputFind, strTabName, (UINT)1);
 
 	// 출력 탭을 더미 텍스트로 채웁니다.
 	FillBuildWindow();
 	//FillDebugWindow();
-	FillFindWindow();
+	//FillFindWindow();
 
 	return 0;
 }
@@ -150,7 +150,7 @@ void COutputWnd::UpdateFonts()
 {
 	m_wndOutputBuild.SetFont(&afxGlobalData.fontRegular);
 	//m_wndOutputDebug.SetFont(&afxGlobalData.fontRegular);
-	m_wndOutputFind.SetFont(&afxGlobalData.fontRegular);
+	//m_wndOutputFind.SetFont(&afxGlobalData.fontRegular);
 }
 
 /////////////////////////////////////////////////////////////////////////////

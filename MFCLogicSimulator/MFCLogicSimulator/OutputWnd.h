@@ -15,6 +15,8 @@
 // COutputList 창
 #include "vector"
 using std::vector;
+// CListBox 문서
+// https://msdn.microsoft.com/ko-kr/library/y04ez4c9.aspx
 class COutputList : public CListBox
 {
 // 생성입니다.
@@ -33,7 +35,8 @@ protected:
 
 	DECLARE_MESSAGE_MAP()
 };
-
+// CDockablePane 문서
+// https://msdn.microsoft.com/ko-kr/library/bb984433.aspx
 class COutputWnd : public CDockablePane
 {
 // 생성입니다.
