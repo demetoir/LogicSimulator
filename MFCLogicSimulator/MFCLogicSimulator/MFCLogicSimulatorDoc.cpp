@@ -97,6 +97,9 @@ void CMFCLogicSimulatorDoc::Serialize(CArchive& ar)
 	if (ar.IsStoring())
 	{
 		// TODO: 여기에 저장 코드를 추가합니다.
+		
+		
+
 	}
 	else
 	{
