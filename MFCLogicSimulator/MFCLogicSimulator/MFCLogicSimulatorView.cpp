@@ -802,6 +802,14 @@ void CMFCLogicSimulatorView::drawHighlightComponentTerminalPin(CDC & DC)
 		x + HIGHLIGHIT_TERMINAL_PIN_HALF_SIZE, y + HIGHLIGHIT_TERMINAL_PIN_HALF_SIZE);
 	DC.SelectObject(oldPen);
 	pen.DeleteObject();
+	CString str;
+	if (HighlightedTerminalPinType == TERMINAL_TYPE_INPUT) {
+		str.Format(_T("input %d"), HighlightedTerminalPinNumber);
+	}
+	else {
+		str.Format(_T("output %d"), HighlightedTerminalPinNumber);
+	}	
+	DC.TextOutW(x+15, y+15, str);
 }
 
 void CMFCLogicSimulatorView::drawHighlightSelectedComponent(CDC & DC)
@@ -1233,6 +1241,8 @@ bool CMFCLogicSimulatorView::checkMouesPointOnTerminalPin(SELECTED_TERMINAL_INFO
 				copyTerminalInfo(curInfo, selectedTerminalInfo);
 				currentSelectedTerminalPoint.x = a;
 				currentSelectedTerminalPoint.y = b;
+				HighlightedTerminalPinType = TERMINAL_TYPE_INPUT;
+				HighlightedTerminalPinNumber = i;
 			};
 			terminalPinRgn.DeleteObject();
 		}
@@ -1250,6 +1260,8 @@ bool CMFCLogicSimulatorView::checkMouesPointOnTerminalPin(SELECTED_TERMINAL_INFO
 				copyTerminalInfo(curInfo, selectedTerminalInfo);
 				currentSelectedTerminalPoint.x = a;
 				currentSelectedTerminalPoint.y = b;
+				HighlightedTerminalPinType = TERMINAL_TYPE_OUTPUT;
+				HighlightedTerminalPinNumber = i;
 			};
 			terminalPinRgn.DeleteObject();
 		}	
@@ -1310,7 +1322,6 @@ bool CMFCLogicSimulatorView::checkMousePointOnConnectedWire(COMPONENT_CONENTION_
 		}
 		if (ret == true) { break; }
 	}
-
 	return ret;
 }
 
