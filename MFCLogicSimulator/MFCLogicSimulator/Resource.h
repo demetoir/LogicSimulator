@@ -90,8 +90,6 @@
 #define IDS_EXPLORER                    305
 #define IDS_EDIT_MENU                   306
 #define IDR_RIBBON                      307
-
-
 #define IDB_GATE_AND__                  362
 #define IDB_GATE_AND_E                  363
 #define IDB_GATE_AND_S                  364
@@ -133,37 +131,31 @@
 #define IDB_GATE_NOR_S                  401
 #define IDB_GATE_NOR_W                  402
 #define IDB_GATE_NOR_N                  403
-
 #define IDB_SWITCH_OFF_                 404
 #define IDB_SWITCH_OFF_E                405
-#define IDB_SWITCH_OFF_S                409
+#define IDB_SWITCH_ON_                  406
 #define IDB_SWITCH_OFF_W                407
 #define IDB_SWITCH_OFF_N                408
-
-#define IDB_SWITCH_ON_                  406
+#define IDB_SWITCH_OFF_S                409
 #define IDB_SWITCH_ON_E                 410
 #define IDB_SWITCH_ON_S                 411
 #define IDB_SWITCH_ON_W                 412
 #define IDB_SWITCH_ON_N                 413
-
 #define IDB_LAMP_OFF_                   414
 #define IDB_LAMP_OFF_E                  415
-#define IDB_LAMP_OFF_S                  420
+#define IDB_LAMP_ON_E                   416
 #define IDB_LAMP_OFF_W                  417
 #define IDB_LAMP_OFF_N                  418
-
 #define IDB_LAMP_ON_                    419
-#define IDB_LAMP_ON_E                   416
+#define IDB_LAMP_OFF_S                  420
 #define IDB_LAMP_ON_S                   421
 #define IDB_LAMP_ON_W                   422
 #define IDB_LAMP_ON_N                   423
-
 #define IDB_GATE_OR__                   424
 #define IDB_GATE_OR_E                   425
 #define IDB_GATE_OR_S                   426
 #define IDB_GATE_OR_W                   427
 #define IDB_GATE_OR_N                   428
-
 #define IDB_PIN_OFF_                    429
 #define IDB_PIN_OFF_E                   429
 #define IDB_PIN_OFF_S                   429
@@ -174,7 +166,6 @@
 #define IDB_PIN_ON_S                    430
 #define IDB_PIN_ON_W                    430
 #define IDB_PIN_ON_N                    430
-
 #define IDB_PROBE_OFF_E                 431
 #define IDB_PROBE_OFF_S                 431
 #define IDB_PROBE_OFF_W                 431
@@ -183,7 +174,6 @@
 #define IDB_PROBE_ON_S                  432
 #define IDB_PROBE_ON_W                  432
 #define IDB_PROBE_ON_N                  432
-
 #define IDB_TERMINAL_                   433
 #define IDB_FF_TFF__                    434
 #define IDB_FF_TFF_E                    435
@@ -200,7 +190,6 @@
 #define IDB_PROBE_OFF                   447
 #define IDB_PIN_OFF                     448
 #define IDB_PIN_ON                      449
-
 #define IDB_7SEGMENT_0000000            451
 #define IDB_7SEGMENT_0000001            452
 #define IDB_7SEGMENT_0000010            453
