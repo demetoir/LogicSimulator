@@ -97,6 +97,7 @@ BOOL CMFCLogicSimulatorApp::InitInstance()
 	LoadStdProfileSettings(4);  // MRU를 포함하여 표준 INI 파일 옵션을 로드합니다.
 	// 최근 문서 목록 지원 코드
 
+	CleanState(); // 레지스트리 초기화
 	InitContextMenuManager();
 
 	InitKeyboardManager();

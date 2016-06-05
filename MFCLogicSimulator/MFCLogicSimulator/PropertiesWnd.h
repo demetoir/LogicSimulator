@@ -45,6 +45,8 @@ protected:
 	CFont m_fntPropList;
 	//CComboBox m_wndObjectCombo;
 	CPropertiesToolBar m_wndToolBar;
+	// CMFCPropertyGridCtrl 문서
+	//https://msdn.microsoft.com/ko-kr/library/bb983759.aspx
 	CMFCPropertyGridCtrl m_wndPropList;
 
 // 구현입니다.

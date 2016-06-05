@@ -18,6 +18,8 @@
 #include "OutputWnd.h"
 #include "PropertiesWnd.h"
 
+// CMDIFrameWndEx 클래스 문서
+// https://msdn.microsoft.com/ko-kr/library/bb984374.aspx
 class CMainFrame : public CMDIFrameWndEx
 {
 	DECLARE_DYNAMIC(CMainFrame)

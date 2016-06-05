@@ -21,7 +21,8 @@ class CFileViewToolBar : public CMFCToolBar
 
 	virtual BOOL AllowShowOnList() const { return FALSE; }
 };
-
+// CDockablePane 문서
+// https://msdn.microsoft.com/ko-kr/library/bb984433.aspx
 class CFileView : public CDockablePane
 {
 // 생성입니다.
