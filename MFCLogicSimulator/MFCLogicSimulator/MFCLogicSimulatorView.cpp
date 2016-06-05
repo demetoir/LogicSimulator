@@ -953,6 +953,7 @@ int CMFCLogicSimulatorView::getBitmapIDByComponentType(COMPONENT_TYPE _type, COM
 	//	COMPONENT_TYPE_LIBRARY_BOX
 	//};
 //리소스에서 사용되는 비트맵 아이디
+	int i = IDB_7SEGMENT_0000000;
 	switch (_type) {
 
 	case COMPONENT_TYPE_ONE_BIT_SWITCH:
