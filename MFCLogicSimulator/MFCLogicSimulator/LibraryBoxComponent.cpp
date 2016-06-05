@@ -39,16 +39,22 @@ CLibraryBox::~CLibraryBox()
 //새로운 컴포넌트 아이디를 생성해줌
 COMPONENT_ID CLibraryBox::makeNewComponetID(COMPONENT_TYPE componentType)
 {
-	for (int i = 1; i < componentTypeVector.size(); i++) {
+	int ret = 0;
+	for (int i = 1; i < componentIDVector.size(); i++) {
 		if (componentIDVector[i] == false) {
 			componentIDVector[i] = true;
 			componentTypeVector[i] = componentType;
-			return i;
+			ret = i;
+			break;
 		}
 	}
-	componentIDVector.push_back(true);
-	componentTypeVector.push_back(componentType);
-	return (int)(componentTypeVector.size() - 1);
+	if (ret == 0) {
+		ret = componentIDVector.size();
+		componentIDVector.push_back(true);
+		componentTypeVector.resize(componentIDVector.size());
+		componentTypeVector[ret] = componentType;		
+	}
+	return ret;
 }
 
 //컴포넌트 아이디를 삭제함
@@ -88,6 +94,7 @@ bool CLibraryBox::loadLibraryBoxData(LIBRARY_BOX_DATA & libraryBoxData)
 	//먼저 쓰지 않는 ID를 못쓰게 막아놓는다
 	COMPONENT_INFO loadInfo;
 	componentIDVector.resize(libraryBoxData.componentIDVector.size());
+	componentTypeVector.resize(libraryBoxData.componentIDVector.size());
 	for (int i = 0; i < libraryBoxData.componentIDVector.size(); i++) {
 		if (libraryBoxData.componentIDVector[i] == false) {
 			componentIDVector[i] = true;
@@ -360,6 +367,7 @@ bool CLibraryBox::deleteComponent(COMPONENT_ID _componentID)
 	//지울 부품의 인풋 단자에 연결된 부품의 간선을 제거함
 	for (int i = 0; i < inputGraph[_componentID].size(); i++) {
 		info = &inputGraph[_componentID][i];
+		if (info->componentID <= 0) { continue; }
 		outputGraph[info->componentID][info->terminalNumber].componentID = -1;
 		outputGraph[info->componentID][info->terminalNumber].terminalNumber = -1;
 		outputGraph[info->componentID][info->terminalNumber].terminalType = TERMINAL_TYPE_NONE;
@@ -367,6 +375,7 @@ bool CLibraryBox::deleteComponent(COMPONENT_ID _componentID)
 	//지울부품의 아웃풋단자에 연결된 부풉의 간선을 제거함
 	for (int i = 0; i < outputGraph[_componentID].size(); i++) {
 		info = &outputGraph[_componentID][i];
+		if (info->componentID <= 0) { continue; }
 		inputGraph[info->componentID][info->terminalNumber].componentID = -1;
 		inputGraph[info->componentID][info->terminalNumber].terminalNumber = -1;
 		inputGraph[info->componentID][info->terminalNumber].terminalType = TERMINAL_TYPE_NONE;
@@ -374,8 +383,8 @@ bool CLibraryBox::deleteComponent(COMPONENT_ID _componentID)
 
 	//지워지는 부품의 그래프와 터미널 정보를 갱신함
 	COMPONENT_CONENTION_INFO deleteinfo;
-	inputGraph[_componentID].resize(inputGraph[_componentID].size(), deleteinfo);
-	outputGraph[_componentID].resize(outputGraph[_componentID].size(), deleteinfo);
+	inputGraph[_componentID].clear();
+	outputGraph[_componentID].clear();
 
 	//input pin 또는 output pin ,clock 이면 각각의 핀벡터에서 삭제한다
 	if (componentTypeVector[_componentID] == COMPONENT_TYPE_INPUT_PIN) {
@@ -388,7 +397,7 @@ bool CLibraryBox::deleteComponent(COMPONENT_ID _componentID)
 	}
 	if (componentTypeVector[_componentID] == COMPONENT_TYPE_OUTPUT_PIN) {
 		for (int i = 0; i < outputPinIDVector.size(); i++) {
-			if (inputPinIDVector[i] == _componentID) {
+			if (outputPinIDVector[i] == _componentID) {
 				outputPinIDVector.erase(outputPinIDVector.begin() + i);
 				break;
 			}

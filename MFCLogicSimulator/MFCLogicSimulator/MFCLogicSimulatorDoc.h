@@ -106,7 +106,7 @@ public :
 	//부품을 추가한다
 	bool addComponentToEngine(int _x,int _y);
 	
-	bool deleteComponentToEngine(int id);
+	bool deleteComponentToEngine();
 
 	//부품을 서로 연결한다
 	bool connectComponent(COMPONENT_CONENTION_INFO& A, COMPONENT_CONENTION_INFO& B);

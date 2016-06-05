@@ -201,6 +201,34 @@ bool CMFCLogicSimulatorDoc::addComponentToEngine(int _x, int _y)
 	return true;
 }
 
+bool CMFCLogicSimulatorDoc::deleteComponentToEngine()
+{
+	CMainFrame *pFrame = (CMainFrame*)AfxGetMainWnd();
+	COutputWnd* pOutput = pFrame->getCOutputWnd();
+	CString str;
+	int ret;
+
+	if (operationMode == OPERATION_MODE_SELECT_COMPONENT) {
+		str.Format(_T("in CMFCLogicSimulatorDoc : delete component ID : %d\n"),
+			selectedComponentID);
+		pOutput->addBuildWindowString(str);
+		ret = logicSimulatorEngine.deleteComponent(selectedComponentID);
+		if (ret == true) { 
+			str.Format(_T("in CMFCLogicSimulatorDoc : delete success\n")); 
+			engineComponentData[selectedComponentID] = COMPONENT_DATA();
+			operationMode = OPERATION_MODE_NONE;
+			selectedComponentID = -1;
+		}
+		else { str.Format(_T("in CMFCLogicSimulatorDoc : delete fail\n")); }
+		pOutput->addBuildWindowString(str);
+	}
+	else {
+		str.Format(_T("in CMFCLogicSimulatorDoc : ocmponent is not selected\n"));
+		pOutput->addBuildWindowString(str);
+	}
+	return ret;
+}
+
 bool CMFCLogicSimulatorDoc::connectComponent(COMPONENT_CONENTION_INFO & A, COMPONENT_CONENTION_INFO & B)
 {
 	bool AToBDirection;
@@ -249,20 +277,20 @@ bool CMFCLogicSimulatorDoc::disconectComponent()
 	bool ret;
 
 	if (operationMode == OPERATION_MODE_SELECTING_CONNECTING_WIRE) {
-		str.Format(_T("in rebbon menu : delete Connection \nID : %d terminal type :%d teminal number : %d <-> ID : %d terminal type :%d teminal number : %d\n"),
+		str.Format(_T("in CMFCLogicSimulatorDoc : delete Connection \nID : %d terminal type :%d teminal number : %d <-> ID : %d terminal type :%d teminal number : %d\n"),
 			selectedconnectionInfoA.componentID, selectedconnectionInfoA.terminalType,
 			selectedconnectionInfoA.terminalNumber,
 			selectedconnectionInfoB.componentID, selectedconnectionInfoB.terminalType,
 			selectedconnectionInfoB.terminalNumber);
 		pOutput->addBuildWindowString(str);
 		ret = logicSimulatorEngine.disconnectComponent(selectedconnectionInfoA, selectedconnectionInfoB);
-		if (ret == false) { str.Format(_T("disconnection success\n")); }
-		else { str.Format(_T("disconnection fail\n")); }
+		if (ret == false) { str.Format(_T("in CMFCLogicSimulatorDoc : disconnection success\n")); }
+		else { str.Format(_T("in CMFCLogicSimulatorDoc : disconnection fail\n")); }
 		pOutput->addBuildWindowString(str);
 		operationMode = OPERATION_MODE_NONE;
 	}
 	else {
-		str.Format(_T("in rebbon menu : disconnect fail -> wire is not selected\n"));
+		str.Format(_T("in CMFCLogicSimulatorDoc : wire is not selected\n"));
 		pOutput->addBuildWindowString(str);
 	}
 	return ret;
