@@ -27,6 +27,8 @@ public:
 	int selectedComponentToolboxItemIndex;
 
 	
+
+	
 // 특성입니다.
 public:
 	/* check box, button 이벤트 처리 변수 추가 요망 */

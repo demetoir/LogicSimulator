@@ -150,6 +150,18 @@ BOOL CMFCLogicSimulatorApp::InitInstance()
 	pMainFrame->ShowWindow(m_nCmdShow);
 	pMainFrame->UpdateWindow();
 
+
+	CMainFrame *pFrame = (CMainFrame*)AfxGetMainWnd();
+	CChildFrame *pChild = (CChildFrame *)pFrame->GetActiveFrame();
+	CMFCLogicSimulatorDoc *pDoc = (CMFCLogicSimulatorDoc *)pChild->GetActiveDocument();
+	COutputWnd* pOutput = pFrame->getCOutputWnd();
+	CMFCLogicSimulatorView* pView = (CMFCLogicSimulatorView*)pChild->GetActiveView();
+	CFileView *pFileView = (CFileView*)pFrame->getCFileView();
+	CViewTree* pToolbox = pFileView->getCFileViewTree();
+
+	pFileView->initCoreData();
+
+
 	return TRUE;
 }
 

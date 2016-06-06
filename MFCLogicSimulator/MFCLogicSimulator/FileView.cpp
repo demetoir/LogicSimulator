@@ -15,6 +15,8 @@
 #include "Resource.h"
 #include "MFCLogicSimulator.h"
 #include "MFCLogicSimulatorDoc.h"
+#include "MFCLogicSimulatorView.h"
+#include "ChildFrm.h"
 #ifdef _DEBUG
 #undef THIS_FILE
 static char THIS_FILE[]=__FILE__;
@@ -28,6 +30,8 @@ CFileView::CFileView()
 {
 	LIBRARY_BOX_DATA dummy;
 	coreDataList.push_back(dummy);
+	
+
 }
 
 CFileView::~CFileView()
@@ -96,6 +100,8 @@ int CFileView::OnCreate(LPCREATESTRUCT lpCreateStruct)
 	// 정적 트리 뷰 데이터를 채웁니다.
 	FillFileView();
 	AdjustLayout();
+
+
 
 	return 0;
 }
@@ -294,6 +300,107 @@ void CFileView::addCoreData(LIBRARY_BOX_DATA & coreData)
 void CFileView::getCoreData(LIBRARY_BOX_DATA & coreData, int index)
 {
 	coreData = LIBRARY_BOX_DATA(coreDataList[index]);
+}
+
+void CFileView::initCoreData()
+{
+	TCHAR path[_MAX_PATH];
+	GetModuleFileName(NULL, path, sizeof path);
+	CString currentExcuteFilePath = path;
+	int i = currentExcuteFilePath.ReverseFind('\\');
+	currentExcuteFilePath = currentExcuteFilePath.Left(i);
+	AfxMessageBox(_T("load Core data"));
+	CString coreDataFilePath = currentExcuteFilePath +
+		CString(_T("\\MFCLogicSimulatorCoreData\\*.ls"));
+
+	//검색 클래스
+	CFileFind finder;
+
+	//CFileFind는 파일, 디렉터리가 존재하면 TRUE 를 반환함
+	BOOL bWorking = finder.FindFile(coreDataFilePath); //
+
+	CString filepath;
+	CString fileName;
+	CString massageName,massagePath;
+	while (bWorking)
+	{
+		//다음 파일 / 폴더 가 존재하면다면 TRUE 반환
+		bWorking = finder.FindNextFile();
+		//파일 일때
+		if (finder.IsArchived()){
+			CString _fileName = finder.GetFileName();
+			// 현재폴더 상위폴더 썸네일파일은 제외
+			if (_fileName == _T(".") ||
+				_fileName == _T("..") ||
+				_fileName == _T("Thumbs.db")) continue;
+			filepath = finder.GetFilePath();
+			fileName = finder.GetFileName();
+			loadCoreData(filepath, fileName);
+		}	
+	}
+
+	return ;
+
+}
+
+void CFileView::loadCoreData(CString PathName,CString fileName)
+{
+	CMainFrame *pFrame = (CMainFrame*)AfxGetMainWnd();
+	CChildFrame *pChild = (CChildFrame *)pFrame->GetActiveFrame();
+	CMFCLogicSimulatorDoc *pDoc = (CMFCLogicSimulatorDoc *)pChild->GetActiveDocument();
+	COutputWnd* pOutput = pFrame->getCOutputWnd();
+	CMFCLogicSimulatorView* pView = (CMFCLogicSimulatorView*)pChild->GetActiveView();
+	CFileView *pFileView = (CFileView*)pFrame->getCFileView();
+	CViewTree* pToolbox = pFileView->getCFileViewTree();
+
+	CString str;
+	CFileDialog load_dlg(true);
+
+
+	bool isSuccessReadFile = false;
+	CFile  librayboxFile;
+
+	vector <COMPONENT_DATA> dummy;
+
+	LIBRARY_BOX_DATA coreData;
+
+	if (librayboxFile.Open(PathName, CFile::modeRead)) {
+		CArchive ar(&librayboxFile, CArchive::load);
+		try {
+			pDoc->loadEngineComponentData(ar, &dummy);
+			pDoc->loadEngineCoreData(ar, coreData);
+			addCoreData(coreData);
+			isSuccessReadFile = true;
+			str.Format(_T("in rebbon menu : load library core data  to toolBox\n"), pDoc->selectedComponentID);
+			pOutput->addBuildWindowString(str);
+		}
+		catch (CFileException *fe) {
+			// 예외가 발생하면 메세지박스를 통하여 사용자에게 알린다.
+			fe->ReportError();
+		}
+		catch (CArchiveException *ae) {
+			// 예외가 발생하면 메세지박스를 통하여 사용자에게 알린다.
+			ae->ReportError();
+		}
+		// CArchive 를 닫는다.
+		ar.Close();
+		// 파일을 닫는다.
+		librayboxFile.Close();
+	}
+
+	if (isSuccessReadFile == true) {
+		pFileView->addLibraryBox(fileName);
+		str.Format(_T("in file view : load success\n"));
+		pOutput->addBuildWindowString(str);
+	}
+	else {
+		str.Format(_T("in file view : load success\n"));
+		pOutput->addBuildWindowString(str);
+	}
+
+
+
+
 }
 
 

@@ -38,6 +38,10 @@ public:
 	CViewTree* getCFileViewTree();
 	void addCoreData(LIBRARY_BOX_DATA& coreData);
 	void getCoreData(LIBRARY_BOX_DATA& coreData, int index);
+
+	void initCoreData();
+	void loadCoreData(CString PathName, CString fileName);
+
 // 특성입니다.
 protected:
 	CViewTree m_wndFileView;
