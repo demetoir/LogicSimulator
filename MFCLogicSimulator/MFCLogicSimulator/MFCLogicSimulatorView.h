@@ -40,6 +40,8 @@
 #define SEVEN_SEGMENT_INPUT_BAR_HIGHT 160
 #define updateTimerID 12 
 #define updateTimer_TIME 1000
+#define SEVEN_SEGMENT_INPUT_BAR_WIDTH 30
+#define SEVEN_SEGMENT_INPUT_BAR_HIGHT 160
 
 enum MouseButtonFlag {
 	NBUTTON = NULL,							// 마우스 버튼이 눌리지 않은 상태
@@ -55,7 +57,6 @@ enum ModeFlag {
 class CMFCLogicSimulatorView : public CScrollView
 {
 public:
-
 	MouseButtonFlag m_MouseButtonFlag;			// 마우스 버튼이 클릭되어있는 상태 플래그
 	ModeFlag m_ModeFlag;
 
@@ -64,18 +65,20 @@ public:
 
 	CBitmap componentBitmap[SIZE_OF_COMPONENT_BITMAP];
 	bool isHighlightComponentMode;
-	int highlightComponentIndex;
+	int highlightedComponentIndex;
 	bool isHighlightTerminalPin;
+	int HighlightedTerminalPinType;
+	int HighlightedTerminalPinNumber;
 	bool ishighlightConnectedWire;
-
 	SELECTED_TERMINAL_INFO firstSelectedTerminalPin;
 	SELECTED_TERMINAL_INFO secondSelectedTerminalPin;
 	SELECTED_TERMINAL_INFO dummy_SELECTED_TERMINAL_INFO;
+	SELECTED_TERMINAL_INFO highlightedTerminalPinInfo;
 	CPoint currentSelectedTerminalPoint;
 	CPoint oldSelectedTerminalPoint;
-
 	CPoint currentConnectedWirePoints[4];
-	CPoint oldConnectedWirePoints[4];
+
+	
 
 
 protected: // serialization에서만 만들어집니다.
@@ -125,10 +128,8 @@ protected:
 	void drawAddingComponent(CDC &DC);
 	//화면에 있는 선택 한부품을 강조하는거
 	void drawMassage( CDC &DC);
-
 	//부품의 단자를 그린다
 	void drawComponentTermialPin(CDC& DC, int ID);
-
 	//부품의 몸체를 그린다
 	void drawComponentBody(CDC & DC, int ID);
 	//연결하는중일때의 선을 그린다
@@ -141,13 +142,10 @@ protected:
 	void drawHighlightSelectedComponent(CDC &DC);
 	//연결된선을 강조하는 부분을 그린다
 	void drawHighlightSelectedconnectedWire(CDC &DC);
-
 	void draw7SegmentInputBar(CDC &DC,CPoint point , COMPONENT_DIRECTION direction);
-
 	void drawInputTerminalPinLine(CDC &DC, int x, int y, COMPONENT_DIRECTION direction);
 	void drawOutputTerminalPinLine(CDC &DC, int x, int y, COMPONENT_DIRECTION direction);
-
-
+	
 	//타입으로 부품의 높이를 구한다
 	int getComponentHeight(COMPONENT_TYPE type);
 	int getComponentWidth(COMPONENT_TYPE type);
@@ -164,8 +162,7 @@ protected:
 		
 	COMPONENT_DIRECTION adjustDirection(COMPONENT_TYPE _type, COMPONENT_DIRECTION direction);
 	int adjustBitmapID(COMPONENT_TYPE type, int& bitmapID, CComponentObject* pCurrentObject);
-
-
+	
 	//현재 마우스가 부품위에 있는지 검사한다
 	int checkMouesPointOnComponent();
 	bool checkMouesPointOnTerminalPin(SELECTED_TERMINAL_INFO& selectedTerminalInfo);
@@ -174,15 +171,13 @@ protected:
 	void copyTerminalInfo(SELECTED_TERMINAL_INFO& source, SELECTED_TERMINAL_INFO& destination);
 	void copyPoints(CPoint* source, CPoint* destination,int size);	
 	void copyConnectionInfo(COMPONENT_CONENTION_INFO &source, COMPONENT_CONENTION_INFO &destination);
-
-
+	
 	void changeComponentValue(int id);
 
 public:
 	afx_msg void OnTimer(UINT_PTR nIDEvent);
 	void startUpdating();
 	void stopUpdating();
-
 };
 
 #ifndef _DEBUG  // MFCLogicSimulatorView.cpp의 디버그 버전
