@@ -752,10 +752,15 @@ void CMFCLogicSimulatorView::drawComponentBody(CDC & DC, int ID)
 	if (type == COMPONENT_TYPE_7SEGMENT) {
 		draw7SegmentInputBar(DC, CPoint(x, y), direction);
 	}	
+	
 	//가져온 비트맵을 제거한다
 	componentBitmap.DeleteObject();
-
-	DC.TextOutW(x + 15, y + 15, pDoc->engineComponentData[ID].label);
+	if (type == COMPONENT_TYPE_7SEGMENT) {
+		DC.TextOutW(x + 15, y + 75, pDoc->engineComponentData[ID].label);
+	}
+	else {
+		DC.TextOutW(x + 15, y + 15, pDoc->engineComponentData[ID].label);
+	}
 }
 
 void CMFCLogicSimulatorView::drawConnectingWire(CDC & DC)
@@ -842,7 +847,7 @@ void CMFCLogicSimulatorView::drawHighlightSelectedComponent(CDC & DC)
 	int y = currentComponent->y - nVertScroll;
 
 	if (currentComponent->type == COMPONENT_TYPE_LIBRARY_BOX) {
-		drawHighlightComponentBody(DC, x, y, 75, 120);
+		drawHighlightComponentBody(DC, x, y, 120, 120);
 	}
 	else if (currentComponent->type == COMPONENT_TYPE_7SEGMENT) {
 		drawHighlightComponentBody(DC, x, y, 45, 75);

@@ -21,6 +21,7 @@ using std::vector;
 using std::pair;
 using std::make_pair;
 #define DEFAULT_VALUE_ADDING_COMPONENT_DIRECTION EAST 
+
 enum LIBRARYBOX_TYPE {
 	LIBRARYBOX_TYPE_NONE,
 	LIBRARYBOX_TYPE_NAND,
@@ -30,6 +31,7 @@ enum LIBRARYBOX_TYPE {
 	LIBRARYBOX_TYPE_DFF,
 	LIBRARYBOX_TYPE_USER_DEFINE
 };
+
 enum COMPONENT_DIRECTION {
 	EAST,SOUTH,WEST,NORTH
 };
@@ -133,7 +135,6 @@ public :
 	void getStringByCOMPONENT_DIRECTION(COMPONENT_DIRECTION direct, CString & CS);
 	void getStringByCOMPONENT_TYPE(COMPONENT_TYPE compType, CString & CS);
 	
-
 	void make_NORGATE(CLibraryBox& box);
     void make_NANDGATE(CLibraryBox& box);		
 
