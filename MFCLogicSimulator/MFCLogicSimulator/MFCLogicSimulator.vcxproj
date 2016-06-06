@@ -194,6 +194,7 @@
     <ClInclude Include="FileView.h" />
     <ClInclude Include="InputPinComponent.h" />
     <ClInclude Include="LibraryBoxComponent.h" />
+    <ClInclude Include="LogicIOGraph.h" />
     <ClInclude Include="MainFrm.h" />
     <ClInclude Include="MFCLogicSimulator.h" />
     <ClInclude Include="MFCLogicSimulatorDoc.h" />
@@ -221,6 +222,7 @@
     <ClCompile Include="FileView.cpp" />
     <ClCompile Include="InputPinComponent.cpp" />
     <ClCompile Include="LibraryBoxComponent.cpp" />
+    <ClCompile Include="LogicIOGraph.cpp" />
     <ClCompile Include="MainFrm.cpp" />
     <ClCompile Include="MFCLogicSimulator.cpp" />
     <ClCompile Include="MFCLogicSimulatorDoc.cpp" />
