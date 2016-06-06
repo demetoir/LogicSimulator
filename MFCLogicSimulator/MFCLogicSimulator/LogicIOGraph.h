@@ -15,10 +15,11 @@ public:
 	int m_minY;
 	int m_maxY;
 
-	int m_x;
+	int m_yPos;
+	int m_xPos;
 	int m_xRatio;
 
-	int m_nShiftPoint;
+	int m_nShiftPoint; // 밀어내고 다시 그릴 픽셀 수
 
 	int m_clockCount;
 	int m_clockIn;
@@ -29,7 +30,7 @@ public:
 	CRect m_graphRect;
 	CFont m_font;
 
-	void drawPoint();
+	void drawPoint(CDC* pDC, CPoint point);
 	void ResetGraph();
 	void setRangeXY(int _minY = MIN_Y, int _maxY = MAX_Y, int X_ratio = DEFAULT_RATIO);
 	void setGraphLabel(CString _XUnits = _T("Time"), CString _YUnits = _T("Value"));
@@ -39,10 +40,9 @@ public:
 		int dCurrentPositionY;    // current position
 		int dPreviousPositionY;   // previous position
 		int	nPrevX;
-		int		iRatio;
+		int	iRatio;
 		CString graphLabel;
 	} PlotData_t;
-
 	PlotData_t* m_PlotData;
 };
 
