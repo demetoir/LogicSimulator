@@ -120,9 +120,9 @@ void CMFCLogicSimulatorDoc::Serialize(CArchive& ar)
 		LIBRARY_BOX_DATA data;
 		
 		//데이터의 사이즈를 가져온다
-		storeEngineComponentData(ar);
+		storeEngineComponentData(ar,&engineComponentData);
 		logicSimulatorEngine.saveLibraryBoxData(data);
-		storeEngineDumpData(ar,data);
+		storeEngineCoreData(ar,data);
 	}
 	else
 	{
@@ -130,8 +130,8 @@ void CMFCLogicSimulatorDoc::Serialize(CArchive& ar)
 		//MessageBox(0, fileName, _T("load"), 0);
 		// TODO: 여기에 로딩 코드를 추가합니다.
 		LIBRARY_BOX_DATA data;
-		loadEngineComponentData(ar);
-		loadEngineDumpData(ar,data);
+		loadEngineComponentData(ar,&engineComponentData);
+		loadEngineCoreData(ar,data);
 		logicSimulatorEngine.loadLibraryBoxData(data);
 
 
@@ -143,18 +143,18 @@ void CMFCLogicSimulatorDoc::Serialize(CArchive& ar)
 bool CMFCLogicSimulatorDoc::addComponentToEngine(int _x, int _y)
 {
 	//부품 선택 모드가 아니면 거짓을 반환함
-	if (operationMode != OPERATION_MODE_ADDING_COMPONENT) {
-		return false;
-	}
+
 
 	COMPONENT_TYPE selectedType;
 	CMainFrame *pFrame = (CMainFrame*)AfxGetMainWnd();
 	COutputWnd* pOutput = pFrame->getCOutputWnd();
+	CFileView *pFileView = (CFileView*)pFrame->getCFileView();
+	CViewTree* pToolbox = pFileView->getCFileViewTree();
 	CString str;
 	selectedType = getComponentTypeByToolBoxItemIndex(currentSelectedItemIndex);
 
 	// 테스트 용
-	COMPONENT_INFO addComponent(selectedType);
+	COMPONENT_INFO addingComponentInfo(selectedType);
 	int ret = 0;
 
 	if (selectedType == COMPONENT_TYPE_LIBRARY_BOX) {
@@ -168,64 +168,68 @@ bool CMFCLogicSimulatorDoc::addComponentToEngine(int _x, int _y)
 
 		}
 		else if (currentSelectedItemIndex == ITEM_NOR) {
-			ret = logicSimulatorEngine.addComponent(addComponent, norGateData);
+			ret = logicSimulatorEngine.addComponent(addingComponentInfo, norGateData);
 		}
 		else if (currentSelectedItemIndex == ITEM_NAND) {
-			ret = logicSimulatorEngine.addComponent(addComponent, nandGateData);
+			ret = logicSimulatorEngine.addComponent(addingComponentInfo, nandGateData);
 		}
 		//사용자 정의 라이브러리 박스일때
 		else {
-
+			LIBRARY_BOX_DATA userDefineLibraryboxCoreData;
+			pFileView->getCoreData(userDefineLibraryboxCoreData, currentSelectedItemIndex - (ITEM_LIBRARYBOX+1));
+			ret = logicSimulatorEngine.addComponent(addingComponentInfo, userDefineLibraryboxCoreData);
+		
 		}
 	}
 	else {
-		ret = logicSimulatorEngine.addComponent(addComponent);
+		ret = logicSimulatorEngine.addComponent(addingComponentInfo);
 	}
 
 	if (ret == false) {
 		str.Format(_T("in mfc logicsimulator doc : add component fail -> not support component\n"),
-			addComponent.componentID, selectedType, _x, _y);
+			addingComponentInfo.componentID, selectedType, _x, _y);
 		pOutput->addBuildWindowString(str);
 		return ret;
 	}
 
 	//사이즈가 모자르면 확장한다
-	if (addComponent.componentID >= engineComponentData.size()) {
+	if (addingComponentInfo.componentID >= engineComponentData.size()) {
 		engineComponentData.resize(engineComponentData.size() + 10);
 	}
 
 	//도큐먼트 데이터에 집어넣는다
-	engineComponentData[addComponent.componentID].id = addComponent.componentID;
-	engineComponentData[addComponent.componentID].type = selectedType;
-	engineComponentData[addComponent.componentID].x = _x;
-	engineComponentData[addComponent.componentID].y = _y;
-	engineComponentData[addComponent.componentID].direction = DEFAULT_VALUE_ADDING_COMPONENT_DIRECTION;
-	str.Format(_T("ID : %d"), addComponent);
-	engineComponentData[addComponent.componentID].label = str;
+	engineComponentData[addingComponentInfo.componentID].id = addingComponentInfo.componentID;
+	engineComponentData[addingComponentInfo.componentID].type = selectedType;
+	engineComponentData[addingComponentInfo.componentID].x = _x;
+	engineComponentData[addingComponentInfo.componentID].y = _y;
+	engineComponentData[addingComponentInfo.componentID].direction = DEFAULT_VALUE_ADDING_COMPONENT_DIRECTION;
+	str.Format(_T("ID : %d"), addingComponentInfo);
+	engineComponentData[addingComponentInfo.componentID].label = str;
+	
 	if (selectedType == COMPONENT_TYPE_LIBRARY_BOX) {
 		if (currentSelectedItemIndex == ITEM_DFF) {
-			engineComponentData[addComponent.componentID].libraryBoxType = LIBRARYBOX_TYPE_DFF;
+			engineComponentData[addingComponentInfo.componentID].libraryBoxType = LIBRARYBOX_TYPE_DFF;
 		}
 		else if (currentSelectedItemIndex == ITEM_JKFF) {
-			engineComponentData[addComponent.componentID].libraryBoxType = LIBRARYBOX_TYPE_JKFF;
+			engineComponentData[addingComponentInfo.componentID].libraryBoxType = LIBRARYBOX_TYPE_JKFF;
 		}
 		else if (currentSelectedItemIndex == ITEM_TFF) {
-			engineComponentData[addComponent.componentID].libraryBoxType = LIBRARYBOX_TYPE_TFF;
+			engineComponentData[addingComponentInfo.componentID].libraryBoxType = LIBRARYBOX_TYPE_TFF;
 		}
 		else if (currentSelectedItemIndex == ITEM_NOR) {
-			engineComponentData[addComponent.componentID].libraryBoxType = LIBRARYBOX_TYPE_NOR;
+			engineComponentData[addingComponentInfo.componentID].libraryBoxType = LIBRARYBOX_TYPE_NOR;
 		}
 		else if (currentSelectedItemIndex == ITEM_NAND) {
-			engineComponentData[addComponent.componentID].libraryBoxType = LIBRARYBOX_TYPE_NAND;
+			engineComponentData[addingComponentInfo.componentID].libraryBoxType = LIBRARYBOX_TYPE_NAND;
 		}
 		//사용자 정의 라이브러리 박스일때
 		else {
-
+			engineComponentData[addingComponentInfo.componentID].libraryBoxType = LIBRARYBOX_TYPE_USER_DEFINE;
 		}
 	}
 	
 	str.Format(_T("in mfc logicsimulator doc : add component, ID : %d\n, type : %d (x,y) = (%d,%d),"),
-		addComponent.componentID, selectedType, _x, _y);
+		addingComponentInfo.componentID, selectedType, _x, _y);
 	pOutput->addBuildWindowString(str);
 	return true;
 }
@@ -258,16 +262,16 @@ void CMFCLogicSimulatorDoc::deleteComponentToEngine()
 	return;
 }
 
-void CMFCLogicSimulatorDoc::connectComponent(COMPONENT_CONENTION_INFO & A, COMPONENT_CONENTION_INFO & B)
+bool CMFCLogicSimulatorDoc::connectComponent(COMPONENT_CONENTION_INFO & A, COMPONENT_CONENTION_INFO & B)
 {
 	bool AToBDirection;
 	bool BToADirection;
 	CMainFrame *pFrame = (CMainFrame*)AfxGetMainWnd();
 	COutputWnd* pOutput = pFrame->getCOutputWnd();
-
+	bool ret = false;
 	CString str;
+
 	AToBDirection = logicSimulatorEngine.connnectComponent(A, B);
-	BToADirection = logicSimulatorEngine.connnectComponent(B, A);
 	if (AToBDirection == true) {
 		str.Format(_T("in mfc logicsimulator doc : connect component ID : %d to ID: %d\n"),
 			B.componentID, A.componentID);
@@ -276,8 +280,11 @@ void CMFCLogicSimulatorDoc::connectComponent(COMPONENT_CONENTION_INFO & A, COMPO
 			A.componentID, A.terminalType, A.terminalNumber,
 			B.componentID, B.terminalType, B.terminalNumber);
 		pOutput->addBuildWindowString(str);
-	}
-	else if (BToADirection == true) {
+		ret = true;
+	}	
+	
+	BToADirection = logicSimulatorEngine.connnectComponent(B, A);
+	if (BToADirection == true) {
 		str.Format(_T("in mfc logicsimulator doc : connect component ID : %d to ID: %d\n"),
 			B.componentID, A.componentID);
 		pOutput->addBuildWindowString(str);
@@ -285,13 +292,14 @@ void CMFCLogicSimulatorDoc::connectComponent(COMPONENT_CONENTION_INFO & A, COMPO
 			B.componentID, B.terminalType, B.terminalNumber,
 			A.componentID, A.terminalType, A.terminalNumber);
 		pOutput->addBuildWindowString(str);
+		ret = true;
 	}
-	else {
-		str.Format(_T("in mfc logicsimulator doc : connect component fail\n"));
+	
+	if (ret == false) {
+	str.Format(_T("in mfc logicsimulator doc : connect component fail\n"));
 		pOutput->addBuildWindowString(str);
-
 	}
-	return ;
+	return ret;
 }
 
 void CMFCLogicSimulatorDoc::disconectComponent()
@@ -623,14 +631,14 @@ void CMFCLogicSimulatorDoc::make_NORGATE(CLibraryBox & box)
 
 
 
-void CMFCLogicSimulatorDoc::storeEngineComponentData(CArchive & ar)
+void CMFCLogicSimulatorDoc::storeEngineComponentData(CArchive & ar, vector <COMPONENT_DATA>* engineComponentData)
 {
 	COMPONENT_DATA *pData;
-	int size = engineComponentData.size();
+	int size = (*engineComponentData).size();
 	ar << size;
 
 	for (int i = 0; i < size; i++) {
-		pData = &engineComponentData[i];
+		pData = &((*engineComponentData)[i]);
 		ar << (int)(pData->x);
 		ar << (int)(pData->y);
 		ar << (int)(pData->clockEdge);
@@ -645,16 +653,16 @@ void CMFCLogicSimulatorDoc::storeEngineComponentData(CArchive & ar)
 	return;
 }
 
-void CMFCLogicSimulatorDoc::loadEngineComponentData(CArchive & ar)
+void CMFCLogicSimulatorDoc::loadEngineComponentData(CArchive & ar, vector <COMPONENT_DATA>* engineComponentData)
 {
 	COMPONENT_DATA *pData;
 	int size;
 	ar >> size;
-	engineComponentData.resize(size);
+	(*engineComponentData).resize(size);
 
 	int enumTempValue;
 	for (int i = 0; i < size; i++) {
-		pData = &engineComponentData[i];
+		pData = &((*engineComponentData)[i]);
 		ar >> pData->x;
 		ar >> pData->y;
 		ar >> pData->clockEdge;
@@ -672,7 +680,7 @@ void CMFCLogicSimulatorDoc::loadEngineComponentData(CArchive & ar)
 	return;
 }
 
-void CMFCLogicSimulatorDoc::storeEngineDumpData(CArchive & ar, LIBRARY_BOX_DATA& data)
+void CMFCLogicSimulatorDoc::storeEngineCoreData(CArchive & ar, LIBRARY_BOX_DATA& data)
 {
 
 
@@ -735,11 +743,11 @@ void CMFCLogicSimulatorDoc::storeEngineDumpData(CArchive & ar, LIBRARY_BOX_DATA&
 	//vector < LIBRARY_BOX_DATA > internalLibraryBoxData;
 	ar << (int)data.internalLibraryBoxData.size();
 	for (int i = 0; i < data.internalLibraryBoxData.size(); i++) {
-		storeEngineDumpData(ar, data.internalLibraryBoxData[i]);
+		storeEngineCoreData(ar, data.internalLibraryBoxData[i]);
 	}
 }
 
-void CMFCLogicSimulatorDoc::loadEngineDumpData(CArchive & ar, LIBRARY_BOX_DATA& data)
+void CMFCLogicSimulatorDoc::loadEngineCoreData(CArchive & ar, LIBRARY_BOX_DATA& data)
 {
 	int enumTempValue;
 	int size;
@@ -818,8 +826,18 @@ void CMFCLogicSimulatorDoc::loadEngineDumpData(CArchive & ar, LIBRARY_BOX_DATA& 
 	ar >> size;
 	data.internalLibraryBoxData.resize(size);
 	for (int i = 0; i < data.internalLibraryBoxData.size(); i++) {
-		loadEngineDumpData(ar, data.internalLibraryBoxData[i]);
+		loadEngineCoreData(ar, data.internalLibraryBoxData[i]);
 	}
+}
+
+bool CMFCLogicSimulatorDoc::checkConnectionWireToWire(COMPONENT_CONENTION_INFO & A, COMPONENT_CONENTION_INFO & B)
+{
+	//부품간 직접 연결하려고 할때
+	if (A.terminalType != COMPONENT_TYPE_WIRE &&
+		B.terminalType != COMPONENT_TYPE_WIRE) {
+		
+	}
+	return false;
 }
 
 

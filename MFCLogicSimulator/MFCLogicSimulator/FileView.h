@@ -11,7 +11,7 @@
 
 #pragma once
 #include "ViewTree.h"
-
+#include "LibraryBoxComponent.h"
 class CFileViewToolBar : public CMFCToolBar
 {
 	virtual void OnUpdateCmdUI(CFrameWnd* /*pTarget*/, BOOL bDisableIfNoHndler)
@@ -30,32 +30,33 @@ public:
 	CFileView();
 	//HTREEITEM selectedItem;
 	//HTREEITEM nextItem;
-
 	void AdjustLayout();
 	void OnChangeVisualStyle();
 	//HTREEITEM getItemSelected() const;
 	//HTREEITEM getChildItem(HTREEITEM hItem) const;
 	//HTREEITEM getNextItem(HTREEITEM n_Item, UINT n_Flag) const;
 	CViewTree* getCFileViewTree();
-
+	void addCoreData(LIBRARY_BOX_DATA& coreData);
+	void getCoreData(LIBRARY_BOX_DATA& coreData, int index);
 // 특성입니다.
 protected:
 	CViewTree m_wndFileView;
 	CImageList m_FileViewImages;
 	CFileViewToolBar m_wndToolBar;
+	HTREEITEM hLib;
+	vector <LIBRARY_BOX_DATA> coreDataList;
 
-protected:
 	void FillFileView();
 
-// 구현입니다.
+
+
 public:
 	virtual ~CFileView();
-
+	void addLibraryBox(CString LibraryBoxName);
 protected:
 	afx_msg int OnCreate(LPCREATESTRUCT lpCreateStruct);
 	afx_msg void OnSize(UINT nType, int cx, int cy);
 	afx_msg void OnContextMenu(CWnd* pWnd, CPoint point);
-//	afx_msg void OnProperties();
 	afx_msg void OnFileOpen();
 	afx_msg void OnFileOpenWith();
 	afx_msg void OnDummyCompile();

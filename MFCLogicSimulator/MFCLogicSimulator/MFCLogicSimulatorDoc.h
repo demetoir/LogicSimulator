@@ -121,7 +121,7 @@ public :
 	void deleteComponentToEngine();
 
 	//부품을 서로 연결한다
-	void connectComponent(COMPONENT_CONENTION_INFO& A, COMPONENT_CONENTION_INFO& B);
+	bool connectComponent(COMPONENT_CONENTION_INFO& A, COMPONENT_CONENTION_INFO& B);
 	//부품을 서로 연결해제한다
 	void disconectComponent();
 
@@ -137,11 +137,12 @@ public :
 	void make_NORGATE(CLibraryBox& box);
     void make_NANDGATE(CLibraryBox& box);		
 
-	void storeEngineComponentData(CArchive& ar);
-	void loadEngineComponentData(CArchive& ar);
-	void storeEngineDumpData(CArchive& ar, LIBRARY_BOX_DATA& data);
-	void loadEngineDumpData(CArchive& ar, LIBRARY_BOX_DATA& data);
+	void storeEngineComponentData(CArchive& ar, vector <COMPONENT_DATA>* engineComponentData);
+	void loadEngineComponentData(CArchive& ar, vector <COMPONENT_DATA>* engineComponentData);
+	void storeEngineCoreData(CArchive& ar, LIBRARY_BOX_DATA& data);
+	void loadEngineCoreData(CArchive& ar, LIBRARY_BOX_DATA& data);
 
+	bool checkConnectionWireToWire(COMPONENT_CONENTION_INFO& A, COMPONENT_CONENTION_INFO& B);
 
 #ifdef SHARED_HANDLERS
 	virtual void InitializeSearchContent();
