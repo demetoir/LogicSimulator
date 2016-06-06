@@ -23,7 +23,8 @@ class CChildFrame : public CMDIChildWndEx
 public:
 	CChildFrame();
 	int selectedComponentID;
-	COMPONENT_DATA copydata;
+	int x,y;
+	int selectedComponentToolboxItemIndex;
 
 	
 // 특성입니다.

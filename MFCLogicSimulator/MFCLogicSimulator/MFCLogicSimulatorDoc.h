@@ -105,6 +105,7 @@ public :
 	LIBRARY_BOX_DATA engineCoreData;
 	//뷰에서 사용되어질 정보들
 	vector <COMPONENT_DATA> engineComponentData;
+	vector<int > toolboxItemData;
 
 	LIBRARY_BOX_DATA nandGateData;
 	LIBRARY_BOX_DATA norGateData;
@@ -117,6 +118,9 @@ public :
 	COMPONENT_CONENTION_INFO selectedconnectionInfoA;
 	COMPONENT_CONENTION_INFO selectedconnectionInfoB;
 	OPERATION_MODE operationMode;
+	
+
+
 
 	//부품을 추가한다
 	int addComponentToEngine(int _x,int _y, int itemIndex);

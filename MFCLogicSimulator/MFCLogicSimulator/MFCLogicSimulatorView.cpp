@@ -711,16 +711,16 @@ void CMFCLogicSimulatorView::drawMiniMap(CDC &DC)
 
 void CMFCLogicSimulatorView::drawMassage(CDC & DC)
 {
-	CMFCLogicSimulatorDoc* pDoc = GetDocument();
-	int nHorzScroll = GetScrollPos(SB_HORZ);
-	int nVertScroll = GetScrollPos(SB_VERT);
-	CString str;
-	int x = 200 - nHorzScroll;
-	int y = 300 - nVertScroll;
-	if (pDoc->isCurcuitOcillate == true) {
-		str = "curcuit is ocillate\n";
-		DC.TextOutW(x,y,str);	
-	}
+	//CMFCLogicSimulatorDoc* pDoc = GetDocument();
+	//int nHorzScroll = GetScrollPos(SB_HORZ);
+	//int nVertScroll = GetScrollPos(SB_VERT);
+	//CString str;
+	//int x = 200 - nHorzScroll;
+	//int y = 300 - nVertScroll;
+	//if (pDoc->isCurcuitOcillate == true) {
+	//	str = "curcuit is ocillate\n";
+	//	DC.TextOutW(x,y,str);	
+	//}
 }
 
 void CMFCLogicSimulatorView::drawComponentTermialPin(CDC & DC, int ID)
@@ -867,7 +867,7 @@ void CMFCLogicSimulatorView::drawHighlightComponentTerminalPin(CDC & DC)
 	int y = currentSelectedTerminalPoint.y - nVertScroll;
 
 	CPen pen;
-	pen.CreatePen(PS_SOLID, 2, RGB(153, 0, 0255));    // 奇 积己
+	pen.CreatePen(PS_SOLID, 2, RGB(153, 0, 255));    // 奇 积己
 
 	CPen* oldPen= DC.SelectObject(&pen);
 	

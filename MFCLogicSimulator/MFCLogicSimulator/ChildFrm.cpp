@@ -342,7 +342,10 @@ void CChildFrame::OnEditCopy()
 	CChildFrame *pChild = (CChildFrame *)pFrame->GetActiveFrame();
 	CMFCLogicSimulatorDoc *pDoc = (CMFCLogicSimulatorDoc *)pChild->GetActiveDocument();
 	selectedComponentID = pDoc->selectedComponentID;
-	
+	int id = selectedComponentID;
+	x = pDoc->engineComponentData[id].x;
+	y = pDoc->engineComponentData[id].y;
+	selectedComponentToolboxItemIndex  = pDoc->toolboxItemData[id];
 
 
 	if (!OpenClipboard())
@@ -357,10 +360,7 @@ void CChildFrame::OnEditCopy()
 		return;
 	}
 	// Get the currently selected data
-
-
 	CloseClipboard();
-
 }
 void CChildFrame::OnUpdateEditCopy(CCmdUI *pCmdUI)
 {
@@ -375,15 +375,10 @@ void CChildFrame::OnEditPaste()
 	CMFCLogicSimulatorDoc *pDoc = (CMFCLogicSimulatorDoc *)pChild->GetActiveDocument();
 	if (selectedComponentID <= 0) {
 		return;
-	}
-		
-	if (pDoc->engineComponentData[selectedComponentID].id > 0) {
-		int x = pDoc->engineComponentData[selectedComponentID].x;
-		int y = pDoc->engineComponentData[selectedComponentID].y;
-	}
+	}			
+	pDoc->addComponentToEngine(x + 30, y + 30, selectedComponentToolboxItemIndex);
 
-
-
+	pChild->GetActiveView()->Invalidate();
 }
 void CChildFrame::OnUpdateEditPaste(CCmdUI *pCmdUI)
 {
@@ -393,8 +388,16 @@ void CChildFrame::OnUpdateEditPaste(CCmdUI *pCmdUI)
 
 void CChildFrame::OnEditCut()
 {
-	// TODO: 여기에 명령 처리기 코드를 추가합니다.
-	AfxMessageBox(_T("cut"));
+	CMainFrame *pFrame = (CMainFrame*)AfxGetMainWnd();
+	CChildFrame *pChild = (CChildFrame *)pFrame->GetActiveFrame();
+	CMFCLogicSimulatorDoc *pDoc = (CMFCLogicSimulatorDoc *)pChild->GetActiveDocument();
+	selectedComponentID = pDoc->selectedComponentID;
+	int id = selectedComponentID;
+	x = pDoc->engineComponentData[id].x;
+	y = pDoc->engineComponentData[id].y;
+	selectedComponentToolboxItemIndex = pDoc->toolboxItemData[id];
+	pDoc->deleteComponentToEngine(id);
+	pChild->GetActiveView()->Invalidate();
 }
 void CChildFrame::OnUpdateEditCut(CCmdUI *pCmdUI)
 {

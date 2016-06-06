@@ -140,36 +140,35 @@ void CMFCLogicSimulatorDoc::Serialize(CArchive& ar)
 
 
 
-int CMFCLogicSimulatorDoc::addComponentToEngine(int _x, int _y, int itemIndex)
+int CMFCLogicSimulatorDoc::addComponentToEngine(int _x, int _y, int ToolBoxItemIndex)
 {
-	COMPONENT_TYPE selectedType = getComponentTypeByToolBoxItemIndex(itemIndex);
+	COMPONENT_TYPE selectedType = getComponentTypeByToolBoxItemIndex(ToolBoxItemIndex);
 	CMainFrame *pFrame = (CMainFrame*)AfxGetMainWnd();
 	COutputWnd* pOutput = pFrame->getCOutputWnd();
 	CFileView *pFileView = (CFileView*)pFrame->getCFileView();
 	CString str;
 	COMPONENT_INFO addingComponentInfo(selectedType);
 	int ret = 0;
-
 	if (selectedType == COMPONENT_TYPE_LIBRARY_BOX) {
-		if (itemIndex == ITEM_DFF) {
+		if (ToolBoxItemIndex == ITEM_DFF) {
 
 		}
-		else if (itemIndex == ITEM_JKFF) {
+		else if (ToolBoxItemIndex == ITEM_JKFF) {
 
 		}
-		else if (itemIndex == ITEM_TFF) {
+		else if (ToolBoxItemIndex == ITEM_TFF) {
 
 		}
-		else if (itemIndex == ITEM_NOR) {
+		else if (ToolBoxItemIndex == ITEM_NOR) {
 			ret = logicSimulatorEngine.addComponent(addingComponentInfo, norGateData);
 		}
-		else if (itemIndex == ITEM_NAND) {
+		else if (ToolBoxItemIndex == ITEM_NAND) {
 			ret = logicSimulatorEngine.addComponent(addingComponentInfo, nandGateData);
 		}
 		//사용자 정의 라이브러리 박스일때
 		else {
 			LIBRARY_BOX_DATA userDefineLibraryboxCoreData;
-			pFileView->getCoreData(userDefineLibraryboxCoreData, itemIndex - (ITEM_LIBRARYBOX+1));
+			pFileView->getCoreData(userDefineLibraryboxCoreData, ToolBoxItemIndex - (ITEM_LIBRARYBOX+1));
 			ret = logicSimulatorEngine.addComponent(addingComponentInfo, userDefineLibraryboxCoreData);
 		}
 	}
@@ -189,8 +188,6 @@ int CMFCLogicSimulatorDoc::addComponentToEngine(int _x, int _y, int itemIndex)
 	if (addingComponentInfo.componentID >= engineComponentData.size()) {
 		engineComponentData.resize(engineComponentData.size() + 10);
 	}
-
-	
 	//도큐먼트 데이터에 집어넣는다
 	engineComponentData[addingComponentInfo.componentID].id = addingComponentInfo.componentID;
 	engineComponentData[addingComponentInfo.componentID].type = selectedType;
@@ -201,21 +198,27 @@ int CMFCLogicSimulatorDoc::addComponentToEngine(int _x, int _y, int itemIndex)
 	label.Format(_T("ID :%d"), addingComponentInfo.componentID);
 	engineComponentData[addingComponentInfo.componentID].label = label;
 	
+	if (addingComponentInfo.componentID >= toolboxItemData.size()) {
+		toolboxItemData.resize(toolboxItemData.size() + 10);
+	}
+	toolboxItemData[addingComponentInfo.componentID] = ToolBoxItemIndex;
+
+
 	if (selectedType == COMPONENT_TYPE_LIBRARY_BOX) {
-		if (itemIndex == ITEM_DFF) {
+		if (ToolBoxItemIndex == ITEM_DFF) {
 			engineComponentData[addingComponentInfo.componentID].libraryBoxType = LIBRARYBOX_TYPE_DFF;
 			
 		}
-		else if (itemIndex == ITEM_JKFF) {
+		else if (ToolBoxItemIndex == ITEM_JKFF) {
 			engineComponentData[addingComponentInfo.componentID].libraryBoxType = LIBRARYBOX_TYPE_JKFF;
 		}
-		else if (itemIndex == ITEM_TFF) {
+		else if (ToolBoxItemIndex == ITEM_TFF) {
 			engineComponentData[addingComponentInfo.componentID].libraryBoxType = LIBRARYBOX_TYPE_TFF;
 		}
-		else if (itemIndex == ITEM_NOR) {
+		else if (ToolBoxItemIndex == ITEM_NOR) {
 			engineComponentData[addingComponentInfo.componentID].libraryBoxType = LIBRARYBOX_TYPE_NOR;
 		}
-		else if (itemIndex == ITEM_NAND) {
+		else if (ToolBoxItemIndex == ITEM_NAND) {
 			engineComponentData[addingComponentInfo.componentID].libraryBoxType = LIBRARYBOX_TYPE_NAND;
 			
 		}
