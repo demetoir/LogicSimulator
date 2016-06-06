@@ -382,6 +382,14 @@ void CMFCLogicSimulatorView::OnPaint()
 
 	//버퍼 역할을 하는 비트맵을 화면으로 출력한다
 	dc.BitBlt(0, 0, rect.Width(), rect.Height(), &memDC, 0, 0, SRCCOPY);
+	{ // 미니맵 그리기
+		CPoint scrollpos = GetScrollPosition();
+		// 미니맵 테두리
+		dc.Rectangle(9, 9, rect.Width() / 4 + 9, rect.Height() / 4 + 9);
+		// 미니맵
+		dc.StretchBlt(10, 10, rect.Width() / 4, rect.Height() / 4, &memDC,
+			10, 10, rect.Width(), rect.Height(), SRCCOPY);
+	}
 	dc.SelectObject(pOldBitmap);
 	newBitmap.DeleteObject();
 	ReleaseDC(&memDC);
