@@ -122,6 +122,7 @@ public :
 	int addComponentToEngine(int _x,int _y, int itemIndex);
 	void deleteComponentToEngine(int id);
 
+
 	//부품을 서로 연결한다
 	bool connectComponent(COMPONENT_CONENTION_INFO& A, COMPONENT_CONENTION_INFO& B);
 	//부품을 서로 연결해제한다
@@ -144,6 +145,9 @@ public :
 	void loadEngineCoreData(CArchive& ar, LIBRARY_BOX_DATA& data);
 
 	bool checkConnectionWireToWire(COMPONENT_CONENTION_INFO& A, COMPONENT_CONENTION_INFO& B);
+
+
+
 
 #ifdef SHARED_HANDLERS
 	virtual void InitializeSearchContent();

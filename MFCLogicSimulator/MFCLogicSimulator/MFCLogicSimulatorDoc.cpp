@@ -190,17 +190,21 @@ int CMFCLogicSimulatorDoc::addComponentToEngine(int _x, int _y, int itemIndex)
 		engineComponentData.resize(engineComponentData.size() + 10);
 	}
 
+	
 	//도큐먼트 데이터에 집어넣는다
 	engineComponentData[addingComponentInfo.componentID].id = addingComponentInfo.componentID;
 	engineComponentData[addingComponentInfo.componentID].type = selectedType;
 	engineComponentData[addingComponentInfo.componentID].x = _x;
 	engineComponentData[addingComponentInfo.componentID].y = _y;
 	engineComponentData[addingComponentInfo.componentID].direction = DEFAULT_VALUE_ADDING_COMPONENT_DIRECTION;
-	engineComponentData[addingComponentInfo.componentID].label = str;
+	CString label;
+	label.Format(_T("ID :%d"), addingComponentInfo.componentID);
+	engineComponentData[addingComponentInfo.componentID].label = label;
 	
 	if (selectedType == COMPONENT_TYPE_LIBRARY_BOX) {
 		if (itemIndex == ITEM_DFF) {
 			engineComponentData[addingComponentInfo.componentID].libraryBoxType = LIBRARYBOX_TYPE_DFF;
+			
 		}
 		else if (itemIndex == ITEM_JKFF) {
 			engineComponentData[addingComponentInfo.componentID].libraryBoxType = LIBRARYBOX_TYPE_JKFF;
@@ -213,6 +217,7 @@ int CMFCLogicSimulatorDoc::addComponentToEngine(int _x, int _y, int itemIndex)
 		}
 		else if (itemIndex == ITEM_NAND) {
 			engineComponentData[addingComponentInfo.componentID].libraryBoxType = LIBRARYBOX_TYPE_NAND;
+			
 		}
 		//사용자 정의 라이브러리 박스일때
 		else {
