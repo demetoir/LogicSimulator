@@ -22,6 +22,8 @@ class CChildFrame : public CMDIChildWndEx
 	DECLARE_DYNCREATE(CChildFrame)
 public:
 	CChildFrame();
+	int selectedComponentID;
+	COMPONENT_DATA copydata;
 
 	
 // 특성입니다.

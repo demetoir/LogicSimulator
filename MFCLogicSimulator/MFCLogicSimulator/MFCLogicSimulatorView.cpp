@@ -1456,12 +1456,14 @@ void CMFCLogicSimulatorView::startUpdating()
 void CMFCLogicSimulatorView::stopUpdating()
 {
 	CMainFrame *pFrame = (CMainFrame*)AfxGetMainWnd();
+
 	COutputWnd* pOutput = pFrame->getCOutputWnd();
 	CString str;
 	str.Format(_T("in mfc logicsimulator view : end updating\n"));
 	pOutput->addBuildWindowString(str);
 	KillTimer(updateTimerID);
 	Invalidate();
+	//CChildFrame *pChildFrame = pFrame->get
 }
 
 
@@ -1472,6 +1474,7 @@ void CMFCLogicSimulatorView::OnTimer(UINT_PTR nIDEvent)
 	CMainFrame* pFrame = (CMainFrame*)AfxGetMainWnd();
 	CMFCLogicSimulatorDoc* pDoc = GetDocument();
 
+	CChildFrame *pChild = (CChildFrame *)pFrame->GetActiveFrame();
 	CScrollView::OnTimer(nIDEvent);
 	switch (nIDEvent) {
 	case updateTimerID:
@@ -1482,6 +1485,8 @@ void CMFCLogicSimulatorView::OnTimer(UINT_PTR nIDEvent)
 			pDoc->isCurcuitOcillate = true;
 			pDoc->logicSimulatorEngine.setOffOscillation();
 			AfxMessageBox(_T("진동 발생이 확실합니다"));
+			SendMessage(ID_BUTTONCONTINUE, 0, 0);
+			SendMessage(ID_BUTTONSTOP, 0, 0);
 		}
 		Invalidate();
 	}

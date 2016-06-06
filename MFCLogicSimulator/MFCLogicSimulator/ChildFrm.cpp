@@ -76,7 +76,7 @@ END_MESSAGE_MAP()
 
 CChildFrame::CChildFrame()
 {
-	// TODO: 여기에 멤버 초기화 코드를 추가합니다.
+	selectedComponentID = 0;
 }
 
 CChildFrame::~CChildFrame()
@@ -204,6 +204,11 @@ void CChildFrame::OnUpdateButtonstop(CCmdUI *pCmdUI)
 	CChildFrame *pChild = (CChildFrame *)pFrame->GetActiveFrame();
 	CMFCLogicSimulatorDoc *pDoc = (CMFCLogicSimulatorDoc *)pChild->GetActiveDocument();
 
+
+	if (pDoc->isCurcuitOcillate == true) {
+		pCmdUI->SetCheck(1);
+
+	}
 	if (pDoc->isRunningMode == false) {
 		pCmdUI->SetCheck(1);
 	}
@@ -239,13 +244,18 @@ void CChildFrame::OnUpdateButtoncontinue(CCmdUI *pCmdUI)
 	CMainFrame *pFrame = (CMainFrame*)AfxGetMainWnd();
 	CChildFrame *pChild = (CChildFrame *)pFrame->GetActiveFrame();
 	CMFCLogicSimulatorDoc *pDoc = (CMFCLogicSimulatorDoc *)pChild->GetActiveDocument();
-
+	
+	if (pDoc->isCurcuitOcillate == true) {
+		pCmdUI->SetCheck(0);
+		pDoc->isRunningMode = false;
+	}
 	if (pDoc->isRunningMode == true) {
 		pCmdUI->SetCheck(1);
 	}
 	else {
 		pCmdUI->SetCheck(0);
 	}
+
 }
 
 
@@ -310,12 +320,13 @@ void CChildFrame::OnUpdateButtonEditMode(CCmdUI *pCmdUI)
 	CChildFrame *pChild = (CChildFrame *)pFrame->GetActiveFrame();
 	CMFCLogicSimulatorDoc *pDoc = (CMFCLogicSimulatorDoc *)pChild->GetActiveDocument();
 
-	if (pDoc->operationMode == OPERATION_MODE_NONE) {
+	if (pDoc->operationMode != OPERATION_MODE_VAlUE_CHANGE) {
 		pCmdUI->SetCheck(1);
 	}
 	else {
 		pCmdUI->SetCheck(0);
 	}
+
 }
 /*************** Ribbon button 처리기 *****************/
 
@@ -327,7 +338,13 @@ void CChildFrame::OnUpdateButtonEditMode(CCmdUI *pCmdUI)
 void CChildFrame::OnEditCopy()
 {
 	// TODO: 여기에 명령 처리기 코드를 추가합니다.
-	AfxMessageBox(_T("copy"));
+	CMainFrame *pFrame = (CMainFrame*)AfxGetMainWnd();
+	CChildFrame *pChild = (CChildFrame *)pFrame->GetActiveFrame();
+	CMFCLogicSimulatorDoc *pDoc = (CMFCLogicSimulatorDoc *)pChild->GetActiveDocument();
+	selectedComponentID = pDoc->selectedComponentID;
+	
+
+
 	if (!OpenClipboard())
 	{
 		AfxMessageBox(_T("Cannot open the Clipboard"));
@@ -353,8 +370,20 @@ void CChildFrame::OnUpdateEditCopy(CCmdUI *pCmdUI)
 
 void CChildFrame::OnEditPaste()
 {
-	// TODO: 여기에 명령 처리기 코드를 추가합니다.
-	AfxMessageBox(_T("paste"));
+	CMainFrame *pFrame = (CMainFrame*)AfxGetMainWnd();
+	CChildFrame *pChild = (CChildFrame *)pFrame->GetActiveFrame();
+	CMFCLogicSimulatorDoc *pDoc = (CMFCLogicSimulatorDoc *)pChild->GetActiveDocument();
+	if (selectedComponentID <= 0) {
+		return;
+	}
+		
+	if (pDoc->engineComponentData[selectedComponentID].id > 0) {
+		int x = pDoc->engineComponentData[selectedComponentID].x;
+		int y = pDoc->engineComponentData[selectedComponentID].y;
+	}
+
+
+
 }
 void CChildFrame::OnUpdateEditPaste(CCmdUI *pCmdUI)
 {
