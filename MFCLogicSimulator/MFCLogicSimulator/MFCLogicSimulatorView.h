@@ -174,6 +174,8 @@ protected:
 	
 	void changeComponentValue(int id);
 
+	bool checkIsPossibleDirectConnect(COMPONENT_CONENTION_INFO &A, COMPONENT_CONENTION_INFO &B);
+
 public:
 	afx_msg void OnTimer(UINT_PTR nIDEvent);
 	void startUpdating();

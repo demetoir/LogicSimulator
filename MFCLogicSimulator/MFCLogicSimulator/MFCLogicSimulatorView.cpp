@@ -149,7 +149,7 @@ void CMFCLogicSimulatorView::OnLButtonDown(UINT nFlags, CPoint point)
 	switch (pDoc->operationMode) {
 	case OPERATION_MODE_ADDING_COMPONENT: {
 		//선택한 부품을 도큐에 추가한다
-		pDoc->addComponentToEngine(point.x + nHorzScroll, point.y + nVertScroll);
+		pDoc->addComponentToEngine(point.x + nHorzScroll, point.y + nVertScroll,pDoc->currentSelectedItemIndex );
 		pDoc->operationMode = OPERATION_MODE_NONE;
 		//tree view 부품 선택모드를 해제하는 메세지를 날린다		
 		((pFrame->getCFileView())->getCFileViewTree())->SendMessage(UM_UNSELECT_ITEM_IN_TREEVIEW);
@@ -178,28 +178,53 @@ void CMFCLogicSimulatorView::OnLButtonDown(UINT nFlags, CPoint point)
 		bool isInTerminalPin = checkMouesPointOnTerminalPin(selectedTerminalInfo);
 		//다른곳을 클릭하였다 해제한다
 		if (isInTerminalPin == true) {
+
 			bool isConnected = false;
-			checkMouesPointOnTerminalPin(selectedTerminalInfo);
-			
+			checkMouesPointOnTerminalPin(selectedTerminalInfo);			
 			//연결해본다
 			isConnected = pDoc->connectComponent(selectedTerminalInfo,
 				firstSelectedTerminalPin);
+			
+			//안되면 부품간 직접 연결인지 확인하고 연결해본다
+			if (isConnected == false) {
+				int aID = selectedTerminalInfo.componentID;
+				int bID = firstSelectedTerminalPin.componentID;
+				int aX = pDoc->engineComponentData[aID].x;
+				int aY = pDoc->engineComponentData[aID].y;
+				int bX = pDoc->engineComponentData[bID].x;
+				int bY = pDoc->engineComponentData[bID].y;
+				int newX = bX + (aX - bX) / 2;
+				int newY = bY + (aY - bY) / 2;
+				bool isdirectConnected = 0;
+				int id;
+				bool wireInputSide;
+				bool wireOuputSide;
+				COMPONENT_CONENTION_INFO WireInput(0, TERMINAL_TYPE_INPUT, 0);
+				COMPONENT_CONENTION_INFO WireOutput(0, TERMINAL_TYPE_OUTPUT, 0);
 
-			////안되면 부품간 직접 연결인지 확인하고 연결해본다
-			//if (isConnected == false) {
-			//	int aID = selectedTerminalInfo.componentID;
-			//	int bID = firstSelectedTerminalPin.componentID;
-			//	int aX = pDoc->engineComponentData[aID].x;
-			//	int aY = pDoc->engineComponentData[aID].y;
-			//	int bX = pDoc->engineComponentData[bID].x;
-			//	int bY = pDoc->engineComponentData[bID].y;
-			//	int newX = (aX - bX) / 2;
-			//	int newY = (aY - bY) / 2;
-			//	COMPONENT_INFO newWire;
-			//	newWire.componentType = COMPONENT_TYPE_WIRE;
-			//}
-
-
+				//wire 부품을 만들어본다
+				id = pDoc->addComponentToEngine(newX, newY, ITEM_WIRE);
+				WireInput.componentID = id;
+				WireOutput.componentID = id;
+				//다이렉트 A->B 방향으로해본다
+				wireInputSide = pDoc->connectComponent(selectedTerminalInfo, WireInput);
+				wireOuputSide = pDoc->connectComponent(firstSelectedTerminalPin, WireOutput);
+				if (wireInputSide == false || wireOuputSide == false) {
+					isdirectConnected = false;
+					pDoc->deleteComponentToEngine(id);
+				}
+				//wire 부품을 만들어본다
+				id = pDoc->addComponentToEngine(newX, newY, ITEM_WIRE);
+				WireInput.componentID = id;
+				WireOutput.componentID = id;
+				//다이렉트 B->A 방향으로해본다
+				wireInputSide = pDoc->connectComponent(firstSelectedTerminalPin, WireInput);
+				wireOuputSide = pDoc->connectComponent(selectedTerminalInfo, WireOutput);
+				if (wireInputSide == false || wireOuputSide == false) {
+					isdirectConnected = false;
+					pDoc->deleteComponentToEngine(id);
+				}
+			}			
 		}
 		//정리한다
 		pDoc->operationMode = OPERATION_MODE_NONE;
@@ -233,7 +258,7 @@ void CMFCLogicSimulatorView::OnLButtonDown(UINT nFlags, CPoint point)
 		//연결선을 눌럿을때
 		ishighlightConnectedWire = checkMousePointOnConnectedWire(A,B);
 		if (ishighlightConnectedWire == true) {
-			pDoc->operationMode = OPERATION_MODE_SELECTeE_WIRE;
+			pDoc->operationMode = OPERATION_MODE_SELECT_WIRE;
 			copyConnectionInfo(A, pDoc->selectedconnectionInfoA);
 			copyConnectionInfo(B, pDoc->selectedconnectionInfoB);
 			Invalidate();
@@ -249,7 +274,7 @@ void CMFCLogicSimulatorView::OnLButtonDown(UINT nFlags, CPoint point)
 		}
 		break;
 	}
-	case OPERATION_MODE_SELECTeE_WIRE: {
+	case OPERATION_MODE_SELECT_WIRE: {
 		ishighlightConnectedWire= checkMousePointOnConnectedWire(A,B);
 		if (ishighlightConnectedWire == false) {
 			pDoc->operationMode = OPERATION_MODE_NONE;
@@ -341,7 +366,7 @@ void CMFCLogicSimulatorView::OnPaint()
 				drawHighlightComponentTerminalPin(memDC);
 			}
 			
-			if (pDoc->operationMode == OPERATION_MODE_SELECTeE_WIRE) {
+			if (pDoc->operationMode == OPERATION_MODE_SELECT_WIRE) {
 				drawHighlightSelectedconnectedWire(memDC);
 			}
 			
@@ -1393,6 +1418,19 @@ void CMFCLogicSimulatorView::changeComponentValue(int id)
 	bool val = object->getInputValue(0);
  	object->setInputValue(0, !val);
 	}
+}
+
+bool CMFCLogicSimulatorView::checkIsPossibleDirectConnect(COMPONENT_CONENTION_INFO &A, COMPONENT_CONENTION_INFO &B)
+{
+	//둘중 하나가 논타입일뗴
+	if (A.terminalType == TERMINAL_TYPE_NONE || B.terminalType == TERMINAL_TYPE_NONE) {
+		return false;
+	}
+	if (A.terminalType == TERMINAL_TYPE_INPUT) {
+		return false;
+	}
+		
+	return false;
 }
 
 void CMFCLogicSimulatorView::startUpdating()

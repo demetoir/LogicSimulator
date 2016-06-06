@@ -525,12 +525,16 @@ void CChildFrame::OnComponentDelete()
 	CMFCLogicSimulatorView* pView = (CMFCLogicSimulatorView*)pChild->GetActiveView();
 	CString str;
 	
-
-	str.Format(_T("in rebbon menu : try delete component ->ID : %d \n"), pDoc->selectedComponentID);
-	pOutput->addBuildWindowString(str);
-	pDoc->deleteComponentToEngine();
-	pView->Invalidate();
-
+	if (pDoc->operationMode == OPERATION_MODE_SELECT_COMPONENT) {
+		str.Format(_T("in rebbon menu : try delete component ->ID : %d \n"), pDoc->selectedComponentID);
+		pOutput->addBuildWindowString(str);
+		pDoc->deleteComponentToEngine(pDoc->selectedComponentID);
+		pView->Invalidate();
+	}
+	else {
+		str.Format(_T("in rebbon menu : fail to delete component -> component not selected\n"));
+		pOutput->addBuildWindowString(str);
+	}
 
 }
 void CChildFrame::OnUpdateComponentDelete(CCmdUI *pCmdUI)

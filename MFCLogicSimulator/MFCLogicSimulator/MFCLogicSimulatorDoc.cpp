@@ -140,45 +140,37 @@ void CMFCLogicSimulatorDoc::Serialize(CArchive& ar)
 
 
 
-bool CMFCLogicSimulatorDoc::addComponentToEngine(int _x, int _y)
+int CMFCLogicSimulatorDoc::addComponentToEngine(int _x, int _y, int itemIndex)
 {
-	//부품 선택 모드가 아니면 거짓을 반환함
-
-
-	COMPONENT_TYPE selectedType;
+	COMPONENT_TYPE selectedType = getComponentTypeByToolBoxItemIndex(itemIndex);
 	CMainFrame *pFrame = (CMainFrame*)AfxGetMainWnd();
 	COutputWnd* pOutput = pFrame->getCOutputWnd();
 	CFileView *pFileView = (CFileView*)pFrame->getCFileView();
-	CViewTree* pToolbox = pFileView->getCFileViewTree();
 	CString str;
-	selectedType = getComponentTypeByToolBoxItemIndex(currentSelectedItemIndex);
-
-	// 테스트 용
 	COMPONENT_INFO addingComponentInfo(selectedType);
 	int ret = 0;
 
 	if (selectedType == COMPONENT_TYPE_LIBRARY_BOX) {
-		if (currentSelectedItemIndex == ITEM_DFF) {
+		if (itemIndex == ITEM_DFF) {
 
 		}
-		else if (currentSelectedItemIndex == ITEM_JKFF) {
+		else if (itemIndex == ITEM_JKFF) {
 
 		}
-		else if (currentSelectedItemIndex == ITEM_TFF) {
+		else if (itemIndex == ITEM_TFF) {
 
 		}
-		else if (currentSelectedItemIndex == ITEM_NOR) {
+		else if (itemIndex == ITEM_NOR) {
 			ret = logicSimulatorEngine.addComponent(addingComponentInfo, norGateData);
 		}
-		else if (currentSelectedItemIndex == ITEM_NAND) {
+		else if (itemIndex == ITEM_NAND) {
 			ret = logicSimulatorEngine.addComponent(addingComponentInfo, nandGateData);
 		}
 		//사용자 정의 라이브러리 박스일때
 		else {
 			LIBRARY_BOX_DATA userDefineLibraryboxCoreData;
-			pFileView->getCoreData(userDefineLibraryboxCoreData, currentSelectedItemIndex - (ITEM_LIBRARYBOX+1));
+			pFileView->getCoreData(userDefineLibraryboxCoreData, itemIndex - (ITEM_LIBRARYBOX+1));
 			ret = logicSimulatorEngine.addComponent(addingComponentInfo, userDefineLibraryboxCoreData);
-		
 		}
 	}
 	else {
@@ -189,8 +181,9 @@ bool CMFCLogicSimulatorDoc::addComponentToEngine(int _x, int _y)
 		str.Format(_T("in mfc logicsimulator doc : add component fail -> not support component\n"),
 			addingComponentInfo.componentID, selectedType, _x, _y);
 		pOutput->addBuildWindowString(str);
-		return ret;
+		return -1;
 	}
+
 
 	//사이즈가 모자르면 확장한다
 	if (addingComponentInfo.componentID >= engineComponentData.size()) {
@@ -203,23 +196,22 @@ bool CMFCLogicSimulatorDoc::addComponentToEngine(int _x, int _y)
 	engineComponentData[addingComponentInfo.componentID].x = _x;
 	engineComponentData[addingComponentInfo.componentID].y = _y;
 	engineComponentData[addingComponentInfo.componentID].direction = DEFAULT_VALUE_ADDING_COMPONENT_DIRECTION;
-	str.Format(_T("ID : %d"), addingComponentInfo);
 	engineComponentData[addingComponentInfo.componentID].label = str;
 	
 	if (selectedType == COMPONENT_TYPE_LIBRARY_BOX) {
-		if (currentSelectedItemIndex == ITEM_DFF) {
+		if (itemIndex == ITEM_DFF) {
 			engineComponentData[addingComponentInfo.componentID].libraryBoxType = LIBRARYBOX_TYPE_DFF;
 		}
-		else if (currentSelectedItemIndex == ITEM_JKFF) {
+		else if (itemIndex == ITEM_JKFF) {
 			engineComponentData[addingComponentInfo.componentID].libraryBoxType = LIBRARYBOX_TYPE_JKFF;
 		}
-		else if (currentSelectedItemIndex == ITEM_TFF) {
+		else if (itemIndex == ITEM_TFF) {
 			engineComponentData[addingComponentInfo.componentID].libraryBoxType = LIBRARYBOX_TYPE_TFF;
 		}
-		else if (currentSelectedItemIndex == ITEM_NOR) {
+		else if (itemIndex == ITEM_NOR) {
 			engineComponentData[addingComponentInfo.componentID].libraryBoxType = LIBRARYBOX_TYPE_NOR;
 		}
-		else if (currentSelectedItemIndex == ITEM_NAND) {
+		else if (itemIndex == ITEM_NAND) {
 			engineComponentData[addingComponentInfo.componentID].libraryBoxType = LIBRARYBOX_TYPE_NAND;
 		}
 		//사용자 정의 라이브러리 박스일때
@@ -231,34 +223,30 @@ bool CMFCLogicSimulatorDoc::addComponentToEngine(int _x, int _y)
 	str.Format(_T("in mfc logicsimulator doc : add component, ID : %d\n, type : %d (x,y) = (%d,%d),"),
 		addingComponentInfo.componentID, selectedType, _x, _y);
 	pOutput->addBuildWindowString(str);
-	return true;
+	return addingComponentInfo.componentID;
 }
 
-void CMFCLogicSimulatorDoc::deleteComponentToEngine()
+void CMFCLogicSimulatorDoc::deleteComponentToEngine(int id)
 {
 	CMainFrame *pFrame = (CMainFrame*)AfxGetMainWnd();
 	COutputWnd* pOutput = pFrame->getCOutputWnd();
 	CString str;
 	int ret;
 
-	if (operationMode == OPERATION_MODE_SELECT_COMPONENT) {
-		str.Format(_T("in CMFCLogicSimulatorDoc : delete component ID : %d\n"),
-			selectedComponentID);
-		pOutput->addBuildWindowString(str);
-		ret = logicSimulatorEngine.deleteComponent(selectedComponentID);
-		if (ret == true) { 
-			str.Format(_T("in CMFCLogicSimulatorDoc : delete success\n")); 
-			engineComponentData[selectedComponentID] = COMPONENT_DATA();
-			operationMode = OPERATION_MODE_NONE;
-			selectedComponentID = -1;
-		}
-		else { str.Format(_T("in CMFCLogicSimulatorDoc : delete fail\n")); }
-		pOutput->addBuildWindowString(str);
+
+	str.Format(_T("in CMFCLogicSimulatorDoc : delete component ID : %d\n"),
+		id);
+	pOutput->addBuildWindowString(str);
+	ret = logicSimulatorEngine.deleteComponent(id);
+	if (ret == true) { 
+		str.Format(_T("in CMFCLogicSimulatorDoc : delete success\n")); 
+		engineComponentData[id] = COMPONENT_DATA();
+		operationMode = OPERATION_MODE_NONE;
+		selectedComponentID = -1;
 	}
-	else {
-		str.Format(_T("in CMFCLogicSimulatorDoc : ocmponent is not selected\n"));
-		pOutput->addBuildWindowString(str);
-	}
+	else { str.Format(_T("in CMFCLogicSimulatorDoc : delete fail\n")); }
+	pOutput->addBuildWindowString(str);
+
 	return;
 }
 
@@ -308,7 +296,7 @@ void CMFCLogicSimulatorDoc::disconectComponent()
 	COutputWnd* pOutput = pFrame->getCOutputWnd();
 	CString str;	
 	int ret;
-	if (operationMode == OPERATION_MODE_SELECTeE_WIRE) {
+	if (operationMode == OPERATION_MODE_SELECT_WIRE) {
 		str.Format(_T("in CMFCLogicSimulatorDoc : delete Connection \nID : %d terminal type :%d teminal number : %d <-> ID : %d terminal type :%d teminal number : %d\n"),
 			selectedconnectionInfoA.componentID, selectedconnectionInfoA.terminalType,
 			selectedconnectionInfoA.terminalNumber,

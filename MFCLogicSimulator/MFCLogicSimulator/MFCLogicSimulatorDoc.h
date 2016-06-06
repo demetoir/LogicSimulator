@@ -82,7 +82,7 @@ enum OPERATION_MODE {
 	OPERATION_MODE_SELECT_COMPONENT,
 	OPERATION_MODE_CONNECTING_COMPONENT,
 	OPERATION_MODE_VAlUE_CHANGE,
-	OPERATION_MODE_SELECTeE_WIRE
+	OPERATION_MODE_SELECT_WIRE
 };
 
 
@@ -119,8 +119,8 @@ public :
 	OPERATION_MODE operationMode;
 
 	//부품을 추가한다
-	bool addComponentToEngine(int _x,int _y);	
-	void deleteComponentToEngine();
+	int addComponentToEngine(int _x,int _y, int itemIndex);
+	void deleteComponentToEngine(int id);
 
 	//부품을 서로 연결한다
 	bool connectComponent(COMPONENT_CONENTION_INFO& A, COMPONENT_CONENTION_INFO& B);
