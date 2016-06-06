@@ -311,7 +311,6 @@ bool CLibraryBox::addComponent(COMPONENT_INFO & componentInfo, LIBRARY_BOX_DATA 
 
 	COMPONENT_TYPE newComponentType;
 	COMPONENT_ID newComponentID;
-
 	COMPONENT_CONENTION_INFO empty;
 
 	//아이디를 할당해줌

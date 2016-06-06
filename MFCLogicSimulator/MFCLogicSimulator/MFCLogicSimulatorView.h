@@ -147,14 +147,14 @@ protected:
 	void drawOutputTerminalPinLine(CDC &DC, int x, int y, COMPONENT_DIRECTION direction);
 	
 	//타입으로 부품의 높이를 구한다
-	int getComponentHeight(COMPONENT_TYPE type);
-	int getComponentWidth(COMPONENT_TYPE type);
+	int getComponentHeight(COMPONENT_TYPE type, LIBRARYBOX_TYPE libraryBoxType);
+	int getComponentWidth(COMPONENT_TYPE type, LIBRARYBOX_TYPE libraryBoxType);
 	//들어온 부품의 인풋 터미널 핀좌표을 반환한다 
 	void getInputTerminalPoint(int id, CPoint &point,int index);
 	//들어온 부품의 인풋 터미널 핀을 반환한다 
 	void getOutputTerminalPoint(int id, CPoint &point,int index);
 	//부품의 타입에 해당하는 부품의 비트맵 아이디를 가져온다
-	int getBitmapIDByComponentType(COMPONENT_TYPE _type, COMPONENT_DIRECTION direction);
+	int getBitmapIDByComponentType(COMPONENT_TYPE _type, COMPONENT_DIRECTION direction, LIBRARYBOX_TYPE libraryBoxType);
 	//연결할 줄의 좌표를 구한다
 	void getConnnectedWirePoints(CPoint* points,CPoint A ,CPoint B);
 	//세그먼트의 인풋핀 좌표를 구한다

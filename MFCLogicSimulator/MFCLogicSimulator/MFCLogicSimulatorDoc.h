@@ -20,7 +20,16 @@ class CMainFrame;
 using std::vector;
 using std::pair;
 using std::make_pair;
-
+#define DEFAULT_VALUE_ADDING_COMPONENT_DIRECTION EAST 
+enum LIBRARYBOX_TYPE {
+	LIBRARYBOX_TYPE_NONE,
+	LIBRARYBOX_TYPE_NAND,
+	LIBRARYBOX_TYPE_NOR,
+	LIBRARYBOX_TYPE_TFF, 
+	LIBRARYBOX_TYPE_JKFF,
+	LIBRARYBOX_TYPE_DFF,
+	LIBRARYBOX_TYPE_USER_DEFINE
+};
 enum COMPONENT_DIRECTION {
 	EAST,SOUTH,WEST,NORTH
 };
@@ -36,6 +45,7 @@ struct COMPONENT_DATA {
 		label = "";
 		hz = 10;
 		clockEdge = true;
+		libraryBoxType = LIBRARYBOX_TYPE_NONE;
 	}
 	//가장 왼쪽 위 의 기준 좌표
 	int x,y;
@@ -45,7 +55,7 @@ struct COMPONENT_DATA {
 	COMPONENT_TYPE type;
 	COMPONENT_DIRECTION direction;
 	CString label;
-	
+	LIBRARYBOX_TYPE libraryBoxType;
 };
 
 enum TOOLBOX_ITEM_TYPE {
@@ -74,19 +84,17 @@ enum OPERATION_MODE {
 };
 
 
-#define DEFAULT_VALUE_ADDING_COMPONENT_DIRECTION EAST
+
 class CMFCLogicSimulatorDoc : public CDocument
 {
 	protected: // serialization에서만 만들어집니다.
 	CMFCLogicSimulatorDoc();
 	DECLARE_DYNCREATE(CMFCLogicSimulatorDoc)
 
-// 재정의입니다.
 public:
 	virtual BOOL OnNewDocument();
 	virtual void Serialize(CArchive& ar);
 	virtual ~CMFCLogicSimulatorDoc();
-
 
 public : 
 	//엔진을 저장할 변수
@@ -96,6 +104,9 @@ public :
 	//뷰에서 사용되어질 정보들
 	vector <COMPONENT_DATA> engineComponentData;
 
+	LIBRARY_BOX_DATA nandGateData;
+	LIBRARY_BOX_DATA norGateData;
+
 	//트리뷰에서 선택한 부품정보
 	int currentSelectedItemIndex;
 	bool isRunningMode;
@@ -103,9 +114,10 @@ public :
 	bool isCurcuitOcillate;
 	COMPONENT_CONENTION_INFO selectedconnectionInfoA;
 	COMPONENT_CONENTION_INFO selectedconnectionInfoB;
+	OPERATION_MODE operationMode;
+
 	//부품을 추가한다
-	bool addComponentToEngine(int _x,int _y);
-	
+	bool addComponentToEngine(int _x,int _y);	
 	void deleteComponentToEngine();
 
 	//부품을 서로 연결한다
@@ -114,25 +126,19 @@ public :
 	void disconectComponent();
 
 	int getSelectedItemIndexInToolBox(HTREEITEM hItem);
-
 	//트리뷰에서 선택한 부품의 플래그로  COMPONENT_TYPE를 알아낸다
 	COMPONENT_TYPE getComponentTypeByToolBoxItemIndex(int type);
-
 	COMPONENT_TYPE getCurrentSelectedComponentType();
-
-	OPERATION_MODE operationMode;
-
-	void make_NORGATE(CLibraryBox& box);
-    void make_NANDGATE(CLibraryBox& box);
-
+	LIBRARYBOX_TYPE getCurrentSelectedComponentlibraryBoxType();
 	void getStringByCOMPONENT_DIRECTION(COMPONENT_DIRECTION direct, CString & CS);
 	void getStringByCOMPONENT_TYPE(COMPONENT_TYPE compType, CString & CS);
 	
-	
+
+	void make_NORGATE(CLibraryBox& box);
+    void make_NANDGATE(CLibraryBox& box);		
 
 	void storeEngineComponentData(CArchive& ar);
 	void loadEngineComponentData(CArchive& ar);
-
 	void storeEngineDumpData(CArchive& ar, LIBRARY_BOX_DATA& data);
 	void loadEngineDumpData(CArchive& ar, LIBRARY_BOX_DATA& data);
 

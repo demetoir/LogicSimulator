@@ -50,6 +50,15 @@ CMFCLogicSimulatorDoc::CMFCLogicSimulatorDoc()
 	selectedComponentID = 0;
 	isRunningMode = false;
 	isCurcuitOcillate = false;
+
+
+	CLibraryBox norGate;
+	make_NANDGATE(norGate);
+	norGate.saveLibraryBoxData(norGateData);
+
+	CLibraryBox nandGate;
+	make_NANDGATE(nandGate);
+	nandGate.saveLibraryBoxData(nandGateData);
 }
 
 int CMFCLogicSimulatorDoc::getSelectedItemIndexInToolBox(HTREEITEM hItem)
@@ -159,10 +168,10 @@ bool CMFCLogicSimulatorDoc::addComponentToEngine(int _x, int _y)
 
 		}
 		else if (currentSelectedItemIndex == ITEM_NOR) {
-			ret = logicSimulatorEngine.addComponent(addComponent);
+			ret = logicSimulatorEngine.addComponent(addComponent, norGateData);
 		}
 		else if (currentSelectedItemIndex == ITEM_NAND) {
-			ret = logicSimulatorEngine.addComponent(addComponent);
+			ret = logicSimulatorEngine.addComponent(addComponent, nandGateData);
 		}
 		//사용자 정의 라이브러리 박스일때
 		else {
@@ -193,6 +202,28 @@ bool CMFCLogicSimulatorDoc::addComponentToEngine(int _x, int _y)
 	engineComponentData[addComponent.componentID].direction = DEFAULT_VALUE_ADDING_COMPONENT_DIRECTION;
 	str.Format(_T("ID : %d"), addComponent);
 	engineComponentData[addComponent.componentID].label = str;
+	if (selectedType == COMPONENT_TYPE_LIBRARY_BOX) {
+		if (currentSelectedItemIndex == ITEM_DFF) {
+			engineComponentData[addComponent.componentID].libraryBoxType = LIBRARYBOX_TYPE_DFF;
+		}
+		else if (currentSelectedItemIndex == ITEM_JKFF) {
+			engineComponentData[addComponent.componentID].libraryBoxType = LIBRARYBOX_TYPE_JKFF;
+		}
+		else if (currentSelectedItemIndex == ITEM_TFF) {
+			engineComponentData[addComponent.componentID].libraryBoxType = LIBRARYBOX_TYPE_TFF;
+		}
+		else if (currentSelectedItemIndex == ITEM_NOR) {
+			engineComponentData[addComponent.componentID].libraryBoxType = LIBRARYBOX_TYPE_NOR;
+		}
+		else if (currentSelectedItemIndex == ITEM_NAND) {
+			engineComponentData[addComponent.componentID].libraryBoxType = LIBRARYBOX_TYPE_NAND;
+		}
+		//사용자 정의 라이브러리 박스일때
+		else {
+
+		}
+	}
+	
 	str.Format(_T("in mfc logicsimulator doc : add component, ID : %d\n, type : %d (x,y) = (%d,%d),"),
 		addComponent.componentID, selectedType, _x, _y);
 	pOutput->addBuildWindowString(str);
@@ -345,6 +376,40 @@ COMPONENT_TYPE CMFCLogicSimulatorDoc::getCurrentSelectedComponentType()
 	COMPONENT_TYPE ret = getComponentTypeByToolBoxItemIndex(currentSelectedItemIndex);
 	return ret;
 }
+
+LIBRARYBOX_TYPE CMFCLogicSimulatorDoc::getCurrentSelectedComponentlibraryBoxType()
+{
+
+	int type = getComponentTypeByToolBoxItemIndex(currentSelectedItemIndex);
+	LIBRARYBOX_TYPE ret = LIBRARYBOX_TYPE_NONE;
+	if (type != COMPONENT_TYPE_LIBRARY_BOX) {
+		return ret;
+	}
+	if (currentSelectedItemIndex >= ITEM_LIBRARYBOX) {
+		return LIBRARYBOX_TYPE_USER_DEFINE;
+	}
+
+	switch (currentSelectedItemIndex) {
+	case ITEM_DFF:
+		ret = LIBRARYBOX_TYPE_DFF;
+		break;
+		//wire
+	case  ITEM_JKFF:
+		ret = LIBRARYBOX_TYPE_JKFF;
+		break;
+	case  ITEM_TFF:
+		ret = LIBRARYBOX_TYPE_TFF;
+		break;
+	case  ITEM_NOR:
+		ret = LIBRARYBOX_TYPE_NOR;
+		break;
+	case  ITEM_NAND:
+		ret = LIBRARYBOX_TYPE_NAND;
+		break;
+	}
+	return ret;
+}
+
 
 
 
@@ -574,6 +639,7 @@ void CMFCLogicSimulatorDoc::storeEngineComponentData(CArchive & ar)
 		ar << pData->label;
 		ar << (int)(pData->type);
 		ar << (int)(pData->direction);
+		ar << (int)(pData->libraryBoxType);
 	}
 	size = 0;
 	return;
@@ -599,6 +665,8 @@ void CMFCLogicSimulatorDoc::loadEngineComponentData(CArchive & ar)
 		pData->type = (COMPONENT_TYPE)enumTempValue;
 		ar >> enumTempValue;
 		pData->direction = (COMPONENT_DIRECTION)enumTempValue;
+		ar >> enumTempValue;
+		pData->libraryBoxType = (LIBRARYBOX_TYPE)enumTempValue;
 	}
 	size = 0;
 	return;
@@ -606,8 +674,7 @@ void CMFCLogicSimulatorDoc::loadEngineComponentData(CArchive & ar)
 
 void CMFCLogicSimulatorDoc::storeEngineDumpData(CArchive & ar, LIBRARY_BOX_DATA& data)
 {
-	//코어 데이터를 가져온다
-	logicSimulatorEngine.saveLibraryBoxData(data);
+
 
 	int val;
 	//vector < bool > componentIDVector;

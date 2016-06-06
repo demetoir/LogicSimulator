@@ -523,6 +523,7 @@ void CMFCLogicSimulatorView::drawAddingComponent(CDC & DC)
 	GetCursorPos(&point);
 	ScreenToClient(&point);
 	COMPONENT_TYPE type = pDoc->getCurrentSelectedComponentType();
+	LIBRARYBOX_TYPE libType = pDoc->getCurrentSelectedComponentlibraryBoxType();
 	CBitmap componentBitmap;
 	CBitmap *oldBitmap;
 	BITMAP bitmapInfo;
@@ -531,7 +532,7 @@ void CMFCLogicSimulatorView::drawAddingComponent(CDC & DC)
 		return;
 
 	//타입에 맞는 부품의 비트맵 아이디를 가져오고 로드한다
-	componentBitmap.LoadBitmapW(getBitmapIDByComponentType(type,EAST));
+	componentBitmap.LoadBitmapW(getBitmapIDByComponentType(type,EAST, libType));
 	componentBitmap.GetBitmap(&bitmapInfo);
 
 	//부품을 그린다
@@ -712,12 +713,13 @@ void CMFCLogicSimulatorView::drawComponentBody(CDC & DC, int ID)
 	int x = pDoc->engineComponentData[ID].x - nHorzScroll;
 	int y = pDoc->engineComponentData[ID].y - nVertScroll;
 	COMPONENT_TYPE type = pDoc->engineComponentData[ID].type;
-	COMPONENT_DIRECTION direction = pDoc->engineComponentData[ID].direction;;
+	COMPONENT_DIRECTION direction = pDoc->engineComponentData[ID].direction;
+	LIBRARYBOX_TYPE libType = pDoc->engineComponentData[ID].libraryBoxType;
 	CBitmap componentBitmap;
 	CBitmap *oldBitmap;
 	BITMAP bitmapInfo;
 	CComponentObject* pCurrentObject = pDoc->logicSimulatorEngine.getComponentObject(ID);
-	int bitmapID = getBitmapIDByComponentType(type, direction);
+	int bitmapID = getBitmapIDByComponentType(type, direction, libType);
 	adjustBitmapID( type , bitmapID , pCurrentObject);
 
 	//타입에 맞는 부품의 비트맵 아이디를 가져오고 로드한다		
@@ -856,7 +858,7 @@ void CMFCLogicSimulatorView::drawHighlightSelectedconnectedWire(CDC & DC)
 
 
 
-int CMFCLogicSimulatorView::getBitmapIDByComponentType(COMPONENT_TYPE _type, COMPONENT_DIRECTION direction)
+int CMFCLogicSimulatorView::getBitmapIDByComponentType(COMPONENT_TYPE _type, COMPONENT_DIRECTION direction, LIBRARYBOX_TYPE libraryBoxType)
 {
 	CMFCLogicSimulatorDoc* pDoc = GetDocument();
 	////엔진에서 사용하는 부품 타입 열거형
@@ -916,20 +918,19 @@ int CMFCLogicSimulatorView::getBitmapIDByComponentType(COMPONENT_TYPE _type, COM
 		
 
 	case COMPONENT_TYPE_LIBRARY_BOX:
-		int index = pDoc->currentSelectedItemIndex;
-		if (index == ITEM_NOR) {
+		if (libraryBoxType == LIBRARYBOX_TYPE_NOR) {
 			return IDB_GATE_NOR_E + direction;
 		}
-		if (index == ITEM_NAND) {
+		if (libraryBoxType == LIBRARYBOX_TYPE_NAND) {
 			return IDB_GATE_NAND_E + direction;
 		}
-		if (index == ITEM_DFF) {
+		if (libraryBoxType == LIBRARYBOX_TYPE_DFF) {
 			return IDB_FF_DFF_E + direction;
 		}
-		if (index == ITEM_JKFF) {
+		if (libraryBoxType == LIBRARYBOX_TYPE_JKFF) {
 			return IDB_FF_JKFF_E + direction;
 		}
-		if (index == ITEM_TFF) {
+		if (libraryBoxType == LIBRARYBOX_TYPE_TFF) {
 			return IDB_FF_TFF_E + direction;
 		}
 		else {
@@ -1026,21 +1027,26 @@ int CMFCLogicSimulatorView::adjustBitmapID(COMPONENT_TYPE type, int& bitmapID, C
 	return bitmapID;
 }
 
-int CMFCLogicSimulatorView::getComponentHeight(COMPONENT_TYPE type)
+int CMFCLogicSimulatorView::getComponentHeight(COMPONENT_TYPE type, LIBRARYBOX_TYPE libraryBoxType)
 {
 	//세그먼트일때
 	if (type == COMPONENT_TYPE_7SEGMENT) {
 		return 120;
 	}
-	else if (type == COMPONENT_TYPE_LIBRARY_BOX) {
-		return 120;
+	else if (type == COMPONENT_TYPE_LIBRARY_BOX) { 
+		if (libraryBoxType == LIBRARYBOX_TYPE_USER_DEFINE) {
+			return 120;
+		}
+		else {
+			return 75;
+		}
 	}
 	else {
 		return 75;
 	}
 }
 
-int CMFCLogicSimulatorView::getComponentWidth(COMPONENT_TYPE type)
+int CMFCLogicSimulatorView::getComponentWidth(COMPONENT_TYPE type, LIBRARYBOX_TYPE libraryBoxType)
 {
 	//세그먼트일때
 	if (type == COMPONENT_TYPE_7SEGMENT) {
@@ -1067,8 +1073,8 @@ void CMFCLogicSimulatorView::getInputTerminalPoint(int id, CPoint &point, int in
 	currentObject = pDoc->logicSimulatorEngine.getComponentObject(id);
 	int numberOfInputTerminal = currentObject->numberOfInput();
 	COMPONENT_DATA *data = &pDoc->engineComponentData[id];
-	int width = getComponentWidth(data->type);
-	int Height = getComponentHeight(data->type);
+	int width = getComponentWidth(data->type,data->libraryBoxType);
+	int Height = getComponentHeight(data->type, data->libraryBoxType);
 
 
 	if (pDoc->engineComponentData[id].type == COMPONENT_TYPE_7SEGMENT) {
@@ -1117,8 +1123,8 @@ void CMFCLogicSimulatorView::getOutputTerminalPoint(int id, CPoint & point, int 
 	currentObject = pDoc->logicSimulatorEngine.getComponentObject(id);
 	int numberOfOutputTerminal = currentObject->numberOfOutput();
 	COMPONENT_DATA *data = &pDoc->engineComponentData[id];
-	int width = getComponentWidth(data->type);
-	int Height = getComponentHeight(data->type);
+	int width = getComponentWidth(data->type, data->libraryBoxType);
+	int Height = getComponentHeight(data->type, data->libraryBoxType);
 
 	switch (data->direction) {
 	case EAST: {
