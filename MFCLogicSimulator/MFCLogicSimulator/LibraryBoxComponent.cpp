@@ -679,7 +679,8 @@ bool CLibraryBox::getOutputValue(int index)
 
 bool CLibraryBox::update()
 {
-	return updateCircuit();
+	updateCircuit();
+	return isOscillation;
 }
 
 void CLibraryBox::reset()
@@ -746,10 +747,15 @@ bool CLibraryBox::isPossibleConnection(COMPONENT_CONENTION_INFO & componentA, CO
 
 	//게이트와 게이트를 연결하려 할떄 또는
 	//줄과 줄을 연결하려 할때
+	//if ((componentTypeVector[A.componentID] != COMPONENT_TYPE_WIRE &&
+	//	componentTypeVector[B.componentID] != COMPONENT_TYPE_WIRE) ||
+	//	(componentTypeVector[A.componentID] == COMPONENT_TYPE_WIRE &&
+	//		componentTypeVector[B.componentID] == COMPONENT_TYPE_WIRE)) {
+	//	return false;
+	//}
+
 	if ((componentTypeVector[A.componentID] != COMPONENT_TYPE_WIRE &&
-		componentTypeVector[B.componentID] != COMPONENT_TYPE_WIRE) ||
-		(componentTypeVector[A.componentID] == COMPONENT_TYPE_WIRE &&
-			componentTypeVector[B.componentID] == COMPONENT_TYPE_WIRE)) {
+		componentTypeVector[B.componentID] != COMPONENT_TYPE_WIRE) ) {
 		return false;
 	}
 

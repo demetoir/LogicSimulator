@@ -178,10 +178,28 @@ void CMFCLogicSimulatorView::OnLButtonDown(UINT nFlags, CPoint point)
 		bool isInTerminalPin = checkMouesPointOnTerminalPin(selectedTerminalInfo);
 		//다른곳을 클릭하였다 해제한다
 		if (isInTerminalPin == true) {
+			bool isConnected = false;
 			checkMouesPointOnTerminalPin(selectedTerminalInfo);
-			//연결가능하면
-			pDoc->connectComponent(selectedTerminalInfo,
+			
+			//연결해본다
+			isConnected = pDoc->connectComponent(selectedTerminalInfo,
 				firstSelectedTerminalPin);
+
+			////안되면 부품간 직접 연결인지 확인하고 연결해본다
+			//if (isConnected == false) {
+			//	int aID = selectedTerminalInfo.componentID;
+			//	int bID = firstSelectedTerminalPin.componentID;
+			//	int aX = pDoc->engineComponentData[aID].x;
+			//	int aY = pDoc->engineComponentData[aID].y;
+			//	int bX = pDoc->engineComponentData[bID].x;
+			//	int bY = pDoc->engineComponentData[bID].y;
+			//	int newX = (aX - bX) / 2;
+			//	int newY = (aY - bY) / 2;
+			//	COMPONENT_INFO newWire;
+			//	newWire.componentType = COMPONENT_TYPE_WIRE;
+			//}
+
+
 		}
 		//정리한다
 		pDoc->operationMode = OPERATION_MODE_NONE;
@@ -734,10 +752,15 @@ void CMFCLogicSimulatorView::drawComponentBody(CDC & DC, int ID)
 	if (type == COMPONENT_TYPE_7SEGMENT) {
 		draw7SegmentInputBar(DC, CPoint(x, y), direction);
 	}	
+	
 	//가져온 비트맵을 제거한다
 	componentBitmap.DeleteObject();
-
-	DC.TextOutW(x + 15, y + 15, pDoc->engineComponentData[ID].label);
+	if (type == COMPONENT_TYPE_7SEGMENT) {
+		DC.TextOutW(x + 15, y + 75, pDoc->engineComponentData[ID].label);
+	}
+	else {
+		DC.TextOutW(x + 15, y + 15, pDoc->engineComponentData[ID].label);
+	}
 }
 
 void CMFCLogicSimulatorView::drawConnectingWire(CDC & DC)
@@ -824,7 +847,7 @@ void CMFCLogicSimulatorView::drawHighlightSelectedComponent(CDC & DC)
 	int y = currentComponent->y - nVertScroll;
 
 	if (currentComponent->type == COMPONENT_TYPE_LIBRARY_BOX) {
-
+		drawHighlightComponentBody(DC, x, y, 120, 120);
 	}
 	else if (currentComponent->type == COMPONENT_TYPE_7SEGMENT) {
 		drawHighlightComponentBody(DC, x, y, 45, 75);

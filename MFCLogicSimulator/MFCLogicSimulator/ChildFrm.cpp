@@ -14,7 +14,11 @@
 
 #include "stdafx.h"
 #include "MFCLogicSimulator.h"
-
+#include "ViewTree.h"
+#include "MFCLogicSimulatorDoc.h"
+#include "MainFrm.h"
+#include "MFCLogicSimulatorView.h"
+#include "FileView.h"
 #include "ChildFrm.h"
 
 #ifdef _DEBUG
@@ -40,10 +44,10 @@ BEGIN_MESSAGE_MAP(CChildFrame, CMDIChildWndEx)
 	ON_UPDATE_COMMAND_UI(ID_BUTTONSTOP, &CChildFrame::OnUpdateButtonstop)
 	ON_COMMAND(ID_BUTTONCONTINUE, &CChildFrame::OnButtoncontinue)
 	ON_UPDATE_COMMAND_UI(ID_BUTTONCONTINUE, &CChildFrame::OnUpdateButtoncontinue)
-	ON_COMMAND(ID_BUTTONACT, &CChildFrame::OnButtonact)
-	ON_UPDATE_COMMAND_UI(ID_BUTTONACT, &CChildFrame::OnUpdateButtonact)
-	ON_COMMAND(ID_BUTTONEDIT, &CChildFrame::OnButtonedit)
-	ON_UPDATE_COMMAND_UI(ID_BUTTONEDIT, &CChildFrame::OnUpdateButtonedit)
+	ON_COMMAND(ID_BUTTONACT, &CChildFrame::OnButtonExcutingMode)
+	ON_UPDATE_COMMAND_UI(ID_BUTTONACT, &CChildFrame::OnUpdateButtonExcutingMode)
+	ON_COMMAND(ID_BUTTONEDIT, &CChildFrame::OnButtonEditMode)
+	ON_UPDATE_COMMAND_UI(ID_BUTTONEDIT, &CChildFrame::OnUpdateButtonEditMode)
 	ON_COMMAND(ID_EDIT_COPY, &CChildFrame::OnEditCopy)
 	ON_UPDATE_COMMAND_UI(ID_EDIT_COPY, &CChildFrame::OnUpdateEditCopy)
 	ON_COMMAND(ID_EDIT_PASTE, &CChildFrame::OnEditPaste)
@@ -246,7 +250,7 @@ void CChildFrame::OnUpdateButtoncontinue(CCmdUI *pCmdUI)
 
 
 /* 실행모드 botton 처리기 */
-void CChildFrame::OnButtonact()
+void CChildFrame::OnButtonExcutingMode()
 {
 	CMainFrame *pFrame = (CMainFrame*)AfxGetMainWnd();
 	CFileView* pFileView = pFrame->getCFileView();
@@ -262,7 +266,7 @@ void CChildFrame::OnButtonact()
 	pOutput->addBuildWindowString(str);
 
 }
-void CChildFrame::OnUpdateButtonact(CCmdUI *pCmdUI)
+void CChildFrame::OnUpdateButtonExcutingMode(CCmdUI *pCmdUI)
 {
 	// TODO: 여기에 명령 업데이트 UI 처리기 코드를 추가합니다.
 	pCmdUI->Enable(TRUE);
@@ -282,7 +286,7 @@ void CChildFrame::OnUpdateButtonact(CCmdUI *pCmdUI)
 
 
 /* 편집모드 botton 처리기 */
-void CChildFrame::OnButtonedit()
+void CChildFrame::OnButtonEditMode()
 {
 	CMainFrame *pFrame = (CMainFrame*)AfxGetMainWnd();
 	CFileView* pFileView = pFrame->getCFileView();
@@ -297,7 +301,7 @@ void CChildFrame::OnButtonedit()
 	str.Format(_T("in rebbon menu : mode change -> edit mode\n"));
 	pOutput->addBuildWindowString(str);
 }
-void CChildFrame::OnUpdateButtonedit(CCmdUI *pCmdUI)
+void CChildFrame::OnUpdateButtonEditMode(CCmdUI *pCmdUI)
 {
 	// TODO: 여기에 명령 업데이트 UI 처리기 코드를 추가합니다.
 	pCmdUI->Enable(TRUE);
@@ -423,8 +427,75 @@ void CChildFrame::OnUpdateSaveLibrarybox(CCmdUI *pCmdUI)
 
 void CChildFrame::OnLoadLibrarybox()
 {
-	// TODO: 여기에 명령 처리기 코드를 추가합니다.
-	AfxMessageBox(_T("load lib box"));
+	CMainFrame *pFrame = (CMainFrame*)AfxGetMainWnd();
+	CChildFrame *pChild = (CChildFrame *)pFrame->GetActiveFrame();
+	CMFCLogicSimulatorDoc *pDoc = (CMFCLogicSimulatorDoc *)pChild->GetActiveDocument();
+	COutputWnd* pOutput = pFrame->getCOutputWnd();
+	CMFCLogicSimulatorView* pView = (CMFCLogicSimulatorView*)pChild->GetActiveView();
+	CFileView *pFileView = (CFileView*)pFrame->getCFileView();
+	CViewTree* pToolbox = pFileView->getCFileViewTree();
+
+	CString str;
+	CFileDialog load_dlg(true);
+	CString PathName;
+	CString fileName;
+	str.Format(_T("in rebbon menu : try load library box\n"), pDoc->selectedComponentID);
+	pOutput->addBuildWindowString(str);
+
+	if (load_dlg.DoModal() == IDOK) {
+		PathName = load_dlg.GetPathName();
+		fileName = load_dlg.GetFileName();
+		//AfxMessageBox(PathName);
+	}
+
+	bool isSuccessReadFile = false;
+	CFile  librayboxFile;
+
+	vector <COMPONENT_DATA> dummy; 
+
+	LIBRARY_BOX_DATA coreData;
+	
+	if (librayboxFile.Open(PathName, CFile::modeRead)) {
+		CArchive ar(&librayboxFile, CArchive::load);
+		try {
+			pDoc->loadEngineComponentData(ar, &dummy);
+			pDoc->loadEngineCoreData(ar,coreData);
+			pFileView->addCoreData(coreData);
+			isSuccessReadFile = true;
+			str.Format(_T("in rebbon menu : load library core data  to toolBox\n"), pDoc->selectedComponentID);
+			pOutput->addBuildWindowString(str);
+		}
+		catch (CFileException *fe) {
+			// 예외가 발생하면 메세지박스를 통하여 사용자에게 알린다.
+			fe->ReportError();
+		}
+		catch (CArchiveException *ae) {
+			// 예외가 발생하면 메세지박스를 통하여 사용자에게 알린다.
+			ae->ReportError();
+		}
+		// CArchive 를 닫는다.
+		ar.Close();
+		// 파일을 닫는다.
+		librayboxFile.Close();
+	}
+
+
+	
+	str.Format(_T("in rebbon menu : try delete component ->ID : %d \n"), pDoc->selectedComponentID);
+	pOutput->addBuildWindowString(str);
+
+
+	if (isSuccessReadFile == true) {
+		pFileView->addLibraryBox(fileName);
+		str.Format(_T("in rebbon menu : try add libbox to toolBox\n"), pDoc->selectedComponentID);
+		pOutput->addBuildWindowString(str);
+	}
+	else {
+		str.Format(_T("in rebbon menu : fail load library box -> readfile fail\n"), pDoc->selectedComponentID);
+		pOutput->addBuildWindowString(str);
+	}
+
+	
 }
 void CChildFrame::OnUpdateLoadLibrarybox(CCmdUI *pCmdUI)
 {

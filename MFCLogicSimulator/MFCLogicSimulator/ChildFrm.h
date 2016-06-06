@@ -15,13 +15,6 @@
 #pragma once
 
 #include "stdafx.h"
-#include "ViewTree.h"
-#include "MFCLogicSimulatorDoc.h"
-#include "MainFrm.h"
-#include "MFCLogicSimulatorView.h"
-#include "MFCLogicSimulator.h"
-#include "ChildFrm.h"
-#include "FileView.h"
 // CMDIChildWndEx ¹®¼­
 // https://msdn.microsoft.com/ko-kr/library/bb984294.aspx
 class CChildFrame : public CMDIChildWndEx
@@ -65,10 +58,10 @@ public:
 	afx_msg void OnUpdateButtonstop(CCmdUI *pCmdUI);
 	afx_msg void OnButtoncontinue();
 	afx_msg void OnUpdateButtoncontinue(CCmdUI *pCmdUI);
-	afx_msg void OnButtonact();
-	afx_msg void OnUpdateButtonact(CCmdUI *pCmdUI);
-	afx_msg void OnButtonedit();
-	afx_msg void OnUpdateButtonedit(CCmdUI *pCmdUI);
+	afx_msg void OnButtonExcutingMode();
+	afx_msg void OnUpdateButtonExcutingMode(CCmdUI *pCmdUI);
+	afx_msg void OnButtonEditMode();
+	afx_msg void OnUpdateButtonEditMode(CCmdUI *pCmdUI);
 	afx_msg void OnEditCopy();
 	afx_msg void OnUpdateEditCopy(CCmdUI *pCmdUI);
 	afx_msg void OnEditPaste();

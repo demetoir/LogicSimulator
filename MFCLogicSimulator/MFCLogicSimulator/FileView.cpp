@@ -14,7 +14,7 @@
 #include "FileView.h"
 #include "Resource.h"
 #include "MFCLogicSimulator.h"
-
+#include "MFCLogicSimulatorDoc.h"
 #ifdef _DEBUG
 #undef THIS_FILE
 static char THIS_FILE[]=__FILE__;
@@ -26,10 +26,17 @@ static char THIS_FILE[]=__FILE__;
 
 CFileView::CFileView()
 {
+	LIBRARY_BOX_DATA dummy;
+	coreDataList.push_back(dummy);
 }
 
 CFileView::~CFileView()
 {
+}
+
+void CFileView::addLibraryBox(CString LibraryBoxName)
+{
+	m_wndFileView.InsertItem(LibraryBoxName, 1, 2, hLib);
 }
 
 BEGIN_MESSAGE_MAP(CFileView, CDockablePane)
@@ -102,7 +109,6 @@ void CFileView::OnSize(UINT nType, int cx, int cy)
 void CFileView::FillFileView()
 {	// tool box data
 	HTREEITEM hRoot = m_wndFileView.InsertItem(_T("Logic Simulator"), 0, 0);
-
 	m_wndFileView.SetItemState(hRoot, TVIS_BOLD, TVIS_BOLD);
 	/*
 		0 폴더 | 1,2 기타 | 3,4 and | 5,6 nand | 7,8 or |
@@ -110,13 +116,11 @@ void CFileView::FillFileView()
 	*/
 
 	HTREEITEM hWire = m_wndFileView.InsertItem(_T("Wire"), 0, 0, hRoot);
-
 	m_wndFileView.InsertItem(_T("Wire"), 1, 2, hWire);
 	m_wndFileView.InsertItem(_T("Pin"), 1, 2, hWire);
 	m_wndFileView.InsertItem(_T("Probe"), 1, 2, hWire);
 
 	HTREEITEM hLog = m_wndFileView.InsertItem(_T("Logic Gate"), 0, 0, hRoot);
-
 	m_wndFileView.InsertItem(_T("AND"), 3, 4, hLog);
 	m_wndFileView.InsertItem(_T("NAND"), 5, 6, hLog);
 	m_wndFileView.InsertItem(_T("OR"), 7, 8, hLog);
@@ -125,22 +129,19 @@ void CFileView::FillFileView()
 	m_wndFileView.InsertItem(_T("NOT"), 13, 14, hLog);
 
 	HTREEITEM hFlip = m_wndFileView.InsertItem(_T("Flip-flop"), 0, 0, hRoot);
-
 	m_wndFileView.InsertItem(_T("D-FF"), 15, 16, hFlip);
 	m_wndFileView.InsertItem(_T("JK-FF"), 15, 16, hFlip);
 	m_wndFileView.InsertItem(_T("T-FF"), 15, 16, hFlip);
 
 	HTREEITEM hInp = m_wndFileView.InsertItem(_T("Input"), 0, 0, hRoot);
-
 	m_wndFileView.InsertItem(_T("1 Bit input switch"), 1, 2, hInp);
 	m_wndFileView.InsertItem(_T("Clock"), 1, 2, hInp);
 
 	HTREEITEM hOut = m_wndFileView.InsertItem(_T("Output"), 0, 0, hRoot);
-
 	m_wndFileView.InsertItem(_T("1 Bit out put lamp"), 1, 2, hOut);
 	m_wndFileView.InsertItem(_T("7-segment"), 1, 2, hOut);
 
-	HTREEITEM hLib = m_wndFileView.InsertItem(_T("Library Box"), 0, 0, hRoot);
+	hLib = m_wndFileView.InsertItem(_T("Library Box"), 0, 0, hRoot);
 	m_wndFileView.InsertItem(_T("lib box test"), 1, 2, hLib);
 
 
@@ -258,9 +259,7 @@ void CFileView::OnChangeVisualStyle()
 {
 	m_wndToolBar.CleanUpLockedImages();
 	m_wndToolBar.LoadBitmap(theApp.m_bHiColorIcons ? IDB_EXPLORER_24 : IDR_EXPLORER, 0, 0, TRUE /* 잠금 */);
-
 	m_FileViewImages.DeleteImageList();
-
 	UINT uiBmpId = theApp.m_bHiColorIcons ? IDB_FILE_VIEW_24 : IDB_FILE_VIEW;
 
 	CBitmap bmp;
@@ -273,14 +272,12 @@ void CFileView::OnChangeVisualStyle()
 
 	BITMAP bmpObj;
 	bmp.GetBitmap(&bmpObj);
-
 	UINT nFlags = ILC_MASK;
 
 	nFlags |= (theApp.m_bHiColorIcons) ? ILC_COLOR24 : ILC_COLOR4;
 
 	m_FileViewImages.Create(16, bmpObj.bmHeight, nFlags, 0, 0);
 	m_FileViewImages.Add(&bmp, RGB(255, 0, 255));
-
 	m_wndFileView.SetImageList(&m_FileViewImages, TVSIL_NORMAL);
 }
 
@@ -289,20 +286,14 @@ CViewTree * CFileView::getCFileViewTree()
 	return &m_wndFileView;
 }
 
-//HTREEITEM CFileView::getItemSelected() const
-//{
-//	return selectedItem;
-//}
-//
-//HTREEITEM CFileView::getChildItem(HTREEITEM hItem) const
-//{
-//	return m_wndFileView.GetChildItem(hItem);
-//}
-//
-//HTREEITEM CFileView::getNextItem(HTREEITEM n_Item, UINT n_Flag) const
-//{
-//	return m_wndFileView.GetNextItem(n_Item, n_Flag);
-//}
+void CFileView::addCoreData(LIBRARY_BOX_DATA & coreData)
+{
+	coreDataList.push_back(coreData);
+}
 
+void CFileView::getCoreData(LIBRARY_BOX_DATA & coreData, int index)
+{
+	coreData = LIBRARY_BOX_DATA(coreDataList[index]);
+}
 
 
