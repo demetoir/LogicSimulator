@@ -123,8 +123,10 @@ BOOL CMainFrame::PreCreateWindow(CREATESTRUCT& cs)
 	// TODO: CREATESTRUCT cs를 수정하여 여기에서
 	//  Window 클래스 또는 스타일을 수정합니다.
 	// 프로그램 실행시 메인 프레임 크기 설정
-	cs.cx = 1270;
-	cs.cy = 720;
+	double width = GetSystemMetrics(SM_CXSCREEN) / 1.5;
+	double height = GetSystemMetrics(SM_CYSCREEN) / 1.5;
+	cs.cx = width;
+	cs.cy = height;
 	return TRUE;
 }
 
