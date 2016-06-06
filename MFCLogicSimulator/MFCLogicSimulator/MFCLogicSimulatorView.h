@@ -22,7 +22,7 @@
 #include "FileView.h" // tree item 관련하여 추가
 #include "PropertiesWnd.h" // 속성창 옵션 수정 관련하여 추가
 #include "MFCLogicSimulatorDoc.h"
-#include <math.h>
+
 // 스크롤 생성
 // http://moguwai.tistory.com/entry/CView-CScrollView%EB%A1%9C-%EC%A0%84%ED%99%98
 

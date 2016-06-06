@@ -112,6 +112,9 @@
     <ClInclude Include="XORGateComponent.h">
       <Filter>헤더 파일\라이브러리 엔진 헤더\부품 클래스 헤더</Filter>
     </ClInclude>
+    <ClInclude Include="LogicIOGraph.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="MFCLogicSimulator.cpp">
@@ -181,6 +184,9 @@
       <Filter>소스 파일\라이브러리 엔진 소스\부품 클래스 소스</Filter>
     </ClCompile>
     <ClCompile Include="ViewTree.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="LogicIOGraph.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
   </ItemGroup>
