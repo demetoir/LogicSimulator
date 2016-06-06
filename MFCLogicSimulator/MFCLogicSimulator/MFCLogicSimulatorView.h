@@ -39,7 +39,7 @@
 #define SEVEN_SEGMENT_INPUT_BAR_WIDTH 30
 #define SEVEN_SEGMENT_INPUT_BAR_HIGHT 160
 #define updateTimerID 12 
-#define updateTimer_TIME 1000
+#define updateTimer_TIME 100
 #define SEVEN_SEGMENT_INPUT_BAR_WIDTH 30
 #define SEVEN_SEGMENT_INPUT_BAR_HIGHT 160
 

@@ -802,6 +802,7 @@ void CMFCLogicSimulatorView::drawComponentBody(CDC & DC, int ID)
 	
 	//가져온 비트맵을 제거한다
 	componentBitmap.DeleteObject();
+
 	if (type == COMPONENT_TYPE_7SEGMENT) {
 		DC.TextOutW(x + 15, y + 75, pDoc->engineComponentData[ID].label);
 	}
@@ -1463,6 +1464,7 @@ void CMFCLogicSimulatorView::startUpdating()
 	str.Format(_T("in mfc logicsimulator view : start updating\n"));
 	pOutput->addBuildWindowString(str);
 	SetTimer(updateTimerID, updateTimer_TIME, NULL);
+	
 }
 
 void CMFCLogicSimulatorView::stopUpdating()
@@ -1488,9 +1490,12 @@ void CMFCLogicSimulatorView::OnTimer(UINT_PTR nIDEvent)
 	switch (nIDEvent) {
 	case updateTimerID:
 		//회로가 진동한다
-		if (pDoc->logicSimulatorEngine.update() == true) {
+		pDoc->logicSimulatorEngine.update();
+		if (pDoc->logicSimulatorEngine.checkOscillation() == true) {
 			KillTimer(updateTimerID);
 			pDoc->isCurcuitOcillate = true;
+			pDoc->logicSimulatorEngine.setOffOscillation();
+			AfxMessageBox(_T("진동 발생이 확실합니다"));
 		}
 		Invalidate();
 	}

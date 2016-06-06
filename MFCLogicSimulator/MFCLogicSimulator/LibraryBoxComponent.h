@@ -201,4 +201,6 @@ public:
 
 	//모든 정보를 삭제한다
 	void deleteObject();
+
+	void setOffOscillation();
 };

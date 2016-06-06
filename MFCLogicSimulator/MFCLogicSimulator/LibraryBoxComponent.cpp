@@ -808,3 +808,8 @@ void CLibraryBox::deleteObject()
 		}
 	}
 }
+
+void CLibraryBox::setOffOscillation()
+{
+	isOscillation = false;
+}
