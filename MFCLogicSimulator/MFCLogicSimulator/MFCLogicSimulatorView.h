@@ -127,7 +127,7 @@ protected:
 	//부품 추가 모드일떄 움직이면서 보여주는거
 	void drawAddingComponent(CDC &DC);
 	//화면에 있는 선택 한부품을 강조하는거
-	void drawMassage( CDC &DC);
+	void drawMassage(CDC &DC);
 	//부품의 단자를 그린다
 	void drawComponentTermialPin(CDC& DC, int ID);
 	//부품의 몸체를 그린다
@@ -145,7 +145,8 @@ protected:
 	void draw7SegmentInputBar(CDC &DC,CPoint point , COMPONENT_DIRECTION direction);
 	void drawInputTerminalPinLine(CDC &DC, int x, int y, COMPONENT_DIRECTION direction);
 	void drawOutputTerminalPinLine(CDC &DC, int x, int y, COMPONENT_DIRECTION direction);
-	
+	//미니맵을 그린다
+	void drawMiniMap(CDC &DC);
 	//타입으로 부품의 높이를 구한다
 	int getComponentHeight(COMPONENT_TYPE type, LIBRARYBOX_TYPE libraryBoxType);
 	int getComponentWidth(COMPONENT_TYPE type, LIBRARYBOX_TYPE libraryBoxType);

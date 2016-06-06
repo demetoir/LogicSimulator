@@ -538,7 +538,15 @@ void CChildFrame::OnUpdateLoadLibrarybox(CCmdUI *pCmdUI)
 void CChildFrame::OnCleanLog()
 {
 	// TODO: 여기에 명령 처리기 코드를 추가합니다.
-	AfxMessageBox(_T("clean log"));
+	CMainFrame *pFrame = (CMainFrame*)AfxGetMainWnd();
+	//CChildFrame *pChild = (CChildFrame *)pFrame->GetActiveFrame();
+	//CMFCLogicSimulatorDoc *pDoc = (CMFCLogicSimulatorDoc *)pChild->GetActiveDocument();
+	COutputWnd* pOutput = pFrame->getCOutputWnd();
+	//CMFCLogicSimulatorView* pView = (CMFCLogicSimulatorView*)pChild->GetActiveView();
+	//CFileView *pFileView = (CFileView*)pFrame->getCFileView();
+	//CViewTree* pToolbox = pFileView->getCFileViewTree();
+	pOutput->resetBuildWindowString();
+	AfxMessageBox(_T("Log clear"));
 }
 void CChildFrame::OnUpdateCleanLog(CCmdUI *pCmdUI)
 {
