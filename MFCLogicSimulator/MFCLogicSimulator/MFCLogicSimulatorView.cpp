@@ -376,20 +376,14 @@ void CMFCLogicSimulatorView::OnPaint()
 			//화면에 메세지를 띄어주는것
 			drawMassage(memDC);
 		}
+		//미니맵을 그린다
+		drawMiniMap(memDC);
 	}
 
 	//그리기 종료
-
 	//버퍼 역할을 하는 비트맵을 화면으로 출력한다
 	dc.BitBlt(0, 0, rect.Width(), rect.Height(), &memDC, 0, 0, SRCCOPY);
-	{ // 미니맵 그리기
-		CPoint scrollpos = GetScrollPosition();
-		// 미니맵 테두리
-		dc.Rectangle(9, 9, rect.Width() / 4 + 9, rect.Height() / 4 + 9);
-		// 미니맵
-		dc.StretchBlt(10, 10, rect.Width() / 4, rect.Height() / 4, &memDC,
-			10, 10, rect.Width(), rect.Height(), SRCCOPY);
-	}
+
 	dc.SelectObject(pOldBitmap);
 	newBitmap.DeleteObject();
 	ReleaseDC(&memDC);
@@ -693,6 +687,26 @@ void CMFCLogicSimulatorView::drawOutputTerminalPinLine(CDC & DC, int x, int y, C
 		break;
 	}
 	}
+}
+
+void CMFCLogicSimulatorView::drawMiniMap(CDC &DC)
+{
+	CRect rect;
+	GetClientRect(rect);
+	// 테두리 그린다음 전체 복사해와서 생기는 문제 발생
+	//DC.Rectangle(9, 9, rect.Width() / 4 + 9, rect.Height() / 4 + 9);
+	// 미니맵
+	DC.StretchBlt(10, 10, rect.Width() / 4, rect.Height() / 4, &DC,
+		10, 10, rect.Width(), rect.Height(), SRCCOPY);
+	// 미니맵 테두리
+	DC.MoveTo(9, 9);
+	DC.LineTo(9, rect.Height() / 4 + 9);
+	DC.MoveTo(9, 9);
+	DC.LineTo(rect.Width() / 4 + 9, 9);
+	DC.MoveTo(9, rect.Height() / 4 + 9);
+	DC.LineTo(rect.Width() / 4 + 9, rect.Height() / 4 + 9);
+	DC.MoveTo(rect.Width() / 4 + 9, 9);
+	DC.LineTo(rect.Width() / 4 + 9, rect.Height() / 4 + 9);
 }
 
 void CMFCLogicSimulatorView::drawMassage(CDC & DC)
