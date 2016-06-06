@@ -697,7 +697,7 @@ void CMFCLogicSimulatorView::drawMiniMap(CDC &DC)
 	//DC.Rectangle(9, 9, rect.Width() / 4 + 9, rect.Height() / 4 + 9);
 	// ¹Ì´Ï¸Ê
 	DC.StretchBlt(10, 10, rect.Width() / 4, rect.Height() / 4, &DC,
-		10, 10, rect.Width(), rect.Height(), SRCCOPY);
+		10, 10, rect.Width()*4, rect.Height()*4, SRCCOPY);
 	// ¹Ì´Ï¸Ê Å×µÎ¸®
 	DC.MoveTo(9, 9);
 	DC.LineTo(9, rect.Height() / 4 + 9);
@@ -746,6 +746,7 @@ void CMFCLogicSimulatorView::drawComponentTermialPin(CDC & DC, int ID)
 		getInputTerminalPoint(ID, point, i);
 		a = point.x- nHorzScroll;
 		b = point.y- nVertScroll;
+
 		drawInputTerminalPinLine(DC, a, b, adjustDirection(currentData->type, currentData->direction));
 		DC.Ellipse(a - TERMINAL_PIN_HALF_SIZE, b - TERMINAL_PIN_HALF_SIZE,
 			a + TERMINAL_PIN_HALF_SIZE, b + TERMINAL_PIN_HALF_SIZE);
@@ -760,7 +761,8 @@ void CMFCLogicSimulatorView::drawComponentTermialPin(CDC & DC, int ID)
 		getOutputTerminalPoint(ID, point, i);
 		a = point.x - nHorzScroll;
 		b = point.y - nVertScroll;
-		drawOutputTerminalPinLine(DC, a, b, currentData->direction);
+
+		drawOutputTerminalPinLine(DC, a, b, adjustDirection(currentData->type, currentData->direction));
 		DC.Ellipse(a - TERMINAL_PIN_HALF_SIZE, b - TERMINAL_PIN_HALF_SIZE,
 			a + TERMINAL_PIN_HALF_SIZE, b + TERMINAL_PIN_HALF_SIZE);
 	}
@@ -1105,12 +1107,9 @@ int CMFCLogicSimulatorView::getComponentHeight(COMPONENT_TYPE type, LIBRARYBOX_T
 		return 120;
 	}
 	else if (type == COMPONENT_TYPE_LIBRARY_BOX) { 
-		if (libraryBoxType == LIBRARYBOX_TYPE_USER_DEFINE) {
-			return 120;
-		}
-		else {
+
 			return 75;
-		}
+		
 	}
 	else {
 		return 75;
@@ -1124,7 +1123,9 @@ int CMFCLogicSimulatorView::getComponentWidth(COMPONENT_TYPE type, LIBRARYBOX_TY
 		return 75;
 	}
 	else if (type == COMPONENT_TYPE_LIBRARY_BOX) {
+
 		return 75;
+
 	}
 	else {
 		return 75;
@@ -1464,7 +1465,12 @@ void CMFCLogicSimulatorView::startUpdating()
 	str.Format(_T("in mfc logicsimulator view : start updating\n"));
 	pOutput->addBuildWindowString(str);
 	SetTimer(updateTimerID, updateTimer_TIME, NULL);
-	
+	CMFCLogicSimulatorDoc *pDoc = GetDocument();
+
+	for (int i = 0; i < pDoc->logicSimulatorEngine.numberOfClock();i++) {
+		clockEdge[i] = true;
+		SetTimer(updateTimerID+i, updateTimer_TIME, NULL);	
+	}
 }
 
 void CMFCLogicSimulatorView::stopUpdating()
@@ -1504,6 +1510,15 @@ void CMFCLogicSimulatorView::OnTimer(UINT_PTR nIDEvent)
 		}
 		Invalidate();
 	}
+	for (int i = 0; i < pDoc->logicSimulatorEngine.numberOfClock(); i++) {
+		if (nIDEvent == updateTimerID) {
+			pDoc->logicSimulatorEngine.setClockValue(i, clockEdge[i]);
+			clockEdge[i] = !clockEdge[i];
+			pDoc->logicSimulatorEngine.update();
+			Invalidate();
+		}
+	}
+
 }
 
 

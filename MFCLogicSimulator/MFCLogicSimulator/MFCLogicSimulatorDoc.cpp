@@ -133,7 +133,7 @@ void CMFCLogicSimulatorDoc::Serialize(CArchive& ar)
 		loadEngineComponentData(ar,&engineComponentData);
 		loadEngineCoreData(ar,data);
 		logicSimulatorEngine.loadLibraryBoxData(data);
-
+		toolboxItemData.resize(engineComponentData.size());
 
 	}
 }

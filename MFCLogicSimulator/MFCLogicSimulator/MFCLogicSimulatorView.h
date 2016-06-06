@@ -38,7 +38,8 @@
 #define HIGHLIGHT_CONNECTED_WIRE_LINE_WIDTH 10
 #define SEVEN_SEGMENT_INPUT_BAR_WIDTH 30
 #define SEVEN_SEGMENT_INPUT_BAR_HIGHT 160
-#define updateTimerID 12 
+#define updateTimerID 999
+
 #define updateTimer_TIME 100
 #define SEVEN_SEGMENT_INPUT_BAR_WIDTH 30
 #define SEVEN_SEGMENT_INPUT_BAR_HIGHT 160
@@ -77,7 +78,7 @@ public:
 	CPoint currentSelectedTerminalPoint;
 	CPoint oldSelectedTerminalPoint;
 	CPoint currentConnectedWirePoints[4];
-
+	bool clockEdge[1000];
 	
 
 
