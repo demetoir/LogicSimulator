@@ -1069,9 +1069,9 @@ COMPONENT_DIRECTION CMFCLogicSimulatorView::adjustDirection(COMPONENT_TYPE _type
 {
 	int dir = direction;
 	if (_type == COMPONENT_TYPE_7SEGMENT ||
-		_type == COMPONENT_TYPE_CLOCK ||
-		_type == COMPONENT_TYPE_ONE_BIT_LAMP ||
-		_type == COMPONENT_TYPE_ONE_BIT_SWITCH) {
+
+		_type == COMPONENT_TYPE_ONE_BIT_LAMP
+		) {
 		dir = (dir + 2) % 4;
 	}
 	return (COMPONENT_DIRECTION)dir;
