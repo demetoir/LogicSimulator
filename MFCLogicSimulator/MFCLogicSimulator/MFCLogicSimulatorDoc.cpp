@@ -123,6 +123,7 @@ void CMFCLogicSimulatorDoc::Serialize(CArchive& ar)
 		storeEngineComponentData(ar,&engineComponentData);
 		logicSimulatorEngine.saveLibraryBoxData(data);
 		storeEngineCoreData(ar,data);
+		storeEngineToolboxitemList(ar, &toolboxItemData);
 	}
 	else
 	{
@@ -134,6 +135,7 @@ void CMFCLogicSimulatorDoc::Serialize(CArchive& ar)
 		loadEngineCoreData(ar,data);
 		logicSimulatorEngine.loadLibraryBoxData(data);
 		toolboxItemData.resize(engineComponentData.size());
+		loadEngineToolboxitemList(ar, &toolboxItemData);
 
 	}
 }
@@ -646,6 +648,7 @@ void CMFCLogicSimulatorDoc::storeEngineComponentData(CArchive & ar, vector <COMP
 		ar << (int)(pData->libraryBoxType);
 	}
 	size = 0;
+	
 	return;
 }
 
@@ -824,6 +827,38 @@ void CMFCLogicSimulatorDoc::loadEngineCoreData(CArchive & ar, LIBRARY_BOX_DATA& 
 	for (int i = 0; i < data.internalLibraryBoxData.size(); i++) {
 		loadEngineCoreData(ar, data.internalLibraryBoxData[i]);
 	}
+}
+
+void CMFCLogicSimulatorDoc::storeEngineToolboxitemList(CArchive & ar, vector<int>* ToolboxitemList)
+{
+	int Data;
+	int size = (*ToolboxitemList).size();
+	ar << size;
+
+	for (int i = 0; i < size; i++) {
+		Data = (*ToolboxitemList)[i];
+		ar << Data;
+
+	}
+	size = 0;
+
+	return;
+}
+
+void CMFCLogicSimulatorDoc::loadEngineToolboxitemList(CArchive & ar, vector<int>* ToolboxitemList)
+{
+	int Data;
+	int size;
+	ar >> size;
+	(*ToolboxitemList).resize(size);
+	for (int i = 0; i < size; i++) {
+		ar >> Data;
+		(*ToolboxitemList)[i] = Data;
+	}
+	size = 0;
+
+	return;
+
 }
 
 bool CMFCLogicSimulatorDoc::checkConnectionWireToWire(COMPONENT_CONENTION_INFO & A, COMPONENT_CONENTION_INFO & B)

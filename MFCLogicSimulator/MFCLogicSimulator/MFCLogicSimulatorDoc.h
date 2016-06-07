@@ -148,6 +148,11 @@ public :
 	void storeEngineCoreData(CArchive& ar, LIBRARY_BOX_DATA& data);
 	void loadEngineCoreData(CArchive& ar, LIBRARY_BOX_DATA& data);
 
+	void storeEngineToolboxitemList(CArchive& ar, vector <int>* ToolboxitemList);
+	void loadEngineToolboxitemList(CArchive& ar, vector <int>* ToolboxitemList);
+
+
+
 	bool checkConnectionWireToWire(COMPONENT_CONENTION_INFO& A, COMPONENT_CONENTION_INFO& B);
 
 
