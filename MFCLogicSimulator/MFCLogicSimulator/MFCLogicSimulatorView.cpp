@@ -1467,23 +1467,33 @@ void CMFCLogicSimulatorView::startUpdating()
 	SetTimer(updateTimerID, updateTimer_TIME, NULL);
 	CMFCLogicSimulatorDoc *pDoc = GetDocument();
 
-	for (int i = 0; i < pDoc->logicSimulatorEngine.numberOfClock();i++) {
-		clockEdge[i] = true;
-		SetTimer(updateTimerID+i, updateTimer_TIME, NULL);	
+	for (int i = 0; i < pDoc->engineComponentData.size();i++) {
+		if (pDoc->engineComponentData[i].type == COMPONENT_TYPE_CLOCK) {
+			clockEdge[i] = pDoc->engineComponentData[i].clockEdge;
+			SetTimer(updateTimerID + i+1, 1000/pDoc->engineComponentData[i].hz, NULL);
+		}
 	}
 }
 
 void CMFCLogicSimulatorView::stopUpdating()
 {
 	CMainFrame *pFrame = (CMainFrame*)AfxGetMainWnd();
-
+	CMFCLogicSimulatorDoc* pDoc = GetDocument();
 	COutputWnd* pOutput = pFrame->getCOutputWnd();
 	CString str;
 	str.Format(_T("in mfc logicsimulator view : end updating\n"));
 	pOutput->addBuildWindowString(str);
 	KillTimer(updateTimerID);
-	Invalidate();
+	
 	//CChildFrame *pChildFrame = pFrame->get
+	for (int i = 0; i < pDoc->engineComponentData.size(); i++) {
+		if (pDoc->engineComponentData[i].type == COMPONENT_TYPE_CLOCK) {
+			clockEdge[i] = (bool)pDoc->engineComponentData[i].clockEdge;
+			KillTimer(updateTimerID + i+1 );
+		}
+	}
+
+	Invalidate();
 }
 
 
@@ -1507,15 +1517,32 @@ void CMFCLogicSimulatorView::OnTimer(UINT_PTR nIDEvent)
 			AfxMessageBox(_T("진동 발생이 확실합니다"));
 			SendMessage(ID_BUTTONCONTINUE, 0, 0);
 			SendMessage(ID_BUTTONSTOP, 0, 0);
+			for (int i = 0; i < pDoc->engineComponentData.size(); i++) {
+				if (pDoc->engineComponentData[i].type == COMPONENT_TYPE_CLOCK) {
+					KillTimer(updateTimerID+i+1);
+				}
+			}
 		}
 		Invalidate();
 	}
-	for (int i = 0; i < pDoc->logicSimulatorEngine.numberOfClock(); i++) {
-		if (nIDEvent == updateTimerID) {
-			pDoc->logicSimulatorEngine.setClockValue(i, clockEdge[i]);
-			clockEdge[i] = !clockEdge[i];
+	int clockNumber = 0;
+	for (int i = 0; i < pDoc->engineComponentData.size(); i++) {
+ 
+		if (nIDEvent == updateTimerID+i+1) {
+			if (clockEdge[i]==true) {
+				pDoc->logicSimulatorEngine.setClockValue(clockNumber, false);
+				clockEdge[i] = false;
+			}
+			else {
+				pDoc->logicSimulatorEngine.setClockValue(clockNumber,true);
+				clockEdge[i] = true;
+			}
 			pDoc->logicSimulatorEngine.update();
 			Invalidate();
+			
+		}
+		if (pDoc->engineComponentData[i].type == COMPONENT_TYPE_CLOCK) {
+			clockNumber++;
 		}
 	}
 
