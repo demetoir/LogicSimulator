@@ -377,7 +377,7 @@ void CMFCLogicSimulatorView::OnPaint()
 			drawMassage(memDC);
 		}
 		//미니맵을 그린다
-		drawMiniMap(memDC);
+		//drawMiniMap(memDC);
 	}
 
 	//그리기 종료
@@ -697,7 +697,7 @@ void CMFCLogicSimulatorView::drawMiniMap(CDC &DC)
 	//DC.Rectangle(9, 9, rect.Width() / 4 + 9, rect.Height() / 4 + 9);
 	// 미니맵
 	DC.StretchBlt(10, 10, rect.Width() / 4, rect.Height() / 4, &DC,
-		10, 10, rect.Width()*4, rect.Height()*4, SRCCOPY);
+		10, 10, rect.Width(), rect.Height(), SRCCOPY);
 	// 미니맵 테두리
 	DC.MoveTo(9, 9);
 	DC.LineTo(9, rect.Height() / 4 + 9);
