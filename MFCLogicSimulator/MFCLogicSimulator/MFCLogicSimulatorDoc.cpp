@@ -153,13 +153,13 @@ int CMFCLogicSimulatorDoc::addComponentToEngine(int _x, int _y, int ToolBoxItemI
 	int ret = 0;
 	if (selectedType == COMPONENT_TYPE_LIBRARY_BOX) {
 		if (ToolBoxItemIndex == ITEM_DFF) {
-
+			ret = logicSimulatorEngine.addComponent(addingComponentInfo, D_FF_Data);
 		}
 		else if (ToolBoxItemIndex == ITEM_JKFF) {
-
+			ret = logicSimulatorEngine.addComponent(addingComponentInfo, JK_FF_Data);
 		}
 		else if (ToolBoxItemIndex == ITEM_TFF) {
-
+			ret = logicSimulatorEngine.addComponent(addingComponentInfo, T_FF_Data);
 		}
 		else if (ToolBoxItemIndex == ITEM_NOR) {
 			ret = logicSimulatorEngine.addComponent(addingComponentInfo, norGateData);

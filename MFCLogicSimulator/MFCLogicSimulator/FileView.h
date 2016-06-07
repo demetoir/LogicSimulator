@@ -49,7 +49,9 @@ protected:
 	CFileViewToolBar m_wndToolBar;
 	HTREEITEM hLib;
 	vector <LIBRARY_BOX_DATA> coreDataList;
-
+	LIBRARY_BOX_DATA D_FF;
+	LIBRARY_BOX_DATA JK_FF;
+	LIBRARY_BOX_DATA T_FF;
 	void FillFileView();
 
 
