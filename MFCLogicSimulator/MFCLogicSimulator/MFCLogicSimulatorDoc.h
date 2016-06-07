@@ -109,6 +109,10 @@ public :
 
 	LIBRARY_BOX_DATA nandGateData;
 	LIBRARY_BOX_DATA norGateData;
+	LIBRARY_BOX_DATA D_FF_Data;
+	LIBRARY_BOX_DATA T_FF_Data;
+	LIBRARY_BOX_DATA JK_FF_Data;
+
 
 	//트리뷰에서 선택한 부품정보
 	int currentSelectedItemIndex;

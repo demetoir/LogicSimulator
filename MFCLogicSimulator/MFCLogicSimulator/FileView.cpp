@@ -336,6 +336,7 @@ void CFileView::initCoreData()
 			filepath = finder.GetFilePath();
 			fileName = finder.GetFileName();
 			loadCoreData(filepath, fileName);
+
 		}	
 	}
 
@@ -367,10 +368,26 @@ void CFileView::loadCoreData(CString PathName,CString fileName)
 	if (librayboxFile.Open(PathName, CFile::modeRead)) {
 		CArchive ar(&librayboxFile, CArchive::load);
 		try {
-			pDoc->loadEngineComponentData(ar, &dummy);
-			pDoc->loadEngineCoreData(ar, coreData);
-			addCoreData(coreData);
+			if (fileName == "D-FF.ls") {
+				pDoc->loadEngineComponentData(ar, &dummy);
+				pDoc->loadEngineCoreData(ar, pDoc->D_FF_Data);
+			}
+			else if (fileName == "JK-FF.ls") {
+				pDoc->loadEngineComponentData(ar, &dummy);
+				pDoc->loadEngineCoreData(ar, pDoc->JK_FF_Data);
+			}
+			else if (fileName == "T-FF.ls") {
+				pDoc->loadEngineComponentData(ar, &dummy);
+				pDoc->loadEngineCoreData(ar, pDoc->T_FF_Data);
+			}
+			else {
+				pDoc->loadEngineComponentData(ar, &dummy);
+				pDoc->loadEngineCoreData(ar, coreData);
+				addCoreData(coreData);
+				
+			}
 			isSuccessReadFile = true;
+
 			str.Format(_T("in rebbon menu : load library core data  to toolBox\n"), pDoc->selectedComponentID);
 			pOutput->addBuildWindowString(str);
 		}
