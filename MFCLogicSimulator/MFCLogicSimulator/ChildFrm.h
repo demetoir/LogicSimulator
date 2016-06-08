@@ -14,12 +14,21 @@
 
 #pragma once
 
+#include "stdafx.h"
+// CMDIChildWndEx 문서
+// https://msdn.microsoft.com/ko-kr/library/bb984294.aspx
 class CChildFrame : public CMDIChildWndEx
 {
 	DECLARE_DYNCREATE(CChildFrame)
 public:
 	CChildFrame();
+	int selectedComponentID;
+	int x,y;
+	int selectedComponentToolboxItemIndex;
 
+	
+
+	
 // 특성입니다.
 public:
 	/* check box, button 이벤트 처리 변수 추가 요망 */
@@ -54,10 +63,10 @@ public:
 	afx_msg void OnUpdateButtonstop(CCmdUI *pCmdUI);
 	afx_msg void OnButtoncontinue();
 	afx_msg void OnUpdateButtoncontinue(CCmdUI *pCmdUI);
-	afx_msg void OnButtonact();
-	afx_msg void OnUpdateButtonact(CCmdUI *pCmdUI);
-	afx_msg void OnButtonedit();
-	afx_msg void OnUpdateButtonedit(CCmdUI *pCmdUI);
+	afx_msg void OnButtonExcutingMode();
+	afx_msg void OnUpdateButtonExcutingMode(CCmdUI *pCmdUI);
+	afx_msg void OnButtonEditMode();
+	afx_msg void OnUpdateButtonEditMode(CCmdUI *pCmdUI);
 	afx_msg void OnEditCopy();
 	afx_msg void OnUpdateEditCopy(CCmdUI *pCmdUI);
 	afx_msg void OnEditPaste();
@@ -70,4 +79,14 @@ public:
 	afx_msg void OnUpdateEditSelectAll(CCmdUI *pCmdUI);
 	afx_msg void OnEditRedo();
 	afx_msg void OnUpdateEditRedo(CCmdUI *pCmdUI);
+	afx_msg void OnSaveLibrarybox();
+	afx_msg void OnUpdateSaveLibrarybox(CCmdUI *pCmdUI);
+	afx_msg void OnLoadLibrarybox();
+	afx_msg void OnUpdateLoadLibrarybox(CCmdUI *pCmdUI);
+	afx_msg void OnCleanLog();
+	afx_msg void OnUpdateCleanLog(CCmdUI *pCmdUI);
+	afx_msg void OnComponentDelete();
+	afx_msg void OnUpdateComponentDelete(CCmdUI *pCmdUI);
+	afx_msg void OnUnconnect();
+	afx_msg void OnUpdateUnconnect(CCmdUI *pCmdUI);
 };

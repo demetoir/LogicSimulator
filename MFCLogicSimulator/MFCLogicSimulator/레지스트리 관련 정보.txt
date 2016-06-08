@@ -1,0 +1,5 @@
+
+
+
+레지스트리 저장 주소
+[HKEY_CURRENT_USER\SOFTWARE\로컬 응용 프로그램 마법사에서 생성된 응용 프로그램\MFCLogicSimulator]

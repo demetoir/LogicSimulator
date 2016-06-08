@@ -1,0 +1,242 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="CAboutDlg" Collapsed="true">
+    <Position X="27.75" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAABAABAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>MFCLogicSimulator.cpp</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CChildFrame" Collapsed="true">
+    <Position X="29.5" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>QAAAAIScIAACAAgACBkAgQwAgAAAFEIACQAAAQSIAUg=</HashCode>
+      <FileName>ChildFrm.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CFileViewToolBar" Collapsed="true">
+    <Position X="33" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAgAAAAAAAAAAAAEAAAAAAAAAAAA=</HashCode>
+      <FileName>FileView.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CFileView" Collapsed="true">
+    <Position X="31.25" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AACgCgAAgAEAACABAAAAkAAAACAEAAFAgQABAABIAAA=</HashCode>
+      <FileName>FileView.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CMainFrame" Collapsed="true">
+    <Position X="27.75" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>BAAgAAAAAAIAAACAGAASiAQEoCCAAgAAACAQAEAAAJA=</HashCode>
+      <FileName>MainFrm.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CMFCLogicSimulatorApp" Collapsed="true">
+    <Position X="29.5" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAEAAAAAAEAAAAAAAABQAAAAAQCAAARABACAAA=</HashCode>
+      <FileName>MFCLogicSimulator.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CMFCLogicSimulatorDoc" Collapsed="true">
+    <Position X="31.25" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>EAQBAAAAAAAiAAEACCAAgABgASggBBAAAAAAAEAAAAA=</HashCode>
+      <FileName>MFCLogicSimulatorDoc.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CMFCLogicSimulatorView" Collapsed="true">
+    <Position X="33" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>QACAAABEAAFAAAIAGADAgAlAgBBMAACAAAgJAACYAQQ=</HashCode>
+      <FileName>MFCLogicSimulatorView.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="COutputList" Collapsed="true">
+    <Position X="27.75" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAEAAAAABAAAAgAAAAAAAAAAAIAABAAAIAAA=</HashCode>
+      <FileName>OutputWnd.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="COutputWnd" Collapsed="true">
+    <Position X="29.5" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>QBKAAiAgAAECAAAAAAAAAAAAACACAAAABAABIAAECEA=</HashCode>
+      <FileName>OutputWnd.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CPropertiesToolBar" Collapsed="true">
+    <Position X="31.25" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAgAAAAAAAAAAAAEAAAAAAAAAAAA=</HashCode>
+      <FileName>PropertiesWnd.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CPropertiesWnd" Collapsed="true">
+    <Position X="33" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAACAAAAFkAAACAAAQAmAAAACAAAAUAgJAACBQAAAA=</HashCode>
+      <FileName>PropertiesWnd.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CViewTree" Collapsed="true">
+    <Position X="27.75" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAACAAAAAAQAAAAABAAACAACAAAAAAAAADAQAQwAA=</HashCode>
+      <FileName>ViewTree.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="C7SegmentComponent" Collapsed="true">
+    <Position X="18.5" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAEAACAEAAAAAEAAAAAAAAAIAAIAQCAAAAAAAAAEABA=</HashCode>
+      <FileName>7SegmentComponent.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CANDGateComponent" Collapsed="true">
+    <Position X="23" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>ACEAECAEAAAAAAAAAAAAAAAIAAAAQAAABAAABAAEABA=</HashCode>
+      <FileName>ANDGateComponet.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CClockComponent" Collapsed="true">
+    <Position X="0.5" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAEACCAEQAAAAAAAAAAAAACIAAAAQCAEAACAAAAEABA=</HashCode>
+      <FileName>ClockComponent.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CComponentObject" Collapsed="true">
+    <Position X="12.75" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAEAACAEAAAAAACAAAAQAAAIAAAAQAAAAAAAAAAEABA=</HashCode>
+      <FileName>ComponentObject.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CInputPinComponent" Collapsed="true">
+    <Position X="7.25" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAEAACAEAAAAAAAEAAAAAAAIAAAAQSAAAAAAAAAEABA=</HashCode>
+      <FileName>InputPinComponent.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CLibraryBox" Collapsed="true">
+    <Position X="9.5" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>QCEAIiEFEAIABQAIWECAAAgIAFEAwAAAAABABAIEgBM=</HashCode>
+      <FileName>LibraryBoxComponent.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CNOTGateComponent" Collapsed="true">
+    <Position X="14" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAEAECAEAAAACAAAAAAAAAAIAAAAQABABAAAAAAEABA=</HashCode>
+      <FileName>NOTGateComponent.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="COneBitLampComponent" Collapsed="true">
+    <Position X="20.75" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAEAACAEAAAAAAAACAAAAAAIAgAAQCAAAAAAAAAEABA=</HashCode>
+      <FileName>OneBitLampComponent.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="COneBitSwitchComponent" Collapsed="true">
+    <Position X="25.25" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAkAACAEAAAAAAAAAAAAAAAIAAAEQCAAAAAAAAAEABA=</HashCode>
+      <FileName>OneBitSwitch.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CORGateComponent" Collapsed="true">
+    <Position X="2.75" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAEAECBEAAAAAAAQAAAAAAAIAAAAQAAABAAAAAAEABA=</HashCode>
+      <FileName>ORGateComponent.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="COutputPinComponent" Collapsed="true">
+    <Position X="5" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAGAACAEIAAAAAAAAAAAAAAIAAAAQCAAAAAAAAAEABA=</HashCode>
+      <FileName>OutputPin.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CWireComponent" Collapsed="true">
+    <Position X="11.75" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAEAACAEAAAAAAAAAAAAAAAIAAAAQCAAAAAAAEAEABQ=</HashCode>
+      <FileName>WireComponet.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CXORGateComponent" Collapsed="true">
+    <Position X="16.25" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAEAECAGAAAAAAAAAAAAAAAIAAAAQAAABAAAAAAEABA=</HashCode>
+      <FileName>XORGateComponent.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Struct Name="COMPONENT_DATA" Collapsed="true">
+    <Position X="29.5" Y="4.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAQAAAAAIBAAAAAAAAAAAAABAAAAAABgAAAAAgA=</HashCode>
+      <FileName>MFCLogicSimulatorDoc.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="COMPONENT_CONENTION_INFO" Collapsed="true">
+    <Position X="27.75" Y="4.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAIAAAgAACAAAAAAAAAAAAAAAAACAAAAA=</HashCode>
+      <FileName>LibraryBoxComponent.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="COMPONENT_INFO" Collapsed="true">
+    <Position X="31.25" Y="4.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAIAAAAAAAAAAAAAAAAAAQAAAAAAAAACAAAAA=</HashCode>
+      <FileName>LibraryBoxComponent.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="LIBRARY_BOX_DATA" Collapsed="true">
+    <Position X="33" Y="4.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>QAAAIgAAAAAAAAAAUAAAAAAAAFAAAAAAAABAQAAAgAM=</HashCode>
+      <FileName>LibraryBoxComponent.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Enum Name="COMPONENT_DIRECTION" Collapsed="true">
+    <Position X="27.75" Y="6" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAgAAAAAABAAAQAAAAAAAAAAAAQAAAAAAAAAA=</HashCode>
+      <FileName>MFCLogicSimulatorDoc.h</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="ToolBoxItemFlag" Collapsed="true">
+    <Position X="33" Y="6" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAECAAAAABIRAEIIA1AAAEAgAAAACIAIEAAoAAAAA=</HashCode>
+      <FileName>MFCLogicSimulatorDoc.h</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="TERMINAL_TYPE" Collapsed="true">
+    <Position X="31.25" Y="6" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>QAAAAAAAAAAAAAAAEAAAACAAAAAAAAAAAAAgAAAAAAA=</HashCode>
+      <FileName>LibraryBoxComponent.h</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="COMPONENT_TYPE" Collapsed="true">
+    <Position X="29.5" Y="6" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAIQAAQACAIAAAAAAAAABAAEAAQAAAAhEAIAAEAAAA=</HashCode>
+      <FileName>LibraryBoxComponent.h</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Font Name="맑은 고딕" Size="9" />
+</ClassDiagram>

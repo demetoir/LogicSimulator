@@ -97,6 +97,7 @@ BOOL CMFCLogicSimulatorApp::InitInstance()
 	LoadStdProfileSettings(4);  // MRU를 포함하여 표준 INI 파일 옵션을 로드합니다.
 	// 최근 문서 목록 지원 코드
 
+	CleanState(); // 레지스트리 초기화
 	InitContextMenuManager();
 
 	InitKeyboardManager();
@@ -148,6 +149,18 @@ BOOL CMFCLogicSimulatorApp::InitInstance()
 	// 주 창이 초기화되었으므로 이를 표시하고 업데이트합니다.
 	pMainFrame->ShowWindow(m_nCmdShow);
 	pMainFrame->UpdateWindow();
+
+
+	CMainFrame *pFrame = (CMainFrame*)AfxGetMainWnd();
+	CChildFrame *pChild = (CChildFrame *)pFrame->GetActiveFrame();
+	CMFCLogicSimulatorDoc *pDoc = (CMFCLogicSimulatorDoc *)pChild->GetActiveDocument();
+	COutputWnd* pOutput = pFrame->getCOutputWnd();
+	CMFCLogicSimulatorView* pView = (CMFCLogicSimulatorView*)pChild->GetActiveView();
+	CFileView *pFileView = (CFileView*)pFrame->getCFileView();
+	CViewTree* pToolbox = pFileView->getCFileViewTree();
+
+	pFileView->initCoreData();
+
 
 	return TRUE;
 }

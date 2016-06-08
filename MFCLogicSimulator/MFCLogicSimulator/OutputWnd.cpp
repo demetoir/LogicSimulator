@@ -35,6 +35,8 @@ COutputWnd::~COutputWnd()
 BEGIN_MESSAGE_MAP(COutputWnd, CDockablePane)
 	ON_WM_CREATE()
 	ON_WM_SIZE()
+	ON_WM_PAINT()
+	ON_COMMAND(ID_CLEAN_LOG, &COutputWnd::OnCleanLog)
 END_MESSAGE_MAP()
 
 int COutputWnd::OnCreate(LPCREATESTRUCT lpCreateStruct)
@@ -77,14 +79,14 @@ int COutputWnd::OnCreate(LPCREATESTRUCT lpCreateStruct)
 	//ASSERT(bNameValid);
 	//m_wndTabs.AddTab(&m_wndOutputDebug, strTabName, (UINT)1);
 
-	bNameValid = strTabName.LoadString(IDS_FIND_TAB);
-	ASSERT(bNameValid);
-	m_wndTabs.AddTab(&m_wndOutputFind, strTabName, (UINT)1);
+	//bNameValid = strTabName.LoadString(IDS_FIND_TAB);
+	//ASSERT(bNameValid);
+	//m_wndTabs.AddTab(&m_wndOutputFind, strTabName, (UINT)1);
 
 	// 출력 탭을 더미 텍스트로 채웁니다.
 	FillBuildWindow();
 	//FillDebugWindow();
-	FillFindWindow();
+	//FillFindWindow();
 
 	return 0;
 }
@@ -95,6 +97,16 @@ void COutputWnd::OnSize(UINT nType, int cx, int cy)
 
 	// Tab 컨트롤은 전체 클라이언트 영역을 처리해야 합니다.
 	m_wndTabs.SetWindowPos (NULL, -1, -1, cx, cy, SWP_NOMOVE | SWP_NOACTIVATE | SWP_NOZORDER);
+}
+
+void COutputWnd::addBuildWindowString(CString & str)
+{
+	m_wndOutputBuild.AddString(str);	
+}
+
+void COutputWnd::resetBuildWindowString()
+{
+	m_wndOutputBuild.ResetContent();
 }
 
 void COutputWnd::AdjustHorzScroll(CListBox& wndListBox)
@@ -118,7 +130,6 @@ void COutputWnd::AdjustHorzScroll(CListBox& wndListBox)
 
 void COutputWnd::FillBuildWindow()
 {
-	m_wndOutputBuild.AddString(_T("여기에 결과 및 과정 출력"));
 
 }
 
@@ -139,7 +150,7 @@ void COutputWnd::UpdateFonts()
 {
 	m_wndOutputBuild.SetFont(&afxGlobalData.fontRegular);
 	//m_wndOutputDebug.SetFont(&afxGlobalData.fontRegular);
-	m_wndOutputFind.SetFont(&afxGlobalData.fontRegular);
+	//m_wndOutputFind.SetFont(&afxGlobalData.fontRegular);
 }
 
 /////////////////////////////////////////////////////////////////////////////
@@ -206,4 +217,19 @@ void COutputList::OnViewOutput()
 		pMainFrame->RecalcLayout();
 
 	}
+}
+
+
+void COutputWnd::OnPaint()
+{
+	CPaintDC dc(this); // device context for painting
+					   // TODO: 여기에 메시지 처리기 코드를 추가합니다.
+					   // 그리기 메시지에 대해서는 CDockablePane::OnPaint()을(를) 호출하지 마십시오.
+}
+
+
+void COutputWnd::OnCleanLog()
+{
+	// TODO: 여기에 명령 처리기 코드를 추가합니다.
+	m_wndOutputBuild.DeleteString(0);
 }

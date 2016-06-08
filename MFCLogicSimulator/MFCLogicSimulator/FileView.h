@@ -11,7 +11,7 @@
 
 #pragma once
 #include "ViewTree.h"
-
+#include "LibraryBoxComponent.h"
 class CFileViewToolBar : public CMFCToolBar
 {
 	virtual void OnUpdateCmdUI(CFrameWnd* /*pTarget*/, BOOL bDisableIfNoHndler)
@@ -21,7 +21,8 @@ class CFileViewToolBar : public CMFCToolBar
 
 	virtual BOOL AllowShowOnList() const { return FALSE; }
 };
-
+// CDockablePane 문서
+// https://msdn.microsoft.com/ko-kr/library/bb984433.aspx
 class CFileView : public CDockablePane
 {
 // 생성입니다.
@@ -29,32 +30,39 @@ public:
 	CFileView();
 	//HTREEITEM selectedItem;
 	//HTREEITEM nextItem;
-
 	void AdjustLayout();
 	void OnChangeVisualStyle();
 	//HTREEITEM getItemSelected() const;
 	//HTREEITEM getChildItem(HTREEITEM hItem) const;
 	//HTREEITEM getNextItem(HTREEITEM n_Item, UINT n_Flag) const;
 	CViewTree* getCFileViewTree();
+	void addCoreData(LIBRARY_BOX_DATA& coreData);
+	void getCoreData(LIBRARY_BOX_DATA& coreData, int index);
+
+	void initCoreData();
+	void loadCoreData(CString PathName, CString fileName);
 
 // 특성입니다.
 protected:
 	CViewTree m_wndFileView;
 	CImageList m_FileViewImages;
 	CFileViewToolBar m_wndToolBar;
-
-protected:
+	HTREEITEM hLib;
+	vector <LIBRARY_BOX_DATA> coreDataList;
+	LIBRARY_BOX_DATA D_FF;
+	LIBRARY_BOX_DATA JK_FF;
+	LIBRARY_BOX_DATA T_FF;
 	void FillFileView();
 
-// 구현입니다.
+
+
 public:
 	virtual ~CFileView();
-
+	void addLibraryBox(CString LibraryBoxName);
 protected:
 	afx_msg int OnCreate(LPCREATESTRUCT lpCreateStruct);
 	afx_msg void OnSize(UINT nType, int cx, int cy);
 	afx_msg void OnContextMenu(CWnd* pWnd, CPoint point);
-//	afx_msg void OnProperties();
 	afx_msg void OnFileOpen();
 	afx_msg void OnFileOpenWith();
 	afx_msg void OnDummyCompile();

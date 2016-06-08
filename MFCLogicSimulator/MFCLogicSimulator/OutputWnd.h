@@ -13,7 +13,10 @@
 
 /////////////////////////////////////////////////////////////////////////////
 // COutputList 창
-
+#include "vector"
+using std::vector;
+// CListBox 문서
+// https://msdn.microsoft.com/ko-kr/library/y04ez4c9.aspx
 class COutputList : public CListBox
 {
 // 생성입니다.
@@ -32,7 +35,8 @@ protected:
 
 	DECLARE_MESSAGE_MAP()
 };
-
+// CDockablePane 문서
+// https://msdn.microsoft.com/ko-kr/library/bb984433.aspx
 class COutputWnd : public CDockablePane
 {
 // 생성입니다.
@@ -65,5 +69,12 @@ protected:
 	afx_msg void OnSize(UINT nType, int cx, int cy);
 
 	DECLARE_MESSAGE_MAP()
+private :
+	vector <CString> buildwindowStringVector;
+public : 
+	void addBuildWindowString(CString& str);
+	void resetBuildWindowString();
+	afx_msg void OnPaint();
+	afx_msg void OnCleanLog();
 };
 

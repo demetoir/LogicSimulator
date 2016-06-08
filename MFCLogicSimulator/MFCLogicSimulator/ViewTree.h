@@ -22,16 +22,34 @@ public:
 
 // 재정의입니다.
 protected:
-	virtual BOOL OnNotify(WPARAM wParam, LPARAM lParam, LRESULT* pResult);
+
 
 // 구현입니다.
 public:
 	virtual ~CViewTree();
 
-protected:
-	DECLARE_MESSAGE_MAP()
+
 public:
 
-	afx_msg void OnLButtonDown(UINT nFlags, CPoint point);
+//	afx_msg void OnLButtonDown(UINT nFlags, CPoint point);
 	afx_msg int OnCreate(LPCREATESTRUCT lpCreateStruct);
+
+	afx_msg void OnContextMenu(CWnd* /*pWnd*/, CPoint /*point*/);
+
+	afx_msg void OnLButtonDown(UINT nFlags, CPoint point);
+
+
+
+	afx_msg LRESULT OnUnselectItem(WPARAM wParam, LPARAM lParam);
+
+
+protected:
+protected:
+	DECLARE_MESSAGE_MAP()
+
+	bool isSelectedItemFolder(int selecteItem);
+public:
+	afx_msg void OnTvnSelchanging(NMHDR *pNMHDR, LRESULT *pResult);
+	afx_msg void OnTvnSelchanged(NMHDR *pNMHDR, LRESULT *pResult);
+	void setItemStateON(HTREEITEM hItem);
 };

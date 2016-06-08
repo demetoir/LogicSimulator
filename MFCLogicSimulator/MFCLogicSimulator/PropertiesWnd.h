@@ -11,6 +11,7 @@
 
 #pragma once
 
+
 class CPropertiesToolBar : public CMFCToolBar
 {
 public:
@@ -37,17 +38,27 @@ public:
 		m_wndPropList.SetVSDotNetLook(bSet);
 		m_wndPropList.SetGroupNameFullWidth(bSet);
 	}
-
+	CPropertiesToolBar* getProperties();
+	void addPropertiesList();
+	void removePropertiesList();
 protected:
 	CFont m_fntPropList;
 	//CComboBox m_wndObjectCombo;
 	CPropertiesToolBar m_wndToolBar;
+	// CMFCPropertyGridCtrl 문서
+	//https://msdn.microsoft.com/ko-kr/library/bb983759.aspx
 	CMFCPropertyGridCtrl m_wndPropList;
 
 // 구현입니다.
 public:
 	virtual ~CPropertiesWnd();
+	void setPropertiesWnd()
+	{
 
+
+
+	}
+	//void changePropertyValueToDirection(COleVariant CO, COMPONENT_DIRECTION &direct);
 protected:
 	afx_msg int OnCreate(LPCREATESTRUCT lpCreateStruct);
 	afx_msg void OnSize(UINT nType, int cx, int cy);
@@ -63,6 +74,10 @@ protected:
 	afx_msg void OnSettingChange(UINT uFlags, LPCTSTR lpszSection);
 
 	DECLARE_MESSAGE_MAP()
+	// 프로퍼티 변경시 호출됨.
+	afx_msg LRESULT OnPropertyChanged(WPARAM wParam, LPARAM lParam);
+	//void setPropertiesWindowGate(CString& str);
+	//void resetBuildWindowString();
 
 	void InitPropList();
 	void SetPropListFont();

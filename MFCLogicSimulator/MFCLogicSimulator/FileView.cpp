@@ -14,7 +14,9 @@
 #include "FileView.h"
 #include "Resource.h"
 #include "MFCLogicSimulator.h"
-
+#include "MFCLogicSimulatorDoc.h"
+#include "MFCLogicSimulatorView.h"
+#include "ChildFrm.h"
 #ifdef _DEBUG
 #undef THIS_FILE
 static char THIS_FILE[]=__FILE__;
@@ -26,10 +28,19 @@ static char THIS_FILE[]=__FILE__;
 
 CFileView::CFileView()
 {
+	LIBRARY_BOX_DATA dummy;
+	coreDataList.resize(1,dummy);
+	
+
 }
 
 CFileView::~CFileView()
 {
+}
+
+void CFileView::addLibraryBox(CString LibraryBoxName)
+{
+	m_wndFileView.InsertItem(LibraryBoxName, 1, 2, hLib);
 }
 
 BEGIN_MESSAGE_MAP(CFileView, CDockablePane)
@@ -90,6 +101,8 @@ int CFileView::OnCreate(LPCREATESTRUCT lpCreateStruct)
 	FillFileView();
 	AdjustLayout();
 
+
+
 	return 0;
 }
 
@@ -102,7 +115,6 @@ void CFileView::OnSize(UINT nType, int cx, int cy)
 void CFileView::FillFileView()
 {	// tool box data
 	HTREEITEM hRoot = m_wndFileView.InsertItem(_T("Logic Simulator"), 0, 0);
-
 	m_wndFileView.SetItemState(hRoot, TVIS_BOLD, TVIS_BOLD);
 	/*
 		0 폴더 | 1,2 기타 | 3,4 and | 5,6 nand | 7,8 or |
@@ -110,13 +122,11 @@ void CFileView::FillFileView()
 	*/
 
 	HTREEITEM hWire = m_wndFileView.InsertItem(_T("Wire"), 0, 0, hRoot);
-
 	m_wndFileView.InsertItem(_T("Wire"), 1, 2, hWire);
 	m_wndFileView.InsertItem(_T("Pin"), 1, 2, hWire);
 	m_wndFileView.InsertItem(_T("Probe"), 1, 2, hWire);
 
 	HTREEITEM hLog = m_wndFileView.InsertItem(_T("Logic Gate"), 0, 0, hRoot);
-
 	m_wndFileView.InsertItem(_T("AND"), 3, 4, hLog);
 	m_wndFileView.InsertItem(_T("NAND"), 5, 6, hLog);
 	m_wndFileView.InsertItem(_T("OR"), 7, 8, hLog);
@@ -125,20 +135,21 @@ void CFileView::FillFileView()
 	m_wndFileView.InsertItem(_T("NOT"), 13, 14, hLog);
 
 	HTREEITEM hFlip = m_wndFileView.InsertItem(_T("Flip-flop"), 0, 0, hRoot);
-
 	m_wndFileView.InsertItem(_T("D-FF"), 15, 16, hFlip);
 	m_wndFileView.InsertItem(_T("JK-FF"), 15, 16, hFlip);
 	m_wndFileView.InsertItem(_T("T-FF"), 15, 16, hFlip);
 
 	HTREEITEM hInp = m_wndFileView.InsertItem(_T("Input"), 0, 0, hRoot);
-
 	m_wndFileView.InsertItem(_T("1 Bit input switch"), 1, 2, hInp);
 	m_wndFileView.InsertItem(_T("Clock"), 1, 2, hInp);
 
 	HTREEITEM hOut = m_wndFileView.InsertItem(_T("Output"), 0, 0, hRoot);
-
 	m_wndFileView.InsertItem(_T("1 Bit out put lamp"), 1, 2, hOut);
 	m_wndFileView.InsertItem(_T("7-segment"), 1, 2, hOut);
+
+	hLib = m_wndFileView.InsertItem(_T("Library Box"), 0, 0, hRoot);
+	m_wndFileView.InsertItem(_T("lib box test"), 1, 2, hLib);
+
 
 	m_wndFileView.Expand(hRoot, TVE_EXPAND);
 	m_wndFileView.Expand(hWire, TVE_EXPAND);
@@ -146,6 +157,7 @@ void CFileView::FillFileView()
 	m_wndFileView.Expand(hFlip, TVE_EXPAND);
 	m_wndFileView.Expand(hInp, TVE_EXPAND);
 	m_wndFileView.Expand(hOut, TVE_EXPAND);
+	m_wndFileView.Expand(hLib, TVE_EXPAND);
 
 }
 
@@ -253,9 +265,7 @@ void CFileView::OnChangeVisualStyle()
 {
 	m_wndToolBar.CleanUpLockedImages();
 	m_wndToolBar.LoadBitmap(theApp.m_bHiColorIcons ? IDB_EXPLORER_24 : IDR_EXPLORER, 0, 0, TRUE /* 잠금 */);
-
 	m_FileViewImages.DeleteImageList();
-
 	UINT uiBmpId = theApp.m_bHiColorIcons ? IDB_FILE_VIEW_24 : IDB_FILE_VIEW;
 
 	CBitmap bmp;
@@ -268,14 +278,12 @@ void CFileView::OnChangeVisualStyle()
 
 	BITMAP bmpObj;
 	bmp.GetBitmap(&bmpObj);
-
 	UINT nFlags = ILC_MASK;
 
 	nFlags |= (theApp.m_bHiColorIcons) ? ILC_COLOR24 : ILC_COLOR4;
 
 	m_FileViewImages.Create(16, bmpObj.bmHeight, nFlags, 0, 0);
 	m_FileViewImages.Add(&bmp, RGB(255, 0, 255));
-
 	m_wndFileView.SetImageList(&m_FileViewImages, TVSIL_NORMAL);
 }
 
@@ -284,20 +292,135 @@ CViewTree * CFileView::getCFileViewTree()
 	return &m_wndFileView;
 }
 
-//HTREEITEM CFileView::getItemSelected() const
-//{
-//	return selectedItem;
-//}
-//
-//HTREEITEM CFileView::getChildItem(HTREEITEM hItem) const
-//{
-//	return m_wndFileView.GetChildItem(hItem);
-//}
-//
-//HTREEITEM CFileView::getNextItem(HTREEITEM n_Item, UINT n_Flag) const
-//{
-//	return m_wndFileView.GetNextItem(n_Item, n_Flag);
-//}
+void CFileView::addCoreData(LIBRARY_BOX_DATA & coreData)
+{
+	coreDataList.push_back(coreData);
+}
 
+void CFileView::getCoreData(LIBRARY_BOX_DATA & coreData, int index)
+{
+	coreData = LIBRARY_BOX_DATA(coreDataList[index]);
+}
+
+void CFileView::initCoreData()
+{
+	TCHAR path[_MAX_PATH];
+	GetModuleFileName(NULL, path, sizeof path);
+	CString currentExcuteFilePath = path;
+	int i = currentExcuteFilePath.ReverseFind('\\');
+	currentExcuteFilePath = currentExcuteFilePath.Left(i);
+	AfxMessageBox(_T("load Core data"));
+	CString coreDataFilePath = currentExcuteFilePath +
+		CString(_T("\\MFCLogicSimulatorCoreData\\*.ls"));
+
+	//검색 클래스
+	CFileFind finder;
+
+	//CFileFind는 파일, 디렉터리가 존재하면 TRUE 를 반환함
+	BOOL bWorking = finder.FindFile(coreDataFilePath); //
+
+	CString filepath;
+	CString fileName;
+	CString massageName,massagePath;
+	while (bWorking)
+	{
+		//다음 파일 / 폴더 가 존재하면다면 TRUE 반환
+		bWorking = finder.FindNextFile();
+		//파일 일때
+		if (finder.IsArchived()){
+			CString _fileName = finder.GetFileName();
+			// 현재폴더 상위폴더 썸네일파일은 제외
+			if (_fileName == _T(".") ||
+				_fileName == _T("..") ||
+				_fileName == _T("Thumbs.db")) continue;
+			filepath = finder.GetFilePath();
+			fileName = finder.GetFileName();
+			loadCoreData(filepath, fileName);
+
+		}	
+	}
+
+	return ;
+
+}
+
+void CFileView::loadCoreData(CString PathName,CString fileName)
+{
+	CMainFrame *pFrame = (CMainFrame*)AfxGetMainWnd();
+	CChildFrame *pChild = (CChildFrame *)pFrame->GetActiveFrame();
+	CMFCLogicSimulatorDoc *pDoc = (CMFCLogicSimulatorDoc *)pChild->GetActiveDocument();
+	COutputWnd* pOutput = pFrame->getCOutputWnd();
+	CMFCLogicSimulatorView* pView = (CMFCLogicSimulatorView*)pChild->GetActiveView();
+	CFileView *pFileView = (CFileView*)pFrame->getCFileView();
+	CViewTree* pToolbox = pFileView->getCFileViewTree();
+
+	CString str;
+	CFileDialog load_dlg(true);
+
+
+	bool isSuccessReadFile = false;
+	CFile  librayboxFile;
+
+	vector <COMPONENT_DATA> dummy;
+
+	LIBRARY_BOX_DATA coreData;
+
+	if (librayboxFile.Open(PathName, CFile::modeRead)) {
+		CArchive ar(&librayboxFile, CArchive::load);
+		try {
+			if (fileName == "D-FF.ls") {
+				pDoc->loadEngineComponentData(ar, &dummy);
+				pDoc->loadEngineCoreData(ar, pDoc->D_FF_Data);
+				addCoreData(pDoc->D_FF_Data);
+			}
+			else if (fileName == "JK-FF.ls") {
+				pDoc->loadEngineComponentData(ar, &dummy);
+				pDoc->loadEngineCoreData(ar, pDoc->JK_FF_Data);
+				addCoreData(pDoc->JK_FF_Data);
+			}
+			else if (fileName == "T-FF.ls") {
+				pDoc->loadEngineComponentData(ar, &dummy);
+				pDoc->loadEngineCoreData(ar, pDoc->T_FF_Data);
+				addCoreData(pDoc->T_FF_Data);
+			}
+			else {
+				pDoc->loadEngineComponentData(ar, &dummy);
+				pDoc->loadEngineCoreData(ar, coreData);
+				addCoreData(coreData);
+				
+			}
+			isSuccessReadFile = true;
+
+			str.Format(_T("in rebbon menu : load library core data  to toolBox\n"), pDoc->selectedComponentID);
+			pOutput->addBuildWindowString(str);
+		}
+		catch (CFileException *fe) {
+			// 예외가 발생하면 메세지박스를 통하여 사용자에게 알린다.
+			fe->ReportError();
+		}
+		catch (CArchiveException *ae) {
+			// 예외가 발생하면 메세지박스를 통하여 사용자에게 알린다.
+			ae->ReportError();
+		}
+		// CArchive 를 닫는다.
+		ar.Close();
+		// 파일을 닫는다.
+		librayboxFile.Close();
+	}
+
+	if (isSuccessReadFile == true) {
+		pFileView->addLibraryBox(fileName);
+		str.Format(_T("in file view : load success\n"));
+		pOutput->addBuildWindowString(str);
+	}
+	else {
+		str.Format(_T("in file view : load success\n"));
+		pOutput->addBuildWindowString(str);
+	}
+
+
+
+
+}
 
 

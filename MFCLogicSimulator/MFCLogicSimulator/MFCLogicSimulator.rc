@@ -138,6 +138,424 @@ IDR_PROPERTIES          BITMAP                  "res\\properties.bmp"
 
 IDB_PROPERTIES_HC       BITMAP                  "res\\properties_hc.bmp"
 
+IDB_GATE_AND__          BITMAP                  "res\\root\\AND.bmp"
+
+IDB_GATE_AND_E          BITMAP                  "res\\root\\AND_1E.bmp"
+
+IDB_GATE_AND_S          BITMAP                  "res\\root\\AND_2S.bmp"
+
+IDB_GATE_AND_W          BITMAP                  "res\\root\\AND_3W.bmp"
+
+IDB_GATE_AND_N          BITMAP                  "res\\root\\AND_4N.bmp"
+
+IDB_CLOCK_              BITMAP                  "res\\root\\CLOCK_FACE.bmp"
+
+IDB_CLOCK_E             BITMAP                  "res\\root\\CLOCK_FACE_1E.bmp"
+
+IDB_CLOCK_S             BITMAP                  "res\\root\\CLOCK_FACE_2S.bmp"
+
+IDB_CLOCK_W             BITMAP                  "res\\root\\CLOCK_FACE_3W.bmp"
+
+IDB_CLOCK_N             BITMAP                  "res\\root\\CLOCK_FACE_4N.bmp"
+
+IDB_COPPER_WIRE         BITMAP                  "res\\root\\copper wire.bmp"
+
+IDB_FF_DFF__            BITMAP                  "res\\root\\D-FF.bmp"
+
+IDB_FF_DFF_E            BITMAP                  "res\\root\\D-FF_1E.bmp"
+
+IDB_FF_DFF_S            BITMAP                  "res\\root\\D-FF_2S.bmp"
+
+IDB_FF_DFF_W            BITMAP                  "res\\root\\D-FF_3W.bmp"
+
+IDB_FF_DFF_N            BITMAP                  "res\\root\\D-FF_4N.bmp"
+
+IDB_INVERTOR_           BITMAP                  "res\\root\\INVERTOR.bmp"
+
+IDB_INVERTOR_E          BITMAP                  "res\\root\\INVERTOR_1E.bmp"
+
+IDB_INVERTOR_S          BITMAP                  "res\\root\\INVERTOR_2S.bmp"
+
+IDB_INVERTOR_W          BITMAP                  "res\\root\\INVERTOR_3W.bmp"
+
+IDB_INVERTOR_N          BITMAP                  "res\\root\\INVERTOR_4N.bmp"
+
+IDB_FF_JKFF__           BITMAP                  "res\\root\\JK-FF.bmp"
+
+IDB_FF_JKFF_E           BITMAP                  "res\\root\\JK-FF_1E.bmp"
+
+IDB_FF_JKFF_S           BITMAP                  "res\\root\\JK-FF_2S.bmp"
+
+IDB_FF_JKFF_W           BITMAP                  "res\\root\\JK-FF_3W.bmp"
+
+IDB_FF_JKFF_N           BITMAP                  "res\\root\\JK-FF_4N.bmp"
+
+IDB_LIBBOX__            BITMAP                  "res\\root\\librarybox.bmp"
+
+IDB_LIBBOX_E            BITMAP                  "res\\root\\librarybox_1E.bmp"
+
+IDB_LIBBOX_S            BITMAP                  "res\\root\\librarybox_2S.bmp"
+
+IDB_LIBBOX_W            BITMAP                  "res\\root\\librarybox_3W.bmp"
+
+IDB_LIBBOX_N            BITMAP                  "res\\root\\librarybox_4N.bmp"
+
+IDB_GATE_NAND__         BITMAP                  "res\\root\\NAND.bmp"
+
+IDB_GATE_NAND_E         BITMAP                  "res\\root\\NAND_1E.bmp"
+
+IDB_GATE_NAND_S         BITMAP                  "res\\root\\NAND_2S.bmp"
+
+IDB_GATE_NAND_W         BITMAP                  "res\\root\\NAND_3W.bmp"
+
+IDB_GATE_NAND_N         BITMAP                  "res\\root\\NAND_4N.bmp"
+
+IDB_GATE_NOR__          BITMAP                  "res\\root\\NOR.bmp"
+
+IDB_GATE_NOR_E          BITMAP                  "res\\root\\NOR_1E.bmp"
+
+IDB_GATE_NOR_S          BITMAP                  "res\\root\\NOR_2S.bmp"
+
+IDB_GATE_NOR_W          BITMAP                  "res\\root\\NOR_3W.bmp"
+
+IDB_GATE_NOR_N          BITMAP                  "res\\root\\NOR_4N.bmp"
+
+IDB_SWITCH_OFF_         BITMAP                  "res\\root\\OFF.bmp"
+
+IDB_SWITCH_OFF_E        BITMAP                  "res\\root\\OFF_1E.bmp"
+
+IDB_SWITCH_OFF_S        BITMAP                  "res\\root\\OFF_2S.bmp"
+
+IDB_SWITCH_OFF_W        BITMAP                  "res\\root\\OFF_3W.bmp"
+
+IDB_SWITCH_OFF_N        BITMAP                  "res\\root\\OFF_4N.bmp"
+
+IDB_LAMP_OFF_           BITMAP                  "res\\root\\OFF_LAMP.bmp"
+
+IDB_LAMP_OFF_E          BITMAP                  "res\\root\\OFF_LAMP_1E.bmp"
+
+IDB_LAMP_OFF_S          BITMAP                  "res\\root\\OFF_LAMP_2S.bmp"
+
+IDB_LAMP_OFF_W          BITMAP                  "res\\root\\OFF_LAMP_3W.bmp"
+
+IDB_LAMP_OFF_N          BITMAP                  "res\\root\\OFF_LAMP_4N.bmp"
+
+IDB_SWITCH_ON_          BITMAP                  "res\\root\\ON.bmp"
+
+IDB_SWITCH_ON_E         BITMAP                  "res\\root\\ON_1E.bmp"
+
+IDB_SWITCH_ON_S         BITMAP                  "res\\root\\ON_2S.bmp"
+
+IDB_SWITCH_ON_W         BITMAP                  "res\\root\\ON_3W.bmp"
+
+IDB_SWITCH_ON_N         BITMAP                  "res\\root\\ON_4N.bmp"
+
+IDB_LAMP_ON_            BITMAP                  "res\\root\\ON_LAMP.bmp"
+
+IDB_LAMP_ON_E           BITMAP                  "res\\root\\ON_LAMP_1E.bmp"
+
+IDB_LAMP_ON_S           BITMAP                  "res\\root\\ON_LAMP_2S.bmp"
+
+IDB_LAMP_ON_W           BITMAP                  "res\\root\\ON_LAMP_3W.bmp"
+
+IDB_LAMP_ON_N           BITMAP                  "res\\root\\ON_LAMP_4N.bmp"
+
+IDB_GATE_OR__           BITMAP                  "res\\root\\OR.bmp"
+
+IDB_GATE_OR_E           BITMAP                  "res\\root\\OR_1E.bmp"
+
+IDB_GATE_OR_S           BITMAP                  "res\\root\\OR_2S.bmp"
+
+IDB_GATE_OR_W           BITMAP                  "res\\root\\OR_3W.bmp"
+
+IDB_GATE_OR_N           BITMAP                  "res\\root\\OR_4N.bmp"
+
+IDB_PIN_OFF_E           BITMAP                  "res\\root\\PIN OFF.bmp"
+
+IDB_PIN_ON_E            BITMAP                  "res\\root\\PIN ON.bmp"
+
+IDB_PROBE_OFF_E         BITMAP                  "res\\root\\PROBE OFF.bmp"
+
+IDB_PROBE_ON_E          BITMAP                  "res\\root\\PROBE ON.bmp"
+
+IDB_TERMINAL            BITMAP                  "res\\root\\terminal.bmp"
+
+IDB_FF_TFF__            BITMAP                  "res\\root\\T-FF.bmp"
+
+IDB_FF_TFF_E            BITMAP                  "res\\root\\T-FF_1E.bmp"
+
+IDB_FF_TFF_S            BITMAP                  "res\\root\\T-FF_2S.bmp"
+
+IDB_FF_TFF_W            BITMAP                  "res\\root\\T-FF_3W.bmp"
+
+IDB_FF_TFF_N            BITMAP                  "res\\root\\T-FF_4N.bmp"
+
+IDB_GATE_XOR_           BITMAP                  "res\\root\\XOR.bmp"
+
+IDB_GATE_XOR_E          BITMAP                  "res\\root\\XOR_1E.bmp"
+
+IDB_GATE_XOR_S          BITMAP                  "res\\root\\XOR_2S.bmp"
+
+IDB_GATE_XOR_W          BITMAP                  "res\\root\\XOR_3W.bmp"
+
+IDB_GATE_XOR_N          BITMAP                  "res\\root\\XOR_4N.bmp"
+
+IDB_7SEGMENT_0000000    BITMAP                  "res\\root\\segment\\segment_0000000.bmp"
+
+IDB_7SEGMENT_0000001    BITMAP                  "res\\root\\segment\\segment_0000001.bmp"
+
+IDB_7SEGMENT_0000010    BITMAP                  "res\\root\\segment\\segment_0000010.bmp"
+
+IDB_7SEGMENT_0000011    BITMAP                  "res\\root\\segment\\segment_0000011.bmp"
+
+IDB_7SEGMENT_0000100    BITMAP                  "res\\root\\segment\\segment_0000100.bmp"
+
+IDB_7SEGMENT_0000101    BITMAP                  "res\\root\\segment\\segment_0000101.bmp"
+
+IDB_7SEGMENT_0000110    BITMAP                  "res\\root\\segment\\segment_0000110.bmp"
+
+IDB_7SEGMENT_0000111    BITMAP                  "res\\root\\segment\\segment_0000111.bmp"
+
+IDB_7SEGMENT_0001000    BITMAP                  "res\\root\\segment\\segment_0001000.bmp"
+
+IDB_7SEGMENT_0001001    BITMAP                  "res\\root\\segment\\segment_0001001.bmp"
+
+IDB_7SEGMENT_0001010    BITMAP                  "res\\root\\segment\\segment_0001010.bmp"
+
+IDB_7SEGMENT_0001011    BITMAP                  "res\\root\\segment\\segment_0001011.bmp"
+
+IDB_7SEGMENT_0001100    BITMAP                  "res\\root\\segment\\segment_0001100.bmp"
+
+IDB_7SEGMENT_0001101    BITMAP                  "res\\root\\segment\\segment_0001101.bmp"
+
+IDB_7SEGMENT_0001110    BITMAP                  "res\\root\\segment\\segment_0001110.bmp"
+
+IDB_7SEGMENT_0001111    BITMAP                  "res\\root\\segment\\segment_0001111.bmp"
+
+IDB_7SEGMENT_0010000    BITMAP                  "res\\root\\segment\\segment_0010000.bmp"
+
+IDB_7SEGMENT_0010001    BITMAP                  "res\\root\\segment\\segment_0010001.bmp"
+
+IDB_7SEGMENT_0010010    BITMAP                  "res\\root\\segment\\segment_0010010.bmp"
+
+IDB_7SEGMENT_0010011    BITMAP                  "res\\root\\segment\\segment_0010011.bmp"
+
+IDB_7SEGMENT_0010100    BITMAP                  "res\\root\\segment\\segment_0010100.bmp"
+
+IDB_7SEGMENT_0010101    BITMAP                  "res\\root\\segment\\segment_0010101.bmp"
+
+IDB_7SEGMENT_0010110    BITMAP                  "res\\root\\segment\\segment_0010110.bmp"
+
+IDB_7SEGMENT_0010111    BITMAP                  "res\\root\\segment\\segment_0010111.bmp"
+
+IDB_7SEGMENT_0011000    BITMAP                  "res\\root\\segment\\segment_0011000.bmp"
+
+IDB_7SEGMENT_0011001    BITMAP                  "res\\root\\segment\\segment_0011001.bmp"
+
+IDB_7SEGMENT_0011010    BITMAP                  "res\\root\\segment\\segment_0011010.bmp"
+
+IDB_7SEGMENT_0011011    BITMAP                  "res\\root\\segment\\segment_0011011.bmp"
+
+IDB_7SEGMENT_0011100    BITMAP                  "res\\root\\segment\\segment_0011100.bmp"
+
+IDB_7SEGMENT_0011101    BITMAP                  "res\\root\\segment\\segment_0011101.bmp"
+
+IDB_7SEGMENT_0011110    BITMAP                  "res\\root\\segment\\segment_0011110.bmp"
+
+IDB_7SEGMENT_0011111    BITMAP                  "res\\root\\segment\\segment_0011111.bmp"
+
+IDB_7SEGMENT_0100000    BITMAP                  "res\\root\\segment\\segment_0100000.bmp"
+
+IDB_7SEGMENT_0100001    BITMAP                  "res\\root\\segment\\segment_0100001.bmp"
+
+IDB_7SEGMENT_0100010    BITMAP                  "res\\root\\segment\\segment_0100010.bmp"
+
+IDB_7SEGMENT_0100011    BITMAP                  "res\\root\\segment\\segment_0100011.bmp"
+
+IDB_7SEGMENT_0100100    BITMAP                  "res\\root\\segment\\segment_0100100.bmp"
+
+IDB_7SEGMENT_0100101    BITMAP                  "res\\root\\segment\\segment_0100101.bmp"
+
+IDB_7SEGMENT_0100110    BITMAP                  "res\\root\\segment\\segment_0100110.bmp"
+
+IDB_7SEGMENT_0100111    BITMAP                  "res\\root\\segment\\segment_0100111.bmp"
+
+IDB_7SEGMENT_0101000    BITMAP                  "res\\root\\segment\\segment_0101000.bmp"
+
+IDB_7SEGMENT_0101001    BITMAP                  "res\\root\\segment\\segment_0101001.bmp"
+
+IDB_7SEGMENT_0101010    BITMAP                  "res\\root\\segment\\segment_0101010.bmp"
+
+IDB_7SEGMENT_0101011    BITMAP                  "res\\root\\segment\\segment_0101011.bmp"
+
+IDB_7SEGMENT_0101100    BITMAP                  "res\\root\\segment\\segment_0101100.bmp"
+
+IDB_7SEGMENT_0101101    BITMAP                  "res\\root\\segment\\segment_0101101.bmp"
+
+IDB_7SEGMENT_0101110    BITMAP                  "res\\root\\segment\\segment_0101110.bmp"
+
+IDB_7SEGMENT_0101111    BITMAP                  "res\\root\\segment\\segment_0101111.bmp"
+
+IDB_7SEGMENT_0110000    BITMAP                  "res\\root\\segment\\segment_0110000.bmp"
+
+IDB_7SEGMENT_0110001    BITMAP                  "res\\root\\segment\\segment_0110001.bmp"
+
+IDB_7SEGMENT_0110010    BITMAP                  "res\\root\\segment\\segment_0110010.bmp"
+
+IDB_7SEGMENT_0110011    BITMAP                  "res\\root\\segment\\segment_0110011.bmp"
+
+IDB_7SEGMENT_0110100    BITMAP                  "res\\root\\segment\\segment_0110100.bmp"
+
+IDB_7SEGMENT_0110101    BITMAP                  "res\\root\\segment\\segment_0110101.bmp"
+
+IDB_7SEGMENT_0110110    BITMAP                  "res\\root\\segment\\segment_0110110.bmp"
+
+IDB_7SEGMENT_0110111    BITMAP                  "res\\root\\segment\\segment_0110111.bmp"
+
+IDB_7SEGMENT_0111000    BITMAP                  "res\\root\\segment\\segment_0111000.bmp"
+
+IDB_7SEGMENT_0111001    BITMAP                  "res\\root\\segment\\segment_0111001.bmp"
+
+IDB_7SEGMENT_0111010    BITMAP                  "res\\root\\segment\\segment_0111010.bmp"
+
+IDB_7SEGMENT_0111011    BITMAP                  "res\\root\\segment\\segment_0111011.bmp"
+
+IDB_7SEGMENT_0111100    BITMAP                  "res\\root\\segment\\segment_0111100.bmp"
+
+IDB_7SEGMENT_0111101    BITMAP                  "res\\root\\segment\\segment_0111101.bmp"
+
+IDB_7SEGMENT_0111110    BITMAP                  "res\\root\\segment\\segment_0111110.bmp"
+
+IDB_7SEGMENT_0111111    BITMAP                  "res\\root\\segment\\segment_0111111.bmp"
+
+IDB_7SEGMENT_1000000    BITMAP                  "res\\root\\segment\\segment_1000000.bmp"
+
+IDB_7SEGMENT_1000001    BITMAP                  "res\\root\\segment\\segment_1000001.bmp"
+
+IDB_7SEGMENT_1000010    BITMAP                  "res\\root\\segment\\segment_1000010.bmp"
+
+IDB_7SEGMENT_1000011    BITMAP                  "res\\root\\segment\\segment_1000011.bmp"
+
+IDB_7SEGMENT_1000100    BITMAP                  "res\\root\\segment\\segment_1000100.bmp"
+
+IDB_7SEGMENT_1000101    BITMAP                  "res\\root\\segment\\segment_1000101.bmp"
+
+IDB_7SEGMENT_1000110    BITMAP                  "res\\root\\segment\\segment_1000110.bmp"
+
+IDB_7SEGMENT_1000111    BITMAP                  "res\\root\\segment\\segment_1000111.bmp"
+
+IDB_7SEGMENT_1001000    BITMAP                  "res\\root\\segment\\segment_1001000.bmp"
+
+IDB_7SEGMENT_1001001    BITMAP                  "res\\root\\segment\\segment_1001001.bmp"
+
+IDB_7SEGMENT_1001010    BITMAP                  "res\\root\\segment\\segment_1001010.bmp"
+
+IDB_7SEGMENT_1001011    BITMAP                  "res\\root\\segment\\segment_1001011.bmp"
+
+IDB_7SEGMENT_1001100    BITMAP                  "res\\root\\segment\\segment_1001100.bmp"
+
+IDB_7SEGMENT_1001101    BITMAP                  "res\\root\\segment\\segment_1001101.bmp"
+
+IDB_7SEGMENT_1001110    BITMAP                  "res\\root\\segment\\segment_1001110.bmp"
+
+IDB_7SEGMENT_1001111    BITMAP                  "res\\root\\segment\\segment_1001111.bmp"
+
+IDB_7SEGMENT_1010000    BITMAP                  "res\\root\\segment\\segment_1010000.bmp"
+
+IDB_7SEGMENT_1010001    BITMAP                  "res\\root\\segment\\segment_1010001.bmp"
+
+IDB_7SEGMENT_1010010    BITMAP                  "res\\root\\segment\\segment_1010010.bmp"
+
+IDB_7SEGMENT_1010011    BITMAP                  "res\\root\\segment\\segment_1010011.bmp"
+
+IDB_7SEGMENT_1010100    BITMAP                  "res\\root\\segment\\segment_1010100.bmp"
+
+IDB_7SEGMENT_1010101    BITMAP                  "res\\root\\segment\\segment_1010101.bmp"
+
+IDB_7SEGMENT_1010110    BITMAP                  "res\\root\\segment\\segment_1010110.bmp"
+
+IDB_7SEGMENT_1010111    BITMAP                  "res\\root\\segment\\segment_1010111.bmp"
+
+IDB_7SEGMENT_1011000    BITMAP                  "res\\root\\segment\\segment_1011000.bmp"
+
+IDB_7SEGMENT_1011001    BITMAP                  "res\\root\\segment\\segment_1011001.bmp"
+
+IDB_7SEGMENT_1011010    BITMAP                  "res\\root\\segment\\segment_1011010.bmp"
+
+IDB_7SEGMENT_1011011    BITMAP                  "res\\root\\segment\\segment_1011011.bmp"
+
+IDB_7SEGMENT_1011100    BITMAP                  "res\\root\\segment\\segment_1011100.bmp"
+
+IDB_7SEGMENT_1011101    BITMAP                  "res\\root\\segment\\segment_1011101.bmp"
+
+IDB_7SEGMENT_1011110    BITMAP                  "res\\root\\segment\\segment_1011110.bmp"
+
+IDB_7SEGMENT_1011111    BITMAP                  "res\\root\\segment\\segment_1011111.bmp"
+
+IDB_7SEGMENT_1100000    BITMAP                  "res\\root\\segment\\segment_1100000.bmp"
+
+IDB_7SEGMENT_1100001    BITMAP                  "res\\root\\segment\\segment_1100001.bmp"
+
+IDB_7SEGMENT_1100010    BITMAP                  "res\\root\\segment\\segment_1100010.bmp"
+
+IDB_7SEGMENT_1100011    BITMAP                  "res\\root\\segment\\segment_1100011.bmp"
+
+IDB_7SEGMENT_1100100    BITMAP                  "res\\root\\segment\\segment_1100100.bmp"
+
+IDB_7SEGMENT_1100101    BITMAP                  "res\\root\\segment\\segment_1100101.bmp"
+
+IDB_7SEGMENT_1100110    BITMAP                  "res\\root\\segment\\segment_1100110.bmp"
+
+IDB_7SEGMENT_1100111    BITMAP                  "res\\root\\segment\\segment_1100111.bmp"
+
+IDB_7SEGMENT_1101000    BITMAP                  "res\\root\\segment\\segment_1101000.bmp"
+
+IDB_7SEGMENT_1101001    BITMAP                  "res\\root\\segment\\segment_1101001.bmp"
+
+IDB_7SEGMENT_1101010    BITMAP                  "res\\root\\segment\\segment_1101010.bmp"
+
+IDB_7SEGMENT_1101011    BITMAP                  "res\\root\\segment\\segment_1101011.bmp"
+
+IDB_7SEGMENT_1101100    BITMAP                  "res\\root\\segment\\segment_1101100.bmp"
+
+IDB_7SEGMENT_1101101    BITMAP                  "res\\root\\segment\\segment_1101101.bmp"
+
+IDB_7SEGMENT_1101110    BITMAP                  "res\\root\\segment\\segment_1101110.bmp"
+
+IDB_7SEGMENT_1101111    BITMAP                  "res\\root\\segment\\segment_1101111.bmp"
+
+IDB_7SEGMENT_1110000    BITMAP                  "res\\root\\segment\\segment_1110000.bmp"
+
+IDB_7SEGMENT_1110001    BITMAP                  "res\\root\\segment\\segment_1110001.bmp"
+
+IDB_7SEGMENT_1110010    BITMAP                  "res\\root\\segment\\segment_1110010.bmp"
+
+IDB_7SEGMENT_1110011    BITMAP                  "res\\root\\segment\\segment_1110011.bmp"
+
+IDB_7SEGMENT_1110100    BITMAP                  "res\\root\\segment\\segment_1110100.bmp"
+
+IDB_7SEGMENT_1110101    BITMAP                  "res\\root\\segment\\segment_1110101.bmp"
+
+IDB_7SEGMENT_1110110    BITMAP                  "res\\root\\segment\\segment_1110110.bmp"
+
+IDB_7SEGMENT_1110111    BITMAP                  "res\\root\\segment\\segment_1110111.bmp"
+
+IDB_7SEGMENT_1111000    BITMAP                  "res\\root\\segment\\segment_1111000.bmp"
+
+IDB_7SEGMENT_1111001    BITMAP                  "res\\root\\segment\\segment_1111001.bmp"
+
+IDB_7SEGMENT_1111010    BITMAP                  "res\\root\\segment\\segment_1111010.bmp"
+
+IDB_7SEGMENT_1111011    BITMAP                  "res\\root\\segment\\segment_1111011.bmp"
+
+IDB_7SEGMENT_1111100    BITMAP                  "res\\root\\segment\\segment_1111100.bmp"
+
+IDB_7SEGMENT_1111101    BITMAP                  "res\\root\\segment\\segment_1111101.bmp"
+
+IDB_7SEGMENT_1111110    BITMAP                  "res\\root\\segment\\segment_1111110.bmp"
+
+IDB_7SEGMENT_1111111    BITMAP                  "res\\root\\segment\\segment_1111111.bmp"
+
 
 /////////////////////////////////////////////////////////////////////////////
 //
@@ -484,6 +902,14 @@ IDR_RIBBON              RT_RIBBON_XML           "res\\ribbon.mfcribbon-ms"
 
 /////////////////////////////////////////////////////////////////////////////
 //
+// PNG
+//
+
+IDB_LIBBOX_PNG          PNG                     "res\\root\\librarybox.png"
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
 // String Table
 //
 
@@ -537,7 +963,7 @@ END
 
 STRINGTABLE
 BEGIN
-    ID_FILE_MRU_FILE1       "현재 문서를 엽니다."
+    ID_FILE_MRU_FILE1       "라이브러리 박스를 저장합니다"
     ID_FILE_MRU_FILE2       "현재 문서를 엽니다."
     ID_FILE_MRU_FILE3       "현재 문서를 엽니다."
     ID_FILE_MRU_FILE4       "현재 문서를 엽니다."
@@ -583,7 +1009,7 @@ BEGIN
     ID_EDIT_REPLACE         "특정 텍스트를 다른 텍스트로 바꿉니다.\n바꾸기"
     ID_EDIT_SELECT_ALL      "전체 문서를 선택합니다.\n모두 선택"
     ID_EDIT_UNDO            "마지막 작업 실행을 취소합니다.\n실행 취소"
-    ID_EDIT_REDO            "이전에 실행 취소된 작업을 다시 실행합니다.\n다시 실행"
+    ID_EDIT_REDO            "라이브러리 박스를 로드합니다"
 END
 
 STRINGTABLE
@@ -654,6 +1080,9 @@ BEGIN
     ID_BUTTON6              "편집/동작 모드 활성화 버튼입니다."
     ID_BUTTON7              "편집 모드를 활성화합니다."
     ID_BUTTONACT            "동작 모드를 활성화합니다."
+    ID_LOAD_LIBRARYBOX      "라이브러리 박스를 로드합니다"
+    ID_COMP_DELETE          "선택한 부품을 삭제합니다."
+    ID_UNCONECT             "부품 연결을 해제합니다."
 END
 
 #endif    // 한국어(대한민국) resources

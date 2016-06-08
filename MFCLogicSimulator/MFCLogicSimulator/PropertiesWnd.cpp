@@ -16,6 +16,11 @@
 #include "MainFrm.h"
 #include "MFCLogicSimulator.h"
 
+#include "ViewTree.h"
+#include "MFCLogicSimulatorDoc.h"
+#include "MFCLogicSimulatorView.h"
+#include "ChildFrm.h"
+#include "FileView.h"
 #ifdef _DEBUG
 #undef THIS_FILE
 static char THIS_FILE[]=__FILE__;
@@ -24,6 +29,15 @@ static char THIS_FILE[]=__FILE__;
 
 /////////////////////////////////////////////////////////////////////////////
 // CResourceViewBar
+
+/* BSTR Convert CString */
+CString bstrToCString(BSTR bstr)
+{
+	char* pbstr;
+	USES_CONVERSION; //convert를 위한 매크로
+	pbstr = OLE2A(bstr); //bstr을 char로 convert
+	return CString(pbstr);
+}
 
 CPropertiesWnd::CPropertiesWnd()
 {
@@ -47,6 +61,7 @@ BEGIN_MESSAGE_MAP(CPropertiesWnd, CDockablePane)
 	ON_UPDATE_COMMAND_UI(ID_PROPERTIES2, OnUpdateProperties2)
 	ON_WM_SETFOCUS()
 	ON_WM_SETTINGCHANGE()
+	ON_REGISTERED_MESSAGE(AFX_WM_PROPERTY_CHANGED, OnPropertyChanged) // 프로퍼티 변경검색목적
 END_MESSAGE_MAP()
 
 /////////////////////////////////////////////////////////////////////////////
@@ -69,6 +84,122 @@ void CPropertiesWnd::AdjustLayout()
 	m_wndPropList.SetWindowPos(NULL, rectClient.left, rectClient.top + m_nComboHeight + cyTlb, rectClient.Width(), rectClient.Height() -(m_nComboHeight+cyTlb), SWP_NOACTIVATE | SWP_NOZORDER);
 }
 
+CPropertiesToolBar * CPropertiesWnd::getProperties()
+{
+	return &m_wndToolBar;
+}
+
+void CPropertiesWnd::addPropertiesList()
+{
+	m_wndPropList.RemoveAll();
+	CMainFrame *pFrame = (CMainFrame*)AfxGetMainWnd();
+	CFileView* pFileView = pFrame->getCFileView();
+	//CViewTree* pToolbox = pFileView->getCFileViewTree();
+	CChildFrame *pChild = (CChildFrame *)pFrame->GetActiveFrame();
+	CMFCLogicSimulatorDoc *pDoc = (CMFCLogicSimulatorDoc *)pChild->GetActiveDocument();
+	COutputWnd* pOutput = pFrame->getCOutputWnd();
+
+	//pDoc->operationMode = OPERATION_MODE_SELECT_COMPONENT;
+
+	//if (pDoc->selectedComponentID <= 0) {
+	//	CString str;
+	//	str.Format(_T("in properties wnd menu : no selected component (in addList func) \n"));
+	//	pOutput->addBuildWindowString(str);
+	//}
+
+	/* 부품 정보 가져오기 */
+	int selectedID = pDoc->selectedComponentID;
+	COMPONENT_DATA* data = &pDoc->engineComponentData[selectedID];
+	COMPONENT_TYPE type = data->type;
+	COMPONENT_DIRECTION* direction = &data->direction;
+	int x = data->x;
+	int y = data->y;
+	CString label = data->label;
+	BOOL clockEdge = data->clockEdge;
+	int hz = data->hz;
+	/* 부품 타입, 방향을 CString으로 변환 */
+	CString type_string, direct_string;
+	pDoc->getStringByCOMPONENT_TYPE(type, type_string);
+	pDoc->getStringByCOMPONENT_DIRECTION(*direction, direct_string);
+
+	SetPropListFont();
+	/* 속성창 설정 옵션 */
+	m_wndPropList.EnableHeaderCtrl(FALSE);
+	m_wndPropList.EnableDescriptionArea();
+	m_wndPropList.SetVSDotNetLook();
+	m_wndPropList.MarkModifiedProperties();
+
+	/******************** 분류: 게이트 설정 시작 ************************/
+	CMFCPropertyGridProperty* pGroup1 = new CMFCPropertyGridProperty(_T("부품 설정"));
+	/* 클럭 엣지 방향(상승, 하강) */
+	if (clockEdge) {
+		pGroup1->AddSubItem(new CMFCPropertyGridProperty(_T("클럭 엣지"), (_variant_t)true,
+			_T("true = 상승, false = 하강")));
+	}
+	else {
+		pGroup1->AddSubItem(new CMFCPropertyGridProperty(_T("클럭 엣지"), (_variant_t)false,
+			_T("true = 상승, false = 하강")));
+	}
+
+	CString str;
+	str.Format(_T("%d"), selectedID);
+	/* 디버깅용 부품 id */
+	CMFCPropertyGridProperty* pPropID = new CMFCPropertyGridProperty(_T("부품 id"),
+		str, _T("디버그용 부품 id 출력창"));
+	pPropID->AllowEdit(FALSE);
+
+	/* 게이트 종류 설정 */
+	CMFCPropertyGridProperty* pPropComp = new CMFCPropertyGridProperty(_T("부품 종류"),
+		type_string, _T("부품의 종류입니다."));
+	pPropComp->AllowEdit(FALSE);
+
+	str.Format(_T("%d"), hz);
+	/* 클럭 설정 */ // 다시 수정 필요
+	CMFCPropertyGridProperty* pPropClock = new CMFCPropertyGridProperty(_T("Clock hz 설정"),
+		str, _T("Clock hz"));
+
+	/* 게이트 방향 설정 */
+	CMFCPropertyGridProperty* pPropDirc = new CMFCPropertyGridProperty(_T("부품 방향"),
+		direct_string, _T("부품 방향을 지정합니다."));
+	pPropDirc->AddOption(_T("East"));
+	pPropDirc->AddOption(_T("West"));
+	pPropDirc->AddOption(_T("South"));
+	pPropDirc->AddOption(_T("North"));
+	pPropDirc->AllowEdit(FALSE);
+
+	pGroup1->AddSubItem(pPropID);
+	pGroup1->AddSubItem(pPropComp);
+	pGroup1->AddSubItem(pPropClock);
+	pGroup1->AddSubItem(pPropDirc);
+	/* 부품 라벨 설정 */
+	pGroup1->AddSubItem(new CMFCPropertyGridProperty(_T("라벨"),
+		label, _T("")));
+	m_wndPropList.AddProperty(pGroup1);
+
+	/* 게이트 위치 설정 */
+	CMFCPropertyGridProperty* pSize = new CMFCPropertyGridProperty(_T("부품 위치"), 0, TRUE);
+	pSize->AllowEdit(FALSE);
+
+	CMFCPropertyGridProperty* pPropXY = new CMFCPropertyGridProperty(_T("x좌표"), (_variant_t)x, _T("부품 x좌표"));
+	pSize->AddSubItem(pPropXY);
+	pPropXY->AllowEdit(FALSE);
+
+	pPropXY = new CMFCPropertyGridProperty(_T("y좌표"), (_variant_t)y, _T("부품 y좌표"));
+	pSize->AddSubItem(pPropXY);
+	pPropXY->AllowEdit(FALSE);
+
+	m_wndPropList.AddProperty(pSize);
+	/******************** 분류: 게이트 설정 끝 ************************/
+	pFileView->Invalidate();
+}
+
+void CPropertiesWnd::removePropertiesList()
+{
+	// 속성창 그려진거 다 지우기
+	m_wndPropList.RemoveAll();
+	InitPropList();
+}
+
 int CPropertiesWnd::OnCreate(LPCREATESTRUCT lpCreateStruct)
 {
 	if (CDockablePane::OnCreate(lpCreateStruct) == -1)
@@ -76,24 +207,6 @@ int CPropertiesWnd::OnCreate(LPCREATESTRUCT lpCreateStruct)
 
 	CRect rectDummy;
 	rectDummy.SetRectEmpty();
-
-	// 콤보 상자를 만듭니다.
-	/*const DWORD dwViewStyle = WS_CHILD | WS_VISIBLE | CBS_DROPDOWNLIST | WS_BORDER | CBS_SORT | WS_CLIPSIBLINGS | WS_CLIPCHILDREN;
-
-	if (!m_wndObjectCombo.Create(dwViewStyle, rectDummy, this, 1))
-	{
-		TRACE0("속성 콤보 상자를 만들지 못했습니다. \n");
-		return -1;      // 만들지 못했습니다.
-	}
-
-	//m_wndObjectCombo.AddString(_T("응용 프로그램"));
-	//m_wndObjectCombo.AddString(_T("속성 창"));
-	m_wndObjectCombo.SetCurSel(0);
-
-	CRect rectCombo;
-	m_wndObjectCombo.GetClientRect (&rectCombo);
-
-	m_nComboHeight = rectCombo.Height();*/
 
 	if (!m_wndPropList.Create(WS_VISIBLE | WS_CHILD, rectDummy, this, 2))
 	{
@@ -128,6 +241,7 @@ void CPropertiesWnd::OnSize(UINT nType, int cx, int cy)
 void CPropertiesWnd::OnExpandAllProperties()
 {
 	m_wndPropList.ExpandAll();
+	// 속성창 1번쨰 버튼 핸들러
 }
 
 void CPropertiesWnd::OnUpdateExpandAllProperties(CCmdUI* /* pCmdUI */)
@@ -137,6 +251,7 @@ void CPropertiesWnd::OnUpdateExpandAllProperties(CCmdUI* /* pCmdUI */)
 void CPropertiesWnd::OnSortProperties()
 {
 	m_wndPropList.SetAlphabeticMode(!m_wndPropList.IsAlphabeticMode());
+	// 속성창 2번쨰 버튼 핸들러
 }
 
 void CPropertiesWnd::OnUpdateSortProperties(CCmdUI* pCmdUI)
@@ -147,6 +262,7 @@ void CPropertiesWnd::OnUpdateSortProperties(CCmdUI* pCmdUI)
 void CPropertiesWnd::OnProperties1()
 {
 	// TODO: 여기에 명령 처리기 코드를 추가합니다.
+	// 속성창 3번째 버튼 핸들러
 }
 
 void CPropertiesWnd::OnUpdateProperties1(CCmdUI* /*pCmdUI*/)
@@ -157,6 +273,7 @@ void CPropertiesWnd::OnUpdateProperties1(CCmdUI* /*pCmdUI*/)
 void CPropertiesWnd::OnProperties2()
 {
 	// TODO: 여기에 명령 처리기 코드를 추가합니다.
+	// 속성창 4번째 버튼 핸들러
 }
 
 void CPropertiesWnd::OnUpdateProperties2(CCmdUI* /*pCmdUI*/)
@@ -173,113 +290,61 @@ void CPropertiesWnd::InitPropList()
 	m_wndPropList.SetVSDotNetLook();
 	m_wndPropList.MarkModifiedProperties();
 
-	/* if 게이트를 선택했다면 */
 	/******************** 분류: 게이트 설정 시작 ************************/
-	CMFCPropertyGridProperty* pGroup1 = new CMFCPropertyGridProperty(_T("게이트 설정"));
-	/* 게이트 활성화 설정 */
-	pGroup1->AddSubItem(new CMFCPropertyGridProperty(_T("게이트 활성화"), (_variant_t) true,
-		_T("해당 게이트의 활성화 여부를 정합니다.")));
-	
+	CMFCPropertyGridProperty* pGroup1 = new CMFCPropertyGridProperty(_T("부품 설정"));
+	/* 클럭 엣지 방향(상승, 하강) */
+	pGroup1->AddSubItem(new CMFCPropertyGridProperty(_T("클럭 엣지"), (_variant_t)true,
+		_T("true = 상승, false = 하강")));
+
+	/* 디버깅용 부품 id */
+	CMFCPropertyGridProperty* pPropID = new CMFCPropertyGridProperty(_T("부품 id"),
+		_T("-")/* 생성된 게이트 이름을 설정하고자 함 */, _T("디버그용 부품 id 출력창"));
+	pPropID->AllowEdit(FALSE);
+
 	/* 게이트 종류 설정 */
-	CMFCPropertyGridProperty* pProp = new CMFCPropertyGridProperty(_T("게이트 종류"),
-		_T("AND")/* 생성된 게이트 이름을 설정하고자 함 */, _T("Logic gate 중 하나를 지정합니다."));
-	pProp->AddOption(_T("AND"));
-	pProp->AddOption(_T("NAND"));
-	pProp->AddOption(_T("OR"));
-	pProp->AddOption(_T("NOR"));
-	pProp->AddOption(_T("XOR"));
-	pProp->AddOption(_T("NOT"));
-	/* 게이트, FF, in/out put 별로 속성 보여주는거 달리 할 것 */
-	pProp->AddOption(_T("D-FF"));
-	pProp->AddOption(_T("JK-FF"));
-	pProp->AddOption(_T("T-FF"));
+	CMFCPropertyGridProperty* pPropComp = new CMFCPropertyGridProperty(_T("부품 종류"),
+		_T("-")/* 생성된 게이트 이름을 설정하고자 함 */, _T("Logic gate 중 하나를 지정합니다."));
+	pPropComp->AllowEdit(FALSE);
 
-	pProp->AllowEdit(FALSE);
+	CMFCPropertyGridProperty* pPropClock = new CMFCPropertyGridProperty(_T("Clock hz 설정"),
+		_T("-"), _T("Clock hz"));
 
-	pGroup1->AddSubItem(pProp);
+
 
 	/* 게이트 방향 설정 */
-	CMFCPropertyGridProperty* pPropDirc = new CMFCPropertyGridProperty(_T("게이트 방향"),
-		_T("오른쪽")/* 생성된 게이트 이름을 설정하고자 함 */, _T("Logic gate 방향을 지정합니다."));
-	pPropDirc->AddOption(_T("위쪽"));
-	pPropDirc->AddOption(_T("오른쪽"));
-	pPropDirc->AddOption(_T("왼쪽"));
-	pPropDirc->AddOption(_T("아래쪽"));
+	CMFCPropertyGridProperty* pPropDirc = new CMFCPropertyGridProperty(_T("부품 방향"),
+		_T("-")/* 생성된 게이트 이름을 설정하고자 함 */, _T("부품 방향을 지정합니다."));
+	pPropDirc->AddOption(_T("East"));
+	pPropDirc->AddOption(_T("West"));
+	pPropDirc->AddOption(_T("South"));
+	pPropDirc->AddOption(_T("North"));
 	pPropDirc->AllowEdit(FALSE);
 
+	pGroup1->AddSubItem(pPropID);
+	pGroup1->AddSubItem(pPropComp);
+	pGroup1->AddSubItem(pPropClock);
 	pGroup1->AddSubItem(pPropDirc);
-	/* 게이트 라벨 설정 */
+
+	/* 부품 라벨 설정 */
 	pGroup1->AddSubItem(new CMFCPropertyGridProperty(_T("라벨"),
-		(_variant_t)_T("라벨을 지정하세요."), _T("게이트의 라벨을 지정합니다.")));
+		(_variant_t)_T("-"), _T("부품의 라벨을 지정합니다.")));
 
 	m_wndPropList.AddProperty(pGroup1);
 
 	/* 게이트 크기 설정 */
-	CMFCPropertyGridProperty* pSize = new CMFCPropertyGridProperty(_T("게이트 크기"), 0, TRUE);
+	CMFCPropertyGridProperty* pSize = new CMFCPropertyGridProperty(_T("부품 위치"), 0, TRUE);
+	pSize->AllowEdit(FALSE);
 
-	pProp = new CMFCPropertyGridProperty(_T("높이"), (_variant_t) 100l, _T("게이트의 높이를 지정합니다."));
-	pProp->EnableSpinControl(TRUE, 50, 300);
-	pSize->AddSubItem(pProp);
+	CMFCPropertyGridProperty* pPropXY = new CMFCPropertyGridProperty(_T("x좌표"), (_variant_t)0l, _T("부품 x좌표"));
+	pSize->AddSubItem(pPropXY);
+	pPropXY->AllowEdit(FALSE);
 
-	pProp = new CMFCPropertyGridProperty( _T("너비"), (_variant_t) 50l, _T("게이트의 너비를 지정합니다."));
-	pProp->EnableSpinControl(TRUE, 50, 200);
-	pSize->AddSubItem(pProp);
+	pPropXY = new CMFCPropertyGridProperty(_T("y좌표"), (_variant_t)0l, _T("부품 y좌표"));
+	pSize->AddSubItem(pPropXY);
+	pPropXY->AllowEdit(FALSE);
 
 	m_wndPropList.AddProperty(pSize);
 	/******************** 분류: 게이트 설정 끝 ************************/
-
-	/* else if FF선택했다면 */
-
-	/* else if Input 선택했다면 */
-
-	/* else if Output 선택했다면 */
-
-	/*CMFCPropertyGridProperty* pGroup2 = new CMFCPropertyGridProperty(_T("글꼴"));
-
-	LOGFONT lf;
-	CFont* font = CFont::FromHandle((HFONT) GetStockObject(DEFAULT_GUI_FONT));
-	font->GetLogFont(&lf);
-
-	_tcscpy_s(lf.lfFaceName, _T("맑은 고딕"));
-
-	pGroup2->AddSubItem(new CMFCPropertyGridFontProperty(_T("글꼴"),
-		lf, CF_EFFECTS | CF_SCREENFONTS, _T("창의 기본 글꼴을 지정합니다.")));
-	pGroup2->AddSubItem(new CMFCPropertyGridProperty(_T("시스템 글꼴을 사용합니다."),
-		(_variant_t) true, _T("창에서 MS Shell Dlg 글꼴을 사용하도록 지정합니다.")));
-
-	m_wndPropList.AddProperty(pGroup2);
-
-	CMFCPropertyGridProperty* pGroup3 = new CMFCPropertyGridProperty(_T("기타"));
-	pProp = new CMFCPropertyGridProperty(_T("(이름)"), _T("응용 프로그램"));
-	pProp->Enable(FALSE);
-	pGroup3->AddSubItem(pProp);
-
-	CMFCPropertyGridColorProperty* pColorProp = new CMFCPropertyGridColorProperty(_T("창 색상"), RGB(210, 192, 254), NULL, _T("창의 기본 색상을 지정합니다."));
-	pColorProp->EnableOtherButton(_T("기타..."));
-	pColorProp->EnableAutomaticButton(_T("기본값"), ::GetSysColor(COLOR_3DFACE));
-	pGroup3->AddSubItem(pColorProp);
-
-	static const TCHAR szFilter[] = _T("아이콘 파일(*.ico)|*.ico|모든 파일(*.*)|*.*||");
-	pGroup3->AddSubItem(new CMFCPropertyGridFileProperty(_T("아이콘"), TRUE, _T(""), _T("ico"), 0, szFilter, _T("창 아이콘을 지정합니다.")));
-
-	pGroup3->AddSubItem(new CMFCPropertyGridFileProperty(_T("폴더"), _T("c:\\")));
-
-	m_wndPropList.AddProperty(pGroup3);
-
-	CMFCPropertyGridProperty* pGroup4 = new CMFCPropertyGridProperty(_T("계층"));
-
-	CMFCPropertyGridProperty* pGroup41 = new CMFCPropertyGridProperty(_T("첫번째 하위 수준"));
-	pGroup4->AddSubItem(pGroup41);
-
-	CMFCPropertyGridProperty* pGroup411 = new CMFCPropertyGridProperty(_T("두 번째 하위 수준"));
-	pGroup41->AddSubItem(pGroup411);
-
-	pGroup411->AddSubItem(new CMFCPropertyGridProperty(_T("항목 1"), (_variant_t) _T("값 1"), _T("설명입니다.")));
-	pGroup411->AddSubItem(new CMFCPropertyGridProperty(_T("항목 2"), (_variant_t) _T("값 2"), _T("설명입니다.")));
-	pGroup411->AddSubItem(new CMFCPropertyGridProperty(_T("항목 3"), (_variant_t) _T("값 3"), _T("설명입니다.")));
-
-	pGroup4->Expand(FALSE);
-	m_wndPropList.AddProperty(pGroup4);*/
 }
 
 void CPropertiesWnd::OnSetFocus(CWnd* pOldWnd)
@@ -292,6 +357,75 @@ void CPropertiesWnd::OnSettingChange(UINT uFlags, LPCTSTR lpszSection)
 {
 	CDockablePane::OnSettingChange(uFlags, lpszSection);
 	SetPropListFont();
+}
+
+/* properties 수정시 호출 */
+LRESULT CPropertiesWnd::OnPropertyChanged(WPARAM wParam, LPARAM lParam)
+{
+	CMFCPropertyGridProperty * pProperty = (CMFCPropertyGridProperty *)lParam;
+
+	CMainFrame *pFrame = (CMainFrame*)AfxGetMainWnd();
+	//CFileView* pFileView = pFrame->getCFileView();
+	//CViewTree* pToolbox = pFileView->getCFileViewTree();
+	CChildFrame *pChild = (CChildFrame *)pFrame->GetActiveFrame();
+	CMFCLogicSimulatorDoc *pDoc = (CMFCLogicSimulatorDoc *)pChild->GetActiveDocument();
+	COutputWnd* pOutput = pFrame->getCOutputWnd();
+
+	pDoc->operationMode = OPERATION_MODE_SELECT_COMPONENT;
+
+	// TODO: 여기에 명령 처리기 코드를 추가합니다.
+	if (pDoc->selectedComponentID <= 0) {
+		CString str;
+		str.Format(_T("in properties wnd menu : no selected component \n"));
+		pOutput->addBuildWindowString(str);
+		return (0);
+	}
+
+	/* 부품 정보 가져오기 */
+	int selectedID = pDoc->selectedComponentID;
+	COMPONENT_DATA* data = &pDoc->engineComponentData[selectedID];
+	//COMPONENT_TYPE type = data->type;
+	//COMPONENT_DIRECTION* direction = &data->direction;
+	//int x = data->x;
+	//int y = data->y;
+	//if(data->label != L"")
+	//	CString label = data->label;
+	CString str;
+	str.Format(_T("in properties wnd menu : changed properties value\n"));
+
+	CString propName = (CString)pProperty->GetName();
+	if (propName == _T("클럭 엣지")) {
+		str.Format(_T("in properties wnd menu : changed properties clock edge value\n"));
+		data->clockEdge = pProperty->GetValue().boolVal;
+	}
+	if (propName == _T("Clock hz 설정")) {
+		str.Format(_T("in properties wnd menu : changed properties clock frequencey value\n"));
+		// int형 = _ttoi(CString형);
+		data->hz = _ttoi(pProperty->GetValue().bstrVal);
+	}
+	if (propName == _T("부품 방향")) {
+		str.Format(_T("in properties wnd menu : changed properties direction\n"));
+		
+		CString cs = bstrToCString(pProperty->GetValue().bstrVal);
+		if (cs == _T("East"))
+			data->direction = EAST;
+		if (cs == _T("West"))
+			data->direction = WEST;
+		if (cs == _T("South"))
+			data->direction = SOUTH;
+		if (cs == _T("North"))
+			data->direction = NORTH;
+	}
+	if (propName == _T("라벨")) {
+		data->label = pProperty->GetValue();
+	}
+
+
+
+	pOutput->addBuildWindowString(str);
+
+	// Note: the return value is not used.
+	return(0);
 }
 
 void CPropertiesWnd::SetPropListFont()
