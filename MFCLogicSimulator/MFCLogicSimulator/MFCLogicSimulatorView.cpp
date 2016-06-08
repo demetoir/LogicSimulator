@@ -835,7 +835,7 @@ void CMFCLogicSimulatorView::drawConnectingWire(CDC & DC)
 
 	int x = oldSelectedTerminalPoint.x - nHorzScroll;
 	int y = oldSelectedTerminalPoint.y - nVertScroll;
-
+	
 	//원을그린다
 	DC.Ellipse(x- CONNECTING_WIRE_ELLIPSE_HALF_SIZE, 
 		y - CONNECTING_WIRE_ELLIPSE_HALF_SIZE,
@@ -845,8 +845,14 @@ void CMFCLogicSimulatorView::drawConnectingWire(CDC & DC)
 	DC.SelectObject(oldBrush);
 	DC.MoveTo(x,y);
 	CPoint mid;
-	mid.x = mousePoint.x;
-	mid.y = y;
+	if (firstSelectedTerminalPin.terminalType == TERMINAL_TYPE_OUTPUT) {
+		mid.x = mousePoint.x;
+		mid.y = y;
+	}
+	else {
+		mid.x = x;
+		mid.y = mousePoint.y;
+	}
 	DC.LineTo(mid);
 	DC.LineTo(mousePoint);
 	DC.SelectObject(oldPen);
@@ -926,11 +932,13 @@ void CMFCLogicSimulatorView::drawHighlightSelectedconnectedWire(CDC & DC)
 	int x = currentConnectedWirePoints[0].x - nHorzScroll;
 	int y = currentConnectedWirePoints[0].y - nVertScroll;
 	DC.MoveTo(x,y);
-	for (int i = 1; i < 5; i++) {
-		x = currentConnectedWirePoints[i % 4].x - nHorzScroll;
-		y = currentConnectedWirePoints[i % 4].y - nVertScroll;
+	for (int i = 1; i < 7; i++) {
+		x = currentConnectedWirePoints[i % 6].x - nHorzScroll;
+		y = currentConnectedWirePoints[i % 6].y - nVertScroll;
 		DC.LineTo(x,y);
 	}
+
+
 	DC.SelectObject(oldPen);
 }
 
@@ -1024,26 +1032,35 @@ int CMFCLogicSimulatorView::getBitmapIDByComponentType(COMPONENT_TYPE _type, COM
 
 void CMFCLogicSimulatorView::getConnnectedWirePoints(CPoint* points, CPoint A, CPoint B)
 {
-	int dx, dy;
-	int x = A.x;
-	int y = A.y;
-	int w = B.x - A.x;
-	int h = B.y - A.y;
+	CPoint mid;
+	mid.x = B.x;
+	mid.y = A.y;
+	
+	int d = int(HIGHLIGHT_CONNECTED_WIRE_LINE_WIDTH);
+	int dy = int(HIGHLIGHT_CONNECTED_WIRE_LINE_WIDTH);
 
-	double angle;
-	double theta = w ? atan(double(h) / double(w)) : sin(h)* PI / 2.0;
 
-	if (theta < 0) {
-		angle = (theta + PI / 2.0);
+	if ((A.x <= B.x &&A.y <= B.y) || (B.x <= A.x && B.y <= A.y)) {
+		points[0] = CPoint(A.x, A.y + d);
+		points[1] = CPoint(mid.x - d, mid.y + d);
+		points[2] = CPoint(B.x - d, B.y);
+		points[3] = CPoint(B.x + d, B.y);
+		points[4] = CPoint(mid.x + d, mid.y - d);
+		points[5] = CPoint(A.x, A.y - d);
+
 	}
-	angle = (theta + PI / 2.0);
-	dx = int(HIGHLIGHT_CONNECTED_WIRE_LINE_WIDTH* cos(angle));
-	dy = int(HIGHLIGHT_CONNECTED_WIRE_LINE_WIDTH* sin(angle));
+	else {
+		points[0] = CPoint(A.x, A.y + d);
+		points[1] = CPoint(mid.x + d, mid.y + d);
+		points[2] = CPoint(B.x + d, B.y);
+		points[3] = CPoint(B.x - d, B.y);
+		points[4] = CPoint(mid.x - d, mid.y - d);
+		points[5] = CPoint(A.x, A.y - d);
+	}
 
-	points[0] = CPoint(x + dx, y + dy);
-	points[1] = CPoint(x - dx, y - dy);
-	points[2] = CPoint(x - dx + w, y - dy +h);
-	points[3] = CPoint(x + dx + w, y + dy + h);
+
+
+
 }
 
 void CMFCLogicSimulatorView::get7SegmentInputTerminalPinPoint(CPoint &point, int id, int index)
@@ -1365,7 +1382,7 @@ bool CMFCLogicSimulatorView::checkMousePointOnConnectedWire(COMPONENT_CONENTION_
 	COMPONENT_DATA* pCurrentData;
 	CRgn connectedWireRgn;
 	CPoint mousePoint;
-	CPoint points[4];
+	CPoint points[6];
 	GetCursorPos(&mousePoint);
 	ScreenToClient(&mousePoint);
 	mousePoint.x += GetScrollPos(SB_HORZ);
@@ -1389,11 +1406,11 @@ bool CMFCLogicSimulatorView::checkMousePointOnConnectedWire(COMPONENT_CONENTION_
 			getInputTerminalPoint(nextID, B, (*pGraph)[i][j].terminalNumber);
 
 			getConnnectedWirePoints(points, A, B);
-			connectedWireRgn.CreatePolygonRgn(points,4,WINDING);
+			connectedWireRgn.CreatePolygonRgn(points,6,WINDING);
 
 			//영역안에 있는지 검사한다
 			if (connectedWireRgn.PtInRegion(mousePoint)) {
-				copyPoints(points, currentConnectedWirePoints,4);
+				copyPoints(points, currentConnectedWirePoints,6);
 				AInfo.componentID = curID;
 				AInfo.terminalType = TERMINAL_TYPE_OUTPUT;
 				AInfo.terminalNumber = j;
