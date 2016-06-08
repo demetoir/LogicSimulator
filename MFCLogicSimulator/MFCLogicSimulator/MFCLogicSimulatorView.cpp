@@ -509,7 +509,7 @@ void CMFCLogicSimulatorView::drawConnectedWire(CDC & DC)
 		curID = pCurrentComponent->id;
 
 		//wire 가 아니면 스킵한다
-		if (pCurrentComponent->type != COMPONENT_TYPE_WIRE) { continue; }
+		//if (pCurrentComponent->type != COMPONENT_TYPE_WIRE) { continue; }
 
 		pCurrentObject = pDoc->logicSimulatorEngine.getComponentObject(curID);
 		//연결할 선을 그린다		
@@ -534,21 +534,21 @@ void CMFCLogicSimulatorView::drawConnectedWire(CDC & DC)
 			DC.MoveTo(A);
 			DC.LineTo(B);		
 		}
-		for (int j = 0; j<(*inputGrahp)[i].size(); j++) {
-			nextID = (*inputGrahp)[i][j].componentID;
-			if (nextID <= 0) { continue; }
-			//output 단자의 좌표를 가져온다
-			getInputTerminalPoint(curID, A, j);
-			//input 단자의 좌표를 가져온다
-			getOutputTerminalPoint(nextID, B, (*inputGrahp)[i][j].terminalNumber);
-			//좌표를 보정한다
-			A.x -= nHorzScroll;
-			A.y -= nVertScroll;
-			B.x -= nHorzScroll;
-			B.y -= nVertScroll;
-			DC.MoveTo(A);
-			DC.LineTo(B);
-		}
+		//for (int j = 0; j<(*inputGrahp)[i].size(); j++) {
+		//	nextID = (*inputGrahp)[i][j].componentID;
+		//	if (nextID <= 0) { continue; }
+		//	//output 단자의 좌표를 가져온다
+		//	getInputTerminalPoint(curID, A, j);
+		//	//input 단자의 좌표를 가져온다
+		//	getOutputTerminalPoint(nextID, B, (*inputGrahp)[i][j].terminalNumber);
+		//	//좌표를 보정한다
+		//	A.x -= nHorzScroll;
+		//	A.y -= nVertScroll;
+		//	B.x -= nHorzScroll;
+		//	B.y -= nVertScroll;
+		//	DC.MoveTo(A);
+		//	DC.LineTo(B);
+		//}
 	}
 	if (oldPen != NULL) {
 		DC.SelectObject(oldPen);

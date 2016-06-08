@@ -754,10 +754,10 @@ bool CLibraryBox::isPossibleConnection(COMPONENT_CONENTION_INFO & componentA, CO
 	//	return false;
 	//}
 
-	if ((componentTypeVector[A.componentID] != COMPONENT_TYPE_WIRE &&
-		componentTypeVector[B.componentID] != COMPONENT_TYPE_WIRE) ) {
-		return false;
-	}
+	//if ((componentTypeVector[A.componentID] != COMPONENT_TYPE_WIRE &&
+	//	componentTypeVector[B.componentID] != COMPONENT_TYPE_WIRE) ) {
+	//	return false;
+	//}
 
 	//존재 하지 않는 단자에 연결하려할때
 	if (A.terminalNumber >= outputGraph[A.componentID].size() ||
