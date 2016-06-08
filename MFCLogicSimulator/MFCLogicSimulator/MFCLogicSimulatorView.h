@@ -80,7 +80,7 @@ public:
 	CPoint currentConnectedWirePoints[4];
 	bool clockEdge[1000];
 	
-
+	int miniMapSize = 8;
 
 protected: // serialization에서만 만들어집니다.
 	CMFCLogicSimulatorView();
