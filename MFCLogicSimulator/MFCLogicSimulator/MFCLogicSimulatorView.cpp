@@ -145,7 +145,7 @@ void CMFCLogicSimulatorView::OnLButtonDown(UINT nFlags, CPoint point)
 	COMPONENT_CONENTION_INFO A, B;
 	CPropertiesWnd* pPropWnd = pFrame->getCPropertiesWnd();
 
-	//지금 부품 추가 모드이면
+	
 	switch (pDoc->operationMode) {
 	case OPERATION_MODE_ADDING_COMPONENT: {
 		//선택한 부품을 도큐에 추가한다
@@ -531,7 +531,11 @@ void CMFCLogicSimulatorView::drawConnectedWire(CDC & DC)
 			A.y -= nVertScroll;
 			B.x -= nHorzScroll;
 			B.y -= nVertScroll;
+			CPoint mid;
+			mid.x = B.x;
+			mid.y = A.y;
 			DC.MoveTo(A);
+			DC.LineTo(mid);
 			DC.LineTo(B);		
 		}
 		//for (int j = 0; j<(*inputGrahp)[i].size(); j++) {
@@ -817,9 +821,9 @@ void CMFCLogicSimulatorView::drawConnectingWire(CDC & DC)
 {
 	int nVertScroll = GetScrollPos(SB_VERT);
 	int nHorzScroll = GetScrollPos(SB_HORZ);
-	CPoint point;
-	GetCursorPos(&point);
-	ScreenToClient(&point);
+	CPoint mousePoint;
+	GetCursorPos(&mousePoint);
+	ScreenToClient(&mousePoint);
 
 	CPen pen;
 	pen.CreatePen(PS_DOT, 5, RGB(0, 0, 0));    
@@ -840,7 +844,11 @@ void CMFCLogicSimulatorView::drawConnectingWire(CDC & DC)
 
 	DC.SelectObject(oldBrush);
 	DC.MoveTo(x,y);
-	DC.LineTo(point.x, point.y);
+	CPoint mid;
+	mid.x = mousePoint.x;
+	mid.y = y;
+	DC.LineTo(mid);
+	DC.LineTo(mousePoint);
 	DC.SelectObject(oldPen);
 }
 
