@@ -29,7 +29,7 @@ static char THIS_FILE[]=__FILE__;
 CFileView::CFileView()
 {
 	LIBRARY_BOX_DATA dummy;
-	coreDataList.push_back(dummy);
+	coreDataList.resize(1,dummy);
 	
 
 }
@@ -371,14 +371,17 @@ void CFileView::loadCoreData(CString PathName,CString fileName)
 			if (fileName == "D-FF.ls") {
 				pDoc->loadEngineComponentData(ar, &dummy);
 				pDoc->loadEngineCoreData(ar, pDoc->D_FF_Data);
+				addCoreData(pDoc->D_FF_Data);
 			}
 			else if (fileName == "JK-FF.ls") {
 				pDoc->loadEngineComponentData(ar, &dummy);
 				pDoc->loadEngineCoreData(ar, pDoc->JK_FF_Data);
+				addCoreData(pDoc->JK_FF_Data);
 			}
 			else if (fileName == "T-FF.ls") {
 				pDoc->loadEngineComponentData(ar, &dummy);
 				pDoc->loadEngineCoreData(ar, pDoc->T_FF_Data);
+				addCoreData(pDoc->T_FF_Data);
 			}
 			else {
 				pDoc->loadEngineComponentData(ar, &dummy);

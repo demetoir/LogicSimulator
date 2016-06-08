@@ -897,7 +897,7 @@ void CMFCLogicSimulatorView::drawHighlightSelectedComponent(CDC & DC)
 	int y = currentComponent->y - nVertScroll;
 
 	if (currentComponent->type == COMPONENT_TYPE_LIBRARY_BOX) {
-		drawHighlightComponentBody(DC, x, y, 120, 120);
+		drawHighlightComponentBody(DC, x, y, 75, 75);
 	}
 	else if (currentComponent->type == COMPONENT_TYPE_7SEGMENT) {
 		drawHighlightComponentBody(DC, x, y, 45, 75);
