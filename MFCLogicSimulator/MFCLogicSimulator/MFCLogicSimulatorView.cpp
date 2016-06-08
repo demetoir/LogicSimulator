@@ -322,15 +322,15 @@ void CMFCLogicSimulatorView::OnPaint()
 
 	//메모리에다가 그리기시작
 	{
-		//좌표 출력
-		CPoint point;
-		GetCursorPos(&point);
-		ScreenToClient(&point);
-		int nVertScroll = GetScrollPos(SB_VERT);
-		int nHorzScroll = GetScrollPos(SB_HORZ);
-		CString str;
- 		str.Format( _T("%d, %d"), point.x + nHorzScroll, point.y + nVertScroll);
-		memDC.TextOutW(100+nHorzScroll, 100+ nVertScroll, str);
+		////좌표 출력
+		//CPoint point;
+		//GetCursorPos(&point);
+		//ScreenToClient(&point);
+		//int nVertScroll = GetScrollPos(SB_VERT);
+		//int nHorzScroll = GetScrollPos(SB_HORZ);
+		//CString str;
+ 	//	str.Format( _T("%d, %d"), point.x + nHorzScroll, point.y + nVertScroll);
+		//memDC.TextOutW(100+nHorzScroll, 100+ nVertScroll, str);
 
 		// 뷰 스크롤 및 크기 조정
 		// https://msdn.microsoft.com/ko-kr/library/cc468151(v=vs.71).aspx
@@ -926,9 +926,13 @@ void CMFCLogicSimulatorView::drawHighlightSelectedconnectedWire(CDC & DC)
 	CPen pen;
 	pen.CreatePen(PS_SOLID, 3, RGB(255, 0, 0));   //빨간색 팬생성
 	CPen* oldPen = DC.SelectObject(&pen);
+	CBrush brush;
+	brush.CreateSolidBrush(RGB(255, 0, 0));
+	CBrush* oldbrush = DC.SelectObject(&brush);
+	
 	int nHorzScroll = GetScrollPos(SB_HORZ);
 	int nVertScroll = GetScrollPos(SB_VERT);
-
+	CMFCLogicSimulatorDoc *pDoc = GetDocument();
 	int x = currentConnectedWirePoints[0].x - nHorzScroll;
 	int y = currentConnectedWirePoints[0].y - nVertScroll;
 	DC.MoveTo(x,y);
@@ -937,8 +941,44 @@ void CMFCLogicSimulatorView::drawHighlightSelectedconnectedWire(CDC & DC)
 		y = currentConnectedWirePoints[i % 6].y - nVertScroll;
 		DC.LineTo(x,y);
 	}
+	int id,type,index;
+	int size = 9;
+	CPoint pinPoint;
+
+	id = pDoc->selectedconnectionInfoA.componentID;
+	type = pDoc->selectedconnectionInfoA.terminalType;
+	index = pDoc->selectedconnectionInfoA.terminalNumber;	
+	if (type == TERMINAL_TYPE_INPUT) {
+		getInputTerminalPoint(id, pinPoint, index);
+	}
+	else {
+		getOutputTerminalPoint(id, pinPoint, index);
+	}
+	pinPoint.x -= nHorzScroll;
+	pinPoint.y -= nVertScroll;
+	DC.Ellipse(pinPoint.x - size,
+		pinPoint.y - size,
+		pinPoint.x + size,
+		pinPoint.y + size);
+
+	id = pDoc->selectedconnectionInfoB.componentID;
+	type = pDoc->selectedconnectionInfoB.terminalType;
+	index = pDoc->selectedconnectionInfoB.terminalNumber;
+	if (type == TERMINAL_TYPE_INPUT) {
+		getInputTerminalPoint(id, pinPoint, index);
+	}
+	else {
+		getOutputTerminalPoint(id, pinPoint, index);
+	}
+	pinPoint.x -= nHorzScroll;
+	pinPoint.y -= nVertScroll;
+	DC.Ellipse(pinPoint.x - size,
+		pinPoint.y - size,
+		pinPoint.x + size,
+		pinPoint.y + size);
 
 
+	DC.SelectObject(oldbrush);
 	DC.SelectObject(oldPen);
 }
 
@@ -1040,22 +1080,38 @@ void CMFCLogicSimulatorView::getConnnectedWirePoints(CPoint* points, CPoint A, C
 	int dy = int(HIGHLIGHT_CONNECTED_WIRE_LINE_WIDTH);
 
 
-	if ((A.x <= B.x &&A.y <= B.y) || (B.x <= A.x && B.y <= A.y)) {
-		points[0] = CPoint(A.x, A.y + d);
+	if ((A.x <= B.x && A.y <= B.y)) {
+		points[0] = CPoint(A.x-d, A.y + d);
 		points[1] = CPoint(mid.x - d, mid.y + d);
-		points[2] = CPoint(B.x - d, B.y);
-		points[3] = CPoint(B.x + d, B.y);
+		points[2] = CPoint(B.x - d, B.y+d);
+		points[3] = CPoint(B.x + d, B.y+d);
 		points[4] = CPoint(mid.x + d, mid.y - d);
-		points[5] = CPoint(A.x, A.y - d);
+		points[5] = CPoint(A.x-d, A.y - d);
 
 	}
-	else {
-		points[0] = CPoint(A.x, A.y + d);
+	else if ((A.x > B.x && A.y <= B.y)){
+		points[0] = CPoint(A.x+d, A.y + d);
 		points[1] = CPoint(mid.x + d, mid.y + d);
-		points[2] = CPoint(B.x + d, B.y);
-		points[3] = CPoint(B.x - d, B.y);
+		points[2] = CPoint(B.x + d, B.y+d);
+		points[3] = CPoint(B.x - d, B.y+d);
 		points[4] = CPoint(mid.x - d, mid.y - d);
-		points[5] = CPoint(A.x, A.y - d);
+		points[5] = CPoint(A.x+d, A.y - d);
+	}
+	else if ((A.x <= B.x && A.y > B.y)) {
+		points[0] = CPoint(A.x - d, A.y + d);
+		points[1] = CPoint(mid.x + d, mid.y + d);
+		points[2] = CPoint(B.x + d, B.y - d);
+		points[3] = CPoint(B.x - d, B.y - d);
+		points[4] = CPoint(mid.x - d, mid.y - d);
+		points[5] = CPoint(A.x - d, A.y - d);
+	}
+	else if ((A.x > B.x && A.y > B.y)) {
+		points[0] = CPoint(A.x + d, A.y + d);
+		points[1] = CPoint(mid.x + d, mid.y + d);
+		points[2] = CPoint(B.x + d, B.y - d);
+		points[3] = CPoint(B.x - d, B.y - d);
+		points[4] = CPoint(mid.x - d, mid.y - d);
+		points[5] = CPoint(A.x + d, A.y - d);
 	}
 
 
