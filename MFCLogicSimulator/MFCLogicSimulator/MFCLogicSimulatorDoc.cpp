@@ -205,7 +205,7 @@ int CMFCLogicSimulatorDoc::addComponentToEngine(int _x, int _y, int ToolBoxItemI
 		label.Format(_T("ID :%d"), addingComponentInfo.componentID);
 		int index = ToolBoxItemIndex - (ITEM_LIBRARYBOX + 1);
 		label.Format(_T("lib index :%d"), index);
-		engineComponentData[addingComponentInfo.componentID].label = label;
+		//engineComponentData[addingComponentInfo.componentID].label = label;
 	}
 	
 	
