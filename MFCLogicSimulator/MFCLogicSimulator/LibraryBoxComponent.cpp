@@ -136,6 +136,7 @@ bool CLibraryBox::loadLibraryBoxData(LIBRARY_BOX_DATA & libraryBoxData)
 	for (int i = 0; i < libraryBoxData.inputClockVector.size(); i++) {
 		inputClockVector[i] = libraryBoxData.inputClockVector[i];
 	}
+	update();
 	return true;
 }
 
