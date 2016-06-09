@@ -29,8 +29,8 @@ static char THIS_FILE[]=__FILE__;
 CFileView::CFileView()
 {
 	LIBRARY_BOX_DATA dummy;
-	coreDataList.resize(1,dummy);
-	
+	//coreDataList.resize(1,dummy);
+	coreDataList.resize(0);
 
 }
 
@@ -148,7 +148,7 @@ void CFileView::FillFileView()
 	m_wndFileView.InsertItem(_T("7-segment"), 1, 2, hOut);
 
 	hLib = m_wndFileView.InsertItem(_T("Library Box"), 0, 0, hRoot);
-	m_wndFileView.InsertItem(_T("lib box test"), 1, 2, hLib);
+	//m_wndFileView.InsertItem(_T("lib box test"), 1, 2, hLib);
 
 
 	m_wndFileView.Expand(hRoot, TVE_EXPAND);
@@ -309,7 +309,7 @@ void CFileView::initCoreData()
 	CString currentExcuteFilePath = path;
 	int i = currentExcuteFilePath.ReverseFind('\\');
 	currentExcuteFilePath = currentExcuteFilePath.Left(i);
-	AfxMessageBox(_T("load Core data"));
+	
 	CString coreDataFilePath = currentExcuteFilePath +
 		CString(_T("\\MFCLogicSimulatorCoreData\\*.ls"));
 
@@ -339,9 +339,9 @@ void CFileView::initCoreData()
 
 		}	
 	}
-
+	m_wndFileView.Expand(hLib, TVE_EXPAND);
+	AfxMessageBox(_T("Complete load Core data"));
 	return ;
-
 }
 
 void CFileView::loadCoreData(CString PathName,CString fileName)
@@ -356,7 +356,6 @@ void CFileView::loadCoreData(CString PathName,CString fileName)
 
 	CString str;
 	CFileDialog load_dlg(true);
-
 
 	bool isSuccessReadFile = false;
 	CFile  librayboxFile;
@@ -417,10 +416,6 @@ void CFileView::loadCoreData(CString PathName,CString fileName)
 		str.Format(_T("in file view : load success\n"));
 		pOutput->addBuildWindowString(str);
 	}
-
-
-
-
 }
 
 

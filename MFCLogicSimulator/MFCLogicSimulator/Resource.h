@@ -190,7 +190,6 @@
 #define IDB_PROBE_OFF                   447
 #define IDB_PIN_OFF                     448
 #define IDB_PIN_ON                      449
-
 #define IDB_7SEGMENT_0000000            579
 #define IDB_7SEGMENT_0000001            580
 #define IDB_7SEGMENT_0000010            581
@@ -319,7 +318,6 @@
 #define IDB_7SEGMENT_1111101            704
 #define IDB_7SEGMENT_1111110            705
 #define IDB_7SEGMENT_1111111            706
-
 #define ID_WRITE_PASTEASHYPERLINK       32770
 #define ID_CHECKTOOLBOX                 32771
 #define ID_CHECKOUTPUT                  32772
@@ -339,13 +337,15 @@
 #define ID_COMP_DELETE                  32796
 #define ID_BUTTON3                      32797
 #define ID_UNCONECT                     32797
+#define ID_RESET_TOTAL_RESET            32798
+#define ID_RESET_SINGLE_COMPONENT_RESET 32799
 
 // Next default values for new objects
 // 
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
 #define _APS_NEXT_RESOURCE_VALUE        707
-#define _APS_NEXT_COMMAND_VALUE         32798
+#define _APS_NEXT_COMMAND_VALUE         32800
 #define _APS_NEXT_CONTROL_VALUE         1000
 #define _APS_NEXT_SYMED_VALUE           310
 #endif

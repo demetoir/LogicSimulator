@@ -70,6 +70,10 @@ BEGIN_MESSAGE_MAP(CChildFrame, CMDIChildWndEx)
 	ON_UPDATE_COMMAND_UI(ID_COMP_DELETE, &CChildFrame::OnUpdateComponentDelete)
 	ON_COMMAND(ID_UNCONECT, &CChildFrame::OnUnconnect)
 	ON_UPDATE_COMMAND_UI(ID_UNCONECT, &CChildFrame::OnUpdateUnconnect)
+	ON_COMMAND(ID_RESET_SINGLE_COMPONENT_RESET, &CChildFrame::OnResetSingleComponentReset)
+	ON_COMMAND(ID_RESET_TOTAL_RESET, &CChildFrame::OnResetTotalReset)
+	ON_UPDATE_COMMAND_UI(ID_RESET_TOTAL_RESET, &CChildFrame::OnUpdateResetTotalReset)
+	ON_UPDATE_COMMAND_UI(ID_RESET_SINGLE_COMPONENT_RESET, &CChildFrame::OnUpdateResetSingleComponentReset)
 END_MESSAGE_MAP()
 
 // CChildFrame 생성/소멸
@@ -604,5 +608,50 @@ void CChildFrame::OnUpdateUnconnect(CCmdUI *pCmdUI)
 	// TODO: 여기에 명령 업데이트 UI 처리기 코드를 추가합니다.
 }
 /*************** Ribbon output wnd control END*****************/
+
+
+
+
+void CChildFrame::OnResetSingleComponentReset()
+{
+	CMainFrame *pFrame = (CMainFrame*)AfxGetMainWnd();
+	CChildFrame *pChild = (CChildFrame *)pFrame->GetActiveFrame();
+	CMFCLogicSimulatorDoc *pDoc = (CMFCLogicSimulatorDoc *)pChild->GetActiveDocument();
+	COutputWnd* pOutput = pFrame->getCOutputWnd();
+	CMFCLogicSimulatorView* pView = (CMFCLogicSimulatorView*)pChild->GetActiveView();
+	CString str;
+
+	if (pDoc->operationMode == OPERATION_MODE_SELECT_COMPONENT) {
+		int id = pDoc->selectedComponentID;
+		CComponentObject *object = pDoc->logicSimulatorEngine.getComponentObject(id);
+		object->reset();
+		pView->Invalidate();
+	}
+
+}
+void CChildFrame::OnUpdateResetSingleComponentReset(CCmdUI *pCmdUI)
+{
+	// TODO: 여기에 명령 업데이트 UI 처리기 코드를 추가합니다.
+}
+
+
+void CChildFrame::OnResetTotalReset()
+{
+	CMainFrame *pFrame = (CMainFrame*)AfxGetMainWnd();
+	CChildFrame *pChild = (CChildFrame *)pFrame->GetActiveFrame();
+	CMFCLogicSimulatorDoc *pDoc = (CMFCLogicSimulatorDoc *)pChild->GetActiveDocument();
+	COutputWnd* pOutput = pFrame->getCOutputWnd();
+	CMFCLogicSimulatorView* pView = (CMFCLogicSimulatorView*)pChild->GetActiveView();
+	CString str;
+
+	pDoc->logicSimulatorEngine.reset();
+	pView->Invalidate();
+}
+
+
+void CChildFrame::OnUpdateResetTotalReset(CCmdUI *pCmdUI)
+{
+	// TODO: 여기에 명령 업데이트 UI 처리기 코드를 추가합니다.
+}
 
 

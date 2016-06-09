@@ -1008,7 +1008,7 @@ BEGIN
     ID_EDIT_REPEAT          "마지막 작업을 반복합니다.\n반복"
     ID_EDIT_REPLACE         "특정 텍스트를 다른 텍스트로 바꿉니다.\n바꾸기"
     ID_EDIT_SELECT_ALL      "전체 문서를 선택합니다.\n모두 선택"
-    ID_EDIT_UNDO            "마지막 작업 실행을 취소합니다.\n실행 취소"
+    ID_EDIT_UNDO            "전체 회로를 리셋합니다"
     ID_EDIT_REDO            "라이브러리 박스를 로드합니다"
 END
 
@@ -1083,6 +1083,8 @@ BEGIN
     ID_LOAD_LIBRARYBOX      "라이브러리 박스를 로드합니다"
     ID_COMP_DELETE          "선택한 부품을 삭제합니다."
     ID_UNCONECT             "부품 연결을 해제합니다."
+    ID_RESET_TOTAL_RESET    "마지막 작업 실행을 취소합니다.\n실행 취소"
+    ID_RESET_SINGLE_COMPONENT_RESET "선택한 부품을 리셋합니다"
 END
 
 #endif    // 한국어(대한민국) resources

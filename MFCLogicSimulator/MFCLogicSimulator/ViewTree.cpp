@@ -181,7 +181,7 @@ bool CViewTree::isSelectedItemFolder(int selecteItem)
 {
 	if (selecteItem == FOLDER_ROOT || selecteItem == FOLDER_FF || selecteItem == FOLDER_GATE
 		|| selecteItem == FOLDER_INPUT || selecteItem == FOLDER_OUTPUT || selecteItem == FOLDER_WIRE
-		) {
+		|| selecteItem == ITEM_LIBRARYBOX) {
 		return true;
 	}
 

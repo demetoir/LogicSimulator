@@ -89,4 +89,8 @@ public:
 	afx_msg void OnUpdateComponentDelete(CCmdUI *pCmdUI);
 	afx_msg void OnUnconnect();
 	afx_msg void OnUpdateUnconnect(CCmdUI *pCmdUI);
+	afx_msg void OnResetSingleComponentReset();
+	afx_msg void OnResetTotalReset();
+	afx_msg void OnUpdateResetTotalReset(CCmdUI *pCmdUI);
+	afx_msg void OnUpdateResetSingleComponentReset(CCmdUI *pCmdUI);
 };
