@@ -148,18 +148,6 @@ IDB_GATE_AND_W          BITMAP                  "res\\root\\AND_3W.bmp"
 
 IDB_GATE_AND_N          BITMAP                  "res\\root\\AND_4N.bmp"
 
-IDB_CLOCK_              BITMAP                  "res\\root\\CLOCK_FACE.bmp"
-
-IDB_CLOCK_E             BITMAP                  "res\\root\\CLOCK_FACE_1E.bmp"
-
-IDB_CLOCK_S             BITMAP                  "res\\root\\CLOCK_FACE_2S.bmp"
-
-IDB_CLOCK_W             BITMAP                  "res\\root\\CLOCK_FACE_3W.bmp"
-
-IDB_CLOCK_N             BITMAP                  "res\\root\\CLOCK_FACE_4N.bmp"
-
-IDB_COPPER_WIRE         BITMAP                  "res\\root\\copper wire.bmp"
-
 IDB_FF_DFF__            BITMAP                  "res\\root\\D-FF.bmp"
 
 IDB_FF_DFF_E            BITMAP                  "res\\root\\D-FF_1E.bmp"
@@ -555,6 +543,18 @@ IDB_7SEGMENT_1111101    BITMAP                  "res\\root\\segment\\segment_111
 IDB_7SEGMENT_1111110    BITMAP                  "res\\root\\segment\\segment_1111110.bmp"
 
 IDB_7SEGMENT_1111111    BITMAP                  "res\\root\\segment\\segment_1111111.bmp"
+
+IDB_SPLITTER            BITMAP                  "res\\root\\3 Way Splitter.bmp"
+
+IDB_CLOCK_              BITMAP                  "res\\root\\Clock.bmp"
+
+IDB_CLOCK_E             BITMAP                  "res\\root\\Clock_1E.bmp"
+
+IDB_CLOCK_S             BITMAP                  "res\\root\\Clock_2S.bmp"
+
+IDB_CLOCK_W             BITMAP                  "res\\root\\Clock_3W.bmp"
+
+IDB_CLOCK_N             BITMAP                  "res\\root\\Clock_4N.bmp"
 
 
 /////////////////////////////////////////////////////////////////////////////

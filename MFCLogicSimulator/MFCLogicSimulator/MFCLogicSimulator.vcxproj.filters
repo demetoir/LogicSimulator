@@ -320,24 +320,6 @@
     <Image Include="res\root\AND_4N.bmp">
       <Filter>리소스 파일\logic comp</Filter>
     </Image>
-    <Image Include="res\root\CLOCK_FACE.bmp">
-      <Filter>리소스 파일\logic comp</Filter>
-    </Image>
-    <Image Include="res\root\CLOCK_FACE_1E.bmp">
-      <Filter>리소스 파일\logic comp</Filter>
-    </Image>
-    <Image Include="res\root\CLOCK_FACE_2S.bmp">
-      <Filter>리소스 파일\logic comp</Filter>
-    </Image>
-    <Image Include="res\root\CLOCK_FACE_3W.bmp">
-      <Filter>리소스 파일\logic comp</Filter>
-    </Image>
-    <Image Include="res\root\CLOCK_FACE_4N.bmp">
-      <Filter>리소스 파일\logic comp</Filter>
-    </Image>
-    <Image Include="res\root\copper wire.bmp">
-      <Filter>리소스 파일\logic comp</Filter>
-    </Image>
     <Image Include="res\root\D-FF.bmp">
       <Filter>리소스 파일\logic comp</Filter>
     </Image>
@@ -955,6 +937,24 @@
     </Image>
     <Image Include="res\root\segment\segment_1000101.bmp">
       <Filter>리소스 파일\logic comp\segment</Filter>
+    </Image>
+    <Image Include="res\root\3 Way Splitter.bmp">
+      <Filter>리소스 파일\logic comp</Filter>
+    </Image>
+    <Image Include="res\root\Clock.bmp">
+      <Filter>리소스 파일\logic comp</Filter>
+    </Image>
+    <Image Include="res\root\Clock_1E.bmp">
+      <Filter>리소스 파일\logic comp</Filter>
+    </Image>
+    <Image Include="res\root\Clock_2S.bmp">
+      <Filter>리소스 파일\logic comp</Filter>
+    </Image>
+    <Image Include="res\root\Clock_3W.bmp">
+      <Filter>리소스 파일\logic comp</Filter>
+    </Image>
+    <Image Include="res\root\Clock_4N.bmp">
+      <Filter>리소스 파일\logic comp</Filter>
     </Image>
   </ItemGroup>
 </Project>

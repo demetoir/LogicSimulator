@@ -95,11 +95,6 @@
 #define IDB_GATE_AND_S                  364
 #define IDB_GATE_AND_W                  365
 #define IDB_GATE_AND_N                  366
-#define IDB_CLOCK_                      367
-#define IDB_CLOCK_E                     368
-#define IDB_CLOCK_S                     369
-#define IDB_CLOCK_W                     370
-#define IDB_CLOCK_N                     371
 #define IDB_FF_DFF__                    373
 #define IDB_FF_DFF_E                    374
 #define IDB_FF_DFF_S                    375
@@ -185,7 +180,6 @@
 #define IDB_GATE_XOR_S                  441
 #define IDB_GATE_XOR_W                  442
 #define IDB_GATE_XOR_N                  443
-#define IDB_COPPER_WIRE                 445
 #define IDB_PROBE_ON                    446
 #define IDB_PROBE_OFF                   447
 #define IDB_PIN_OFF                     448
@@ -318,6 +312,13 @@
 #define IDB_7SEGMENT_1111101            704
 #define IDB_7SEGMENT_1111110            705
 #define IDB_7SEGMENT_1111111            706
+#define IDB_SPLITTER                    707
+#define IDB_CLOCK_                      708
+#define IDB_CLOCK_E                     709
+#define IDB_CLOCK_S                     710
+#define IDB_CLOCK_W                     711
+#define IDB_BITMAP6                     712
+#define IDB_CLOCK_N                     712
 #define ID_WRITE_PASTEASHYPERLINK       32770
 #define ID_CHECKTOOLBOX                 32771
 #define ID_CHECKOUTPUT                  32772
@@ -344,7 +345,7 @@
 // 
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
-#define _APS_NEXT_RESOURCE_VALUE        707
+#define _APS_NEXT_RESOURCE_VALUE        713
 #define _APS_NEXT_COMMAND_VALUE         32800
 #define _APS_NEXT_CONTROL_VALUE         1000
 #define _APS_NEXT_SYMED_VALUE           310
