@@ -190,8 +190,6 @@ int CMFCLogicSimulatorDoc::addComponentToEngine(int _x, int _y, int ToolBoxItemI
 		pOutput->addBuildWindowString(str);
 		return -1;
 	}
-
-
 	//사이즈가 모자르면 확장한다
 	if (addingComponentInfo.componentID >= engineComponentData.size()) {
 		engineComponentData.resize(engineComponentData.size() + 10);

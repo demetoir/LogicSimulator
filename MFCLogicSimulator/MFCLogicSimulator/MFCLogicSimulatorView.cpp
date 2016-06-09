@@ -144,8 +144,7 @@ void CMFCLogicSimulatorView::OnLButtonDown(UINT nFlags, CPoint point)
 	int nHorzScroll = GetScrollPos(SB_HORZ);
 	COMPONENT_CONENTION_INFO A, B;
 	CPropertiesWnd* pPropWnd = pFrame->getCPropertiesWnd();
-
-	
+		
 	switch (pDoc->operationMode) {
 	case OPERATION_MODE_ADDING_COMPONENT: {
 		//선택한 부품을 도큐에 추가한다
@@ -290,9 +289,8 @@ void CMFCLogicSimulatorView::OnLButtonDown(UINT nFlags, CPoint point)
 		break;
 	}
 	default: {
-
-
-		break;}
+		break;
+	}
 	}
 	Invalidate();
 	CScrollView::OnLButtonDown(nFlags, point);
@@ -456,12 +454,6 @@ CMFCLogicSimulatorDoc* CMFCLogicSimulatorView::GetDocument() const // 디버그되지
 }
 #endif //_DEBUG
 
-
-// CMFCLogicSimulatorView 메시지 처리기
-
-
-
-
 //각부품을 그릴때에 방향추가가 필요하다
 void CMFCLogicSimulatorView::drawComponent(CDC &DC)
 {
@@ -474,7 +466,6 @@ void CMFCLogicSimulatorView::drawComponent(CDC &DC)
 		}		
 		// 터미널 핀을 그린다
 		drawComponentTermialPin(DC, ID);
-
 		//부품의 몸체를 그린다
 		drawComponentBody(DC, ID);		
 	}
@@ -557,7 +548,6 @@ void CMFCLogicSimulatorView::drawConnectedWire(CDC & DC)
 	if (oldPen != NULL) {
 		DC.SelectObject(oldPen);
 	}
-
 }
 
 void CMFCLogicSimulatorView::drawAddingComponent(CDC & DC)
