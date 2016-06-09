@@ -379,8 +379,15 @@ void CChildFrame::OnEditPaste()
 	CMFCLogicSimulatorDoc *pDoc = (CMFCLogicSimulatorDoc *)pChild->GetActiveDocument();
 	if (selectedComponentID <= 0) {
 		return;
-	}			
-	pDoc->addComponentToEngine(x + 30, y + 30, selectedComponentToolboxItemIndex);
+	}		
+	int nVertScroll = pChild->GetActiveView()->GetScrollPos(SB_VERT);
+	int nHorzScroll = pChild->GetActiveView()->GetScrollPos(SB_HORZ);
+	CPoint point;
+	GetCursorPos(&point);
+	ScreenToClient(&point);
+	point.x  += nHorzScroll;
+	point.y += nVertScroll;
+	pDoc->addComponentToEngine(point.x,point.y, selectedComponentToolboxItemIndex);
 
 	pChild->GetActiveView()->Invalidate();
 }

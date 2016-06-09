@@ -201,7 +201,14 @@ int CMFCLogicSimulatorDoc::addComponentToEngine(int _x, int _y, int ToolBoxItemI
 	engineComponentData[addingComponentInfo.componentID].y = _y;
 	engineComponentData[addingComponentInfo.componentID].direction = DEFAULT_VALUE_ADDING_COMPONENT_DIRECTION;
 	CString label;
-	label.Format(_T("ID :%d"), addingComponentInfo.componentID);
+	if (ToolBoxItemIndex > ITEM_LIBRARYBOX) {
+		label.Format(_T("ID :%d"), addingComponentInfo.componentID);
+		int index = ToolBoxItemIndex - (ITEM_LIBRARYBOX + 1);
+		label.Format(_T("lib index :%d"), index);
+		engineComponentData[addingComponentInfo.componentID].label = label;
+	}
+	
+	
 	//engineComponentData[addingComponentInfo.componentID].label = label;
 	
 	if (addingComponentInfo.componentID >= toolboxItemData.size()) {

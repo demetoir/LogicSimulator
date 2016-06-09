@@ -304,6 +304,8 @@ void CFileView::getCoreData(LIBRARY_BOX_DATA & coreData, int index)
 
 void CFileView::initCoreData()
 {
+
+	AfxMessageBox(_T("load user define library box"));
 	TCHAR path[_MAX_PATH];
 	GetModuleFileName(NULL, path, sizeof path);
 	CString currentExcuteFilePath = path;
@@ -340,7 +342,7 @@ void CFileView::initCoreData()
 		}	
 	}
 	m_wndFileView.Expand(hLib, TVE_EXPAND);
-	AfxMessageBox(_T("Complete load Core data"));
+	//AfxMessageBox(_T("Complete load user define library box"));
 	return ;
 }
 
@@ -387,6 +389,10 @@ void CFileView::loadCoreData(CString PathName,CString fileName)
 				pDoc->loadEngineCoreData(ar, coreData);
 				addCoreData(coreData);
 				
+				pFileView->addLibraryBox(fileName);
+				str.Format(_T("in file view : load success\n"));
+				pOutput->addBuildWindowString(str);
+								
 			}
 			isSuccessReadFile = true;
 
@@ -407,15 +413,6 @@ void CFileView::loadCoreData(CString PathName,CString fileName)
 		librayboxFile.Close();
 	}
 
-	if (isSuccessReadFile == true) {
-		pFileView->addLibraryBox(fileName);
-		str.Format(_T("in file view : load success\n"));
-		pOutput->addBuildWindowString(str);
-	}
-	else {
-		str.Format(_T("in file view : load success\n"));
-		pOutput->addBuildWindowString(str);
-	}
 }
 
 
