@@ -1042,7 +1042,7 @@ int CMFCLogicSimulatorView::getBitmapIDByComponentType(COMPONENT_TYPE _type, COM
 		break;
 
 	case COMPONENT_TYPE_WIRE:
-		return IDB_COPPER_WIRE;
+		return IDB_SPLITTER;
 		break;
 		
 
