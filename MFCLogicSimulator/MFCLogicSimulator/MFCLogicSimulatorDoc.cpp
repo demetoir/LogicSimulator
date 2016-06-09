@@ -150,6 +150,7 @@ int CMFCLogicSimulatorDoc::addComponentToEngine(int _x, int _y, int ToolBoxItemI
 	CFileView *pFileView = (CFileView*)pFrame->getCFileView();
 	CString str;
 	COMPONENT_INFO addingComponentInfo(selectedType);
+	CComponentObject *object;
 	int ret = 0;
 	if (selectedType == COMPONENT_TYPE_LIBRARY_BOX) {
 		if (ToolBoxItemIndex == ITEM_DFF) {
@@ -163,9 +164,14 @@ int CMFCLogicSimulatorDoc::addComponentToEngine(int _x, int _y, int ToolBoxItemI
 		}
 		else if (ToolBoxItemIndex == ITEM_NOR) {
 			ret = logicSimulatorEngine.addComponent(addingComponentInfo, norGateData);
+			object = logicSimulatorEngine.getComponentObject(addingComponentInfo.componentID);
+			object->update();
+			logicSimulatorEngine.update();
 		}
 		else if (ToolBoxItemIndex == ITEM_NAND) {
 			ret = logicSimulatorEngine.addComponent(addingComponentInfo, nandGateData);
+			object = logicSimulatorEngine.getComponentObject(addingComponentInfo.componentID);
+			object->update();
 		}
 		//사용자 정의 라이브러리 박스일때
 		else if (ToolBoxItemIndex > ITEM_LIBRARYBOX) {
@@ -184,8 +190,6 @@ int CMFCLogicSimulatorDoc::addComponentToEngine(int _x, int _y, int ToolBoxItemI
 		pOutput->addBuildWindowString(str);
 		return -1;
 	}
-
-
 	//사이즈가 모자르면 확장한다
 	if (addingComponentInfo.componentID >= engineComponentData.size()) {
 		engineComponentData.resize(engineComponentData.size() + 10);
