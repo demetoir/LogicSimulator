@@ -377,7 +377,7 @@ void CMFCLogicSimulatorView::OnPaint()
 			drawMassage(memDC);
 		}
 		//미니맵을 그린다
-		//drawMiniMap(memDC);
+		drawMiniMap(memDC);
 	}
 
 	//그리기 종료
@@ -700,17 +700,19 @@ void CMFCLogicSimulatorView::drawMiniMap(CDC &DC)
 	// 테두리 그린다음 전체 복사해와서 생기는 문제 발생
 	//DC.Rectangle(9, 9, rect.Width() / 4 + 9, rect.Height() / 4 + 9);
 	// 미니맵
-	DC.StretchBlt(10, 10, rect.Width() / 4, rect.Height() / 4, &DC,
+	int sizeX = rect.Width() / sizeOfMiniMap;
+	int sizeY = rect.Height() / sizeOfMiniMap;
+	DC.StretchBlt(10, 10, sizeX, sizeY, &DC,
 		10, 10, rect.Width(), rect.Height(), SRCCOPY);
 	// 미니맵 테두리
 	DC.MoveTo(9, 9);
-	DC.LineTo(9, rect.Height() / 4 + 9);
+	DC.LineTo(9, sizeY + 9);
 	DC.MoveTo(9, 9);
-	DC.LineTo(rect.Width() / 4 + 9, 9);
-	DC.MoveTo(9, rect.Height() / 4 + 9);
-	DC.LineTo(rect.Width() / 4 + 9, rect.Height() / 4 + 9);
-	DC.MoveTo(rect.Width() / 4 + 9, 9);
-	DC.LineTo(rect.Width() / 4 + 9, rect.Height() / 4 + 9);
+	DC.LineTo(sizeX + 9, 9);
+	DC.MoveTo(9, sizeY + 9);
+	DC.LineTo(sizeX + 9, sizeY + 9);
+	DC.MoveTo(sizeX + 9, 9);
+	DC.LineTo(sizeX + 9, sizeY + 9);
 }
 
 void CMFCLogicSimulatorView::drawMassage(CDC & DC)

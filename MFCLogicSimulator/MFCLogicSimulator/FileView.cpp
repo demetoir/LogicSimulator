@@ -121,8 +121,8 @@ void CFileView::FillFileView()
 		9,10 nor | 11,12 xor | 13,14 not | 15,16 FF
 	*/
 
-	HTREEITEM hWire = m_wndFileView.InsertItem(_T("Wire"), 0, 0, hRoot);
-	m_wndFileView.InsertItem(_T("Wire"), 1, 2, hWire);
+	HTREEITEM hWire = m_wndFileView.InsertItem(_T("Terminal"), 0, 0, hRoot);
+	m_wndFileView.InsertItem(_T("Splitter"), 1, 2, hWire);
 	m_wndFileView.InsertItem(_T("Pin"), 1, 2, hWire);
 	m_wndFileView.InsertItem(_T("Probe"), 1, 2, hWire);
 
