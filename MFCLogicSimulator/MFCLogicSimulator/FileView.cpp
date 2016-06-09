@@ -30,7 +30,7 @@ CFileView::CFileView()
 {
 	LIBRARY_BOX_DATA dummy;
 	//coreDataList.resize(1,dummy);
-	coreDataList.resize(0);
+	coreDataList.resize(22,dummy);
 
 }
 
@@ -388,10 +388,7 @@ void CFileView::loadCoreData(CString PathName,CString fileName)
 				pDoc->loadEngineComponentData(ar, &dummy);
 				pDoc->loadEngineCoreData(ar, coreData);
 				addCoreData(coreData);
-				
-				pFileView->addLibraryBox(fileName);
-				str.Format(_T("in file view : load success\n"));
-				pOutput->addBuildWindowString(str);
+			
 								
 			}
 			isSuccessReadFile = true;
@@ -412,6 +409,9 @@ void CFileView::loadCoreData(CString PathName,CString fileName)
 		// 파일을 닫는다.
 		librayboxFile.Close();
 	}
+	pFileView->addLibraryBox(fileName);
+	str.Format(_T("in file view : load success\n"));
+	pOutput->addBuildWindowString(str);
 
 }
 

@@ -176,7 +176,7 @@ int CMFCLogicSimulatorDoc::addComponentToEngine(int _x, int _y, int ToolBoxItemI
 		//사용자 정의 라이브러리 박스일때
 		else if (ToolBoxItemIndex > ITEM_LIBRARYBOX) {
 			LIBRARY_BOX_DATA userDefineLibraryboxCoreData;
-			pFileView->getCoreData(userDefineLibraryboxCoreData, ToolBoxItemIndex - (ITEM_LIBRARYBOX+1));
+			pFileView->getCoreData(userDefineLibraryboxCoreData, ToolBoxItemIndex -1 );
 			ret = logicSimulatorEngine.addComponent(addingComponentInfo, userDefineLibraryboxCoreData);
 		}
 	}
