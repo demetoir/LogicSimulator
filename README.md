@@ -1,6 +1,6 @@
 # LogicSimulator
 
-![screenshot](./logic simulator resource/screenshot_1.jpg)
+![screenshot](./screenshot_1.jpg)
 
 ## 제작자
 
