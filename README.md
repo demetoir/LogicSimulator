@@ -2,7 +2,7 @@
 
 오픈소스 논리 회로 시뮬레이터 프로그램 [Logisim](http://www.cburch.com/logisim/)의 클론 코딩 프로젝트
 
-![screenshot](./screenshot_1.jpg)
+![screenshot](https://raw.githubusercontent.com/demetoir/LogicSimulator/master/screenshot_1.jpg)
 
 # 목차
 
